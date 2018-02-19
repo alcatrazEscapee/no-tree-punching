@@ -1,0 +1,38 @@
+
+#Random Things
+
+itemGroup.notreepunching=No Tree Punching
+
+
+#Items
+
+item.rock.name=Rock
+item.grass_fiber.name=Plant Fibers
+item.poor_iron.name=Iron Ore Piece
+item.fire_starter.name=Firestarter
+
+item.stone_knife.name=Stone Knife
+item.iron_knife.name=Iron Knife
+item.gold_knife.name=Gold Knife
+item.diamond_knife.name=Diamond Knife
+
+item.iron_mattock.name=Iron Mattock
+item.gold_mattock.name=Gold Mattock
+item.diamond_mattock.name=Diamond Mattock
+
+item.crude_pick.name=Crude Pickaxe
+item.crude_axe.name=Crude Axe
+
+#Blocks
+
+tile.loose_rock.name=Rock
+tile.fire_pit.name=Fire Pit
+
+
+
+
+
+
+
+
+

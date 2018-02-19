@@ -1,0 +1,22 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"RS",
+		"FR"
+	],
+	"key": {
+		"F": {
+			"item": "minecraft:flint"
+		},
+		"S": {
+			"item": "minecraft:stick"
+		},
+		"R": {
+			"item": "notreepunching:grass_fiber"
+		}
+	},
+	"result": {
+		"item": "notreepunching:fire_starter",
+		"data": 0
+	}
+}

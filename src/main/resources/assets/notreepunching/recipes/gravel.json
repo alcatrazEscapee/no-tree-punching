@@ -1,0 +1,20 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"RF",
+		"FR"
+	],
+	"key": {
+		"R": {
+			"item": "notreepunching:rock"
+		},
+		"F": {
+			"item": "minecraft:flint"
+		}
+	},
+	"result": {
+		"item": "minecraft:gravel",
+		"data": 0,
+		"count": 2
+	}
+}

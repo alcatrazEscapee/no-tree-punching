@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/notreepunching.iml" filepath="$PROJECT_DIR$/notreepunching.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/notreepunching_api.iml" filepath="$PROJECT_DIR$/.idea/modules/notreepunching_api.iml" group="notreepunching" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/notreepunching_main.iml" filepath="$PROJECT_DIR$/.idea/modules/notreepunching_main.iml" group="notreepunching" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/notreepunching_test.iml" filepath="$PROJECT_DIR$/.idea/modules/notreepunching_test.iml" group="notreepunching" />
+    </modules>
+  </component>
+</project>

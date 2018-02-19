@@ -1,0 +1,117 @@
+﻿{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+	  "bark": "minecraft:blocks/log_oak",
+	  "end": "minecraft:blocks/log_oak_top"
+	},
+	"elements": [
+		{
+			"name": "cube",
+			"from": [7, 0, 2],
+			"to": [9, 2, 14],
+			"faces": {
+				"north": {
+					"uv": [7, 7, 9, 9],
+					"texture": "#end"
+				},
+				"east": {
+					"uv": [0, 0, 12, 2],
+					"texture": "#bark"
+				},
+				"south": {
+					"uv": [7, 7, 9, 9],
+					"texture": "#end"
+				},
+				"west": {
+					"uv": [0, 0, 12, 2],
+					"texture": "#bark"
+				},
+				"up": {"uv": [0, 0, 2, 12], "texture": "#bark"},
+				"down": {"uv": [0, 0, 2, 12], "texture": "#bark"}
+			},
+			"type": "cube"
+		},
+		{
+			"name": "cube",
+			"from": [2, 0, 7],
+			"to": [14, 2, 9],
+			"faces": {
+				"north": {
+					"uv": [0, 0, 12, 2],
+					"texture": "#bark"
+				},
+				"east": {"uv": [7, 7, 9, 9], "texture": "#end"},
+				"south": {
+					"uv": [0, 0, 12, 2],
+					"texture": "#bark"
+				},
+				"west": {"uv": [7, 7, 9, 9], "texture": "#end"},
+				"up": {"uv": [0, 0, 12, 2], "texture": "#bark"},
+				"down": {"uv": [0, 0, 12, 2], "texture": "#bark"}
+			},
+			"type": "cube"
+		},
+		{
+			"name": "cube",
+			"from": [7, 0, 3],
+			"to": [9, 2, 13],
+			"faces": {
+				"north": {
+					"uv": [7, 7, 9, 9],
+					"texture": "#end"
+				},
+				"east": {
+					"uv": [0, 0, 10, 2],
+					"texture": "#bark"
+				},
+				"south": {
+					"uv": [7, 7, 9, 9],
+					"texture": "#end"
+				},
+				"west": {
+					"uv": [0, 0, 10, 2],
+					"texture": "#bark"
+				},
+				"up": {"uv": [0, 0, 2, 10], "texture": "#bark"},
+				"down": {"uv": [0, 0, 2, 10], "texture": "#bark"}
+			},
+			"rotation": {
+				"origin": [8, 8, 8],
+				"axis": "y",
+				"angle": 45
+			},
+			"type": "cube"
+		},
+		{
+			"name": "cube",
+			"from": [4, 0, 7],
+			"to": [6, 2, 18],
+			"faces": {
+				"north": {
+					"uv": [7, 7, 9, 9],
+					"texture": "#end"
+				},
+				"east": {
+					"uv": [0, 0, 11, 2],
+					"texture": "#bark"
+				},
+				"south": {
+					"uv": [7, 7, 9, 9],
+					"texture": "#end"
+				},
+				"west": {
+					"uv": [0, 0, 11, 2],
+					"texture": "#bark"
+				},
+				"up": {"uv": [0, 0, 2, 11], "texture": "#bark"},
+				"down": {"uv": [0, 0, 2, 11], "texture": "#bark"}
+			},
+			"rotation": {
+				"origin": [12, 8, 14],
+				"axis": "y",
+				"angle": -45
+			},
+			"type": "cube"
+		}
+	]
+}

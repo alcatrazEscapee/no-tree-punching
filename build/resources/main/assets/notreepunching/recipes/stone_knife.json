@@ -1,0 +1,19 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"S",
+		"T"
+	],
+	"key": {
+		"T": {
+			"item": "minecraft:stick"
+		},
+		"S": {
+			"item": "notreepunching:rock"
+		}
+	},
+	"result": {
+		"item": "notreepunching:stone_knife",
+		"data": 0
+	}
+}

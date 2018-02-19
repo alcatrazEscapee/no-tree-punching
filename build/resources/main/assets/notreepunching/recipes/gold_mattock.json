@@ -1,0 +1,21 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		" II",
+		"IT ",
+		" T "
+	],
+	"key": {
+		"T": {
+			"item": "minecraft:stick"
+		},
+		"I": {
+			"type": "forge:ore_dict",
+			"ore": "ingotGold"
+		}
+	},
+	"result": {
+		"item": "notreepunching:gold_mattock",
+		"data": 0
+	}
+}
