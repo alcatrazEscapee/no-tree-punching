@@ -25,3 +25,5 @@ hs_err_pid*
 build
 run
 .gradle
+.idea/
+eclipse/
