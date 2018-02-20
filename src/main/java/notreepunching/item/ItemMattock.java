@@ -26,7 +26,7 @@ public class ItemMattock extends ItemAxe {
     public String name;
 
     public ItemMattock(ToolMaterial material, String name){
-        super(material);
+        super(material,material.getAttackDamage(),-2.8F);
 
         this.name = name;
         setUnlocalizedName(name);

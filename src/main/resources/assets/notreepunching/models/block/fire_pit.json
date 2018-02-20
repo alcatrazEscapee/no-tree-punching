@@ -1,8 +1,9 @@
 ﻿{
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
-	  "bark": "minecraft:blocks/log_oak",
-	  "end": "minecraft:blocks/log_oak_top"
+	    "bark": "minecraft:blocks/log_oak",
+	    "end": "minecraft:blocks/log_oak_top",
+		"particle": "minecraft:blocks/log_oak"
 	},
 	"elements": [
 		{

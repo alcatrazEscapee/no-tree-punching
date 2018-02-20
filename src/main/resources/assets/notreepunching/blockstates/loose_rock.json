@@ -3,14 +3,16 @@
 	"defaults": {
       "model": "notreepunching:loose_rock",
       "textures": {
-        "all": "minecraft:blocks/stone"
+		  "all": "minecraft:blocks/stone",
+		  "particle": "minecraft:blocks/stone"
       }
     },
 	"variants": {
 		"normal": {
 			"model": "notreepunching:loose_rock",
 			"textures": {
-				"all": "minecraft:blocks/stone"
+				"all": "minecraft:blocks/stone",
+				"particle": "minecraft:blocks/stone"
 			}
 		},
 		"inventory": {
