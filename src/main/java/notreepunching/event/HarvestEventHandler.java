@@ -129,13 +129,13 @@ public class HarvestEventHandler {
             Block block = event.getState().getBlock();
             ItemStack heldItemStack = player.getHeldItemMainhand();
 
-            // Leaves now drop sticks
+            // Leaves now drop sticks 20% without a knife. 50% with a knife
             if (block instanceof BlockLeaves) {
                 float stickDropChance = 0.2F;
             if(heldItemStack.getItem() instanceof ItemKnife){
-                stickDropChance += 0.25F;
+                stickDropChance += 0.3F;
             }
-                if (event.getWorld().rand.nextFloat() <= stickDropChance) { // Chance to drop a stick 0.2 = 20% without knife, 45% with knife
+                if (event.getWorld().rand.nextFloat() <= stickDropChance) {
                     event.getDrops().add(new ItemStack(Items.STICK));
                 }
                 return;
@@ -145,9 +145,13 @@ public class HarvestEventHandler {
             if(heldItemStack.getItem() instanceof ItemCrudePick){
                 ItemCrudePick crudePick = (ItemCrudePick) heldItemStack.getItem();
                 if(crudePick.shouldBreakBlock(block)){
-                    if(block == Blocks.IRON_ORE){ // Iron ore will drop 3 - 5 iron ore pieces (=nuggets)
+                    if(block == Blocks.IRON_ORE){ // Iron ore will drop 1 - 2 iron ore pieces
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.poorIron,event.getWorld().rand.nextInt(3)+3));
+                        event.getDrops().add(new ItemStack(ModItems.poorIron,event.getWorld().rand.nextInt(2)+1));
+                    }
+                    else if(block == Blocks.COAL_ORE){ // Coal ore will drop 1 - 2 coal pieces
+                        event.getDrops().clear();
+                        event.getDrops().add(new ItemStack(ModItems.poorCoal,event.getWorld().rand.nextInt(2)+1));
                     }
                     else if(block == Blocks.STONE || block == Blocks.COBBLESTONE){ // Cobblestone and stone will drop 1-3 rocks (4 rocks = 1 cobble)
                         event.getDrops().clear();

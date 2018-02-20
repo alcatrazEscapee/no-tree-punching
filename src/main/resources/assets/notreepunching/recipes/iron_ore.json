@@ -1,0 +1,16 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"RR",
+		"RR"
+	],
+	"key": {
+		"R": {
+			"item": "notreepunching:poor_iron"
+		}
+	},
+	"result": {
+		"item": "minecraft:iron_ore",
+		"data": 0
+	}
+}

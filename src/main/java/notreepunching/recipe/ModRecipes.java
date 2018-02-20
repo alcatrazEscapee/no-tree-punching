@@ -40,9 +40,7 @@ public class ModRecipes {
         CUTTING_RECIPES.add(new CuttingRecipe(Items.LEATHER_HELMET,new ItemStack[]{new ItemStack(Items.LEATHER,3)}));
 
         CUTTING_RECIPES.add(new CuttingRecipe(Item.getItemFromBlock(Blocks.MELON_BLOCK),new ItemStack[]{new ItemStack(Items.MELON,9)}));
-
-        addSmeltingRecipes();
-    }
+        }
 
     public static boolean isCuttingRecipe(ItemStack stack){
         return getCuttingRecipe(stack)!=null;
@@ -77,9 +75,5 @@ public class ModRecipes {
             modRegistry.remove(new ResourceLocation("minecraft:stone_sword"));
             modRegistry.remove(new ResourceLocation("minecraft:stone_axe"));
         }
-    }
-
-    private static void addSmeltingRecipes(){
-        GameRegistry.addSmelting(new ItemStack(ModItems.poorIron),new ItemStack(Items.IRON_NUGGET),1f);
     }
 }

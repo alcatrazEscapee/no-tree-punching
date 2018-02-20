@@ -13,7 +13,7 @@ public class ModItems {
     public static ItemBase rock = new ItemBase("rock");
     public static ItemBase grassFiber = new ItemBase("grass_fiber");
     public static ItemBase poorIron = new ItemBase("poor_iron");
-    public static ItemFireStarter fireStarter = new ItemFireStarter("fire_starter");
+    public static ItemFuelBase poorCoal = new ItemFuelBase("poor_coal",200);
 
     public static ItemKnife stoneKnife = new ItemKnife(NoTreePunching.toolMaterialCrudeStone,"stone_knife");
     public static ItemKnife ironKnife = new ItemKnife(Item.ToolMaterial.IRON,"iron_knife");
@@ -32,7 +32,7 @@ public class ModItems {
                 rock,
                 grassFiber,
                 poorIron,
-                fireStarter,
+                poorCoal,
                 stoneKnife,
                 ironKnife,
                 goldKnife,
@@ -50,7 +50,7 @@ public class ModItems {
         NoTreePunching.proxy.registerItemModel(rock,0,rock.name);
         NoTreePunching.proxy.registerItemModel(grassFiber,0,grassFiber.name);
         NoTreePunching.proxy.registerItemModel(poorIron,0,poorIron.name);
-        NoTreePunching.proxy.registerItemModel(fireStarter,0,fireStarter.name);
+        NoTreePunching.proxy.registerItemModel(poorCoal,0,poorCoal.name);
 
         NoTreePunching.proxy.registerItemModel(stoneKnife,0,stoneKnife.name);
         NoTreePunching.proxy.registerItemModel(ironKnife,0,ironKnife.name);

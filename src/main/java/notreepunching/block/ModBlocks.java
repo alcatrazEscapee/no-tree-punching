@@ -13,19 +13,19 @@ import notreepunching.NoTreePunching;
 public class ModBlocks {
 
     public static BlockRock looseRock = new BlockRock("loose_rock",Material.GROUND);
-    public static BlockFirePit firePit = new BlockFirePit("fire_pit",Material.WOOD,true);
+    //public static BlockFirePit firePit = new BlockFirePit("fire_pit",Material.WOOD,true);
 
     public static void registerBlocks(RegistryEvent.Register<Block> event){
         event.getRegistry().registerAll(
-                looseRock,
-                firePit
+                looseRock
+                //firePit
         );
     }
 
     public static void registerItemBlocks(RegistryEvent.Register<Item> event){
         event.getRegistry().registerAll(
-                new ItemBlock(looseRock).setRegistryName(looseRock.name),
-                new ItemBlock(firePit).setRegistryName(firePit.name)
+                new ItemBlock(looseRock).setRegistryName(looseRock.name)
+                //new ItemBlock(firePit).setRegistryName(firePit.name)
 
         );
     }
@@ -35,7 +35,7 @@ public class ModBlocks {
     }
 
     public static void registerTileEntities(RegistryEvent.Register<Block> event){
-        GameRegistry.registerTileEntity(firePit.getTileEntityClass(), firePit.name);
+        //GameRegistry.registerTileEntity(firePit.getTileEntityClass(), firePit.name);
     }
 
     public static void registerVanillaTweaks(){

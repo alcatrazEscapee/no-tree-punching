@@ -12,7 +12,7 @@ import java.util.Set;
 public class ItemCrudePick extends ItemPickaxe {
 
     public String name;
-    private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.IRON_ORE,Blocks.STONE,Blocks.COBBLESTONE,Blocks.GRAVEL);
+    private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.IRON_ORE,Blocks.COAL_ORE,Blocks.STONE,Blocks.COBBLESTONE,Blocks.GRAVEL);
 
     public ItemCrudePick(ToolMaterial material, String name){
 

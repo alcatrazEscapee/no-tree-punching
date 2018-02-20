@@ -9,7 +9,7 @@ itemGroup.notreepunching=No Tree Punching
 item.rock.name=Rock
 item.grass_fiber.name=Plant Fibers
 item.poor_iron.name=Iron Ore Piece
-item.fire_starter.name=Firestarter
+item.poor_coal.name=Coal Piece
 
 item.stone_knife.name=Stone Knife
 item.iron_knife.name=Iron Knife
@@ -26,7 +26,6 @@ item.crude_axe.name=Crude Axe
 #Blocks
 
 tile.loose_rock.name=Rock
-tile.fire_pit.name=Fire Pit
 
 
 

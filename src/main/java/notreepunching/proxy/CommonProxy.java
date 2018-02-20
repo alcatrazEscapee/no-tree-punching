@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.Config;
@@ -55,7 +56,6 @@ public class CommonProxy{
     }
 
     public void postInit(FMLPostInitializationEvent event){
-
 
         if (config.hasChanged()) {
             config.save();
