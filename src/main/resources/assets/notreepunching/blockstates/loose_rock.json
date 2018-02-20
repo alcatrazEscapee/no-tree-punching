@@ -3,7 +3,8 @@
 	"defaults": {
       "model": "notreepunching:loose_rock",
       "textures": {
-		  "all": "minecraft:blocks/stone",
+		  "all": "notreepunching:items/rock",
+		  "side": "minecraft:blocks/stone",
 		  "particle": "minecraft:blocks/stone"
       }
     },
@@ -11,7 +12,8 @@
 		"normal": {
 			"model": "notreepunching:loose_rock",
 			"textures": {
-				"all": "minecraft:blocks/stone",
+				"all": "notreepunching:items/rock",
+				"side": "minecraft:blocks/stone",
 				"particle": "minecraft:blocks/stone"
 			}
 		},

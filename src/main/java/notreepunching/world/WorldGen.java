@@ -18,22 +18,6 @@ import java.util.Random;
 
 public class WorldGen {
 
-    /*@Override
-    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider){
-
-        // Generate Surface Loose Rocks
-        if(world.provider.getDimension() == 0){
-            for (int i = 0; i < 3; i++)
-            {
-                int xCoord = chunkX*16 + random.nextInt(16) + 8;
-                int zCoord = chunkZ*16 + random.nextInt(16) + 8;
-                if(world.getBiome(new BlockPos(xCoord,1,zCoord))!= Biomes.OCEAN && world.getBiome(new BlockPos(xCoord,1,zCoord))!=Biomes.DEEP_OCEAN && world.getBiome(new BlockPos(xCoord,1,zCoord))!= Biomes.FROZEN_OCEAN) {
-                    generateRocks(world, random, xCoord, world.getTopSolidOrLiquidBlock(new BlockPos(xCoord, 1, zCoord)).getY() - 1, zCoord);
-                }
-            }
-        }
-    }*/
-
     @SubscribeEvent
     public void decorateBiome(DecorateBiomeEvent.Post event) {
         World world = event.getWorld();

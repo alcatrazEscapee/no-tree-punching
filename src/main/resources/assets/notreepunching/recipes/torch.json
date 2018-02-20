@@ -1,0 +1,19 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"S",
+		"T"
+	],
+	"key": {
+		"T": {
+			"item": "minecraft:stick"
+		},
+		"S": {
+			"item": "notreepunching:poor_coal"
+		}
+	},
+	"result": {
+		"item": "minecraft:torch",
+		"data": 0
+	}
+}

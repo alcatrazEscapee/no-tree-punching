@@ -89,7 +89,7 @@ public class BlockRock extends BlockBase {
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (!worldIn.isRemote) {
-            System.out.println("Break the rock: "+pos+" | "+worldIn.getBlockState(pos).getBlock());
+            // Breaks rock if the block under it breaks.
             IBlockState stateUnder = worldIn.getBlockState(pos.down());
             if(!stateUnder.getBlock().isNormalCube(stateUnder,worldIn,pos.down())){
                 this.dropBlockAsItem(worldIn, pos, state, 0);

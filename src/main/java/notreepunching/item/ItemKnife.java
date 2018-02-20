@@ -28,7 +28,7 @@ public class ItemKnife extends ItemTool {
     public String name;
 
     public ItemKnife(Item.ToolMaterial material, String name){
-        super(material.getAttackDamage(),-3.0F,material,EFFECTIVE_ON);
+        super(material.getAttackDamage(),-2.0F,material,EFFECTIVE_ON);
 
         setUnlocalizedName(name);
         setRegistryName(name);

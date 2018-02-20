@@ -42,26 +42,11 @@ public class HarvestEventHandler {
         int neededHarvestLevel = block.getHarvestLevel(event.getState());
         String neededToolClass = block.getHarvestTool(event.getState());
 
-        // Allows crude pickaxe to break at normal speeds
-        /*if(heldItemStack.getItem() instanceof ItemCrudePick){
-            ItemCrudePick crudePick = (ItemCrudePick) heldItemStack.getItem();
-            System.out.println("Trying to break a block with a pick: "+block+" vs "+Blocks.IRON_ORE + " and "+crudePick.shouldBreakBlock(block));
-            if(crudePick.shouldBreakBlock(block)){
-                return;
-            }
-        }*/
-        // Allows crude axe to break at normal speeds
-        /*if (heldItemStack.getItem() instanceof ItemCrudeAxe) {
-            ItemCrudeAxe crudeAxe = (ItemCrudeAxe) heldItemStack.getItem();
-            if (crudeAxe.shouldBreakBlock(block)) {
-                return;
-            }
-        }*/
-
-        // Allows Mattocks to break at normal speeds
+        // Allows Mattocks to break at slightly higher than normal speeds
         if (heldItemStack.getItem() instanceof ItemMattock){
             ItemMattock mattock = (ItemMattock) heldItemStack.getItem();
             if(mattock.shouldBreakBlock(block)){
+                event.setNewSpeed(event.getOriginalSpeed()*1.4F);
                 return;
             }
         }
@@ -76,7 +61,6 @@ public class HarvestEventHandler {
 
         if (heldItemStack != null && neededToolClass != null && neededHarvestLevel >= 0) {
             for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack)) {
-                // hl is the max harvest level
                 if (neededToolClass == toolClass) {
                     if (heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= neededHarvestLevel) {
                         return;
@@ -168,7 +152,7 @@ public class HarvestEventHandler {
                 }
             }
 
-            //Allows hammer to have special drops when breaking blocks
+            //Allows mattock to drop the normal block drop
             if(heldItemStack.getItem() instanceof ItemMattock){
                 ItemMattock mattock = (ItemMattock) heldItemStack.getItem();
                 if(mattock.shouldBreakBlock(block)){
@@ -208,7 +192,7 @@ public class HarvestEventHandler {
                 }
             }
 
-            // Get variables for the required and current harvest levels + tools
+            // Final case: Get variables for the required and current harvest levels + tools
             int neededHarvestLevel = block.getHarvestLevel(event.getState());
             String neededToolClass = block.getHarvestTool(event.getState());
 

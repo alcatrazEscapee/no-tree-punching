@@ -20,7 +20,7 @@ public class ItemCrudeAxe extends ItemAxe {
     public String name;
 
     public ItemCrudeAxe(ToolMaterial material, String name){
-        super(material,material.getAttackDamage(),-3.0F);
+        super(material,4.0F,-3.0F);
 
         this.name = name;
         setUnlocalizedName(name);

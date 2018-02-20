@@ -2,24 +2,16 @@ package notreepunching.proxy;
 
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.registries.IForgeRegistryModifiable;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.Config;
 import notreepunching.event.HarvestEventHandler;
@@ -41,17 +33,7 @@ public class CommonProxy{
         config = new Configuration(new File(directory.getPath(), "simple_beginnings.cfg"));
         Config.readConfig();
 
-        // Register GUI Handlers
-
-
-        // Changes to vanilla break times, hardness, resistance etc.
-        if(Config.CFG_VANILLA_HARVEST_TWEAKS) {
-            //ModBlocks.registerVanillaTweaks();
-        }
-
         // Register Event Handlers
-
-
         MinecraftForge.EVENT_BUS.register(new HarvestEventHandler());
     }
 
@@ -85,9 +67,6 @@ public class CommonProxy{
 
     public String localize(String unlocalized, Object... args) {
         return I18n.translateToLocalFormatted(unlocalized, args);
-    }
-    public void generateTEParticle(TileEntity te, EnumParticleTypes particle){
-
     }
 
 }
