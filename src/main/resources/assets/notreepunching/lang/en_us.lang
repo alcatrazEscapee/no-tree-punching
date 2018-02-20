@@ -27,6 +27,12 @@ item.crude_axe.name=Crude Axe
 
 tile.loose_rock.name=Rock
 
+#JEI Integration
+
+jei.description.rock=Rocks are found lying on the ground. Breaking them can give you small rocks, with a small chance of giving you an small iron ore piece.
+jei.description.knife=Knives can be used for a few things.\nBy holding a knife in one hand and an item in the other, you can cut the item. For example, cutting a rock produces flint.
+
+notreepunching.jei.knifeRecipe=Knife Cutting
 
 
 
