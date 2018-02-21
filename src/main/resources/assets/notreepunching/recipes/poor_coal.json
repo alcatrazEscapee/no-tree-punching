@@ -5,12 +5,12 @@
 	],
 	"key": {
 		"R": {
-			"item": "minecraft:coal"
+			"item": "minecraft:coal",
+			"data": 0
 		}
 	},
 	"result": {
 		"item": "notreepunching:poor_coal",
-		"data": 0,
 		"count": 8
 	}
 }

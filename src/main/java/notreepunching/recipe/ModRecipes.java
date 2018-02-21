@@ -40,6 +40,13 @@ public class ModRecipes {
         CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Items.LEATHER_HELMET),new ItemStack(Items.LEATHER,3)));
 
         CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.MELON_BLOCK),new ItemStack(Items.MELON,9)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Items.MELON),new ItemStack(Items.MELON_SEEDS,1),new ItemStack(ModItems.grassFiber)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.PUMPKIN),new ItemStack(Items.PUMPKIN_SEEDS,4),new ItemStack(ModItems.grassFiber,2)));
+
+        // Add Smelting
+        GameRegistry.addSmelting(new ItemStack(ModItems.grassString),new ItemStack(Items.STRING),1.0F);
+        GameRegistry.addSmelting(new ItemStack(ModItems.poorIron),new ItemStack(Items.IRON_NUGGET,2),1.0F);
+
         }
 
     public static boolean isCuttingRecipe(ItemStack stack){

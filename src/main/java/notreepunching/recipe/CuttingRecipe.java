@@ -31,4 +31,6 @@ public class CuttingRecipe {
         return drops;
     }
 
+    public ItemStack getSingleOutput(){ return getOutput().get(0); }
+
 }

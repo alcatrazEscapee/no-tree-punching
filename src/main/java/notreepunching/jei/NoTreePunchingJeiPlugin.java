@@ -39,8 +39,8 @@ public class NoTreePunchingJeiPlugin implements IModPlugin {
         // Tools Info
         registry.addIngredientInfo(ModItems.listAllMattocks(),ItemStack.class,"jei.description.mattock");
         registry.addIngredientInfo(ModItems.listAllKnives(),ItemStack.class,"jei.description.knife");
-        registry.addIngredientInfo(ModItems.crudePick,ItemStack.class,"jei.description.crude_pick");
-        registry.addIngredientInfo(ModItems.crudeHatchet,ItemStack.class,"jei.description.crude_hatchet");
+        registry.addIngredientInfo(new ItemStack(ModItems.crudePick),ItemStack.class,"jei.description.crude_pick");
+        registry.addIngredientInfo(new ItemStack(ModItems.crudeHatchet),ItemStack.class,"jei.description.crude_hatchet");
 
         // Knife / Cutting Recipes
         registry.handleRecipes(CuttingRecipe.class, KnifeRecipeWrapper::new, KnifeRecipeCategory.UID);

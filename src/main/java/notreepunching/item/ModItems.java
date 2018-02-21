@@ -16,6 +16,7 @@ public class ModItems {
 
     public static ItemBase rock = new ItemBase("rock");
     public static ItemBase grassFiber = new ItemBase("grass_fiber");
+    public static ItemBase grassString = new ItemBase("grass_string");
     public static ItemBase poorIron = new ItemBase("poor_iron");
     public static ItemFuelBase poorCoal = new ItemFuelBase("poor_coal",200);
 
@@ -35,6 +36,7 @@ public class ModItems {
         event.getRegistry().registerAll(
                 rock,
                 grassFiber,
+                grassString,
                 poorIron,
                 poorCoal,
                 stoneKnife,
@@ -53,6 +55,7 @@ public class ModItems {
 
         NoTreePunching.proxy.registerItemModel(rock,0,rock.name);
         NoTreePunching.proxy.registerItemModel(grassFiber,0,grassFiber.name);
+        NoTreePunching.proxy.registerItemModel(grassString,0,grassString.name);
         NoTreePunching.proxy.registerItemModel(poorIron,0,poorIron.name);
         NoTreePunching.proxy.registerItemModel(poorCoal,0,poorCoal.name);
 

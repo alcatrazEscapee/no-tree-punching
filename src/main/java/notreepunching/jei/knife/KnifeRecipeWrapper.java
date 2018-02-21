@@ -29,11 +29,16 @@ public class KnifeRecipeWrapper implements IRecipeWrapper {
         input = builder.build();
 
         // Reset builder and add output
-        builder = new ImmutableList.Builder<>();
+        builder = ImmutableList.builder();
         builder.add(recipe.getOutput());
 
         // Set the output
         output = builder.build();
+
+        /*input = new ArrayList<>();
+        input.add(recipe.getInput());
+        input.add(new ItemStack(ModItems.stoneKnife));
+        output = recipe.getSingleOutput();*/
 
     }
 

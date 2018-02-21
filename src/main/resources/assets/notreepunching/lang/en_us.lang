@@ -7,6 +7,7 @@ itemGroup.notreepunching=No Tree Punching
 
 item.rock.name=Rock
 item.grass_fiber.name=Plant Fibers
+item.grass_string.name=Plant String
 item.poor_iron.name=Iron Ore Piece
 item.poor_coal.name=Coal Piece
 
@@ -31,15 +32,15 @@ tile.loose_rock.name=Rock
 jei.description.rock=Rocks are found lying on the ground. Breaking them can give you small rocks, with a small chance of giving you an small iron ore piece.
 jei.description.poor_iron=Iron ore pieces are obtained by mining iron ore with a crude pickaxe. They can be crafted back into iron ore blocks.
 jei.description.poor_coal=Coal pieces are obtained by mining coal ore with a crude pickaxe, or by crafting coal in a crafting grid. They smelt one item.
-jei.description.grass_fiber=Grass fibers are dropped when breaking tall grass with a knife. They can also be obtained by cutting plant material in your hand with a knife.
+jei.description.grass_fiber=Grass fibers are dropped when breaking tall grass with a knife. They can also be obtained by cutting plant material in your hand with a knife. They are used to make grass string, which is needed to create basic tools
 jei.description.stick=Sticks are dropped from leaves. Using any knife doubles the chance of getting a stick.
 
-jei.description.knife=Knives can be used to cut certain materials. Hold the knife in one hand, and an item in the other, and right click. This will use up 3x the durability on the knife, and produce a new item. Knives are also effective at breaking plant material such as leaves.
+jei.description.knife=Knives can be used to cut certain materials. Hold the knife in one hand, and an item in the other, and right click. This will use up 3x the durability on the knife and produce a new item. Knives are also effective at breaking plant material such as leaves.
 jei.description.mattock=Mattocks are a combination of an axe, a shovel, and a hoe. They can be used as an axe, with the added benefit of breaking most soft blocks that are broken with a shovel.
-jei.description.crude_pick=The crude pickaxe is the first pickaxe you can make. They are very weak, and will often drop pieces of blocks broken with it. Stone will drop rocks, iron ore will drop iron ore pieces, etc.
+jei.description.crude_pick=The crude pickaxe is the first pickaxe you can make. They are very weak and will often drop pieces of blocks broken with it. Stone will drop rocks, iron ore will drop iron ore pieces, etc.
 jei.description.crude_hatchet=Crude axes are very weak. When breaking wood logs, they render most of the wood unusable, dropping one plank and maybe some sticks.
 
-jei.category.knife=Knifemanship
+notreepunching.jei.category.knife_recipe=Knife Cutting
 
 
 
