@@ -31,7 +31,7 @@ dependencies {
 }
 
 
-version = ${mod_version}
+version = "${mod_version}"
 group = "notreepunching" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "notreepunching"
 

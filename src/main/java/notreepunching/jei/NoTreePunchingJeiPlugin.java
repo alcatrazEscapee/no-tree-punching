@@ -1,8 +1,11 @@
 package notreepunching.jei;
 
-import mezz.jei.api.*;
+import mezz.jei.api.IModPlugin;
+import mezz.jei.api.IModRegistry;
+import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import notreepunching.item.ModItems;
 import notreepunching.jei.knife.KnifeRecipeCategory;
@@ -26,18 +29,21 @@ public class NoTreePunchingJeiPlugin implements IModPlugin {
     @Override
     public void register(IModRegistry registry) {
 
-        // Add Info about things:
+        // Material Info:
         registry.addIngredientInfo(new ItemStack(ModItems.rock),ItemStack.class,"jei.description.rock");
-        List<ItemStack> knifeList = new ArrayList<>();
-        knifeList.add(new ItemStack(ModItems.stoneKnife));
-        knifeList.add(new ItemStack(ModItems.ironKnife));
-        knifeList.add(new ItemStack(ModItems.goldKnife));
-        knifeList.add(new ItemStack(ModItems.diamondKnife));
-        registry.addIngredientInfo(knifeList,ItemStack.class,"jei.description.knife");
+        registry.addIngredientInfo(new ItemStack(ModItems.poorIron),ItemStack.class,"jei.description.poor_iron");
+        registry.addIngredientInfo(new ItemStack(ModItems.poorCoal),ItemStack.class,"jei.description.poor_coal");
+        registry.addIngredientInfo(new ItemStack(ModItems.grassFiber),ItemStack.class,"jei.description.grass_fiber");
+        registry.addIngredientInfo(new ItemStack(Items.STICK),ItemStack.class,"jei.description.stick");
 
-        // Add Cutting recipes
+        // Tools Info
+        registry.addIngredientInfo(ModItems.listAllMattocks(),ItemStack.class,"jei.description.mattock");
+        registry.addIngredientInfo(ModItems.listAllKnives(),ItemStack.class,"jei.description.knife");
+        registry.addIngredientInfo(ModItems.crudePick,ItemStack.class,"jei.description.crude_pick");
+        registry.addIngredientInfo(ModItems.crudeHatchet,ItemStack.class,"jei.description.crude_hatchet");
+
+        // Knife / Cutting Recipes
         registry.handleRecipes(CuttingRecipe.class, KnifeRecipeWrapper::new, KnifeRecipeCategory.UID);
-
         registry.addRecipes(ModRecipes.CUTTING_RECIPES, KnifeRecipeCategory.UID);
     }
 

@@ -1,0 +1,16 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"R"
+	],
+	"key": {
+		"R": {
+			"item": "minecraft:coal"
+		}
+	},
+	"result": {
+		"item": "notreepunching:poor_coal",
+		"data": 0,
+		"count": 8
+	}
+}

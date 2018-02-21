@@ -5,6 +5,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import notreepunching.NoTreePunching;
+import scala.actors.threadpool.Arrays;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModItems {
 
@@ -63,6 +67,13 @@ public class ModItems {
 
         NoTreePunching.proxy.registerItemModel(crudePick,0,crudePick.name);
         NoTreePunching.proxy.registerItemModel(crudeHatchet,0,crudeHatchet.name);
+    }
+
+    public static List<ItemStack> listAllKnives(){
+        return new ArrayList<>(Arrays.asList(new ItemStack[]{new ItemStack(stoneKnife),new ItemStack(ironKnife),new ItemStack(goldKnife),new ItemStack(diamondKnife)}));
+    }
+    public static List<ItemStack> listAllMattocks(){
+        return new ArrayList<>(Arrays.asList(new ItemStack[]{new ItemStack(ironMattock),new ItemStack(goldMattock),new ItemStack(diamondMattock)}));
     }
 }
 

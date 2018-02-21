@@ -61,16 +61,16 @@ public class ItemKnife extends ItemTool {
 
             if(cutStack.getCount()>=1){
                 if(!worldIn.isRemote) {
-                    for (int i = 0; i < recipe.drops.length; i++) {
-                        EntityItem resultDrop = new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, recipe.drops[i]);
+                    for (int i = 0; i < recipe.getOutput().size(); i++) {
+                        EntityItem resultDrop = new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, recipe.getOutput().get(i));
                         worldIn.spawnEntity(resultDrop);
                     }
 
                     // Damage the knife used
                     knifeStack.damageItem(3, playerIn);
 
-                    // Remove one item from the hand
-                    cutStack.shrink(1);
+                    // Remove input item from the hand
+                    cutStack.shrink(recipe.getInput().getCount());
                 }
                 // Play a cool sound effect:
                 BlockPos pos = new BlockPos(playerIn.posX,playerIn.posY,playerIn.posZ);

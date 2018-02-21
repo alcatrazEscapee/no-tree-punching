@@ -2,18 +2,33 @@ package notreepunching.recipe;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import scala.actors.threadpool.Arrays;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class CuttingRecipe {
 
-    public ItemStack[] drops;
-    public ItemStack ingredient;
+    private List<ItemStack> drops;
+    private ItemStack ingredient;
 
-    public CuttingRecipe(Item ingredient, ItemStack[] drops){
-        this.drops = drops;
-        this.ingredient = new ItemStack(ingredient,1,0);
+    public CuttingRecipe(ItemStack ingredient, ItemStack... drops){
+
+        this.drops = Arrays.asList(drops);
+        this.ingredient = ingredient;
     }
 
-    public Item getInputItem(){
-        return ingredient.getItem();
+    //public Item getInputItem(){
+    //    return ingredient.getItem();
+    //}
+
+    public ItemStack getInput(){
+        return ingredient;
     }
+
+    public List<ItemStack> getOutput(){
+        return drops;
+    }
+
 }
