@@ -27,19 +27,19 @@ public class ModRecipes {
     public static void init(){
 
         // Init Cutting Recipes
-        CUTTING_RECIPES.add(new CuttingRecipe(ModItems.rock,new ItemStack[]{new ItemStack(Items.FLINT)}));
-        CUTTING_RECIPES.add(new CuttingRecipe(Item.getItemFromBlock(Blocks.WOOL),new ItemStack[]{new ItemStack(Items.STRING,2)}));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(ModItems.rock,1),new ItemStack(Items.FLINT)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.WOOL),new ItemStack(Items.STRING,4)));
 
-        CUTTING_RECIPES.add(new CuttingRecipe(Items.REEDS,new ItemStack[]{new ItemStack(ModItems.grassFiber,2)}));
-        CUTTING_RECIPES.add(new CuttingRecipe(Items.WHEAT,new ItemStack[]{new ItemStack(ModItems.grassFiber,1), new ItemStack(Items.WHEAT_SEEDS)}));
-        CUTTING_RECIPES.add(new CuttingRecipe(Item.getItemFromBlock(Blocks.SAPLING),new ItemStack[]{new ItemStack(Items.STICK),new ItemStack(ModItems.grassFiber)}));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Items.REEDS),new ItemStack(ModItems.grassFiber,2)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Items.WHEAT),new ItemStack(ModItems.grassFiber,1), new ItemStack(Items.WHEAT_SEEDS)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.SAPLING),new ItemStack(Items.STICK),new ItemStack(ModItems.grassFiber)));
 
-        CUTTING_RECIPES.add(new CuttingRecipe(Items.LEATHER_BOOTS,new ItemStack[]{new ItemStack(Items.LEATHER,2)}));
-        CUTTING_RECIPES.add(new CuttingRecipe(Items.LEATHER_CHESTPLATE,new ItemStack[]{new ItemStack(Items.LEATHER,5)}));
-        CUTTING_RECIPES.add(new CuttingRecipe(Items.LEATHER_LEGGINGS,new ItemStack[]{new ItemStack(Items.LEATHER,4)}));
-        CUTTING_RECIPES.add(new CuttingRecipe(Items.LEATHER_HELMET,new ItemStack[]{new ItemStack(Items.LEATHER,3)}));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Items.LEATHER_BOOTS),new ItemStack(Items.LEATHER,2)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Items.LEATHER_CHESTPLATE),new ItemStack(Items.LEATHER,5)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Items.LEATHER_LEGGINGS),new ItemStack(Items.LEATHER,4)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Items.LEATHER_HELMET),new ItemStack(Items.LEATHER,3)));
 
-        CUTTING_RECIPES.add(new CuttingRecipe(Item.getItemFromBlock(Blocks.MELON_BLOCK),new ItemStack[]{new ItemStack(Items.MELON,9)}));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.MELON_BLOCK),new ItemStack(Items.MELON,9)));
         }
 
     public static boolean isCuttingRecipe(ItemStack stack){
@@ -48,7 +48,7 @@ public class ModRecipes {
 
     public static CuttingRecipe getCuttingRecipe(ItemStack stack){
         for(int i=0;i<CUTTING_RECIPES.size();i++){
-            if(CUTTING_RECIPES.get(i).getInputItem() == stack.getItem()){
+            if(CUTTING_RECIPES.get(i).getInput().getItem() == stack.getItem() && stack.getCount()>=CUTTING_RECIPES.get(i).getInput().getCount()){
                 return CUTTING_RECIPES.get(i);
             }
         }
@@ -74,6 +74,11 @@ public class ModRecipes {
             modRegistry.remove(new ResourceLocation("minecraft:stone_hoe"));
             modRegistry.remove(new ResourceLocation("minecraft:stone_sword"));
             modRegistry.remove(new ResourceLocation("minecraft:stone_axe"));
+        }
+
+        // Furnace
+        if(Config.CFG_ALTERNATE_FURNACE_RECIPE){
+            modRegistry.remove(new ResourceLocation("minecraft:furnace"));
         }
     }
 }
