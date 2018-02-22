@@ -1,21 +1,19 @@
 {
 	"type": "forge:ore_shaped",
 	"pattern": [
-		"III",
-		"IT ",
-		" T "
+		"S",
+		"T"
 	],
 	"key": {
 		"T": {
 			"item": "minecraft:stick"
 		},
-		"I": {
-			"type": "forge:ore_dict",
-			"ore": "gemDiamond"
+		"S": {
+			"item": "notreepunching:rock"
 		}
 	},
 	"result": {
-		"item": "notreepunching:diamond_mattock",
+		"item": "notreepunching:stone_knife",
 		"data": 0
 	}
 }

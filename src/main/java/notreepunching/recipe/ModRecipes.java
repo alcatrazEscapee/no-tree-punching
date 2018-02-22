@@ -43,6 +43,14 @@ public class ModRecipes {
         CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Items.MELON),new ItemStack(Items.MELON_SEEDS,1),new ItemStack(ModItems.grassFiber)));
         CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.PUMPKIN),new ItemStack(Items.PUMPKIN_SEEDS,4),new ItemStack(ModItems.grassFiber,2)));
 
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.LEAVES,6,0),new ItemStack(Blocks.SAPLING,1,0),new ItemStack(ModItems.grassFiber,2)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.LEAVES,6,1),new ItemStack(Blocks.SAPLING,1,1),new ItemStack(ModItems.grassFiber,2)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.LEAVES,6,2),new ItemStack(Blocks.SAPLING,1,2),new ItemStack(ModItems.grassFiber,2)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.LEAVES,6,3),new ItemStack(Blocks.SAPLING,1,3),new ItemStack(ModItems.grassFiber,2)));
+
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.LEAVES2,6,0),new ItemStack(Blocks.SAPLING,1,4),new ItemStack(ModItems.grassFiber,2)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.LEAVES2,6,1),new ItemStack(Blocks.SAPLING,1,5),new ItemStack(ModItems.grassFiber,2)));
+
         // Add Smelting
         GameRegistry.addSmelting(new ItemStack(ModItems.grassString),new ItemStack(Items.STRING),1.0F);
         GameRegistry.addSmelting(new ItemStack(ModItems.poorIron),new ItemStack(Items.IRON_NUGGET,2),1.0F);
@@ -55,7 +63,8 @@ public class ModRecipes {
 
     public static CuttingRecipe getCuttingRecipe(ItemStack stack){
         for(int i=0;i<CUTTING_RECIPES.size();i++){
-            if(CUTTING_RECIPES.get(i).getInput().getItem() == stack.getItem() && stack.getCount()>=CUTTING_RECIPES.get(i).getInput().getCount()){
+            ItemStack is = CUTTING_RECIPES.get(i).getInput();
+            if(is.getItem() == stack.getItem() && stack.getCount()>=is.getCount() && is.getMetadata() == stack.getMetadata()){
                 return CUTTING_RECIPES.get(i);
             }
         }

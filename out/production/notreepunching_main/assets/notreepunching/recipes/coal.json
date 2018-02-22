@@ -1,0 +1,17 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"RRR",
+		"R R",
+		"RRR"
+	],
+	"key": {
+		"R": {
+			"item": "notreepunching:poor_coal"
+		}
+	},
+	"result": {
+		"item": "minecraft:coal",
+		"data": 0
+	}
+}

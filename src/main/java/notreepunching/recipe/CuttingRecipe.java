@@ -19,10 +19,6 @@ public class CuttingRecipe {
         this.ingredient = ingredient;
     }
 
-    //public Item getInputItem(){
-    //    return ingredient.getItem();
-    //}
-
     public ItemStack getInput(){
         return ingredient;
     }
@@ -30,7 +26,5 @@ public class CuttingRecipe {
     public List<ItemStack> getOutput(){
         return drops;
     }
-
-    public ItemStack getSingleOutput(){ return getOutput().get(0); }
 
 }
