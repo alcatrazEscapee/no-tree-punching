@@ -210,13 +210,28 @@ public class HarvestEventHandler {
                 }
 
                 Iterator<String> itr = Config.CFG_ALWAYS_BREAKABLE.iterator();
+                String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
                 while (itr.hasNext()) {
-                    if (block.getRegistryName().equals(itr.next())) {
+                    String element = itr.next();
+                    if (blockName.equals(element)) {
                         return;
                     }
                 }
 
                 event.getDrops().clear();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void harvestBlockInitialCheck(PlayerEvent.HarvestCheck event){
+        Block block = event.getTargetBlock().getBlock();
+        Iterator<String> itr = Config.CFG_ALWAYS_BREAKABLE.iterator();
+        String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
+        while (itr.hasNext()) {
+            String element = itr.next();
+            if (blockName.equals(element)) {
+                event.setCanHarvest(true);
             }
         }
     }

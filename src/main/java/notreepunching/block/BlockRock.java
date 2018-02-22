@@ -27,10 +27,10 @@ import java.util.Random;
 
 public class BlockRock extends BlockBase {
 
-    public BlockRock(String name, Material material) {
-        super(name,material);
+    public BlockRock(String name) {
+        super(name, Material.ROCK);
 
-        setHardness(0.2F);
+        setHardness(0.15F);
         this.setDefaultState(this.blockState.getBaseState());
     }
 
@@ -72,7 +72,7 @@ public class BlockRock extends BlockBase {
         Random rand = world instanceof World ? ((World)world).rand : RANDOM;
 
         drops.clear();
-        if(rand.nextFloat()>0.9) {
+        if(rand.nextFloat()>0.9-0.1*fortune) {
             drops.add(new ItemStack(ModItems.poorIron, 1, 0));
         }else{
             drops.add(new ItemStack(ModItems.rock,1,0));
