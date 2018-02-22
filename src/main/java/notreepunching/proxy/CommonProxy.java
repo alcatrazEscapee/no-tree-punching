@@ -30,7 +30,7 @@ public class CommonProxy{
 
         // Register Config
         File directory = event.getModConfigurationDirectory();
-        config = new Configuration(new File(directory.getPath(), "simple_beginnings.cfg"));
+        config = new Configuration(new File(directory.getPath(), "no_tree_punching.cfg"));
         Config.readConfig();
 
         // Register Event Handlers
@@ -52,6 +52,7 @@ public class CommonProxy{
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
+        ModBlocks.init();
         ModBlocks.registerBlocks(event);
     }
 

@@ -12,7 +12,11 @@ import notreepunching.NoTreePunching;
 
 public class ModBlocks {
 
-    public static BlockRock looseRock = new BlockRock("loose_rock",Material.GROUND);
+    public static BlockRock looseRock;
+
+    public static void init(){
+        looseRock = new BlockRock("loose_rock");
+    }
 
     public static void registerBlocks(RegistryEvent.Register<Block> event){
         event.getRegistry().registerAll(

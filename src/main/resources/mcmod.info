@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "notreepunching",
+  "name": "No Tree Punching",
+  "description": "A small mod to make the first day or two of play more believable. Adds a few new tools and early game resource gathering.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["AlcatrazEscapee"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
