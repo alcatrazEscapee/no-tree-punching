@@ -20,6 +20,8 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
 
     private ItemStackHandler inventory = new ItemStackHandler(1);
 
+    private int burnTicks = 3000; // Initial burn time from log that was thrown
+
     public void update(){
         if(!world.isRemote) {
             IBlockState state = world.getBlockState(pos);
@@ -30,24 +32,6 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
         }
 
     }
-
-    public void updateBlockLight(){
-        if (world.isRemote) {
-            IBlockState iblockstate = this.world.getBlockState(pos);
-            final int FLAGS = 3;  // I'm not sure what these flags do, exactly. - Albert Einstien
-            world.notifyBlockUpdate(pos, iblockstate, iblockstate, FLAGS);
-        }
-        world.checkLightFor(EnumSkyBlock.BLOCK, pos);
-    }
-
-    /*public boolean isLit(){
-        return lit;
-    }
-    public void light(){
-        lit = true;
-        updateBlockLight();
-        litTicks = 100;
-    }*/
 
     // ******************** Tile Entity Methods **************** //
 

@@ -129,8 +129,8 @@ public class ItemFirestarter extends ItemTool {
                         int remove;
 
                         for(EntityItem drop2 : toUse) {
-                            int removeFromStack = Math.min(3, drop2.getItem().getCount());
-                            drop2.getItem().shrink(removeFromStack);
+                            remove = Math.min(3, drop2.getItem().getCount());
+                            drop2.getItem().shrink(remove);
                             if (drop2.getItem().getCount() == 0) {
                                 drop2.setDead();
                             }
@@ -140,7 +140,7 @@ public class ItemFirestarter extends ItemTool {
                             if (item == ModItems.grassString && thatch > 0) { // Remove thatch items from world
                                 remove = Math.min(drop2.getItem().getCount(), thatch);
                                 thatch -= remove;
-                                drop2.getItem().shrink(removeFromStack);
+                                drop2.getItem().shrink(remove);
                                 if (drop2.getItem().getCount() == 0) {
                                     drop2.setDead();
                                 }
@@ -153,7 +153,7 @@ public class ItemFirestarter extends ItemTool {
                                     // Not working as of yet
                                     //TileEntityFirePit te = (TileEntityFirePit) worldIn.getTileEntity(pos.up());
                                     //te.build(drop2.getItem());
-                                    drop2.getItem().shrink(removeFromStack);
+                                    drop2.getItem().shrink(remove);
                                     if (drop2.getItem().getCount() == 0) {
                                         drop2.setDead();
                                     }
@@ -164,7 +164,7 @@ public class ItemFirestarter extends ItemTool {
                                 if (sticks > 0 && item == stickType.getItem()) {
                                     remove = Math.min(drop2.getItem().getCount(), sticks);
                                     sticks -= remove;
-                                    drop2.getItem().shrink(removeFromStack);
+                                    drop2.getItem().shrink(remove);
                                     if (drop2.getItem().getCount() == 0) {
                                         drop2.setDead();
                                     }
