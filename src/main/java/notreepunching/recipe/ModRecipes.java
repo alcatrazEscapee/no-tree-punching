@@ -75,7 +75,7 @@ public class ModRecipes {
         IForgeRegistryModifiable modRegistry = (IForgeRegistryModifiable) reg;
 
         // Wooden Tools
-        if(Config.CFG_WOOD_TOOLS_DISABLE) {
+        if(Config.VanillaTweaks.WOOD_TOOLS_DISABLE) {
             modRegistry.remove(new ResourceLocation("minecraft:wooden_pickaxe"));
             modRegistry.remove(new ResourceLocation("minecraft:wooden_shovel"));
             modRegistry.remove(new ResourceLocation("minecraft:wooden_hoe"));
@@ -84,7 +84,7 @@ public class ModRecipes {
         }
 
         // Stone Tools
-        if(Config.CFG_STONE_TOOLS_DISABLE) {
+        if(Config.VanillaTweaks.STONE_TOOLS_DISABLE) {
             modRegistry.remove(new ResourceLocation("minecraft:stone_pickaxe"));
             modRegistry.remove(new ResourceLocation("minecraft:stone_shovel"));
             modRegistry.remove(new ResourceLocation("minecraft:stone_hoe"));
@@ -93,7 +93,7 @@ public class ModRecipes {
         }
 
         // Furnace
-        if(Config.CFG_ALTERNATE_FURNACE_RECIPE){
+        if(Config.VanillaTweaks.ALTERNATE_FURNACE_RECIPE){
             modRegistry.remove(new ResourceLocation("minecraft:furnace"));
         }
     }

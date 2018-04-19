@@ -27,12 +27,6 @@ public class CommonProxy{
     public static Configuration config;
 
     public void preInit(FMLPreInitializationEvent event){
-
-        // Register Config
-        File directory = event.getModConfigurationDirectory();
-        config = new Configuration(new File(directory.getPath(), "no_tree_punching.cfg"));
-        Config.readConfig();
-
         // Register Event Handlers
         MinecraftForge.EVENT_BUS.register(new HarvestEventHandler());
     }

@@ -10,40 +10,25 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraftforge.common.config.Config.Comment;
+
+
+@net.minecraftforge.common.config.Config(modid=NoTreePunching.MODID)
 public class Config {
 
-    private static final String GENERAL = "General Options";
+    public static VanillaTweaks tweaks;
+    public static class VanillaTweaks {
 
-    // Config options:
-    public static boolean CFG_WOOD_TOOLS_DISABLE = true;
-    public static boolean CFG_STONE_TOOLS_DISABLE = true;
-    public static boolean CFG_ALTERNATE_FURNACE_RECIPE = true;
+        @Comment({"Disable wooden tool recipes"})
+        public static boolean WOOD_TOOLS_DISABLE = true;
+        @Comment({"Disable stone tool recipes"})
+        public static boolean STONE_TOOLS_DISABLE = true;
 
-    public static List<String> CFG_ALWAYS_BREAKABLE = new ArrayList<String>();
+        @Comment({"Furnace requires coal or charcoal"})
+        public static boolean ALTERNATE_FURNACE_RECIPE = false;
 
-    // This will create the config if it doesn't exist yet and read the values if it does exist.
-    public static void readConfig() {
-        Configuration cfg = CommonProxy.config;
-        try {
-            cfg.load();
-            initConfig(cfg);
-        } catch (Exception problem) {
-            NoTreePunching.logger.log(Level.ERROR, "Problem loading config file!", problem);
-        } finally {
-            if (cfg.hasChanged()) {
-                cfg.save();
-            }
-        }
+        @Comment({"Should Prospectus create tools from Thermal Foundation metals?"})
+        public static String[] BREAKABLE = new String[] {"notreepunching:loose_rock","minecraft:leaves"};
     }
 
-    private static void initConfig(Configuration cfg) {
-
-        CFG_WOOD_TOOLS_DISABLE = cfg.getBoolean("disable_wood_tools",GENERAL,true,"Disables vanilla wooden tool recipes");
-        CFG_STONE_TOOLS_DISABLE = cfg.getBoolean("disable_stone_tools",GENERAL,true,"Disables vanilla stone tool recipes");
-        CFG_STONE_TOOLS_DISABLE = cfg.getBoolean("disable_furnace",GENERAL,true,"Forces the vanilla furnace recipe to require one coal in the center.");
-
-        String[] list = cfg.getStringList("always_breakable",GENERAL, new String[] {"notreepunching:loose_rock","minecraft:leaves"},"List of blocks that will always drop their item. Use the format modid:registry_name");
-        CFG_ALWAYS_BREAKABLE = new ArrayList<String>( Arrays.asList(list) );
-
-    }
 }

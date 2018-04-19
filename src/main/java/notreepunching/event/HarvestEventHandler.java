@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.config.Config;
 import notreepunching.item.*;
 import notreepunching.recipe.ModRecipes;
+import scala.actors.threadpool.Arrays;
 
 import java.util.Iterator;
 
@@ -70,7 +71,7 @@ public class HarvestEventHandler {
                 }
             }
             // Always allow certian blocks to break at normal speed
-            Iterator<String> itr = Config.CFG_ALWAYS_BREAKABLE.iterator();
+            Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
             while (itr.hasNext()) {
                 if (block.getRegistryName().equals(itr.next())) {
                     return;
@@ -209,11 +210,10 @@ public class HarvestEventHandler {
                     }
                 }
 
-                Iterator<String> itr = Config.CFG_ALWAYS_BREAKABLE.iterator();
+                Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
                 String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
                 while (itr.hasNext()) {
-                    String element = itr.next();
-                    if (blockName.equals(element)) {
+                    if (blockName.equals(itr.next())) {
                         return;
                     }
                 }
@@ -226,11 +226,10 @@ public class HarvestEventHandler {
     @SubscribeEvent
     public void harvestBlockInitialCheck(PlayerEvent.HarvestCheck event){
         Block block = event.getTargetBlock().getBlock();
-        Iterator<String> itr = Config.CFG_ALWAYS_BREAKABLE.iterator();
+        Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
         String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
         while (itr.hasNext()) {
-            String element = itr.next();
-            if (blockName.equals(element)) {
+            if (blockName.equals(itr.next())) {
                 event.setCanHarvest(true);
             }
         }
