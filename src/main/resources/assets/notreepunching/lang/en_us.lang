@@ -23,6 +23,8 @@ item.diamond_mattock.name=Diamond Mattock
 item.crude_pick.name=Crude Pickaxe
 item.crude_axe.name=Crude Axe
 
+item.firestarter.name=Fire Starter
+
 #Blocks
 
 tile.loose_rock.name=Rock

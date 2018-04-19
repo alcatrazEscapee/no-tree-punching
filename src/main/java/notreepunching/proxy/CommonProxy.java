@@ -4,7 +4,11 @@ package notreepunching.proxy;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
@@ -62,6 +66,9 @@ public class CommonProxy{
 
     public String localize(String unlocalized, Object... args) {
         return I18n.translateToLocalFormatted(unlocalized, args);
+    }
+
+    public void generateParticle(World world, BlockPos pos, EnumParticleTypes particle){
     }
 
 }

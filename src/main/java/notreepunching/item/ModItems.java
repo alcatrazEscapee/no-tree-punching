@@ -32,6 +32,8 @@ public class ModItems {
     public static ItemCrudeAxe crudeHatchet = new ItemCrudeAxe(NoTreePunching.toolMaterialFlint,"crude_axe");
     public static ItemCrudePick crudePick = new ItemCrudePick(NoTreePunching.toolMaterialFlint,"crude_pick");
 
+    public static ItemFirestarter firestarter = new ItemFirestarter("firestarter");
+
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 rock,
@@ -47,7 +49,8 @@ public class ModItems {
                 diamondMattock,
                 diamondKnife,
                 crudeHatchet,
-                crudePick
+                crudePick,
+                firestarter
         );
     }
 
@@ -70,13 +73,15 @@ public class ModItems {
 
         NoTreePunching.proxy.registerItemModel(crudePick,0,crudePick.name);
         NoTreePunching.proxy.registerItemModel(crudeHatchet,0,crudeHatchet.name);
+
+        NoTreePunching.proxy.registerItemModel(firestarter,0,firestarter.name);
     }
 
     public static List<ItemStack> listAllKnives(){
-        return new ArrayList<>(Arrays.asList(new ItemStack[]{new ItemStack(stoneKnife),new ItemStack(ironKnife),new ItemStack(goldKnife),new ItemStack(diamondKnife)}));
+        return new ArrayList<ItemStack>(Arrays.asList(new ItemStack[]{new ItemStack(stoneKnife),new ItemStack(ironKnife),new ItemStack(goldKnife),new ItemStack(diamondKnife)}));
     }
     public static List<ItemStack> listAllMattocks(){
-        return new ArrayList<>(Arrays.asList(new ItemStack[]{new ItemStack(ironMattock),new ItemStack(goldMattock),new ItemStack(diamondMattock)}));
+        return new ArrayList<ItemStack>(Arrays.asList(new ItemStack[]{new ItemStack(ironMattock),new ItemStack(goldMattock),new ItemStack(diamondMattock)}));
     }
 }
 

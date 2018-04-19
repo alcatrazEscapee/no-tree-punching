@@ -72,11 +72,7 @@ public class BlockRock extends BlockBase {
         Random rand = world instanceof World ? ((World)world).rand : RANDOM;
 
         drops.clear();
-        if(rand.nextFloat()>0.9-0.1*fortune) {
-            drops.add(new ItemStack(ModItems.poorIron, 1, 0));
-        }else{
-            drops.add(new ItemStack(ModItems.rock,1,0));
-        }
+        drops.add(new ItemStack(ModItems.rock,1,0));
 
     }
 

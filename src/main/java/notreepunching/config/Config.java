@@ -31,4 +31,10 @@ public class Config {
         public static String[] BREAKABLE = new String[] {"notreepunching:loose_rock","minecraft:leaves"};
     }
 
+    public static Tools tools;
+    public static class Tools {
+        @Comment({"Mining level for flint pickaxe and axe"})
+        public static int FLINT_MINING_LEVEL = 1;
+    }
+
 }
