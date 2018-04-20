@@ -7,11 +7,11 @@
 	"key": {
 		"R": {
 			"item": "notreepunching:rock",
-			"data": 0
+			"data": 5
 		}
 	},
 	"result": {
-		"item": "minecraft:cobblestone",
+		"item": "notreepunching:limestone_cobblestone",
 		"data": 0
 	}
 }

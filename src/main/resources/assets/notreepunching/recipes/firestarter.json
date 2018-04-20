@@ -1,7 +1,7 @@
 {
 	"type": "forge:ore_shaped",
 	"pattern": [
-		" R",
+		"FR",
 		"RP"
 	],
 	"key": {
@@ -11,6 +11,9 @@
 		},
 		"P": {
 			"item": "notreepunching:grass_string"
+		},
+		"F": {
+			"item": "notreepunching:flint_shard"
 		}
 	},
 	"result": {

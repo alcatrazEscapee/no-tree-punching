@@ -7,6 +7,7 @@ import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import notreepunching.block.ModBlocks;
 import notreepunching.item.ModItems;
 import notreepunching.jei.knife.KnifeRecipeCategory;
 import notreepunching.jei.knife.KnifeRecipeWrapper;
@@ -30,10 +31,9 @@ public class NoTreePunchingJeiPlugin implements IModPlugin {
     public void register(IModRegistry registry) {
 
         // Material Info:
-        registry.addIngredientInfo(new ItemStack(ModItems.rock),ItemStack.class,"jei.description.rock");
-        registry.addIngredientInfo(new ItemStack(ModItems.poorIron),ItemStack.class,"jei.description.poor_iron");
-        registry.addIngredientInfo(new ItemStack(ModItems.poorCoal),ItemStack.class,"jei.description.poor_coal");
+        registry.addIngredientInfo(new ItemStack(ModItems.rockStone),ItemStack.class,"jei.description.rock");
         registry.addIngredientInfo(new ItemStack(ModItems.grassFiber),ItemStack.class,"jei.description.grass_fiber");
+        registry.addIngredientInfo(new ItemStack(ModItems.flintShard),ItemStack.class,"jei.description.flint_shard");
         registry.addIngredientInfo(new ItemStack(Items.STICK),ItemStack.class,"jei.description.stick");
 
         // Tools Info
@@ -41,6 +41,8 @@ public class NoTreePunchingJeiPlugin implements IModPlugin {
         registry.addIngredientInfo(ModItems.listAllKnives(),ItemStack.class,"jei.description.knife");
         registry.addIngredientInfo(new ItemStack(ModItems.crudePick),ItemStack.class,"jei.description.crude_pick");
         registry.addIngredientInfo(new ItemStack(ModItems.crudeHatchet),ItemStack.class,"jei.description.crude_hatchet");
+
+        registry.addIngredientInfo(new ItemStack(ModBlocks.firepit),ItemStack.class,"jei.description.firepit");
 
         // Knife / Cutting Recipes
         registry.handleRecipes(CuttingRecipe.class, KnifeRecipeWrapper::new, KnifeRecipeCategory.UID);

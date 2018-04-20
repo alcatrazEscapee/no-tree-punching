@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "notreepunching:items/poor_coal"
+		"layer0": "notreepunching:items/rock_diorite"
 	}
 }

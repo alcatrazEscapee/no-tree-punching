@@ -2,7 +2,7 @@
 	"type": "forge:ore_shaped",
 	"pattern": [
 		"SFS",
-		" T ",
+		"STS",
 		" T "
 	],
 	"key": {
@@ -10,7 +10,7 @@
 			"item": "minecraft:stick"
 		},
 		"S": {
-			"item": "minecraft:flint"
+			"item": "notreepunching:flint_shard"
 		},
 		"F": {
           "item": "notreepunching:grass_string"

@@ -69,10 +69,10 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit>{
             TileEntityFirepit tile = getTileEntity(world, pos);
             IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 
-            if(heldItem.getItem() instanceof ItemFirestarter){
+            if(heldItem.getItem() instanceof ItemFirestarter || heldItem.getItem()==Items.FLINT_AND_STEEL){
                 //tile.light();
                 world.setBlockState(pos,this.getDefaultState().withProperty(BURNING,!state.getValue(BURNING)));
-                heldItem.damageItem(1,player); // removed for easier testing
+                heldItem.damageItem(1,player); // remove for easier testing
             }
             else{
                 if (!player.isSneaking()) {
@@ -91,13 +91,13 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit>{
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        /*TileEntityFirepit tile = getTileEntity(world, pos);
+        TileEntityFirepit tile = getTileEntity(world, pos);
         IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
         ItemStack stack = itemHandler.getStackInSlot(0);
         if (!stack.isEmpty()) {
             EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
             world.spawnEntity(item);
-        }*/
+        }
         super.breakBlock(world, pos, state);
     }
 

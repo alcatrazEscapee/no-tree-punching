@@ -7,6 +7,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -16,9 +17,14 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
+import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
+import notreepunching.config.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +41,7 @@ public class ItemFirestarter extends ItemTool {
         setRegistryName(name);
         setUnlocalizedName(name);
         this.name = name;
+        setCreativeTab(NoTreePunching.NTP_Tab);
 
         this.setMaxDamage(10);
         this.setMaxStackSize(1);
@@ -52,26 +59,35 @@ public class ItemFirestarter extends ItemTool {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn){
-        RayTraceResult result = rayTrace(worldIn,playerIn,false);
-
+        System.out.println("Using the firestarter");
+        /*RayTraceResult result = rayTrace(worldIn,playerIn,false);
         if(result.typeOfHit==RayTraceResult.Type.BLOCK){
             BlockPos pos = result.getBlockPos();
             Block block = worldIn.getBlockState(pos).getBlock();
-            /*if(block instanceof BlockFirePit){
+            if(block instanceof BlockFirePit){
                 //playerIn.setActiveHand(handIn);
                 TileEntityFirePit te = (TileEntityFirePit)worldIn.getTileEntity(pos);
                 te.lightFirepit();
                 return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
-            }*/
-        }
+            }
+        }*/
 
         playerIn.setActiveHand(handIn);
-        return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
+        return new ActionResult<>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
     }
 
-    public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-        stack.damageItem(1, attacker);
-        return true;
+    @SideOnly(Side.CLIENT)
+    public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
+        if(Math.random()<0.3) {
+            World world = player.getEntityWorld();
+            EntityPlayer player1 = (EntityPlayer) player;
+            RayTraceResult result = rayTrace(world, player1, false);
+            if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
+                Vec3d v = result.hitVec;
+                BlockPos pos = new BlockPos(v.x, v.y, v.z);
+                NoTreePunching.proxy.generateParticle(world, pos, EnumParticleTypes.SMOKE_LARGE);
+            }
+        }
     }
 
     @Override
@@ -79,9 +95,8 @@ public class ItemFirestarter extends ItemTool {
         EntityPlayer player = (EntityPlayer) entityLiving;
 
         if(player != null){
-            EntityPlayer player1 = (EntityPlayer) player;
 
-            RayTraceResult result = rayTrace(worldIn,player1,false);
+            RayTraceResult result = rayTrace(worldIn,player,false);
 
             if(result.typeOfHit==RayTraceResult.Type.BLOCK){ // If looking at a block
 
@@ -134,11 +149,6 @@ public class ItemFirestarter extends ItemTool {
                         int remove;
 
                         for(EntityItem drop2 : toUse) {
-                            remove = Math.min(3, drop2.getItem().getCount());
-                            drop2.getItem().shrink(remove);
-                            if (drop2.getItem().getCount() == 0) {
-                                drop2.setDead();
-                            }
 
                             Item item = drop2.getItem().getItem();
 
@@ -167,7 +177,6 @@ public class ItemFirestarter extends ItemTool {
                                 if (sticks > 0 && item == stickType.getItem()) {
                                     remove = Math.min(drop2.getItem().getCount(), sticks);
                                     sticks -= remove;
-                                    System.out.println("Removing some sticks from the world");
                                     drop2.getItem().shrink(remove);
                                     if (drop2.getItem().getCount() == 0) {
                                         drop2.setDead();
@@ -177,6 +186,13 @@ public class ItemFirestarter extends ItemTool {
                             }
                         }
 
+                    }
+                    else{
+                        // No firepit to make, just light the fking place up
+                        if(Math.random() < Config.Balance.FIRE_CHANCE){
+                            worldIn.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
+                        }
+                        stack.damageItem(1,entityLiving);
                     }
                 }
             }

@@ -3,6 +3,7 @@ package notreepunching;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -17,7 +18,7 @@ import notreepunching.world.WorldGen;
 import org.apache.logging.log4j.Logger;
 import notreepunching.proxy.CommonProxy;
 
-@Mod(modid = NoTreePunching.MODID, version = NoTreePunching.VERSION)
+@Mod(modid = NoTreePunching.MODID, version = NoTreePunching.VERSION, dependencies = "after:quark;after:rustic")
 
 public class NoTreePunching {
 
@@ -29,6 +30,9 @@ public class NoTreePunching {
     public static final Item.ToolMaterial toolMaterialCrudeStone = EnumHelper.addToolMaterial("NTP_CRUDE_STONE",0,20,1F,1.5F,0);
 
     public static final CreativeTabBase NTP_Tab = new CreativeTabBase(NoTreePunching.MODID);
+
+    public static boolean replaceQuarkStones;
+    public static boolean replaceRusticStone;
 
     @SidedProxy(clientSide = "notreepunching.proxy.ClientProxy", serverSide = "notreepunching.proxy.ServerProxy")
     public static CommonProxy proxy;
@@ -42,6 +46,9 @@ public class NoTreePunching {
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
         logger.info("Pre-init started");
+
+        replaceQuarkStones = Loader.isModLoaded("quark") && Config.VanillaTweaks.QUARK_STONE_REPLACE;
+        replaceRusticStone = Loader.isModLoaded("rustic") && Config.VanillaTweaks.RUSTIC_STONE_REPLACE;
 
         // Register World Generation
         //GameRegistry.registerWorldGenerator(new WorldGen(),0);

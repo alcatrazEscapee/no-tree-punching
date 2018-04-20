@@ -14,6 +14,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import notreepunching.NoTreePunching;
 import notreepunching.config.Config;
 import notreepunching.item.*;
 import notreepunching.recipe.ModRecipes;
@@ -126,30 +127,40 @@ public class HarvestEventHandler {
                 return;
             }
 
-            // Allows crude pick to have special drops when breaking blocks
-            if(heldItemStack.getItem() instanceof ItemCrudePick){
-                ItemCrudePick crudePick = (ItemCrudePick) heldItemStack.getItem();
-                if(crudePick.shouldBreakBlock(block)){
-                    if(block == Blocks.IRON_ORE){ // Iron ore will drop 1 - 2 iron ore pieces
+            // Stone and its Variants drop the respective rock
+            if(Config.VanillaTweaks.STONE_DROPS_ROCKS) {
+                if(block == Blocks.STONE) {
+                    int meta = block.getMetaFromState(event.getState());
+                    if (meta == 0) { // Stone
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.poorIron,event.getWorld().rand.nextInt(2)+1));
-                    }
-                    else if(block == Blocks.COAL_ORE){ // Coal ore will drop 1 - 2 coal pieces
+                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,0));
+                    } else if (meta == 1) { // Granite
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.poorCoal,event.getWorld().rand.nextInt(2)+1));
-                    }
-                    else if(block == Blocks.STONE || block == Blocks.COBBLESTONE){ // Cobblestone and stone will drop 1-3 rocks (4 rocks = 1 cobble)
+                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,3));
+                    } else if (meta == 3) { // Diorite
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.rock,event.getWorld().rand.nextInt(3)+1));
-                    }
-                    else if(block == Blocks.GRAVEL){ // Gravel will drop 0-2 rocks and 20% for 1 flint
+                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,2));
+                    } else if (meta == 5) { // Andesite
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.rock,event.getWorld().rand.nextInt(3)));
-                        if(event.getWorld().rand.nextFloat()>0.8){
-                            event.getDrops().add(new ItemStack(Items.FLINT));
-                        }
+                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,1));
                     }
-                    return;
+                }
+            }
+            if(NoTreePunching.replaceQuarkStones){
+                int meta = block.getMetaFromState(event.getState());
+                if(block.getRegistryName().toString().equals("quark:marble") && meta == 0){
+                    event.getDrops().clear();
+                    event.getDrops().add(new ItemStack(ModItems.rockStone,3,4));
+                }
+                else if(block.getRegistryName().toString().equals("quark:limestone") && meta == 0){
+                    event.getDrops().clear();
+                    event.getDrops().add(new ItemStack(ModItems.rockStone,3,5));
+                }
+            }
+            if(NoTreePunching.replaceRusticStone){
+                if(block.getRegistryName().toString().equals("rustic:slate")){
+                    event.getDrops().clear();
+                    event.getDrops().add(new ItemStack(ModItems.rockStone,3,6));
                 }
             }
 

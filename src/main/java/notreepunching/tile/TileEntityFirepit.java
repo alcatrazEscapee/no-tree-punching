@@ -13,6 +13,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import notreepunching.block.ModBlocks;
+import notreepunching.config.Config;
 
 import javax.annotation.Nullable;
 
@@ -34,8 +35,8 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
                 if(burnTicks <= 0){
                     // Try and consume one item in fuel slot
                     ItemStack is = inventory.getStackInSlot(0);
-                    if(TileEntityFurnace.getItemBurnTime(is) > 0 && TileEntityFurnace.getItemBurnTime(is) <= 800){
-                        burnTicks += TileEntityFurnace.getItemBurnTime(is) * 10;
+                    if(TileEntityFurnace.getItemBurnTime(is) > 0 && TileEntityFurnace.getItemBurnTime(is) <= Config.Firepit.FUEL_MAX){
+                        burnTicks += TileEntityFurnace.getItemBurnTime(is) * Config.Firepit.FUEL_MULT;
                         is.shrink(1);
                         if(is.getCount()==0){
                             is = ItemStack.EMPTY;

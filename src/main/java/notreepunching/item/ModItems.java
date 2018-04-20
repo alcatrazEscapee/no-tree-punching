@@ -14,11 +14,10 @@ public class ModItems {
 
     // Declare Instances of all items
 
-    public static ItemBase rock = new ItemBase("rock");
+    public static ItemRock rockStone = new ItemRock("rock");
     public static ItemBase grassFiber = new ItemBase("grass_fiber");
     public static ItemBase grassString = new ItemBase("grass_string");
-    public static ItemBase poorIron = new ItemBase("poor_iron");
-    public static ItemFuelBase poorCoal = new ItemFuelBase("poor_coal",200);
+    public static ItemBase flintShard = new ItemBase("flint_shard");
 
     public static ItemKnife stoneKnife = new ItemKnife(NoTreePunching.toolMaterialCrudeStone,"stone_knife");
     public static ItemKnife ironKnife = new ItemKnife(Item.ToolMaterial.IRON,"iron_knife");
@@ -36,11 +35,10 @@ public class ModItems {
 
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                rock,
+                rockStone,
                 grassFiber,
                 grassString,
-                poorIron,
-                poorCoal,
+                flintShard,
                 stoneKnife,
                 ironKnife,
                 goldKnife,
@@ -56,11 +54,12 @@ public class ModItems {
 
     public static void registerItemModels(){
 
-        NoTreePunching.proxy.registerItemModel(rock,0,rock.name);
+        for(int i=0;i<7;i++) {
+            NoTreePunching.proxy.registerItemModelWithVariant(rockStone, i, rockStone.name + "_" +  rockStone.getStoneName(new ItemStack(rockStone,1,i)),"inventory");
+        }
         NoTreePunching.proxy.registerItemModel(grassFiber,0,grassFiber.name);
         NoTreePunching.proxy.registerItemModel(grassString,0,grassString.name);
-        NoTreePunching.proxy.registerItemModel(poorIron,0,poorIron.name);
-        NoTreePunching.proxy.registerItemModel(poorCoal,0,poorCoal.name);
+        NoTreePunching.proxy.registerItemModel(flintShard,0,flintShard.name);
 
         NoTreePunching.proxy.registerItemModel(stoneKnife,0,stoneKnife.name);
         NoTreePunching.proxy.registerItemModel(ironKnife,0,ironKnife.name);

@@ -4,6 +4,7 @@ package notreepunching.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -14,12 +15,15 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import notreepunching.item.ModItems;
 
 import javax.annotation.Nullable;
@@ -27,11 +31,13 @@ import java.util.Random;
 
 public class BlockRock extends BlockBase {
 
+    public static final IProperty<EnumMineralType> TYPE = PropertyEnum.create("type",EnumMineralType.class);
+
     public BlockRock(String name) {
         super(name, Material.ROCK);
 
         setHardness(0.15F);
-        this.setDefaultState(this.blockState.getBaseState());
+        setDefaultState(this.blockState.getBaseState().withProperty(TYPE,EnumMineralType.STONE));
     }
 
     @Override
@@ -69,16 +75,14 @@ public class BlockRock extends BlockBase {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        Random rand = world instanceof World ? ((World)world).rand : RANDOM;
-
         drops.clear();
-        drops.add(new ItemStack(ModItems.rock,1,0));
+        drops.add(new ItemStack(ModItems.rockStone,1,this.getMetaFromState(state)));
 
     }
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-        return new ItemStack(ModItems.rock);
+        return new ItemStack(ModItems.rockStone,1,this.getMetaFromState(state));
     }
 
     @Override
@@ -90,6 +94,115 @@ public class BlockRock extends BlockBase {
             if(!stateUnder.getBlock().isNormalCube(stateUnder,worldIn,pos.down())){
                 this.dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);
+            }
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubBlocks(CreativeTabs whichTab, NonNullList<ItemStack> items)
+    {
+        EnumMineralType[] values = EnumMineralType.values();
+        for (EnumMineralType v : values) {
+            items.add(new ItemStack(this, 1, v.getMetadata()));
+        }
+    }
+
+    // ************* Block State Methods ************** //
+
+    @Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        EnumMineralType mineral = EnumMineralType.byMetadata(meta);
+        return this.getDefaultState().withProperty(TYPE,mineral);
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state)
+    {
+        EnumMineralType type = (EnumMineralType) state.getValue(TYPE);
+        return type.getMetadata();
+    }
+
+    public String getStoneName(ItemStack stack){
+        switch(stack.getMetadata()){
+            case 0:
+                return "stone"; // Vanilla Stone
+            case 1:
+                return "andesite"; // Vanilla Stone Variants
+            case 2:
+                return "diorite";
+            case 3:
+                return "granite";
+            case 4:
+                return "marble"; // Quark Stone Types
+            case 5:
+                return "limestone";
+            case 6:
+                return "slate"; // Rustic Slate
+            default:
+                return "";
+        }
+    }
+    public String getStoneName(int meta){
+        return getStoneName(new ItemStack(this,1,meta));
+    }
+
+    @Override
+    protected BlockStateContainer createBlockState()
+    {
+        return new BlockStateContainer(this, new IProperty[] {TYPE});
+    }
+
+    public enum EnumMineralType implements IStringSerializable {
+        STONE(0, "stone"),
+        ANDESITE(1, "andesite"),
+        DIORITE(2, "diorite"),
+        GRANITE(3, "granite"),
+        MARBLE(4, "marble"),
+        LIMESTONE(5, "limestone"),
+        SLATE(6, "slate");
+
+        public int getMetadata()
+        {
+            return this.meta;
+        }
+
+        @Override
+        public String toString()
+        {
+            return this.name;
+        }
+
+        public static EnumMineralType byMetadata(int meta)
+        {
+            if (meta < 0 || meta >= META_LOOKUP.length)
+            {
+                meta = 0;
+            }
+
+            return META_LOOKUP[meta];
+        }
+
+        public String getName()
+        {
+            return this.name;
+        }
+
+        private final int meta;
+        private final String name;
+        private static final EnumMineralType[] META_LOOKUP = new EnumMineralType[values().length];
+
+        private EnumMineralType(int i_meta, String i_name)
+        {
+            this.meta = i_meta;
+            this.name = i_name;
+        }
+
+        static
+        {
+            for (EnumMineralType colour : values()) {
+                META_LOOKUP[colour.getMetadata()] = colour;
             }
         }
     }

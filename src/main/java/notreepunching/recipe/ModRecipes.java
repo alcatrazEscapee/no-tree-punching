@@ -27,7 +27,13 @@ public class ModRecipes {
     public static void init(){
 
         // Init Cutting Recipes
-        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(ModItems.rock,1),new ItemStack(Items.FLINT)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(ModItems.rockStone,1,0),new ItemStack(ModItems.flintShard,1)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(ModItems.rockStone,1,1),new ItemStack(ModItems.flintShard,2)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(ModItems.rockStone,1,2),new ItemStack(ModItems.flintShard,2)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(ModItems.rockStone,1,3),new ItemStack(ModItems.flintShard,2)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(ModItems.rockStone,1,4),new ItemStack(ModItems.flintShard,1)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(ModItems.rockStone,1,5),new ItemStack(ModItems.flintShard,1)));
+        CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(ModItems.rockStone,1,6),new ItemStack(ModItems.flintShard,1)));
         CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.WOOL),new ItemStack(Items.STRING,4)));
 
         CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Items.REEDS),new ItemStack(ModItems.grassFiber,2)));
@@ -53,7 +59,6 @@ public class ModRecipes {
 
         // Add Smelting
         GameRegistry.addSmelting(new ItemStack(ModItems.grassString),new ItemStack(Items.STRING),1.0F);
-        GameRegistry.addSmelting(new ItemStack(ModItems.poorIron),new ItemStack(Items.IRON_NUGGET,2),1.0F);
 
         }
 
