@@ -1,16 +1,18 @@
 package notreepunching.tile;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
-import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import notreepunching.NoTreePunching;
+import notreepunching.block.ModBlocks;
 
 import javax.annotation.Nullable;
 
@@ -20,13 +22,32 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
 
     private ItemStackHandler inventory = new ItemStackHandler(1);
 
-    private int burnTicks = 3000; // Initial burn time from log that was thrown
+    private int burnTicks = 30000; // Initial burn time from log that was thrown = 3000
 
     public void update(){
         if(!world.isRemote) {
             IBlockState state = world.getBlockState(pos);
             if(state.getValue(BURNING)){
                 // Firepit is currently burning
+
+                burnTicks--;
+                if(burnTicks <= 0){
+                    // Try and consume one item in fuel slot
+                    ItemStack is = inventory.getStackInSlot(0);
+                    if(TileEntityFurnace.getItemBurnTime(is) > 0 && TileEntityFurnace.getItemBurnTime(is) <= 800){
+                        burnTicks += TileEntityFurnace.getItemBurnTime(is) * 10;
+                        is.shrink(1);
+                        if(is.getCount()==0){
+                            is = ItemStack.EMPTY;
+                        }
+                        inventory.setStackInSlot(0,is);
+                    } else {
+
+                        // Else, extinguish the firepit
+                        burnTicks = 0;
+                        world.setBlockState(pos, ModBlocks.firepit.getDefaultState().withProperty(BURNING, false));
+                    }
+                }
 
             }
         }
@@ -56,6 +77,12 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? (T)inventory : super.getCapability(capability, facing);
+    }
+
+    @Override
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
+    {
+        return (oldState.getBlock() != newState.getBlock());
     }
 
 }

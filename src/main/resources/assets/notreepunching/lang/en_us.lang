@@ -28,6 +28,7 @@ item.firestarter.name=Fire Starter
 #Blocks
 
 tile.loose_rock.name=Rock
+tile.firepit.name=Firepit
 
 #JEI
 

@@ -3,6 +3,7 @@ package notreepunching.item;
 
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +22,8 @@ import notreepunching.block.ModBlocks;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static notreepunching.block.BlockFirepit.BURNING;
 
 public class ItemFirestarter extends ItemTool {
 
@@ -108,6 +111,7 @@ public class ItemFirestarter extends ItemTool {
                             if(logs > 0 && item == logType.getItem()){
                                 logs = Math.max(logs-drop.getItem().getCount(),0);
                                 toUse.add(drop);
+                                break;
                             }
                         }
                         oreList= OreDictionary.getOres("stickWood"); // Add wood types
@@ -115,6 +119,7 @@ public class ItemFirestarter extends ItemTool {
                             if(sticks > 0 && item == stickType.getItem()){
                                 sticks = Math.max(sticks-drop.getItem().getCount(),0);
                                 toUse.add(drop);
+                                break;
                             }
                         }
                     }
@@ -150,13 +155,11 @@ public class ItemFirestarter extends ItemTool {
                                 if (logs > 0 && item == logType.getItem()) {
                                     remove = Math.min(drop2.getItem().getCount(), logs);
                                     logs -= remove;
-                                    // Not working as of yet
-                                    //TileEntityFirePit te = (TileEntityFirePit) worldIn.getTileEntity(pos.up());
-                                    //te.build(drop2.getItem());
                                     drop2.getItem().shrink(remove);
                                     if (drop2.getItem().getCount() == 0) {
                                         drop2.setDead();
                                     }
+                                    break;
                                 }
                             }
                             oreList = OreDictionary.getOres("stickWood"); // Remove stick items from world
@@ -164,10 +167,12 @@ public class ItemFirestarter extends ItemTool {
                                 if (sticks > 0 && item == stickType.getItem()) {
                                     remove = Math.min(drop2.getItem().getCount(), sticks);
                                     sticks -= remove;
+                                    System.out.println("Removing some sticks from the world");
                                     drop2.getItem().shrink(remove);
                                     if (drop2.getItem().getCount() == 0) {
                                         drop2.setDead();
                                     }
+                                    break;
                                 }
                             }
                         }

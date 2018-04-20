@@ -9,6 +9,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -37,7 +38,7 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit>{
     public BlockFirepit(Material material, String name) {
         super(material, name);
 
-        setDefaultState(this.blockState.getBaseState().withProperty(BURNING,false));
+        setDefaultState(this.blockState.getBaseState().withProperty(BURNING,true));
     }
 
     @Override
@@ -66,11 +67,23 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit>{
             }*/
             ItemStack heldItem = player.getHeldItem(hand);
             TileEntityFirepit tile = getTileEntity(world, pos);
+            IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 
             if(heldItem.getItem() instanceof ItemFirestarter){
                 //tile.light();
                 world.setBlockState(pos,this.getDefaultState().withProperty(BURNING,!state.getValue(BURNING)));
                 heldItem.damageItem(1,player); // removed for easier testing
+            }
+            else{
+                if (!player.isSneaking()) {
+                    player.setHeldItem(hand, itemHandler.insertItem(0, heldItem, false));
+                }else{
+                    ItemStack stack = itemHandler.getStackInSlot(0);
+                    if (!stack.isEmpty()) {
+                        String localized = NoTreePunching.proxy.localize(stack.getUnlocalizedName() + ".name");
+                        player.sendMessage(new TextComponentString(stack.getCount() + "x " + localized));
+                    }
+                }
             }
         }
         return true;
@@ -78,14 +91,21 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit>{
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        TileEntityFirepit tile = getTileEntity(world, pos);
+        /*TileEntityFirepit tile = getTileEntity(world, pos);
         IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
         ItemStack stack = itemHandler.getStackInSlot(0);
         if (!stack.isEmpty()) {
             EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
             world.spawnEntity(item);
-        }
+        }*/
         super.breakBlock(world, pos, state);
+    }
+
+    @Override
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        drops.clear();
+        drops.add(new ItemStack(Items.STICK,2,0));
+
     }
 
     // ******************* TE / State Methods ******************** //
