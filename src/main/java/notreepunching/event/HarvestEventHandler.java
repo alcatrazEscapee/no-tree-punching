@@ -60,8 +60,8 @@ public class HarvestEventHandler {
                 return;
             }
         }
-
-        if (heldItemStack != null && neededToolClass != null && neededHarvestLevel >= 0) {
+        // heldItemStack != ItemStack.EMPTY &&
+        if (neededToolClass != null && neededHarvestLevel >= 0) {
             for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack)) {
                 if (neededToolClass == toolClass) {
                     if (heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= neededHarvestLevel) {
@@ -81,15 +81,15 @@ public class HarvestEventHandler {
 
             switch (neededToolClass) {
                 case "axe":
-                    event.setNewSpeed(event.getOriginalSpeed() / 8);
+                    event.setNewSpeed(event.getOriginalSpeed() / 5);
                     break;
                 case "shovel":
-                    event.setNewSpeed(event.getOriginalSpeed() / 5);
+                    event.setNewSpeed(event.getOriginalSpeed() / 3);
                     break;
                 case "pickaxe":
-                    event.setNewSpeed(event.getOriginalSpeed() / 15);
+                    event.setNewSpeed(event.getOriginalSpeed() / 8);
                 default:
-                    event.setNewSpeed(event.getOriginalSpeed() / 5);
+                    event.setNewSpeed(event.getOriginalSpeed() / 3);
             }
         }
 
@@ -208,7 +208,8 @@ public class HarvestEventHandler {
             int neededHarvestLevel = block.getHarvestLevel(event.getState());
             String neededToolClass = block.getHarvestTool(event.getState());
 
-            if (heldItemStack != null && neededToolClass != null && neededHarvestLevel >= 0) {
+            //heldItemStack != ItemStack.EMPTY
+            if (neededToolClass != null && neededHarvestLevel >= 0) {
                 for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack)) {
                     if (neededToolClass == toolClass) {
                         if (heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= neededHarvestLevel) {
