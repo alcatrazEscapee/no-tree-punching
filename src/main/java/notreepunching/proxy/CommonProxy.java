@@ -16,7 +16,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import notreepunching.block.ModBlocks;
+import notreepunching.client.NTPGuiHandler;
 import notreepunching.config.Config;
 import notreepunching.event.HarvestEventHandler;
 import notreepunching.event.PlayerEventHandler;
@@ -35,6 +37,7 @@ public class CommonProxy{
         // Register Event Handlers
         MinecraftForge.EVENT_BUS.register(new HarvestEventHandler());
         MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
+
     }
 
     public void postInit(FMLPostInitializationEvent event){

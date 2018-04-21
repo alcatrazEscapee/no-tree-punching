@@ -1,15 +1,14 @@
 package notreepunching.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemMultiTexture;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import notreepunching.NoTreePunching;
+import notreepunching.block.firepit.BlockFirepit;
 import notreepunching.config.Config;
 
 public class ModBlocks {

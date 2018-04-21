@@ -2,13 +2,10 @@ package notreepunching.item;
 
 
 import com.google.common.collect.Sets;
-import net.minecraft.block.Block;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,8 +25,6 @@ import notreepunching.config.Config;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static notreepunching.block.BlockFirepit.BURNING;
 
 public class ItemFirestarter extends ItemTool {
 

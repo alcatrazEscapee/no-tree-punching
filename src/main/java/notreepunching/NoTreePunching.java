@@ -9,8 +9,10 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import notreepunching.client.CreativeTabBase;
+import notreepunching.client.NTPGuiHandler;
 import notreepunching.config.Config;
 import notreepunching.item.ModItems;
 import notreepunching.recipe.ModRecipes;
@@ -55,6 +57,7 @@ public class NoTreePunching {
         MinecraftForge.EVENT_BUS.register(new WorldGen());
 
         // Register GUI Handler
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new NTPGuiHandler());
 
         proxy.preInit(event);
 

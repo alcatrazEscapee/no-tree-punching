@@ -18,7 +18,7 @@ public class FirepitSmokeParticle extends Particle {
         this.particleGreen = f;
         this.particleBlue = f;
 
-        this.setParticleTextureIndex(7);
+        this.setParticleTextureIndex(1);
 
         this.particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
         this.particleAge = particleMaxAge;
@@ -32,7 +32,7 @@ public class FirepitSmokeParticle extends Particle {
         prevPosZ = posZ;
         move(motionX, motionY, motionZ);
 
-        this.setParticleTextureIndex(7-6*this.particleAge/this.particleMaxAge);
+        this.setParticleTextureIndex(1+6*this.particleAge/this.particleMaxAge);
         this.motionY *= 0.97d;
         if (this.particleAge-- <= 0) {
             this.setExpired();
