@@ -30,9 +30,6 @@ import java.io.File;
 @Mod.EventBusSubscriber
 public class CommonProxy{
 
-    // Config instance
-    public static Configuration config;
-
     public void preInit(FMLPreInitializationEvent event){
         // Register Event Handlers
         MinecraftForge.EVENT_BUS.register(new HarvestEventHandler());
@@ -41,10 +38,7 @@ public class CommonProxy{
     }
 
     public void postInit(FMLPostInitializationEvent event){
-
-        if (config.hasChanged()) {
-            config.save();
-        }
+        ModRecipes.addFirepitSmeltingRecipes();
     }
 
     @SubscribeEvent

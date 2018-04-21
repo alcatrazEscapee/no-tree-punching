@@ -4,22 +4,28 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
+import notreepunching.NoTreePunching;
+import notreepunching.block.ModBlocks;
 import notreepunching.config.Config;
 import notreepunching.item.ModItems;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class ModRecipes {
 
     public static List<CuttingRecipe> CUTTING_RECIPES = new ArrayList<CuttingRecipe>();
+    public static List<FirepitRecipe> FIREPIT_RECIPES = new ArrayList<FirepitRecipe>();
 
     public ModRecipes(){
     }
@@ -57,10 +63,26 @@ public class ModRecipes {
         CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.LEAVES2,6,0),new ItemStack(Blocks.SAPLING,1,4),new ItemStack(ModItems.grassFiber,2)));
         CUTTING_RECIPES.add(new CuttingRecipe(new ItemStack(Blocks.LEAVES2,6,1),new ItemStack(Blocks.SAPLING,1,5),new ItemStack(ModItems.grassFiber,2)));
 
+        // Add Firepit Recipes
+
+        FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(Items.STICK,1),40,new ItemStack(Blocks.TORCH,2)));
+
         // Add Smelting
         GameRegistry.addSmelting(new ItemStack(ModItems.grassString),new ItemStack(Items.STRING),1.0F);
 
+        if(Config.VanillaTweaks.STONE_DROPS_ROCKS){
+            GameRegistry.addSmelting(new ItemStack(ModBlocks.andesiteCobble),new ItemStack(Blocks.STONE,1,3),0.2F);
+            GameRegistry.addSmelting(new ItemStack(ModBlocks.dioriteCobble),new ItemStack(Blocks.STONE,1,5),0.2F);
+            GameRegistry.addSmelting(new ItemStack(ModBlocks.graniteCobble),new ItemStack(Blocks.STONE,1,1),0.2F);
         }
+        if(NoTreePunching.replaceQuarkStones){
+            GameRegistry.addSmelting(new ItemStack(ModBlocks.marbleCobble),new ItemStack(Item.getByNameOrId("quark:marble"),1,0),0.2F);
+            GameRegistry.addSmelting(new ItemStack(ModBlocks.limestoneCobble),new ItemStack(Item.getByNameOrId("quark:limestone"),1,0),0.2F);
+        }
+        if(NoTreePunching.replaceRusticStone){
+            GameRegistry.addSmelting(new ItemStack(ModBlocks.slateCobble),new ItemStack(Item.getByNameOrId("rustic:slate"),1,0),0.2F);
+        }
+    }
 
     public static boolean isCuttingRecipe(ItemStack stack){
         return getCuttingRecipe(stack)!=null;
@@ -71,6 +93,18 @@ public class ModRecipes {
             ItemStack is = CUTTING_RECIPES.get(i).getInput();
             if(is.getItem() == stack.getItem() && stack.getCount()>=is.getCount() && is.getMetadata() == stack.getMetadata()){
                 return CUTTING_RECIPES.get(i);
+            }
+        }
+        return null;
+    }
+
+    public static boolean isFirepitRecipe(ItemStack stack) { return getFirepitRecipe(stack) != null; }
+
+    public static FirepitRecipe getFirepitRecipe(ItemStack stack){
+        for(int i=0;i<FIREPIT_RECIPES.size();i++){
+            ItemStack is = FIREPIT_RECIPES.get(i).getInput();
+            if(is.getItem().getUnlocalizedName().equals(stack.getItem().getUnlocalizedName()) && is.getMetadata() == stack.getMetadata() && stack.getCount()>=is.getCount()){
+                return FIREPIT_RECIPES.get(i);
             }
         }
         return null;
@@ -100,6 +134,19 @@ public class ModRecipes {
         // Furnace
         if(Config.VanillaTweaks.ALTERNATE_FURNACE_RECIPE){
             modRegistry.remove(new ResourceLocation("minecraft:furnace"));
+        }
+    }
+
+    public static void addFirepitSmeltingRecipes(){
+        Map<ItemStack, ItemStack>  map = FurnaceRecipes.instance().getSmeltingList();
+
+        for(Map.Entry<ItemStack, ItemStack> m : map.entrySet()){
+            if(m.getValue().getItem() instanceof ItemFood){
+                int meta1 = m.getKey().getMetadata()==32767 ? 0 : m.getKey().getMetadata();
+                int meta2 = m.getValue().getMetadata()==32767 ? 0 : m.getValue().getMetadata();
+
+                FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(m.getKey().getItem(),1,meta1),Config.Firepit.COOK_MULT,new ItemStack(m.getValue().getItem(),1,meta2)));
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 package notreepunching.block.firepit;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -16,6 +18,8 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.Config;
+import notreepunching.recipe.FirepitRecipe;
+import notreepunching.recipe.ModRecipes;
 
 import javax.annotation.Nullable;
 
@@ -23,7 +27,12 @@ import static notreepunching.block.firepit.BlockFirepit.BURNING;
 
 public class TileEntityFirepit extends TileEntity implements ITickable {
 
-    private ItemStackHandler inventory = new ItemStackHandler(3);
+    private ItemStackHandler inventory = new ItemStackHandler(3){
+        @Override
+        protected void onContentsChanged(int slot) {
+            TileEntityFirepit.this.markDirty();
+        }
+    };
 
     private int burnTicks;
     private int maxBurnTicks;
@@ -31,24 +40,58 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
     private int cookTimer = 0;
     private int maxCookTimer = 0;
 
-    private static final int NUM_FIELDS = 2;
+    private static final int NUM_FIELDS = 4;
     private static final byte BURN_FIELD_ID = 0;
     private static final byte MAX_BURN_FIELD_ID = 1;
     private static final byte COOK_FIELD_ID = 2;
+    private static final byte MAX_COOK_FIELD_ID = 3;
 
     public TileEntityFirepit(){
-        // Initial burn time from log that was thrown = 3000
-        burnTicks = 50;
+        // Initial burn time from log that was thrown = 300
+        burnTicks = 300*Config.Firepit.FUEL_MULT;
         maxBurnTicks = burnTicks;
     }
 
     public void update(){
         if(!world.isRemote) {
             IBlockState state = world.getBlockState(pos);
-            //System.out.println("Firepit is currently burning? "+state.getValue(BURNING));
             if(state.getValue(BURNING)){
-                // Firepit is currently burning
-                //System.out.println("IS BURNING: "+burnTicks);
+
+                // Try and cook the item in the firepit
+                ItemStack cookStack = inventory.getStackInSlot(1);
+                ItemStack outStack = inventory.getStackInSlot(2);
+                if(!cookStack.isEmpty() && isItemValidInput(cookStack)){
+                    FirepitRecipe recipe = ModRecipes.getFirepitRecipe(cookStack);
+
+                    if((ItemStack.areItemsEqual(outStack,recipe.getOutput()) && outStack.getCount()+recipe.getCount()<=outStack.getMaxStackSize())
+                            || outStack.isEmpty()){
+                        cookTimer++;
+                        maxCookTimer = recipe.getCookTime();
+
+                        if(cookTimer >= maxCookTimer){
+                            // Cook an item
+                            cookStack.shrink(1);
+                            if(cookStack.getCount() == 0){
+                                cookStack = ItemStack.EMPTY;
+                            }
+                            if(outStack.isEmpty()){
+                                outStack = new ItemStack(recipe.getOutput().getItem(),recipe.getCount(),recipe.getOutput().getMetadata());
+                            }else{
+                                outStack.grow(recipe.getOutput().getCount());
+                            }
+
+                            inventory.setStackInSlot(1,cookStack);
+                            inventory.setStackInSlot(2,outStack);
+                            this.markDirty();
+
+                            cookTimer = 0;
+                        }
+                    }
+                }else{
+                    cookTimer = 0;
+                    maxCookTimer = 0;
+                }
+
                 burnTicks--;
                 if(burnTicks <= 0){
                     // Try and consume one item in fuel slot
@@ -82,13 +125,14 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
     }
 
     public static boolean isItemValidInput(ItemStack is){
-        return true; //                                         TODO: Change this to only accept valid items
+        return ModRecipes.isFirepitRecipe(is);
     }
 
     public int getField(int id) {
         if (id == BURN_FIELD_ID) return burnTicks;
         if (id == MAX_BURN_FIELD_ID) return maxBurnTicks;
         if (id == COOK_FIELD_ID) return cookTimer;
+        if (id == MAX_COOK_FIELD_ID) return maxCookTimer;
 
         System.err.println("Invalid field ID in TileEntityFirepit.getField:" + id);
         return 0;
@@ -99,6 +143,7 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
         if (id == BURN_FIELD_ID) { burnTicks = (short) value; }
         else if (id == MAX_BURN_FIELD_ID) { maxBurnTicks = (short) value; }
         else if (id == COOK_FIELD_ID) { cookTimer = (short) value; }
+        else if (id == MAX_COOK_FIELD_ID) { maxCookTimer = (short) value; }
         else {
             System.err.println("Invalid field ID in TileEntityFirepit.setField:" + id);
         }
@@ -121,6 +166,12 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
             return Math.round(23*f1);
         }
         return 0;
+    }
+
+    public void resetCookTimer(){
+        if(!world.isRemote){
+            cookTimer = 0;
+        }
     }
 
     // ******************** Tile Entity / NBT Methods **************** //

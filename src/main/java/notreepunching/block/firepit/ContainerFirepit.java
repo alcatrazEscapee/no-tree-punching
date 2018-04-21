@@ -45,38 +45,48 @@ public class ContainerFirepit extends Container {
         return true;
     }
 
+    // index is the id of the slot shift-clicked
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
+        // Slot that was clicked
         Slot slot = inventorySlots.get(index);
 
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
+        ItemStack itemstack = ItemStack.EMPTY;
 
-            int containerSlots = inventorySlots.size() - player.inventory.mainInventory.size();
+        if(slot == null || !slot.getHasStack()) { return ItemStack.EMPTY; }
 
-            if (index < containerSlots) {
-                if (!this.mergeItemStack(itemstack1, containerSlots, inventorySlots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (!this.mergeItemStack(itemstack1, 0, containerSlots, false)) {
+        ItemStack itemstack1 = slot.getStack();
+        itemstack = itemstack1.copy();
+
+        // Begin custom transfer code here
+
+        int containerSlots = inventorySlots.size() - player.inventory.mainInventory.size(); // number of slots in the container
+
+        if (index < containerSlots) {
+            // Transfer out of the container
+            if (!this.mergeItemStack(itemstack1, containerSlots, inventorySlots.size(), true)) {
+                // Don't transfer anything
                 return ItemStack.EMPTY;
             }
-
-            if (itemstack1.getCount() == 0) {
-                slot.putStack(ItemStack.EMPTY);
-            } else {
-                slot.onSlotChanged();
-            }
-
-            if (itemstack1.getCount() == itemstack.getCount()) {
+        }
+        // Transfer into the container
+        else {
+            // TODO: Write custom transfer code here so that you can't shift click into the output slot, and it obeys fuel / normal priority rules
+            if (!this.mergeItemStack(itemstack1, 0, containerSlots, false)) {
                 return ItemStack.EMPTY;
             }
-
-            slot.onTake(player, itemstack1);
         }
 
+        // Required
+        if (itemstack1.getCount() == 0) {
+            slot.putStack(ItemStack.EMPTY);
+        } else {
+            slot.onSlotChanged();
+        }
+        if (itemstack1.getCount() == itemstack.getCount()) {
+            return ItemStack.EMPTY;
+        }
+        slot.onTake(player, itemstack1);
         return itemstack;
     }
 
@@ -149,10 +159,12 @@ public class ContainerFirepit extends Container {
         @Override
         public void onSlotChanged() {
             te.markDirty();
+            te.resetCookTimer();
         }
 
         @Override
         public boolean isItemValid(ItemStack stack) {
+            System.out.println("Dumping a "+stack.getItem().getUnlocalizedName()+" with meta "+stack.getMetadata());
             return TileEntityFirepit.isItemValidInput(stack);
         }
     }

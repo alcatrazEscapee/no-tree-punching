@@ -74,7 +74,7 @@ public class NoTreePunching {
     public void postInit(FMLPostInitializationEvent event) {
         logger.info("Post-init started");
 
-        //proxy.postInit(event);
+        proxy.postInit(event);
         NTP_Tab.setTabItem(ModItems.stoneKnife);
 
         logger.info("Finished Loading");

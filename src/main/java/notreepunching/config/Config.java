@@ -44,10 +44,10 @@ public class Config {
         @Comment({"Multiplier for how long fuel lasts in a firepit vs a furnace"})
         public static int FUEL_MULT = 10;
 
-        @Comment({"Multiplier for how long food items take to cook in a firepit vs a furnace"})
-        public static int COOK_MULT = 2;
+        @Comment({"How long (in ticks) food takes to cook in the firepit for recipes added by furnace"})
+        public static int COOK_MULT = 200;
 
-        @Comment({"Maximum burn time (in ticks) that is allowed in the firepit (Coal = 1600, Log = 300)"})
+        @Comment({"Maximum burn time (in ticks) for fuel that is allowed in the firepit (Coal = 1600, Log = 300)"})
         public static int FUEL_MAX = 800;
     }
 
@@ -56,7 +56,7 @@ public class Config {
         @Comment({"Chance for a sucessful flint knapping"})
         public static double FLINT_CHANCE = 0.4D;
 
-        @Comment({"Chance for the firestarter to set a fire (Set to 0 to disable)"})
+        @Comment({"Chance for the firestarter to set a fire. Set to 0 to disable"})
         public static double FIRE_CHANCE = 0.5D;
     }
 

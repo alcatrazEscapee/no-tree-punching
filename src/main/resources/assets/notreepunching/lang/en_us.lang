@@ -63,9 +63,10 @@ jei.description.mattock=Mattocks are a combination of an axe, a shovel, and a ho
 jei.description.crude_pick=The crude pickaxe is the first pickaxe you can make. They are very weak and will often drop pieces of blocks broken with it. Stone will drop rocks, iron ore will drop iron ore pieces, etc.
 jei.description.crude_hatchet=Crude axes are very weak. When breaking wood logs, they render most of the wood unusable, dropping one plank and maybe some sticks.
 
-jei.description.firepit=To build a firepit, throw one log, one plant string, and three sticks on the ground. Then right click and hold a firestarter on that block. The items will be consumed and a firepit will be created.
+jei.description.firepit=To build a firepit, throw one log, one plant string, and three sticks on the ground. Then right click and hold a firestarter on that block. The items will be consumed and a firepit will be created. You can relight a firepit by clicking on it with a firestarter. You can extinguish a firepit by breaking it or clicking on it with a piece of sand.
 
 notreepunching.jei.category.knife_recipe=Knife Cutting
+notreepunching.jei.category.firepit_recipe=Firepit
 
 
 
