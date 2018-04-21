@@ -71,9 +71,17 @@ public class ContainerFirepit extends Container {
         }
         // Transfer into the container
         else {
-            // TODO: Write custom transfer code here so that you can't shift click into the output slot, and it obeys fuel / normal priority rules
-            if (!this.mergeItemStack(itemstack1, 0, containerSlots, false)) {
-                return ItemStack.EMPTY;
+            // Try fuel slot first (most specific)
+            if(this.inventorySlots.get(0).isItemValid(itemstack)){
+                if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+                    return ItemStack.EMPTY;
+                }
+            }else{
+                // Try input slot next (least specific)
+                if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
+                    return ItemStack.EMPTY;
+                }
+                // don't try to merge into the output slot
             }
         }
 
