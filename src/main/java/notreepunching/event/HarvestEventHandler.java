@@ -173,7 +173,7 @@ public class HarvestEventHandler {
             }
 
             //Allows crude axe to have special drops when breaking blocks
-            if(heldItemStack.getItem() instanceof ItemCrudeAxe){
+            if(heldItemStack.getItem() instanceof ItemCrudeAxe && Config.Balance.FLINT_AXE_DROP_PLANKS){
                 ItemCrudeAxe crudeAxe = (ItemCrudeAxe) heldItemStack.getItem();
                 if(crudeAxe.shouldBreakBlock(block)){
                     if(block instanceof BlockNewLog){

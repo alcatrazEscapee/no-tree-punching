@@ -26,6 +26,8 @@ public class ItemCrudeAxe extends ItemAxe {
         setUnlocalizedName(name);
         setRegistryName(name);
         setCreativeTab(NoTreePunching.NTP_Tab);
+
+        //setContainerItem(ModItems.crudeHatchet);
     }
 
     public boolean shouldBreakBlock(Block block){

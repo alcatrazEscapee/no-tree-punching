@@ -58,6 +58,9 @@ public class Config {
 
         @Comment({"Chance for the firestarter to set a fire. Set to 0 to disable"})
         public static double FIRE_CHANCE = 0.5D;
+
+        @Comment({"Should the flint axe drop planks + sticks when breaking logs?"})
+        public static boolean FLINT_AXE_DROP_PLANKS = true;
     }
 
 }
