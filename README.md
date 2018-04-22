@@ -6,12 +6,22 @@ Documentation for how to begin a new world can be found in JEI, under the inform
 
 ## Getting Started
 
-When starting a new world, you will want to find yourself some sticks and rocks. Rocks are found lying on the ground, and can be broken with your first. Sticks can be obtained by punching leaves. Slap a rock on top of a stick and voila! You have made a stone knife.
+When starting a new world, there are a few tasks you will need to complete. Find and punch some gravel to get flint by a river or lake, pick up some rocks lying on the ground, and break leaves to get some sticks, and also find some exposed stone. This is all you will need to get started.
 
-Knives can be used for two main things: They can cut plant material for extra drops (Leaves drop more sticks, and long grass can drop plant fibers). They can also be used to cut items down. To cut an item, hold a knife in one hand and the item to be cut in the other, and then right click.
+Start right clicking your flint on a piece of stone. Eventually it might break into flint shards, which you can use to craft a flint knife. Knives can be used for two main things: They can cut plant material for extra drops (Leaves drop more sticks, and long grass can drop plant fibers). They can also be used to cut items down. To cut an item, hold a knife in one hand and the item to be cut in the other, and then right click.
 
-The first thing you will want to cut is some rocks, do make flint. With sticks, flint, and some plant fibers you can now make a crude axe. Note, due to the crudeness of this axe, when breaking logs it only drops one wooden plank, and maybe some sticks. Once you have wooden planks you can make a crafting table and then get a wooden pickaxe, right?
+The first thing you will want to cut is some rocks, to make more flint shards. With sticks, flint, and some plant fibers you can now make a crude axe. Now you can gather some logs. To cut logs down into planks, or more sticks, you have to use your axe in the crafting grid.
 
-Wrong. Who ever thought wooden pickaxes were a good idea. Instead, you can use some sticks, flint and plant fibers to make yourself a crude flint pickaxe. This pickaxe is similar to the crude axe in that it will drop pieces of the blocks it mines. For instance, stone and cobblestone will drop rocks, coal ore will drop coal pieces, and iron ore will drop iron pieces. It is the latter you will want to gather. You will need twelve iron ore pieces to craft the three iron ore needed to make a iron pickaxe.
+With a crafting table you can make yourself a crude shovel and pickaxe, and prepare to go mining. Note that stone will break into smaller stone pieces, which you need to piece back together to make cobblestone. You can also make a coxy firepit, made by tossing three sticks, plant string, and a log and clicking and holding with a fire starter. These can be used to cook food, and also make easy torches.
 
-On that note, you will also need to find some coal, because crafting a furnace now requires coal. Once you have that you can now craft yourself an iron pick, elevating yourself from the stone age. You can now get better knives, try out a mattock, and proceed with whatever you normally would do from here.
+## Features
+
+ - Blocks must be broken with the correct tool to get a drop
+ - Blocks will take longer when not broken with the correct tool
+ - Metal pickaxes will drop items from dirt type materials
+
+ - Adds Crude Pickaxe, Shovel, and Axe
+ - Adds Saws, and Mattocks
+ - Firestarter and Firepit
+ - Cobblestone for all the stone variants, including those from Quark and Rustic
+ - Stones will appear based on the underground material (ideally used with Quark revamped stone gen or similar)
