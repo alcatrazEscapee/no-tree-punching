@@ -12,7 +12,7 @@ Start right clicking your flint on a piece of stone. Eventually it might break i
 
 The first thing you will want to cut is some rocks, to make more flint shards. With sticks, flint, and some plant fibers you can now make a crude axe. Now you can gather some logs. To cut logs down into planks, or more sticks, you have to use your axe in the crafting grid.
 
-With a crafting table you can make yourself a crude shovel and pickaxe, and prepare to go mining. Note that stone will break into smaller stone pieces, which you need to piece back together to make cobblestone. You can also make a coxy firepit, made by tossing three sticks, plant string, and a log and clicking and holding with a fire starter. These can be used to cook food, and also make easy torches.
+With a crafting table you can make yourself a crude shovel and pickaxe, and prepare to go mining. Note that stone will break into smaller stone pieces, which you need to piece back together to make cobblestone. You can also make a cozy firepit, made by tossing three sticks, plant string, and a log and clicking and holding with a fire starter. These can be used to cook food, and also make easy torches.
 
 ## Features
 

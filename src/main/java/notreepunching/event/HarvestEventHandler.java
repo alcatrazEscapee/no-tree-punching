@@ -235,4 +235,32 @@ public class HarvestEventHandler {
             }
         }
     }
+
+    @SubscribeEvent
+    public void blockEventCheck(BlockEvent.BreakEvent event){
+        // Additional check for IC2 and the Damn Rubberwood
+        Block block = event.getState().getBlock();
+        if(block.getUnlocalizedName().equals("ic2.rubber_wood")){
+            EntityPlayer player = event.getPlayer();
+            if (player == null || player instanceof FakePlayer) {
+                return;
+            }
+            // Always allow creative mode
+            if (player.capabilities.isCreativeMode) {
+                return;
+            }
+            ItemStack heldItemStack = player.getHeldItemMainhand();
+            for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack)) {
+                if(toolClass == "axe"){ return; }
+            }
+            Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
+            String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
+            while (itr.hasNext()) {
+                if (blockName.equals(itr.next())) { return; }
+            }
+            // Else, cancel the event and do a manual break, not triggering the IC2 breaking
+            event.setCanceled(true);
+            event.getWorld().setBlockState(event.getPos(),Blocks.AIR.getDefaultState());
+        }
+    }
 }
