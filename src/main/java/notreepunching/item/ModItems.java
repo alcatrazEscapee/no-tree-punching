@@ -14,11 +14,10 @@ public class ModItems {
 
     // Declare Instances of all items
 
-    public static ItemBase rock = new ItemBase("rock");
+    public static ItemRock rockStone = new ItemRock("rock");
     public static ItemBase grassFiber = new ItemBase("grass_fiber");
     public static ItemBase grassString = new ItemBase("grass_string");
-    public static ItemBase poorIron = new ItemBase("poor_iron");
-    public static ItemFuelBase poorCoal = new ItemFuelBase("poor_coal",200);
+    public static ItemBase flintShard = new ItemBase("flint_shard");
 
     public static ItemKnife stoneKnife = new ItemKnife(NoTreePunching.toolMaterialCrudeStone,"stone_knife");
     public static ItemKnife ironKnife = new ItemKnife(Item.ToolMaterial.IRON,"iron_knife");
@@ -32,13 +31,14 @@ public class ModItems {
     public static ItemCrudeAxe crudeHatchet = new ItemCrudeAxe(NoTreePunching.toolMaterialFlint,"crude_axe");
     public static ItemCrudePick crudePick = new ItemCrudePick(NoTreePunching.toolMaterialFlint,"crude_pick");
 
+    public static ItemFirestarter firestarter = new ItemFirestarter("firestarter");
+
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                rock,
+                rockStone,
                 grassFiber,
                 grassString,
-                poorIron,
-                poorCoal,
+                flintShard,
                 stoneKnife,
                 ironKnife,
                 goldKnife,
@@ -47,17 +47,19 @@ public class ModItems {
                 diamondMattock,
                 diamondKnife,
                 crudeHatchet,
-                crudePick
+                crudePick,
+                firestarter
         );
     }
 
     public static void registerItemModels(){
 
-        NoTreePunching.proxy.registerItemModel(rock,0,rock.name);
+        for(int i=0;i<7;i++) {
+            NoTreePunching.proxy.registerItemModelWithVariant(rockStone, i, rockStone.name + "_" +  rockStone.getStoneName(new ItemStack(rockStone,1,i)),"inventory");
+        }
         NoTreePunching.proxy.registerItemModel(grassFiber,0,grassFiber.name);
         NoTreePunching.proxy.registerItemModel(grassString,0,grassString.name);
-        NoTreePunching.proxy.registerItemModel(poorIron,0,poorIron.name);
-        NoTreePunching.proxy.registerItemModel(poorCoal,0,poorCoal.name);
+        NoTreePunching.proxy.registerItemModel(flintShard,0,flintShard.name);
 
         NoTreePunching.proxy.registerItemModel(stoneKnife,0,stoneKnife.name);
         NoTreePunching.proxy.registerItemModel(ironKnife,0,ironKnife.name);
@@ -70,13 +72,15 @@ public class ModItems {
 
         NoTreePunching.proxy.registerItemModel(crudePick,0,crudePick.name);
         NoTreePunching.proxy.registerItemModel(crudeHatchet,0,crudeHatchet.name);
+
+        NoTreePunching.proxy.registerItemModel(firestarter,0,firestarter.name);
     }
 
     public static List<ItemStack> listAllKnives(){
-        return new ArrayList<>(Arrays.asList(new ItemStack[]{new ItemStack(stoneKnife),new ItemStack(ironKnife),new ItemStack(goldKnife),new ItemStack(diamondKnife)}));
+        return new ArrayList<ItemStack>(Arrays.asList(new ItemStack[]{new ItemStack(stoneKnife),new ItemStack(ironKnife),new ItemStack(goldKnife),new ItemStack(diamondKnife)}));
     }
     public static List<ItemStack> listAllMattocks(){
-        return new ArrayList<>(Arrays.asList(new ItemStack[]{new ItemStack(ironMattock),new ItemStack(goldMattock),new ItemStack(diamondMattock)}));
+        return new ArrayList<ItemStack>(Arrays.asList(new ItemStack[]{new ItemStack(ironMattock),new ItemStack(goldMattock),new ItemStack(diamondMattock)}));
     }
 }
 

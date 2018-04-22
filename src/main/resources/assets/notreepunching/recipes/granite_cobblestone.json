@@ -1,0 +1,17 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"RR",
+		"RR"
+	],
+	"key": {
+		"R": {
+			"item": "notreepunching:rock",
+			"data": 3
+		}
+	},
+	"result": {
+		"item": "notreepunching:granite_cobblestone",
+		"data": 0
+	}
+}

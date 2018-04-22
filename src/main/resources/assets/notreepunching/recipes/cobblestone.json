@@ -6,7 +6,8 @@
 	],
 	"key": {
 		"R": {
-			"item": "notreepunching:rock"
+			"item": "notreepunching:rock",
+			"data": 0
 		}
 	},
 	"result": {

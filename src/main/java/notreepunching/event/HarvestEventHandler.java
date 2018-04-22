@@ -14,9 +14,11 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import notreepunching.NoTreePunching;
 import notreepunching.config.Config;
 import notreepunching.item.*;
 import notreepunching.recipe.ModRecipes;
+import scala.actors.threadpool.Arrays;
 
 import java.util.Iterator;
 
@@ -58,8 +60,8 @@ public class HarvestEventHandler {
                 return;
             }
         }
-
-        if (heldItemStack != null && neededToolClass != null && neededHarvestLevel >= 0) {
+        // heldItemStack != ItemStack.EMPTY &&
+        if (neededToolClass != null && neededHarvestLevel >= 0) {
             for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack)) {
                 if (neededToolClass == toolClass) {
                     if (heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= neededHarvestLevel) {
@@ -70,7 +72,7 @@ public class HarvestEventHandler {
                 }
             }
             // Always allow certian blocks to break at normal speed
-            Iterator<String> itr = Config.CFG_ALWAYS_BREAKABLE.iterator();
+            Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
             while (itr.hasNext()) {
                 if (block.getRegistryName().equals(itr.next())) {
                     return;
@@ -79,15 +81,15 @@ public class HarvestEventHandler {
 
             switch (neededToolClass) {
                 case "axe":
-                    event.setNewSpeed(event.getOriginalSpeed() / 8);
+                    event.setNewSpeed(event.getOriginalSpeed() / 5);
                     break;
                 case "shovel":
-                    event.setNewSpeed(event.getOriginalSpeed() / 5);
+                    event.setNewSpeed(event.getOriginalSpeed() / 3);
                     break;
                 case "pickaxe":
-                    event.setNewSpeed(event.getOriginalSpeed() / 15);
+                    event.setNewSpeed(event.getOriginalSpeed() / 8);
                 default:
-                    event.setNewSpeed(event.getOriginalSpeed() / 5);
+                    event.setNewSpeed(event.getOriginalSpeed() / 3);
             }
         }
 
@@ -125,30 +127,40 @@ public class HarvestEventHandler {
                 return;
             }
 
-            // Allows crude pick to have special drops when breaking blocks
-            if(heldItemStack.getItem() instanceof ItemCrudePick){
-                ItemCrudePick crudePick = (ItemCrudePick) heldItemStack.getItem();
-                if(crudePick.shouldBreakBlock(block)){
-                    if(block == Blocks.IRON_ORE){ // Iron ore will drop 1 - 2 iron ore pieces
+            // Stone and its Variants drop the respective rock
+            if(Config.VanillaTweaks.STONE_DROPS_ROCKS) {
+                if(block == Blocks.STONE) {
+                    int meta = block.getMetaFromState(event.getState());
+                    if (meta == 0) { // Stone
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.poorIron,event.getWorld().rand.nextInt(2)+1));
-                    }
-                    else if(block == Blocks.COAL_ORE){ // Coal ore will drop 1 - 2 coal pieces
+                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,0));
+                    } else if (meta == 1) { // Granite
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.poorCoal,event.getWorld().rand.nextInt(2)+1));
-                    }
-                    else if(block == Blocks.STONE || block == Blocks.COBBLESTONE){ // Cobblestone and stone will drop 1-3 rocks (4 rocks = 1 cobble)
+                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,3));
+                    } else if (meta == 3) { // Diorite
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.rock,event.getWorld().rand.nextInt(3)+1));
-                    }
-                    else if(block == Blocks.GRAVEL){ // Gravel will drop 0-2 rocks and 20% for 1 flint
+                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,2));
+                    } else if (meta == 5) { // Andesite
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.rock,event.getWorld().rand.nextInt(3)));
-                        if(event.getWorld().rand.nextFloat()>0.8){
-                            event.getDrops().add(new ItemStack(Items.FLINT));
-                        }
+                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,1));
                     }
-                    return;
+                }
+            }
+            if(NoTreePunching.replaceQuarkStones){
+                int meta = block.getMetaFromState(event.getState());
+                if(block.getRegistryName().toString().equals("quark:marble") && meta == 0){
+                    event.getDrops().clear();
+                    event.getDrops().add(new ItemStack(ModItems.rockStone,3,4));
+                }
+                else if(block.getRegistryName().toString().equals("quark:limestone") && meta == 0){
+                    event.getDrops().clear();
+                    event.getDrops().add(new ItemStack(ModItems.rockStone,3,5));
+                }
+            }
+            if(NoTreePunching.replaceRusticStone){
+                if(block.getRegistryName().toString().equals("rustic:slate")){
+                    event.getDrops().clear();
+                    event.getDrops().add(new ItemStack(ModItems.rockStone,3,6));
                 }
             }
 
@@ -196,7 +208,8 @@ public class HarvestEventHandler {
             int neededHarvestLevel = block.getHarvestLevel(event.getState());
             String neededToolClass = block.getHarvestTool(event.getState());
 
-            if (heldItemStack != null && neededToolClass != null && neededHarvestLevel >= 0) {
+            //heldItemStack != ItemStack.EMPTY
+            if (neededToolClass != null && neededHarvestLevel >= 0) {
                 for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack)) {
                     if (neededToolClass == toolClass) {
                         if (heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= neededHarvestLevel) {
@@ -209,11 +222,10 @@ public class HarvestEventHandler {
                     }
                 }
 
-                Iterator<String> itr = Config.CFG_ALWAYS_BREAKABLE.iterator();
+                Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
                 String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
                 while (itr.hasNext()) {
-                    String element = itr.next();
-                    if (blockName.equals(element)) {
+                    if (blockName.equals(itr.next())) {
                         return;
                     }
                 }
@@ -226,11 +238,10 @@ public class HarvestEventHandler {
     @SubscribeEvent
     public void harvestBlockInitialCheck(PlayerEvent.HarvestCheck event){
         Block block = event.getTargetBlock().getBlock();
-        Iterator<String> itr = Config.CFG_ALWAYS_BREAKABLE.iterator();
+        Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
         String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
         while (itr.hasNext()) {
-            String element = itr.next();
-            if (blockName.equals(element)) {
+            if (blockName.equals(itr.next())) {
                 event.setCanHarvest(true);
             }
         }

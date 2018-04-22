@@ -9,7 +9,7 @@
 			"item": "minecraft:stick"
 		},
 		"S": {
-			"item": "minecraft:flint"
+			"item": "notreepunching:flint_shard"
 		},
 		"F": {
           "item": "notreepunching:grass_string"

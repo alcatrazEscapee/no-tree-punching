@@ -1,49 +1,63 @@
 package notreepunching.config;
 
-import notreepunching.proxy.CommonProxy;
-import net.minecraftforge.common.config.Configuration;
 import notreepunching.NoTreePunching;
-import org.apache.logging.log4j.Level;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import net.minecraftforge.common.config.Config.Comment;
 
+
+@net.minecraftforge.common.config.Config(modid=NoTreePunching.MODID)
 public class Config {
 
-    private static final String GENERAL = "General Options";
+    public static VanillaTweaks tweaks;
+    public static class VanillaTweaks {
 
-    // Config options:
-    public static boolean CFG_WOOD_TOOLS_DISABLE = true;
-    public static boolean CFG_STONE_TOOLS_DISABLE = true;
-    public static boolean CFG_ALTERNATE_FURNACE_RECIPE = true;
+        @Comment({"Disable wooden tool recipes"})
+        public static boolean WOOD_TOOLS_DISABLE = true;
+        @Comment({"Disable stone tool recipes"})
+        public static boolean STONE_TOOLS_DISABLE = true;
 
-    public static List<String> CFG_ALWAYS_BREAKABLE = new ArrayList<String>();
+        @Comment({"Furnace requires coal or charcoal"})
+        public static boolean ALTERNATE_FURNACE_RECIPE = false;
 
-    // This will create the config if it doesn't exist yet and read the values if it does exist.
-    public static void readConfig() {
-        Configuration cfg = CommonProxy.config;
-        try {
-            cfg.load();
-            initConfig(cfg);
-        } catch (Exception problem) {
-            NoTreePunching.logger.log(Level.ERROR, "Problem loading config file!", problem);
-        } finally {
-            if (cfg.hasChanged()) {
-                cfg.save();
-            }
-        }
-    }
+        @Comment({"List of blocks that always will drop. (They will still take additional time to mine based on material if not mined with the correct tool)"})
+        public static String[] BREAKABLE = new String[] {"notreepunching:loose_rock","minecraft:leaves","minecraft:gravel"};
 
-    private static void initConfig(Configuration cfg) {
+        @Comment({"Stone Blocks (Stone, Andesite, Granite, Diorite) break into small rocks when mined, must be crafted back into cobblestone"})
+        public static boolean STONE_DROPS_ROCKS = true;
 
-        CFG_WOOD_TOOLS_DISABLE = cfg.getBoolean("disable_wood_tools",GENERAL,true,"Disables vanilla wooden tool recipes");
-        CFG_STONE_TOOLS_DISABLE = cfg.getBoolean("disable_stone_tools",GENERAL,true,"Disables vanilla stone tool recipes");
-        CFG_STONE_TOOLS_DISABLE = cfg.getBoolean("disable_furnace",GENERAL,true,"Forces the vanilla furnace recipe to require one coal in the center.");
+        @Comment({"Quark Stone Blocks (Marble, Limestone) break into small rocks when mined, must be crafted back into cobblestone"})
+        public static boolean QUARK_STONE_REPLACE = true;
 
-        String[] list = cfg.getStringList("always_breakable",GENERAL, new String[] {"notreepunching:loose_rock","minecraft:leaves"},"List of blocks that will always drop their item. Use the format modid:registry_name");
-        CFG_ALWAYS_BREAKABLE = new ArrayList<String>( Arrays.asList(list) );
+        @Comment({"Rustic Stone (Slate) breaks into small rocks when mined, must be crafted back into cobblestone"})
+        public static boolean RUSTIC_STONE_REPLACE = true;
 
     }
+
+    public static Tools tools;
+    public static class Tools {
+        @Comment({"Mining level for flint pickaxe and axe"})
+        public static int FLINT_MINING_LEVEL = 0;
+    }
+
+    public static Firepit firepit;
+    public static class Firepit {
+        @Comment({"Multiplier for how long fuel lasts in a firepit vs a furnace"})
+        public static int FUEL_MULT = 10;
+
+        @Comment({"How long (in ticks) food takes to cook in the firepit for recipes added by furnace"})
+        public static int COOK_MULT = 200;
+
+        @Comment({"Maximum burn time (in ticks) for fuel that is allowed in the firepit (Coal = 1600, Log = 300)"})
+        public static int FUEL_MAX = 800;
+    }
+
+    public static Balance balance;
+    public static class Balance {
+        @Comment({"Chance for a sucessful flint knapping"})
+        public static double FLINT_CHANCE = 0.4D;
+
+        @Comment({"Chance for the firestarter to set a fire. Set to 0 to disable"})
+        public static double FIRE_CHANCE = 0.5D;
+    }
+
 }

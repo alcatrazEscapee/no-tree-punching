@@ -5,13 +5,18 @@ itemGroup.notreepunching=No Tree Punching
 
 #Items
 
-item.rock.name=Rock
+item.rock_stone.name=Rock
+item.rock_andesite.name=Andesite Rock
+item.rock_diorite.name=Diorite Rock
+item.rock_granite.name=Granite Rock
+item.rock_marble.name=Marble Rock
+item.rock_limestone.name=Limestone Rock
+item.rock_slate.name=Slate Rock
+
 item.grass_fiber.name=Plant Fibers
 item.grass_string.name=Plant String
-item.poor_iron.name=Iron Ore Piece
-item.poor_coal.name=Coal Piece
+item.flint_shard=Flint Shard
 
-item.stone_knife.name=Stone Knife
 item.iron_knife.name=Iron Knife
 item.gold_knife.name=Gold Knife
 item.diamond_knife.name=Diamond Knife
@@ -20,27 +25,48 @@ item.iron_mattock.name=Iron Mattock
 item.gold_mattock.name=Gold Mattock
 item.diamond_mattock.name=Diamond Mattock
 
+item.stone_knife.name=Crude Knife
 item.crude_pick.name=Crude Pickaxe
 item.crude_axe.name=Crude Axe
+item.crude_shovel.name=Crude Shovel
+
+item.firestarter.name=Fire Starter
 
 #Blocks
 
-tile.loose_rock.name=Rock
+tile.firepit.name=Firepit
+
+tile.andesite_cobblestone.name=Andesite Cobblestone
+tile.diorite_cobblestone.name=Diorite Cobblestone
+tile.granite_cobblestone.name=Granite Cobblestone
+tile.marble_cobblestone.name=Marble Cobblestone
+tile.limestone_cobblestone.name=Limestone Cobblestone
+tile.slate_cobblestone.name=Slate Cobblestone
+
+tile.loose_rock.stone.name=Loose Rock (Stone)
+tile.loose_rock.andesite.name=Loose Rock (Andesite)
+tile.loose_rock.diorite.name=Loose Rock (Diorite)
+tile.loose_rock.granite.name=Loose Rock (Granite)
+tile.loose_rock.marble.name=Loose Rock (Marble)
+tile.loose_rock.limestone.name=Loose Rock (Limestone)
+tile.loose_rock.slate.name=Loose Rock (Slate)
 
 #JEI
 
 jei.description.rock=Rocks are found lying on the ground. Breaking them can give you small rocks, with a small chance of giving you an small iron ore piece.
-jei.description.poor_iron=Iron ore pieces are obtained by mining iron ore with a crude pickaxe. They can be crafted back into iron ore blocks.
-jei.description.poor_coal=Coal pieces are obtained by mining coal ore with a crude pickaxe, or by crafting coal in a crafting grid. They smelt one item.
 jei.description.grass_fiber=Grass fibers are dropped when breaking tall grass with a knife. They can also be obtained by cutting plant material in your hand with a knife. They are used to make grass string, which is needed to create basic tools
 jei.description.stick=Sticks are dropped from leaves. Using any knife doubles the chance of getting a stick.
+jei.description.flint_shard=Flint shards can be obtained from knapping flint on any rocky surface. Right click a pice of flint on a stone like block, and it might split into two flint shards. It might take a few tries to get it right though.
 
 jei.description.knife=Knives can be used to cut certain materials. Hold the knife in one hand, and an item in the other, and right click. This will use up 3x the durability on the knife and produce a new item. Knives are also effective at breaking plant material such as leaves.
 jei.description.mattock=Mattocks are a combination of an axe, a shovel, and a hoe. They can be used as an axe, with the added benefit of breaking most soft blocks that are broken with a shovel.
 jei.description.crude_pick=The crude pickaxe is the first pickaxe you can make. They are very weak and will often drop pieces of blocks broken with it. Stone will drop rocks, iron ore will drop iron ore pieces, etc.
 jei.description.crude_hatchet=Crude axes are very weak. When breaking wood logs, they render most of the wood unusable, dropping one plank and maybe some sticks.
 
+jei.description.firepit=To build a firepit, throw one log, one plant string, and three sticks on the ground. Then right click and hold a firestarter on that block. The items will be consumed and a firepit will be created. You can relight a firepit by clicking on it with a firestarter. You can extinguish a firepit by breaking it or clicking on it with a piece of sand.
+
 notreepunching.jei.category.knife_recipe=Knife Cutting
+notreepunching.jei.category.firepit_recipe=Firepit
 
 
 

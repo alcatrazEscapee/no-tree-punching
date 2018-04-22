@@ -1,0 +1,23 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"FR",
+		"RP"
+	],
+	"key": {
+		"R": {
+			"type": "forge:ore_dict",
+			"ore": "stickWood"
+		},
+		"P": {
+			"item": "notreepunching:grass_string"
+		},
+		"F": {
+			"item": "notreepunching:flint_shard"
+		}
+	},
+	"result": {
+		"item": "notreepunching:firestarter",
+		"data": 0
+	}
+}
