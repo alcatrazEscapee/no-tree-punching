@@ -4,7 +4,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
+import notreepunching.recipe.ModRecipes;
+import org.apache.logging.log4j.core.config.Order;
 import scala.actors.threadpool.Arrays;
 
 import java.util.ArrayList;
@@ -19,10 +22,14 @@ public class ModItems {
     public static ItemBase grassString = new ItemBase("grass_string");
     public static ItemBase flintShard = new ItemBase("flint_shard");
 
-    public static ItemKnife stoneKnife = new ItemKnife(NoTreePunching.toolMaterialCrudeStone,"stone_knife");
+    public static ItemKnife stoneKnife = new ItemKnife(NoTreePunching.toolMaterialFlint,"stone_knife");
     public static ItemKnife ironKnife = new ItemKnife(Item.ToolMaterial.IRON,"iron_knife");
     public static ItemKnife goldKnife = new ItemKnife(Item.ToolMaterial.GOLD,"gold_knife");
     public static ItemKnife diamondKnife = new ItemKnife(Item.ToolMaterial.DIAMOND,"diamond_knife");
+
+    public static ItemSaw ironSaw = new ItemSaw(Item.ToolMaterial.IRON,"iron_saw");
+    public static ItemSaw diamondSaw = new ItemSaw(Item.ToolMaterial.DIAMOND,"diamond_saw");
+    public static ItemSaw goldSaw = new ItemSaw(Item.ToolMaterial.GOLD,"gold_saw");
 
     public static ItemMattock ironMattock = new ItemMattock(Item.ToolMaterial.IRON,"iron_mattock");
     public static ItemMattock goldMattock = new ItemMattock(Item.ToolMaterial.GOLD,"gold_mattock");
@@ -30,6 +37,7 @@ public class ModItems {
 
     public static ItemCrudeAxe crudeHatchet = new ItemCrudeAxe(NoTreePunching.toolMaterialFlint,"crude_axe");
     public static ItemCrudePick crudePick = new ItemCrudePick(NoTreePunching.toolMaterialFlint,"crude_pick");
+    public static ItemCrudeShovel crudeShovel = new ItemCrudeShovel(NoTreePunching.toolMaterialFlint,"crude_shovel");
 
     public static ItemFirestarter firestarter = new ItemFirestarter("firestarter");
 
@@ -42,12 +50,16 @@ public class ModItems {
                 stoneKnife,
                 ironKnife,
                 goldKnife,
+                diamondKnife,
+                ironSaw,
+                goldSaw,
+                diamondSaw,
                 ironMattock,
                 goldMattock,
                 diamondMattock,
-                diamondKnife,
                 crudeHatchet,
                 crudePick,
+                crudeShovel,
                 firestarter
         );
     }
@@ -55,6 +67,8 @@ public class ModItems {
     public static void registerItemModels(){
 
         for(int i=0;i<7;i++) {
+            if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
+            if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
             NoTreePunching.proxy.registerItemModelWithVariant(rockStone, i, rockStone.name + "_" +  rockStone.getStoneName(new ItemStack(rockStone,1,i)),"inventory");
         }
         NoTreePunching.proxy.registerItemModel(grassFiber,0,grassFiber.name);
@@ -70,8 +84,13 @@ public class ModItems {
         NoTreePunching.proxy.registerItemModel(goldMattock,0,goldMattock.name);
         NoTreePunching.proxy.registerItemModel(diamondMattock,0,diamondMattock.name);
 
+        NoTreePunching.proxy.registerItemModel(ironSaw,0,ironSaw.name);
+        NoTreePunching.proxy.registerItemModel(goldSaw,0,goldSaw.name);
+        NoTreePunching.proxy.registerItemModel(diamondSaw,0,diamondSaw.name);
+
         NoTreePunching.proxy.registerItemModel(crudePick,0,crudePick.name);
         NoTreePunching.proxy.registerItemModel(crudeHatchet,0,crudeHatchet.name);
+        NoTreePunching.proxy.registerItemModel(crudeShovel,0,crudeShovel.name);
 
         NoTreePunching.proxy.registerItemModel(firestarter,0,firestarter.name);
     }
@@ -81,6 +100,17 @@ public class ModItems {
     }
     public static List<ItemStack> listAllMattocks(){
         return new ArrayList<ItemStack>(Arrays.asList(new ItemStack[]{new ItemStack(ironMattock),new ItemStack(goldMattock),new ItemStack(diamondMattock)}));
+    }
+
+    public static List<ItemStack> listAllSaws(){
+        return new ArrayList<ItemStack>(Arrays.asList(new ItemStack[]{new ItemStack(ironSaw),new ItemStack(goldSaw),new ItemStack(diamondSaw)}));
+    }
+
+    public static void initOreDict(){
+        OreDictionary.registerOre("toolSaw", new ItemStack(diamondSaw,1, OreDictionary.WILDCARD_VALUE));
+        OreDictionary.registerOre("toolSaw", new ItemStack(ironSaw,1, OreDictionary.WILDCARD_VALUE));
+        OreDictionary.registerOre("toolSaw", new ItemStack(goldSaw,1, OreDictionary.WILDCARD_VALUE));
+        System.out.println(OreDictionary.getOres("toolSaw"));
     }
 }
 

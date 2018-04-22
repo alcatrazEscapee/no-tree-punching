@@ -1,0 +1,23 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		" SS",
+		" FS",
+		"T  "
+	],
+	"key": {
+		"T": {
+			"item": "minecraft:stick"
+		},
+		"S": {
+			"item": "notreepunching:flint_shard"
+		},
+		"F": {
+          "item": "notreepunching:grass_string"
+        }
+	},
+	"result": {
+		"item": "notreepunching:crude_shovel",
+		"data": 0
+	}
+}

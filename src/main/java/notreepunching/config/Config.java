@@ -16,8 +16,8 @@ public class Config {
         @Comment({"Disable stone tool recipes"})
         public static boolean STONE_TOOLS_DISABLE = true;
 
-        @Comment({"Furnace requires coal or charcoal"})
-        public static boolean ALTERNATE_FURNACE_RECIPE = false;
+        @Comment({"Disable Log -> Planks and Planks -> Sticks recipe. Forces use of the crude axe + saw"})
+        public static boolean WOOD_RECIPE_DISABLE = true;
 
         @Comment({"List of blocks that always will drop. (They will still take additional time to mine based on material if not mined with the correct tool)"})
         public static String[] BREAKABLE = new String[] {"notreepunching:loose_rock","minecraft:leaves","minecraft:gravel"};
@@ -45,7 +45,7 @@ public class Config {
         public static int FUEL_MULT = 10;
 
         @Comment({"How long (in ticks) food takes to cook in the firepit for recipes added by furnace"})
-        public static int COOK_MULT = 200;
+        public static int COOK_MULT = 400;
 
         @Comment({"Maximum burn time (in ticks) for fuel that is allowed in the firepit (Coal = 1600, Log = 300)"})
         public static int FUEL_MAX = 800;
@@ -59,8 +59,6 @@ public class Config {
         @Comment({"Chance for the firestarter to set a fire. Set to 0 to disable"})
         public static double FIRE_CHANCE = 0.5D;
 
-        @Comment({"Should the flint axe drop planks + sticks when breaking logs?"})
-        public static boolean FLINT_AXE_DROP_PLANKS = true;
     }
 
 }

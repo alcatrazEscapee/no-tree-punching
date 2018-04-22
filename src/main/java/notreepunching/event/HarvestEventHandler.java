@@ -1,6 +1,5 @@
 package notreepunching.event;
 
-
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -27,6 +27,7 @@ public class HarvestEventHandler {
     // Controls the slow mining speed of blocks that aren't the right tool
     @SubscribeEvent
     public void slowMining(PlayerEvent.BreakSpeed event){
+
         EntityPlayer player = event.getEntityPlayer();
 
         if (player == null || player instanceof FakePlayer) {
@@ -60,14 +61,15 @@ public class HarvestEventHandler {
                 return;
             }
         }
-        // heldItemStack != ItemStack.EMPTY &&
-        if (neededToolClass != null && neededHarvestLevel >= 0) {
+
+        // heldItemStack != ItemStack.EMPTY  && neededHarvestLevel >= 0
+        if (neededToolClass != null) {
             for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack)) {
-                if (neededToolClass == toolClass) {
+                if (neededToolClass.equals(toolClass)) {
                     if (heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= neededHarvestLevel) {
                         return;
                     }
-                }else if(neededToolClass  == "shovel" && toolClass == "pickaxe" && heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= 1) {
+                }else if(neededToolClass.equals("shovel") && toolClass.equals("pickaxe") && heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= 1) {
                     return;
                 }
             }
@@ -114,6 +116,7 @@ public class HarvestEventHandler {
             // Get Variables for the block and item held
             Block block = event.getState().getBlock();
             ItemStack heldItemStack = player.getHeldItemMainhand();
+
 
             // Leaves now drop sticks 20% without a knife. 50% with a knife
             if (block instanceof BlockLeaves) {
@@ -172,23 +175,6 @@ public class HarvestEventHandler {
                 }
             }
 
-            //Allows crude axe to have special drops when breaking blocks
-            if(heldItemStack.getItem() instanceof ItemCrudeAxe && Config.Balance.FLINT_AXE_DROP_PLANKS){
-                ItemCrudeAxe crudeAxe = (ItemCrudeAxe) heldItemStack.getItem();
-                if(crudeAxe.shouldBreakBlock(block)){
-                    if(block instanceof BlockNewLog){
-                        event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(Item.getItemFromBlock(Blocks.PLANKS),1,block.getMetaFromState(event.getState())+4));
-                        event.getDrops().add(new ItemStack(Items.STICK,event.getWorld().rand.nextInt(3),0));
-                    }else if(block instanceof BlockOldLog){
-                        event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(Item.getItemFromBlock(Blocks.PLANKS),1,block.getMetaFromState(event.getState())));
-                        event.getDrops().add(new ItemStack(Items.STICK,event.getWorld().rand.nextInt(3),0));
-                    }
-                    return;
-                }
-            }
-
             //Allows Knifes to have special drops when breaking blocks
             if (heldItemStack.getItem() instanceof ItemKnife) {
                 ItemKnife knife = (ItemKnife) heldItemStack.getItem();
@@ -208,16 +194,17 @@ public class HarvestEventHandler {
             int neededHarvestLevel = block.getHarvestLevel(event.getState());
             String neededToolClass = block.getHarvestTool(event.getState());
 
-            //heldItemStack != ItemStack.EMPTY
-            if (neededToolClass != null && neededHarvestLevel >= 0) {
+
+            //heldItemStack != ItemStack.EMPTY && neededHarvestLevel >= 0
+            if (neededToolClass != null) {
                 for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack)) {
-                    if (neededToolClass == toolClass) {
+                    if (neededToolClass.equals(toolClass)) {
                         if (heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= neededHarvestLevel) {
                             return;
                         }
                     }
                     // Metal Pickaxes and above are allowed to function as shovels with no mining speed penalty + block drops.
-                    else if(neededToolClass  == "shovel" && toolClass == "pickaxe" && heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= 1) {
+                    else if(neededToolClass.equals("shovel") && toolClass.equals("pickaxe") && heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= 1) {
                         return;
                     }
                 }
@@ -231,7 +218,9 @@ public class HarvestEventHandler {
                 }
 
                 event.getDrops().clear();
-            }
+            }//else{
+            //if it is logWood, then stop
+            //}
         }
     }
 

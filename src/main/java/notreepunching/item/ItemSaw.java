@@ -5,15 +5,17 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
+import notreepunching.recipe.ModRecipes;
 
 import java.util.Set;
 
-public class ItemCrudeAxe extends ItemAxe {
+public class ItemSaw extends ItemAxe {
 
     public String name;
 
-    public ItemCrudeAxe(ToolMaterial material, String name){
+    public ItemSaw(ToolMaterial material, String name){
         super(material,4.0F,-3.0F);
 
         this.name = name;
@@ -32,5 +34,4 @@ public class ItemCrudeAxe extends ItemAxe {
         copy.setItemDamage(copy.getItemDamage()+1);
         return copy;
     }
-
 }

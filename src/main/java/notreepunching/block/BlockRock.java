@@ -24,6 +24,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import notreepunching.NoTreePunching;
 import notreepunching.item.ModItems;
 
 import javax.annotation.Nullable;
@@ -104,6 +105,9 @@ public class BlockRock extends BlockBase {
     {
         EnumMineralType[] values = EnumMineralType.values();
         for (EnumMineralType v : values) {
+            int meta = v.getMetadata();
+            if(!NoTreePunching.replaceQuarkStones && (meta == 4 || meta == 5)) { continue; }
+            if(!NoTreePunching.replaceRusticStone && (meta == 6)) { continue; }
             items.add(new ItemStack(this, 1, v.getMetadata()));
         }
     }

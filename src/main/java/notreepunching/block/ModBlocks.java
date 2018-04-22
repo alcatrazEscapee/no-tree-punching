@@ -94,6 +94,8 @@ public class ModBlocks {
 
     public static void registerItemBlockModels(){
         for(int i=0; i<7; i++) {
+            if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
+            if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
             NoTreePunching.proxy.registerItemModelWithVariant(Item.getItemFromBlock(looseRock), i, looseRock.name,"type="+looseRock.getStoneName(i));
         }
 

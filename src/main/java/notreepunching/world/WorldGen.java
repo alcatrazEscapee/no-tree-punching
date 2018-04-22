@@ -12,9 +12,16 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import notreepunching.block.BlockRock;
 import notreepunching.block.ModBlocks;
 
 import java.util.Random;
+
+import notreepunching.block.BlockRock.EnumMineralType;
+import static notreepunching.block.BlockRock.EnumMineralType;
+import static notreepunching.block.BlockRock.EnumMineralType.*;
+import static notreepunching.block.BlockRock.TYPE;
+
 
 public class WorldGen {
 
@@ -41,14 +48,46 @@ public class WorldGen {
 
         Block upBl = world.getBlockState(new BlockPos(i,j+1,k)).getBlock();
         Block atBl = world.getBlockState(new BlockPos(i,j,k)).getBlock();
+        Block downBl = world.getBlockState(new BlockPos(i,j-5,k)).getBlock();
 
         Material atMat = atBl.getMaterial(atBl.getBlockState().getBaseState());
 
         if ((world.isAirBlock(new BlockPos(i,j+1,k)) || upBl== Blocks.SNOW_LAYER || upBl == Blocks.TALLGRASS || upBl == Blocks.SNOW) &&
-                (atMat == Material.GRASS || atMat == Material.ROCK) &&
+                (atMat == Material.GRASS || atMat == Material.ROCK || atMat == Material.SAND) &&
                 atBl.isOpaqueCube(atBl.getDefaultState()))
         {
-            world.setBlockState(new BlockPos(i, j+1, k), ModBlocks.looseRock.getDefaultState());
+            BlockRock.EnumMineralType type;
+            if(downBl == Blocks.STONE){
+                System.out.println("the meta is: "+downBl.getMetaFromState(world.getBlockState(new BlockPos(i,j-5,k))));
+                switch(downBl.getMetaFromState(world.getBlockState(new BlockPos(i,j-5,k)))){
+                    case 1:
+                        type = GRANITE;
+                        break;
+                    case 3:
+                        type = DIORITE;
+                        break;
+                    case 5:
+                        type = ANDESITE;
+                        break;
+                    default:
+                        type = STONE;
+                }
+            } else {
+                switch(downBl.getUnlocalizedName()){
+                    case "quark:marble":
+                        type = MARBLE;
+                        break;
+                    case "quark:limestone":
+                        type = LIMESTONE;
+                        break;
+                    case "rustic:slate":
+                        type = SLATE;
+                        break;
+                    default:
+                        type = STONE;
+                }
+            }
+            world.setBlockState(new BlockPos(i, j+1, k), ModBlocks.looseRock.getDefaultState().withProperty(TYPE,type));
         }
         return true;
     }

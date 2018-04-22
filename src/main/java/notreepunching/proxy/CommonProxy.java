@@ -38,7 +38,7 @@ public class CommonProxy{
     }
 
     public void postInit(FMLPostInitializationEvent event){
-        ModRecipes.addFirepitSmeltingRecipes();
+        ModRecipes.init();
     }
 
     @SubscribeEvent

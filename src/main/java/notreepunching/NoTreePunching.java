@@ -28,8 +28,7 @@ public class NoTreePunching {
     public static final String VERSION = "GRADLE:VERSION";
     public static final String actualName = "NoTreePunching";
 
-    public static final Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", Config.Tools.FLINT_MINING_LEVEL,35,2F,0.5F,0);
-    public static final Item.ToolMaterial toolMaterialCrudeStone = EnumHelper.addToolMaterial("NTP_CRUDE_STONE",0,20,1F,1.5F,0);
+    public static final Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", Config.Tools.FLINT_MINING_LEVEL,35,0.8F,0.5F,0);
 
     public static final CreativeTabBase NTP_Tab = new CreativeTabBase(NoTreePunching.MODID);
 
@@ -53,7 +52,6 @@ public class NoTreePunching {
         replaceRusticStone = Loader.isModLoaded("rustic") && Config.VanillaTweaks.RUSTIC_STONE_REPLACE;
 
         // Register World Generation
-        //GameRegistry.registerWorldGenerator(new WorldGen(),0);
         MinecraftForge.EVENT_BUS.register(new WorldGen());
 
         // Register GUI Handler
@@ -67,7 +65,10 @@ public class NoTreePunching {
     public void init(FMLInitializationEvent event){
         logger.info("Init started");
 
-        ModRecipes.init();
+        // Register Ore Dict
+        ModItems.initOreDict();
+
+        //ModRecipes.init();
     }
 
     @Mod.EventHandler

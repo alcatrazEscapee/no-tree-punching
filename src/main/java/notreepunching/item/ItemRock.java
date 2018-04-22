@@ -3,6 +3,7 @@ package notreepunching.item;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import notreepunching.NoTreePunching;
 
 public class ItemRock extends ItemBase {
 
@@ -20,11 +21,14 @@ public class ItemRock extends ItemBase {
     }
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+        if (getCreativeTab() != tab) return;
+        super.getSubItems(tab, items);
         for (int i = 0; i < 7; ++i) {
+            if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
+            if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
             items.add(new ItemStack(this, 1, i));
         }
     }
-
 
     public String getStoneName(ItemStack stack){
         switch(stack.getMetadata()){
