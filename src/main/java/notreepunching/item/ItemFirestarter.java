@@ -54,19 +54,6 @@ public class ItemFirestarter extends ItemTool {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn){
-        System.out.println("Using the firestarter");
-        /*RayTraceResult result = rayTrace(worldIn,playerIn,false);
-        if(result.typeOfHit==RayTraceResult.Type.BLOCK){
-            BlockPos pos = result.getBlockPos();
-            Block block = worldIn.getBlockState(pos).getBlock();
-            if(block instanceof BlockFirePit){
-                //playerIn.setActiveHand(handIn);
-                TileEntityFirePit te = (TileEntityFirePit)worldIn.getTileEntity(pos);
-                te.lightFirepit();
-                return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
-            }
-        }*/
-
         playerIn.setActiveHand(handIn);
         return new ActionResult<>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
     }

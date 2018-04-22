@@ -1,0 +1,12 @@
+{
+  "knapping": {
+    "category": "block",
+    "subtitle": "notreepunching.subtitle.knapping",
+    "sounds": [
+      "notreepunching:knapping_1",
+      "notreepunching:knapping_2",
+      "notreepunching:knapping_3",
+      "notreepunching:knapping_4"
+    ]
+  }
+}

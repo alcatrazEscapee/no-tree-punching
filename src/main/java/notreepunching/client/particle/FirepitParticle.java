@@ -1,4 +1,4 @@
-package notreepunching.particle;
+package notreepunching.client.particle;
 
 import net.minecraft.client.particle.Particle;
 import net.minecraft.util.EnumParticleTypes;

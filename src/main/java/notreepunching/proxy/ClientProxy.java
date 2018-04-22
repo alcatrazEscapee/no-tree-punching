@@ -1,11 +1,9 @@
 package notreepunching.proxy;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleSmokeLarge;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -16,8 +14,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
 import notreepunching.item.ModItems;
-import notreepunching.particle.FirepitParticle;
-import notreepunching.particle.FirepitSmokeParticle;
+import notreepunching.client.particle.FirepitParticle;
+import notreepunching.client.particle.FirepitSmokeParticle;
 
 import java.util.Random;
 
