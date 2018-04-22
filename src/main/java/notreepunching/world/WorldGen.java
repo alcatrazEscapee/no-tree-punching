@@ -58,7 +58,6 @@ public class WorldGen {
         {
             BlockRock.EnumMineralType type;
             if(downBl == Blocks.STONE){
-                System.out.println("the meta is: "+downBl.getMetaFromState(world.getBlockState(new BlockPos(i,j-5,k))));
                 switch(downBl.getMetaFromState(world.getBlockState(new BlockPos(i,j-5,k)))){
                     case 1:
                         type = GRANITE;

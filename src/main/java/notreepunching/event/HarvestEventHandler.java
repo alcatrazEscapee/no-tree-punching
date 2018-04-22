@@ -74,9 +74,9 @@ public class HarvestEventHandler {
                 }
             }
             // Always allow certian blocks to break at normal speed
-            Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
-            while (itr.hasNext()) {
-                if (block.getRegistryName().equals(itr.next())) {
+            //Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
+            for(String name : Config.VanillaTweaks.BREAKABLE){
+                if (block.getRegistryName().toString().equals(name)) {
                     return;
                 }
             }
@@ -209,18 +209,21 @@ public class HarvestEventHandler {
                     }
                 }
 
-                Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
+                //Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
                 String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
-                while (itr.hasNext()) {
-                    if (blockName.equals(itr.next())) {
+                for(String name : Config.VanillaTweaks.BREAKABLE) {
+                    if(name.equals(blockName)) {
                         return;
                     }
                 }
+                /*while (itr.hasNext()) {
+                    if (blockName.equals(itr.next())) {
+                        return;
+                    }
+                }*/
 
                 event.getDrops().clear();
-            }//else{
-            //if it is logWood, then stop
-            //}
+            }
         }
     }
 
@@ -251,12 +254,12 @@ public class HarvestEventHandler {
             }
             ItemStack heldItemStack = player.getHeldItemMainhand();
             for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack)) {
-                if(toolClass == "axe"){ return; }
+                if(toolClass.equals("axe")){ return; }
             }
-            Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
+            //Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
             String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
-            while (itr.hasNext()) {
-                if (blockName.equals(itr.next())) { return; }
+            for(String name : Config.VanillaTweaks.BREAKABLE){
+                if(blockName.equals(name)){ return; }
             }
             // Else, cancel the event and do a manual break, not triggering the IC2 breaking
             event.setCanceled(true);
