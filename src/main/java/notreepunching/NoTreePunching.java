@@ -28,7 +28,7 @@ public class NoTreePunching {
     public static final String VERSION = "GRADLE:VERSION";
     public static final String actualName = "NoTreePunching";
 
-    public static final Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", Config.Tools.FLINT_MINING_LEVEL,35,0.8F,0.5F,0);
+    public static final Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", Config.Tools.FLINT_MINING_LEVEL,35,1.5F,0.5F,0);
 
     public static final CreativeTabBase NTP_Tab = new CreativeTabBase(NoTreePunching.MODID);
 
