@@ -180,7 +180,7 @@ public class HarvestEventHandler {
                 ItemKnife knife = (ItemKnife) heldItemStack.getItem();
                 if (knife.shouldBreakBlock(block)) {
                     if(block instanceof BlockDoublePlant || block instanceof BlockTallGrass){
-                        if(event.getWorld().rand.nextFloat()>0.7){
+                        if(Math.random()<Config.Balance.GRASS_FIBER_CHANCE){
                             event.getDrops().add(new ItemStack(ModItems.grassFiber,1,0));
                         }
                     }

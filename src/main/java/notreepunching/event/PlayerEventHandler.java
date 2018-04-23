@@ -1,6 +1,8 @@
 package notreepunching.event;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -20,9 +22,10 @@ public class PlayerEventHandler {
         // Control for flint shard creation
         World world = event.getWorld();
         BlockPos pos = event.getPos();
-        if(event.getItemStack().getItem() == Items.FLINT && world.getBlockState(pos).getMaterial() == Material.ROCK){
+        IBlockState state = world.getBlockState(pos);
+        if(event.getItemStack().getItem() == Items.FLINT && world.getBlockState(pos).getMaterial() == Material.ROCK && state.getBlock().isFullCube(state)){
             if(!world.isRemote){
-                if(Math.random()< 0.4) {
+                if(Math.random()< 0.7) {
                     if(Math.random() < Config.Balance.FLINT_CHANCE) {
                         // Create flint shard
                         ItemStack stack = new ItemStack(ModItems.flintShard, 2);
@@ -39,8 +42,7 @@ public class PlayerEventHandler {
                     event.getEntityPlayer().setHeldItem(event.getHand(), stack2);
                 }
             }
-            System.out.println("TRYING TO PLAY A SOUND");
-            world.playSound(event.getEntityPlayer(),pos, Sounds.FLINT_KNAPPING, SoundCategory.BLOCKS,1.0F,1.0F);
+            world.playSound(event.getEntityPlayer(),pos, Sounds.FLINT_KNAPPING, SoundCategory.BLOCKS,0.5F,1.0F);
         }
     }
 }

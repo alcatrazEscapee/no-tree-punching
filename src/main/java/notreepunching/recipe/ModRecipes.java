@@ -69,6 +69,8 @@ public class ModRecipes {
 
     private static void initCuttingRecipes(){
         for(int i=0;i<7;i++) {
+            if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
+            if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
             addCuttingRecipe(new ItemStack(ModItems.rockStone, 1, i), new ItemStack(ModItems.flintShard, 1));
         }
         addCuttingRecipe(Items.FLINT, new ItemStack(ModItems.flintShard,2));

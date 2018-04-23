@@ -54,10 +54,13 @@ public class Config {
     public static Balance balance;
     public static class Balance {
         @Comment({"Chance for a sucessful flint knapping"})
-        public static double FLINT_CHANCE = 0.4D;
+        public static double FLINT_CHANCE = 0.6D;
 
         @Comment({"Chance for the firestarter to set a fire. Set to 0 to disable"})
         public static double FIRE_CHANCE = 0.5D;
+
+        @Comment({"Chance for tall grass to drop plant fibers"})
+        public static double GRASS_FIBER_CHANCE = 0.7D;
 
     }
 
