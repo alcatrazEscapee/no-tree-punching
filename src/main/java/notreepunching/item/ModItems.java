@@ -8,6 +8,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
 import notreepunching.recipe.ModRecipes;
 import org.apache.logging.log4j.core.config.Order;
+import scala.Array;
 import scala.actors.threadpool.Arrays;
 
 import java.util.ArrayList;
@@ -96,14 +97,27 @@ public class ModItems {
     }
 
     public static List<ItemStack> listAllKnives(){
-        return new ArrayList<ItemStack>(Arrays.asList(new ItemStack[]{new ItemStack(stoneKnife),new ItemStack(ironKnife),new ItemStack(goldKnife),new ItemStack(diamondKnife)}));
+        List<ItemStack> array = new ArrayList<>();
+        array.add(new ItemStack(stoneKnife));
+        array.add(new ItemStack(ironKnife));
+        array.add(new ItemStack(goldKnife));
+        array.add(new ItemStack(diamondKnife));
+        return array;
     }
     public static List<ItemStack> listAllMattocks(){
-        return new ArrayList<ItemStack>(Arrays.asList(new ItemStack[]{new ItemStack(ironMattock),new ItemStack(goldMattock),new ItemStack(diamondMattock)}));
+        List<ItemStack> array = new ArrayList<>();
+        array.add(new ItemStack(ironMattock));
+        array.add(new ItemStack(goldMattock));
+        array.add(new ItemStack(diamondMattock));
+        return array;
     }
 
     public static List<ItemStack> listAllSaws(){
-        return new ArrayList<ItemStack>(Arrays.asList(new ItemStack[]{new ItemStack(ironSaw),new ItemStack(goldSaw),new ItemStack(diamondSaw)}));
+        List<ItemStack> array = new ArrayList<>();
+        array.add(new ItemStack(ironSaw));
+        array.add(new ItemStack(goldSaw));
+        array.add(new ItemStack(diamondSaw));
+        return array;
     }
 
     public static void initOreDict(){
