@@ -230,12 +230,9 @@ public class HarvestEventHandler {
     @SubscribeEvent
     public void harvestBlockInitialCheck(PlayerEvent.HarvestCheck event){
         Block block = event.getTargetBlock().getBlock();
-        Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
         String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
-        while (itr.hasNext()) {
-            if (blockName.equals(itr.next())) {
-                event.setCanHarvest(true);
-            }
+        for(String name : Config.VanillaTweaks.BREAKABLE){
+            if(blockName.equals(name)){ event.setCanHarvest(true); }
         }
     }
 
