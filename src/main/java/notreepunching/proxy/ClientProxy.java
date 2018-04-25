@@ -31,15 +31,16 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void registerItemModel(Item item, int meta, String id) {
+        System.out.println("The result is: "+id);
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(NoTreePunching.MODID + ":" + id, "inventory"));
     }
     @Override
     public void registerItemModel(Item item, int meta){
-        registerItemModel(item, meta, item.getUnlocalizedName());
+        registerItemModel(item, meta, item.getRegistryName().getResourcePath());
     }
     @Override
     public void registerItemModel(Item item) {
-        registerItemModel(item, 0, item.getUnlocalizedName());
+        registerItemModel(item, 0, item.getRegistryName().getResourcePath());
     }
 
     @Override
@@ -64,10 +65,6 @@ public class ClientProxy extends CommonProxy {
             Minecraft.getMinecraft().effectRenderer.addEffect(new FirepitSmokeParticle(world,x,y,z,0.01d*rand.nextGaussian(),0.03d,0.01d*rand.nextGaussian()));
         }
 
-        //SBParticle particle2 = new SBParticle(te.getWorld(),x,y,z,targetX, targetY, targetZ,10, col.toInt(),1F);
-
-
-        //Minecraft.getMinecraft().effectRenderer.addEffect(particle2);
     }
 
 }

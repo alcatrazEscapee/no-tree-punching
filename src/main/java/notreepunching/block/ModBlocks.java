@@ -100,18 +100,18 @@ public class ModBlocks {
         }
 
         if(Config.VanillaTweaks.STONE_DROPS_ROCKS) {
-            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(andesiteCobble), 0, andesiteCobble.name);
-            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(dioriteCobble), 0, dioriteCobble.name);
-            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(graniteCobble), 0, graniteCobble.name);
+            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(andesiteCobble));
+            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(dioriteCobble));
+            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(graniteCobble));
         }
         if(NoTreePunching.replaceQuarkStones){
-            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(marbleCobble), 0, marbleCobble.name);
-            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(limestoneCobble), 0, limestoneCobble.name);
+            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(marbleCobble));
+            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(limestoneCobble));
         }
         if(NoTreePunching.replaceRusticStone){
-            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(slateCobble), 0, slateCobble.name);
+            NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(slateCobble));
         }
 
-        NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(firepit),0,firepit.name);
+        NoTreePunching.proxy.registerItemModel(Item.getItemFromBlock(firepit));
     }
 }

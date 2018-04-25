@@ -1,22 +1,15 @@
 package notreepunching.item;
 
-import com.google.common.collect.Sets;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
-import notreepunching.recipe.ModRecipes;
-
-import java.util.Set;
 
 public class ItemSaw extends ItemAxe {
 
     public String name;
 
     public ItemSaw(ToolMaterial material, String name){
-        super(material,4.0F,-3.0F);
+        super(material,material.getAttackDamage(),-3.0F);
 
         this.name = name;
         setUnlocalizedName(name);

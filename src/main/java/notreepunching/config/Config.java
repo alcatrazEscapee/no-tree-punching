@@ -19,7 +19,7 @@ public class Config {
         @Comment({"Disable Log -> Planks and Planks -> Sticks recipe. Forces use of the crude axe + saw"})
         public static boolean WOOD_RECIPE_DISABLE = true;
 
-        @Comment({"List of blocks that always will drop. (They will still take additional time to mine based on material if not mined with the correct tool)"})
+        @Comment({"List of blocks that always will drop items and will mine at a regular speed."})
         public static String[] BREAKABLE = new String[] {"notreepunching:loose_rock","minecraft:leaves","minecraft:gravel"};
 
         @Comment({"Stone Blocks (Stone, Andesite, Granite, Diorite) break into small rocks when mined, must be crafted back into cobblestone"})
@@ -53,7 +53,7 @@ public class Config {
         @Comment({"Multiplier for how long fuel lasts in a firepit vs a furnace"})
         public static int FUEL_MULT = 10;
 
-        @Comment({"How long (in ticks) food takes to cook in the firepit for recipes added by furnace"})
+        @Comment({"How long (in ticks) food takes to cook in the firepit for recipes added by furnace. (Default Value)"})
         public static int COOK_MULT = 400;
 
         @Comment({"Maximum burn time (in ticks) for fuel that is allowed in the firepit (Coal = 1600, Log = 300)"})
