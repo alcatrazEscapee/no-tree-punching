@@ -40,6 +40,14 @@ item.copper_knife.name=Copper Knife
 item.copper_mattock.name=Copper Mattock
 item.copper_saw.name=Copper Saw
 
+item.bronze_knife.name=Bronze Knife
+item.bronze_saw.name=Bronze Saw
+item.bronze_mattock.name=Bronze Mattock
+
+item.steel_knife.name=Steel Knife
+item.steel_saw.name=Steel Saw
+item.steel_mattock.name=Steel Mattock
+
 #Blocks
 
 tile.firepit.name=Firepit
