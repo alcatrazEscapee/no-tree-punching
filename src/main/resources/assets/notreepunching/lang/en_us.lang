@@ -36,6 +36,10 @@ item.crude_shovel.name=Crude Shovel
 
 item.firestarter.name=Fire Starter
 
+item.copper_knife.name=Copper Knife
+item.copper_mattock.name=Copper Mattock
+item.copper_saw.name=Copper Saw
+
 #Blocks
 
 tile.firepit.name=Firepit

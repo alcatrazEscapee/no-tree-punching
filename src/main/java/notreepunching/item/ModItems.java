@@ -2,45 +2,80 @@ package notreepunching.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
-import notreepunching.recipe.ModRecipes;
-import org.apache.logging.log4j.core.config.Order;
-import scala.Array;
-import scala.actors.threadpool.Arrays;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static notreepunching.NoTreePunching.addCopperTools;
 
 public class ModItems {
 
     // Declare Instances of all items
 
-    public static ItemRock rockStone = new ItemRock("rock");
-    public static ItemBase grassFiber = new ItemBase("grass_fiber");
-    public static ItemBase grassString = new ItemBase("grass_string");
-    public static ItemBase flintShard = new ItemBase("flint_shard");
+    public static ItemRock rockStone;
+    public static ItemBase grassFiber;
+    public static ItemBase grassString;
+    public static ItemBase flintShard;
 
-    public static ItemKnife stoneKnife = new ItemKnife(NoTreePunching.toolMaterialFlint,"stone_knife");
-    public static ItemKnife ironKnife = new ItemKnife(Item.ToolMaterial.IRON,"iron_knife");
-    public static ItemKnife goldKnife = new ItemKnife(Item.ToolMaterial.GOLD,"gold_knife");
-    public static ItemKnife diamondKnife = new ItemKnife(Item.ToolMaterial.DIAMOND,"diamond_knife");
+    public static ItemKnife stoneKnife;
+    public static ItemKnife ironKnife;
+    public static ItemKnife goldKnife;
+    public static ItemKnife diamondKnife;
+    public static ItemKnife copperKnife;
 
-    public static ItemSaw ironSaw = new ItemSaw(Item.ToolMaterial.IRON,"iron_saw");
-    public static ItemSaw diamondSaw = new ItemSaw(Item.ToolMaterial.DIAMOND,"diamond_saw");
-    public static ItemSaw goldSaw = new ItemSaw(Item.ToolMaterial.GOLD,"gold_saw");
+    public static ItemSaw ironSaw;
+    public static ItemSaw diamondSaw;
+    public static ItemSaw goldSaw;
+    public static ItemSaw copperSaw;
 
-    public static ItemMattock ironMattock = new ItemMattock(Item.ToolMaterial.IRON,"iron_mattock");
-    public static ItemMattock goldMattock = new ItemMattock(Item.ToolMaterial.GOLD,"gold_mattock");
-    public static ItemMattock diamondMattock = new ItemMattock(Item.ToolMaterial.DIAMOND,"diamond_mattock");
+    public static ItemMattock ironMattock;
+    public static ItemMattock goldMattock;
+    public static ItemMattock diamondMattock;
+    public static ItemMattock copperMattock;
 
-    public static ItemCrudeAxe crudeHatchet = new ItemCrudeAxe(NoTreePunching.toolMaterialFlint,"crude_axe");
-    public static ItemCrudePick crudePick = new ItemCrudePick(NoTreePunching.toolMaterialFlint,"crude_pick");
-    public static ItemCrudeShovel crudeShovel = new ItemCrudeShovel(NoTreePunching.toolMaterialFlint,"crude_shovel");
+    public static ItemCrudeAxe crudeHatchet;
+    public static ItemCrudePick crudePick;
+    public static ItemCrudeShovel crudeShovel;
 
-    public static ItemFirestarter firestarter = new ItemFirestarter("firestarter");
+    public static ItemFirestarter firestarter;
+
+    public static void init(){
+        rockStone = new ItemRock("rock");
+        grassFiber = new ItemBase("grass_fiber");
+        grassString = new ItemBase("grass_string");
+        flintShard = new ItemBase("flint_shard");
+        firestarter = new ItemFirestarter("firestarter");
+
+        // TOOLS
+
+        stoneKnife = new ItemKnife(NoTreePunching.toolMaterialFlint,"stone_knife");
+        crudeHatchet = new ItemCrudeAxe(NoTreePunching.toolMaterialFlint,"crude_axe");
+        crudePick = new ItemCrudePick(NoTreePunching.toolMaterialFlint,"crude_pick");
+        crudeShovel = new ItemCrudeShovel(NoTreePunching.toolMaterialFlint, "crude_shovel");
+
+        ironKnife = new ItemKnife(Item.ToolMaterial.IRON,"iron_knife");
+        ironMattock = new ItemMattock(Item.ToolMaterial.IRON,"iron_mattock");
+        ironSaw = new ItemSaw(Item.ToolMaterial.IRON,"iron_saw");
+
+        goldKnife = new ItemKnife(Item.ToolMaterial.GOLD, "gold_knife");
+        goldMattock = new ItemMattock(Item.ToolMaterial.GOLD,"gold_mattock");
+        goldSaw = new ItemSaw(Item.ToolMaterial.GOLD,"gold_saw");
+
+        diamondKnife = new ItemKnife(Item.ToolMaterial.DIAMOND,"diamond_knife");
+        diamondMattock = new ItemMattock(Item.ToolMaterial.DIAMOND,"diamond_mattock");
+        diamondSaw = new ItemSaw(Item.ToolMaterial.DIAMOND,"diamond_saw");
+
+        addCopperTools = OreDictionary.doesOreNameExist("ingotCopper");
+        if(addCopperTools){
+            copperKnife = new ItemKnife(NoTreePunching.toolMaterialCopper,"copper_knife");
+            copperSaw = new ItemSaw(NoTreePunching.toolMaterialCopper,"copper_saw");
+            copperMattock = new ItemMattock(NoTreePunching.toolMaterialCopper,"copper_mattock");
+        }
+
+    }
 
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
@@ -63,6 +98,13 @@ public class ModItems {
                 crudeShovel,
                 firestarter
         );
+        if(addCopperTools){
+            event.getRegistry().registerAll(
+                    copperKnife,
+                    copperMattock,
+                    copperSaw
+            );
+        }
     }
 
     public static void registerItemModels(){
@@ -94,6 +136,12 @@ public class ModItems {
         NoTreePunching.proxy.registerItemModel(crudeShovel,0,crudeShovel.name);
 
         NoTreePunching.proxy.registerItemModel(firestarter,0,firestarter.name);
+
+        if(addCopperTools){
+            NoTreePunching.proxy.registerItemModel(copperKnife,0,copperKnife.name);
+            NoTreePunching.proxy.registerItemModel(copperMattock,0,copperMattock.name);
+            NoTreePunching.proxy.registerItemModel(copperSaw,0,copperSaw.name);
+        }
     }
 
     public static List<ItemStack> listAllKnives(){

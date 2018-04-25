@@ -29,11 +29,16 @@ public class NoTreePunching {
     public static final String actualName = "NoTreePunching";
 
     public static final Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", Config.Tools.FLINT_MINING_LEVEL,35,1.5F,0.5F,0);
+    public static final Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", Config.Tools.COPPER_MINING_LEVEL,180,4F,1.5F,6);
 
     public static final CreativeTabBase NTP_Tab = new CreativeTabBase(NoTreePunching.MODID);
 
     public static boolean replaceQuarkStones;
     public static boolean replaceRusticStone;
+
+    public static boolean addCopperTools;
+    public static boolean addBronzeTools;
+    public static boolean addSteelTools;
 
     @SidedProxy(clientSide = "notreepunching.proxy.ClientProxy", serverSide = "notreepunching.proxy.ServerProxy")
     public static CommonProxy proxy;

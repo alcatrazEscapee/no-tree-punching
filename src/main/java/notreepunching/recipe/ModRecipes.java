@@ -172,6 +172,13 @@ public class ModRecipes {
             registerShaped(new ItemStack(ModBlocks.slateCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone,1,6));
         }
 
+        // Tool Types
+        if(NoTreePunching.addCopperTools){
+            registerShaped(new ItemStack(ModItems.copperKnife),"I","H",'I',"ingotCopper",'H',"stickWood");
+            registerShaped(new ItemStack(ModItems.copperMattock),"III","IH "," H ",'I',"ingotCopper",'H',"stickWood");
+            registerShaped(new ItemStack(ModItems.copperSaw)," HI","HI ","H  ",'I',"ingotCopper",'H',"stickWood");
+        }
+
     }
 
     private static void registerShaped(ItemStack output, Object... inputs) {

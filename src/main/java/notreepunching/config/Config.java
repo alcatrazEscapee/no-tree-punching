@@ -35,8 +35,11 @@ public class Config {
 
     public static Tools tools;
     public static class Tools {
-        @Comment({"Mining level for flint pickaxe and axe"})
+        @Comment({"Mining level for flint tools"})
         public static int FLINT_MINING_LEVEL = 0;
+
+        @Comment({"Mining level for copper tools"})
+        public static int COPPER_MINING_LEVEL = 1;
     }
 
     public static Firepit firepit;

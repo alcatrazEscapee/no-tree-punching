@@ -43,6 +43,7 @@ public class CommonProxy{
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
+        ModItems.init();
         ModItems.registerItems(event);
         ModBlocks.registerItemBlocks(event);
     }
