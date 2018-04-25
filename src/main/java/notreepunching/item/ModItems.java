@@ -149,39 +149,39 @@ public class ModItems {
             if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
             NoTreePunching.proxy.registerItemModelWithVariant(rockStone, i, rockStone.name + "_" +  rockStone.getStoneName(new ItemStack(rockStone,1,i)),"inventory");
         }
-        NoTreePunching.proxy.registerItemModel(grassFiber,0,grassFiber.name);
-        NoTreePunching.proxy.registerItemModel(grassString,0,grassString.name);
-        NoTreePunching.proxy.registerItemModel(flintShard,0,flintShard.name);
+        NoTreePunching.proxy.registerItemModel(grassFiber);
+        NoTreePunching.proxy.registerItemModel(grassString);
+        NoTreePunching.proxy.registerItemModel(flintShard);
 
-        NoTreePunching.proxy.registerItemModel(stoneKnife,0,stoneKnife.name);
-        NoTreePunching.proxy.registerItemModel(ironKnife,0,ironKnife.name);
-        NoTreePunching.proxy.registerItemModel(goldKnife,0,goldKnife.name);
-        NoTreePunching.proxy.registerItemModel(diamondKnife,0,diamondKnife.name);
+        NoTreePunching.proxy.registerItemModel(stoneKnife);
+        NoTreePunching.proxy.registerItemModel(ironKnife);
+        NoTreePunching.proxy.registerItemModel(goldKnife);
+        NoTreePunching.proxy.registerItemModel(diamondKnife);
 
-        NoTreePunching.proxy.registerItemModel(ironMattock,0,ironMattock.name);
-        NoTreePunching.proxy.registerItemModel(goldMattock,0,goldMattock.name);
-        NoTreePunching.proxy.registerItemModel(diamondMattock,0,diamondMattock.name);
+        NoTreePunching.proxy.registerItemModel(ironMattock);
+        NoTreePunching.proxy.registerItemModel(goldMattock);
+        NoTreePunching.proxy.registerItemModel(diamondMattock);
 
-        NoTreePunching.proxy.registerItemModel(ironSaw,0,ironSaw.name);
-        NoTreePunching.proxy.registerItemModel(goldSaw,0,goldSaw.name);
-        NoTreePunching.proxy.registerItemModel(diamondSaw,0,diamondSaw.name);
+        NoTreePunching.proxy.registerItemModel(ironSaw);
+        NoTreePunching.proxy.registerItemModel(goldSaw);
+        NoTreePunching.proxy.registerItemModel(diamondSaw);
 
-        NoTreePunching.proxy.registerItemModel(crudePick,0,crudePick.name);
-        NoTreePunching.proxy.registerItemModel(crudeHatchet,0,crudeHatchet.name);
-        NoTreePunching.proxy.registerItemModel(crudeShovel,0,crudeShovel.name);
+        NoTreePunching.proxy.registerItemModel(crudePick);
+        NoTreePunching.proxy.registerItemModel(crudeHatchet);
+        NoTreePunching.proxy.registerItemModel(crudeShovel);
 
-        NoTreePunching.proxy.registerItemModel(firestarter,0,firestarter.name);
+        NoTreePunching.proxy.registerItemModel(firestarter);
 
         if(addCopperTools){
-            NoTreePunching.proxy.registerItemModel(copperKnife,0,copperKnife.name);
-            NoTreePunching.proxy.registerItemModel(copperMattock,0,copperMattock.name);
-            NoTreePunching.proxy.registerItemModel(copperSaw,0,copperSaw.name);
+            NoTreePunching.proxy.registerItemModel(copperKnife);
+            NoTreePunching.proxy.registerItemModel(copperMattock);
+            NoTreePunching.proxy.registerItemModel(copperSaw);
         }
 
         if(addBronzeTools) {
-            NoTreePunching.proxy.registerItemModel(bronzeKnife,0,bronzeKnife.name);
-            NoTreePunching.proxy.registerItemModel(bronzeSaw,0,bronzeSaw.name);
-            NoTreePunching.proxy.registerItemModel(bronzeMattock,0);
+            NoTreePunching.proxy.registerItemModel(bronzeKnife);
+            NoTreePunching.proxy.registerItemModel(bronzeSaw);
+            NoTreePunching.proxy.registerItemModel(bronzeMattock);
         }
         if(addSteelTools){
             NoTreePunching.proxy.registerItemModel(steelKnife);
@@ -196,6 +196,9 @@ public class ModItems {
         array.add(new ItemStack(ironKnife));
         array.add(new ItemStack(goldKnife));
         array.add(new ItemStack(diamondKnife));
+        if(addCopperTools) { array.add(new ItemStack(copperKnife)); }
+        if(addBronzeTools) { array.add(new ItemStack(bronzeKnife)); }
+        if(addSteelTools) { array.add(new ItemStack(steelKnife)); }
         return array;
     }
     public static List<ItemStack> listAllMattocks(){
@@ -203,6 +206,9 @@ public class ModItems {
         array.add(new ItemStack(ironMattock));
         array.add(new ItemStack(goldMattock));
         array.add(new ItemStack(diamondMattock));
+        if(addCopperTools) { array.add(new ItemStack(copperMattock)); }
+        if(addBronzeTools) { array.add(new ItemStack(bronzeMattock)); }
+        if(addSteelTools) { array.add(new ItemStack(steelMattock)); }
         return array;
     }
 
@@ -211,6 +217,9 @@ public class ModItems {
         array.add(new ItemStack(ironSaw));
         array.add(new ItemStack(goldSaw));
         array.add(new ItemStack(diamondSaw));
+        if(addCopperTools) { array.add(new ItemStack(copperSaw)); }
+        if(addBronzeTools) { array.add(new ItemStack(bronzeSaw)); }
+        if(addSteelTools) { array.add(new ItemStack(steelSaw)); }
         return array;
     }
 
@@ -218,7 +227,9 @@ public class ModItems {
         OreDictionary.registerOre("toolSaw", new ItemStack(diamondSaw,1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("toolSaw", new ItemStack(ironSaw,1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("toolSaw", new ItemStack(goldSaw,1, OreDictionary.WILDCARD_VALUE));
-        System.out.println(OreDictionary.getOres("toolSaw"));
+        if(addCopperTools) { OreDictionary.registerOre("toolSaw",new ItemStack(copperSaw,1,OreDictionary.WILDCARD_VALUE)); }
+        if(addBronzeTools) { OreDictionary.registerOre("toolSaw",new ItemStack(bronzeSaw,1,OreDictionary.WILDCARD_VALUE)); }
+        if(addSteelTools) { OreDictionary.registerOre("toolSaw",new ItemStack(steelSaw,1,OreDictionary.WILDCARD_VALUE)); }
     }
 }
 
