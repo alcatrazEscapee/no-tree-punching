@@ -61,6 +61,11 @@ public class CommonProxy{
 
     public void registerItemModel(Item item, int meta, String id) {
     }
+    public void registerItemModel(Item item, int meta) {
+    }
+    public void registerItemModel(Item item){
+    }
+
     public void registerItemModelWithVariant(Item item, int meta, String id, String variant){
     }
 

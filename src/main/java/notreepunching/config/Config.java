@@ -40,6 +40,12 @@ public class Config {
 
         @Comment({"Mining level for copper tools"})
         public static int COPPER_MINING_LEVEL = 1;
+
+        @Comment({"Mining level for bronze tools"})
+        public static int BRONZE_MINING_LEVEL = 2;
+
+        @Comment({"Mining level for steel tools"})
+        public static int STEEL_MINING_LEVEL = 3;
     }
 
     public static Firepit firepit;

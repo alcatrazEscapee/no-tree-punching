@@ -33,6 +33,14 @@ public class ClientProxy extends CommonProxy {
     public void registerItemModel(Item item, int meta, String id) {
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(NoTreePunching.MODID + ":" + id, "inventory"));
     }
+    @Override
+    public void registerItemModel(Item item, int meta){
+        registerItemModel(item, meta, item.getUnlocalizedName());
+    }
+    @Override
+    public void registerItemModel(Item item) {
+        registerItemModel(item, 0, item.getUnlocalizedName());
+    }
 
     @Override
     public void registerItemModelWithVariant(Item item, int meta, String id, String variant){

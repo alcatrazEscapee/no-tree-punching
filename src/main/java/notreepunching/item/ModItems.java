@@ -9,7 +9,9 @@ import notreepunching.NoTreePunching;
 import java.util.ArrayList;
 import java.util.List;
 
+import static notreepunching.NoTreePunching.addBronzeTools;
 import static notreepunching.NoTreePunching.addCopperTools;
+import static notreepunching.NoTreePunching.addSteelTools;
 
 public class ModItems {
 
@@ -25,16 +27,22 @@ public class ModItems {
     public static ItemKnife goldKnife;
     public static ItemKnife diamondKnife;
     public static ItemKnife copperKnife;
+    public static ItemKnife bronzeKnife;
+    public static ItemKnife steelKnife;
 
     public static ItemSaw ironSaw;
     public static ItemSaw diamondSaw;
     public static ItemSaw goldSaw;
     public static ItemSaw copperSaw;
+    public static ItemSaw bronzeSaw;
+    public static ItemSaw steelSaw;
 
     public static ItemMattock ironMattock;
     public static ItemMattock goldMattock;
     public static ItemMattock diamondMattock;
     public static ItemMattock copperMattock;
+    public static ItemMattock bronzeMattock;
+    public static ItemMattock steelMattock;
 
     public static ItemCrudeAxe crudeHatchet;
     public static ItemCrudePick crudePick;
@@ -75,6 +83,19 @@ public class ModItems {
             copperMattock = new ItemMattock(NoTreePunching.toolMaterialCopper,"copper_mattock");
         }
 
+        addBronzeTools = OreDictionary.doesOreNameExist("ingotBronze");
+        if(addBronzeTools){
+            bronzeKnife = new ItemKnife(NoTreePunching.toolMaterialBronze,"bronze_knife");
+            bronzeSaw = new ItemSaw(NoTreePunching.toolMaterialBronze, "bronze_saw");
+            bronzeMattock = new ItemMattock(NoTreePunching.toolMaterialBronze, "bronze_mattock");
+        }
+        addSteelTools = OreDictionary.doesOreNameExist("ingotSteel");
+        if(addSteelTools){
+            steelKnife = new ItemKnife(NoTreePunching.toolMaterialSteel, "steel_knife");
+            steelSaw = new ItemSaw(NoTreePunching.toolMaterialSteel, "steel_saw");
+            steelMattock = new ItemMattock(NoTreePunching.toolMaterialSteel, "steel_mattock");
+        }
+
     }
 
     public static void registerItems(RegistryEvent.Register<Item> event) {
@@ -103,6 +124,20 @@ public class ModItems {
                     copperKnife,
                     copperMattock,
                     copperSaw
+            );
+        }
+        if(addBronzeTools) {
+            event.getRegistry().registerAll(
+                    bronzeKnife,
+                    bronzeSaw,
+                    bronzeMattock
+            );
+        }
+        if(addSteelTools) {
+            event.getRegistry().registerAll(
+                    steelKnife,
+                    steelMattock,
+                    steelSaw
             );
         }
     }
@@ -141,6 +176,17 @@ public class ModItems {
             NoTreePunching.proxy.registerItemModel(copperKnife,0,copperKnife.name);
             NoTreePunching.proxy.registerItemModel(copperMattock,0,copperMattock.name);
             NoTreePunching.proxy.registerItemModel(copperSaw,0,copperSaw.name);
+        }
+
+        if(addBronzeTools) {
+            NoTreePunching.proxy.registerItemModel(bronzeKnife,0,bronzeKnife.name);
+            NoTreePunching.proxy.registerItemModel(bronzeSaw,0,bronzeSaw.name);
+            NoTreePunching.proxy.registerItemModel(bronzeMattock,0);
+        }
+        if(addSteelTools){
+            NoTreePunching.proxy.registerItemModel(steelKnife);
+            NoTreePunching.proxy.registerItemModel(steelMattock);
+            NoTreePunching.proxy.registerItemModel(steelSaw);
         }
     }
 
