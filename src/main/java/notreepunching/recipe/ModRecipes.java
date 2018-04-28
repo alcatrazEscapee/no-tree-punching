@@ -29,7 +29,7 @@ import java.util.Random;
 
 public class ModRecipes {
 
-    public static int magic = OreDictionary.WILDCARD_VALUE;
+    private static int magic = OreDictionary.WILDCARD_VALUE;
 
     public static List<CuttingRecipe> CUTTING_RECIPES = new ArrayList<CuttingRecipe>();
     public static List<FirepitRecipe> FIREPIT_RECIPES = new ArrayList<FirepitRecipe>();
