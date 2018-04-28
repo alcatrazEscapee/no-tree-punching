@@ -11,6 +11,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
 import notreepunching.item.ModItems;
@@ -20,7 +21,7 @@ import notreepunching.client.particle.FirepitSmokeParticle;
 import java.util.Random;
 
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent

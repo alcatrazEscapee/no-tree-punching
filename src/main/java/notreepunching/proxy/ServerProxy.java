@@ -1,8 +1,8 @@
 package notreepunching.proxy;
 
 import net.minecraftforge.fml.common.Mod;
-import notreepunching.proxy.ClientProxy;
+import net.minecraftforge.fml.relauncher.Side;
 
-@Mod.EventBusSubscriber
-public class ServerProxy extends ClientProxy {
+@Mod.EventBusSubscriber(Side.SERVER)
+public class ServerProxy extends CommonProxy {
 }
