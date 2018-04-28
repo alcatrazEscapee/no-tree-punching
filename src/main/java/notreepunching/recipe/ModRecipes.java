@@ -200,7 +200,6 @@ public class ModRecipes {
 
     private static void replaceWoodRecipes(){
         if(Loader.isModLoaded("rustic")){
-            System.out.println("TRYING TO LOAD COMPAT RECIPES");
             registerShaped(getSafeItem("rustic:planks",2), "A","P",'P',getSafeItem("rustic:log"), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
             registerShaped(getSafeItem("rustic:planks",4), "A","P",'P',getSafeItem("rustic:log"), 'A', "toolSaw");
 
@@ -210,6 +209,14 @@ public class ModRecipes {
         if(Loader.isModLoaded("traverse")){
             registerShaped(getSafeItem("traverse:fir_planks",2), "A","P",'P',getSafeItem("traverse:fir_log"), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
             registerShaped(getSafeItem("traverse:fir_planks",4), "A","P",'P',getSafeItem("traverse:fir_log"), 'A', "toolSaw");
+        }
+        if(Loader.isModLoaded("biomesoplenty")){
+            for(int i = 0;i<16;i++){
+                // I'm proud of these two lines :)
+                String logName = "biomesoplenty:log_"+i/4;
+                registerShaped(getSafeItem("biomesoplenty:planks_0",i,2),"A","P",'P',getSafeItem(logName,4+i%4,1),'A', new ItemStack(ModItems.crudeHatchet,1,magic));
+                registerShaped(getSafeItem("biomesoplenty:planks_0",i,4),"A","P",'P',getSafeItem(logName,4+i%4,1),'A',"toolSaw");
+            }
         }
     }
 
@@ -249,7 +256,7 @@ public class ModRecipes {
             modRegistry.remove(new ResourceLocation("minecraft:stone_axe"));
         }
 
-        if(Config.VanillaTweaks.WOOD_RECIPE_DISABLE){
+        if(Config.VanillaTweaks.WOOD_RECIPE_DISABLE) {
             modRegistry.remove(new ResourceLocation("minecraft:oak_planks"));
             modRegistry.remove(new ResourceLocation("minecraft:spruce_planks"));
             modRegistry.remove(new ResourceLocation("minecraft:birch_planks"));
@@ -257,15 +264,33 @@ public class ModRecipes {
             modRegistry.remove(new ResourceLocation("minecraft:acacia_planks"));
             modRegistry.remove(new ResourceLocation("minecraft:dark_oak_planks"));
             modRegistry.remove(new ResourceLocation("minecraft:stick"));
-        }
 
-        // Remove easy wood recipes
-        if(Loader.isModLoaded("traverse")) {
-            modRegistry.remove(new ResourceLocation("traverse:fir_planks"));
-        }
-        if(Loader.isModLoaded("rustic")){
-            modRegistry.remove(new ResourceLocation("rustic:olive_planks"));
-            modRegistry.remove(new ResourceLocation("rustic:ironwood_planks"));
+            // Mod Wood Recipes
+            if (Loader.isModLoaded("traverse")) {
+                modRegistry.remove(new ResourceLocation("traverse:fir_planks"));
+            }
+            if (Loader.isModLoaded("rustic")) {
+                modRegistry.remove(new ResourceLocation("rustic:olive_planks"));
+                modRegistry.remove(new ResourceLocation("rustic:ironwood_planks"));
+            }
+            if (Loader.isModLoaded("biomesoplenty")) {
+                modRegistry.remove(new ResourceLocation("biomesoplenty:sacred_oak_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:cherry_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:umbran_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:fir_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:ethereal_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:magic_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:mangrove_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:palm_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:redwood_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:willow_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:pine_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:hellbark_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:jacaranda_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:mahogany_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:ebony_planks"));
+                modRegistry.remove(new ResourceLocation("biomesoplenty:eucalyptus_planks"));
+            }
         }
     }
 }

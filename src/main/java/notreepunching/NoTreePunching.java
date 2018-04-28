@@ -20,7 +20,7 @@ import notreepunching.world.WorldGen;
 import org.apache.logging.log4j.Logger;
 import notreepunching.proxy.CommonProxy;
 
-@Mod(modid = NoTreePunching.MODID, version = NoTreePunching.VERSION, dependencies = "after:quark;after:rustic")
+@Mod(modid = NoTreePunching.MODID, version = NoTreePunching.VERSION, dependencies = "after:quark;after:rustic;after:biomeoplenty")
 
 public class NoTreePunching {
 
