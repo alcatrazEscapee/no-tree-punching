@@ -11,6 +11,8 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -33,12 +35,17 @@ public class ModRecipes {
     public static List<FirepitRecipe> FIREPIT_RECIPES = new ArrayList<FirepitRecipe>();
 
     public static void init(){
-
         initCuttingRecipes();
-        initFirepitRecipes();
         initCraftingRecipes();
         initSmeltingRecipes();
+    }
 
+    public static void postInit(){
+        // Furnace based food recipes
+        initFirepitRecipes();
+
+        // Compat wood recipes
+        replaceWoodRecipes();
     }
 
     // *************************** KNIFE ************************ //
@@ -191,12 +198,34 @@ public class ModRecipes {
 
     }
 
+    private static void replaceWoodRecipes(){
+        if(Loader.isModLoaded("rustic")){
+            System.out.println("TRYING TO LOAD COMPAT RECIPES");
+            registerShaped(getSafeItem("rustic:planks",2), "A","P",'P',getSafeItem("rustic:log"), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
+            registerShaped(getSafeItem("rustic:planks",4), "A","P",'P',getSafeItem("rustic:log"), 'A', "toolSaw");
+
+            registerShaped(getSafeItem("rustic:planks",1,2), "A","P",'P',getSafeItem("rustic:log",1,1), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
+            registerShaped(getSafeItem("rustic:planks",1,4), "A","P",'P',getSafeItem("rustic:log",1,1), 'A', "toolSaw");
+        }
+        if(Loader.isModLoaded("traverse")){
+            registerShaped(getSafeItem("traverse:fir_planks",2), "A","P",'P',getSafeItem("traverse:fir_log"), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
+            registerShaped(getSafeItem("traverse:fir_planks",4), "A","P",'P',getSafeItem("traverse:fir_log"), 'A', "toolSaw");
+        }
+    }
+
     private static void registerShaped(ItemStack output, Object... inputs) {
         RecipeHelper.addShapedOreRecipe(output, inputs);
     }
 
-    private static void registerShapeless(ItemStack output, Object... inputs) {
-        RecipeHelper.addShapelessOreRecipe(output, inputs);
+    private static ItemStack getSafeItem(String name){
+        return getSafeItem(name, 0, 1);
+    }
+    private static ItemStack getSafeItem(String name, int count){
+        return getSafeItem(name, 0, count);
+    }
+    private static ItemStack getSafeItem(String name, int meta, int count){
+        Item item = Item.getByNameOrId(name);
+        return item == null ? ItemStack.EMPTY : new ItemStack(item, count, meta);
     }
 
     public static void removeVanillaRecipes(IForgeRegistry<IRecipe> reg){
@@ -228,7 +257,15 @@ public class ModRecipes {
             modRegistry.remove(new ResourceLocation("minecraft:acacia_planks"));
             modRegistry.remove(new ResourceLocation("minecraft:dark_oak_planks"));
             modRegistry.remove(new ResourceLocation("minecraft:stick"));
+        }
 
+        // Remove easy wood recipes
+        if(Loader.isModLoaded("traverse")) {
+            modRegistry.remove(new ResourceLocation("traverse:fir_planks"));
+        }
+        if(Loader.isModLoaded("rustic")){
+            modRegistry.remove(new ResourceLocation("rustic:olive_planks"));
+            modRegistry.remove(new ResourceLocation("rustic:ironwood_planks"));
         }
     }
 }

@@ -74,15 +74,14 @@ public class NoTreePunching {
 
         // Register Ore Dict
         ModItems.initOreDict();
-
-        //ModRecipes.init();
+        ModRecipes.init();
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         logger.info("Post-init started");
 
-        proxy.postInit(event);
+        ModRecipes.postInit();
         NTP_Tab.setTabItem(ModItems.stoneKnife);
 
         logger.info("Finished Loading");

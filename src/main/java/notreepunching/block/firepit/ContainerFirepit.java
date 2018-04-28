@@ -172,7 +172,6 @@ public class ContainerFirepit extends Container {
 
         @Override
         public boolean isItemValid(ItemStack stack) {
-            System.out.println("Dumping a "+stack.getItem().getUnlocalizedName()+" with meta "+stack.getMetadata());
             return TileEntityFirepit.isItemValidInput(stack);
         }
     }

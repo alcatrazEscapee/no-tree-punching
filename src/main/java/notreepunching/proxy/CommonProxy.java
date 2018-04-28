@@ -29,10 +29,6 @@ public class CommonProxy{
         MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
     }
 
-    public void postInit(FMLPostInitializationEvent event){
-        ModRecipes.init();
-    }
-
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         ModItems.init();
