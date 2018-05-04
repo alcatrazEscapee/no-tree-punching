@@ -15,7 +15,7 @@ item.rock_slate.name=Slate Rock
 
 item.grass_fiber.name=Plant Fibers
 item.grass_string.name=Plant String
-item.flint_shard=Flint Shard
+item.flint_shard.name=Flint Shard
 
 item.iron_knife.name=Iron Knife
 item.gold_knife.name=Gold Knife

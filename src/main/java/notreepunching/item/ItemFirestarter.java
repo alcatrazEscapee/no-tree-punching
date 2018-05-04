@@ -64,6 +64,8 @@ public class ItemFirestarter extends ItemTool {
             World world = player.getEntityWorld();
             EntityPlayer player1 = (EntityPlayer) player;
             RayTraceResult result = rayTrace(world, player1, false);
+            // Intellij says result is always nonnull. Intellij is wrong.
+            if(result == null) { return; }
             if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
                 Vec3d v = result.hitVec;
                 BlockPos pos = new BlockPos(v.x, v.y, v.z);
@@ -79,6 +81,7 @@ public class ItemFirestarter extends ItemTool {
         if(player != null){
 
             RayTraceResult result = rayTrace(worldIn,player,false);
+            if(result == null) { return stack; }
 
             if(result.typeOfHit==RayTraceResult.Type.BLOCK){ // If looking at a block
 
