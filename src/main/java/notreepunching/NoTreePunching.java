@@ -17,8 +17,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import notreepunching.client.CreativeTabBase;
 import notreepunching.client.NTPGuiHandler;
 import notreepunching.config.Config;
+import notreepunching.event.HarvestEventHandler;
+import notreepunching.event.PlayerEventHandler;
 import notreepunching.item.ModItems;
 import notreepunching.recipe.ModRecipes;
+import notreepunching.registry.RegistryHandler;
 import notreepunching.world.WorldGen;
 import org.apache.logging.log4j.Logger;
 import notreepunching.proxy.CommonProxy;
@@ -67,8 +70,14 @@ public class NoTreePunching {
         // Register GUI Handler
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new NTPGuiHandler());
 
-        proxy.preInit(event);
+        // Register Event Handlers
+        MinecraftForge.EVENT_BUS.register(new HarvestEventHandler());
+        MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
 
+        // Registry Handler
+        MinecraftForge.EVENT_BUS.register(new RegistryHandler());
+
+        proxy.preInit(event);
     }
 
     @Mod.EventHandler
@@ -78,6 +87,8 @@ public class NoTreePunching {
         // Register Ore Dict
         ModItems.initOreDict();
         ModRecipes.init();
+
+        proxy.init(event);
     }
 
     @Mod.EventHandler
@@ -87,6 +98,7 @@ public class NoTreePunching {
         ModRecipes.postInit();
         NTP_Tab.setTabItem(ModItems.stoneKnife);
 
+        proxy.postInit(event);
         logger.info("Finished Loading");
     }
 
