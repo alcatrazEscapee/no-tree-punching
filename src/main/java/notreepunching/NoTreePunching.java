@@ -13,18 +13,17 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import notreepunching.client.CreativeTabBase;
 import notreepunching.client.NTPGuiHandler;
 import notreepunching.config.Config;
 import notreepunching.event.HarvestEventHandler;
 import notreepunching.event.PlayerEventHandler;
 import notreepunching.item.ModItems;
+import notreepunching.proxy.IProxy;
 import notreepunching.recipe.ModRecipes;
 import notreepunching.registry.RegistryHandler;
 import notreepunching.world.WorldGen;
 import org.apache.logging.log4j.Logger;
-import notreepunching.proxy.CommonProxy;
 
 @Mod(modid = NoTreePunching.MODID, version = NoTreePunching.VERSION, dependencies = "after:quark;after:rustic;after:biomeoplenty")
 
@@ -48,8 +47,8 @@ public class NoTreePunching {
     public static boolean addBronzeTools;
     public static boolean addSteelTools;
 
-    @SidedProxy(clientSide = "notreepunching.proxy.ClientProxy", serverSide = "notreepunching.proxy.ServerProxy")
-    public static CommonProxy proxy;
+    @SidedProxy(clientSide = MODID+".proxy.ClientProxy", serverSide = MODID+".proxy.ServerProxy")
+    public static IProxy proxy;
 
     @Mod.Instance
     public static NoTreePunching instance;
@@ -87,8 +86,6 @@ public class NoTreePunching {
         // Register Ore Dict
         ModItems.initOreDict();
         ModRecipes.init();
-
-        proxy.init(event);
     }
 
     @Mod.EventHandler
@@ -98,7 +95,6 @@ public class NoTreePunching {
         ModRecipes.postInit();
         NTP_Tab.setTabItem(ModItems.stoneKnife);
 
-        proxy.postInit(event);
         logger.info("Finished Loading");
     }
 

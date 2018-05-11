@@ -25,37 +25,30 @@ import java.util.Random;
 
 
 @Mod.EventBusSubscriber(Side.CLIENT)
-public class ClientProxy extends CommonProxy {
+public class ClientProxy implements IProxy {
 
-    @Override
     public void preInit(FMLPreInitializationEvent event){
         MinecraftForge.EVENT_BUS.register(new ClientRegistryHandler());
     }
 
-    @Override
     public void registerItemModel(Item item, int meta, String id) {
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(NoTreePunching.MODID + ":" + id, "inventory"));
     }
-    @Override
     public void registerItemModel(Item item, int meta){
         registerItemModel(item, meta, item.getRegistryName().getResourcePath());
     }
-    @Override
     public void registerItemModel(Item item) {
         registerItemModel(item, 0, item.getRegistryName().getResourcePath());
     }
 
-    @Override
     public void registerItemModelWithVariant(Item item, int meta, String id, String variant){
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(NoTreePunching.MODID + ":" + id,variant));
     }
 
-    @Override
     public String localize(String unlocalized, Object... args) {
         return I18n.format(unlocalized, args);
     }
 
-    @Override
     public void generateParticle(World world, BlockPos pos, EnumParticleTypes particle){
         Random rand = new Random();
         double x = pos.getX()+0.5d+0.05d*rand.nextGaussian();
