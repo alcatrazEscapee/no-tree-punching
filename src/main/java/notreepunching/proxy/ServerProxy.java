@@ -1,7 +1,9 @@
 package notreepunching.proxy;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -16,6 +18,9 @@ import java.util.Random;
 public class ServerProxy implements IProxy {
 
     public void preInit(FMLPreInitializationEvent event){
+    }
+
+    public void addModelToRegistry(ItemStack stack, ResourceLocation location, String variant){
     }
 
     public String localize(String unlocalized, Object... args) {

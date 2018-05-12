@@ -4,7 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -29,6 +31,11 @@ public class ClientProxy implements IProxy {
 
     public void preInit(FMLPreInitializationEvent event){
         MinecraftForge.EVENT_BUS.register(new ClientRegistryHandler());
+    }
+
+    public void addModelToRegistry(ItemStack stack, ResourceLocation location, String variant){
+        System.out.println("ADDING MODEL: "+stack.getItem().getUnlocalizedName()+" | "+location.toString()+" | "+variant);
+        ClientRegistryHandler.MODEL_REGISTRY.put(stack, new ModelResourceLocation(location, variant));
     }
 
     public void registerItemModel(Item item, int meta, String id) {

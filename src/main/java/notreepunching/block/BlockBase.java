@@ -3,19 +3,27 @@ package notreepunching.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import notreepunching.NoTreePunching;
 
-public class BlockBase extends Block {
+public class BlockBase extends Block implements IHasItemBlockModel {
 
     public String name;
 
     public BlockBase(String name, Material material){
         super(material);
 
-        setUnlocalizedName(name);
-        setRegistryName(name);
         this.name = name;
-        //setCreativeTab(NoTreePunching.NTP_Tab);
+        this.register();
+    }
+
+    public void register(){
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, true);
+    }
+    public void addModelToRegistry(){
+        NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 
     @Override

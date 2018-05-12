@@ -2,7 +2,9 @@ package notreepunching.proxy;
 
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
@@ -15,6 +17,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public interface IProxy{
 
     void preInit(FMLPreInitializationEvent event);
+
+    void addModelToRegistry(ItemStack stack, ResourceLocation location, String variant);
 
     void registerItemModel(Item item, int meta, String id) ;
     void registerItemModel(Item item, int meta) ;

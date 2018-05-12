@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
+import notreepunching.registry.RegistryHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +97,15 @@ public class ModItems {
             steelMattock = new ItemMattock(NoTreePunching.toolMaterialSteel, "steel_mattock");
         }
 
+    }
+
+    public static void addItemToRegistry(Item item, String name, boolean addToCreativeTab){
+        item.setUnlocalizedName(name);
+        item.setRegistryName(name);
+
+        if(addToCreativeTab) { item.setCreativeTab(NoTreePunching.NTP_Tab); }
+
+        RegistryHandler.ITEM_REGISTRY.add(item);
     }
 
     public static void registerItems(RegistryEvent.Register<Item> event) {

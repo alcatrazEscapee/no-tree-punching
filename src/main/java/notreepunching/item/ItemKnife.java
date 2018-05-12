@@ -7,7 +7,6 @@ import net.minecraft.block.BlockTallGrass;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,6 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Mod;
 import notreepunching.NoTreePunching;
 import notreepunching.recipe.CuttingRecipe;
 import notreepunching.recipe.ModRecipes;
@@ -30,10 +28,13 @@ public class ItemKnife extends ItemTool {
     public ItemKnife(Item.ToolMaterial material, String name){
         super(material.getAttackDamage(),-2.0F,material,EFFECTIVE_ON);
 
-        setUnlocalizedName(name);
-        setRegistryName(name);
         this.name = name;
-        setCreativeTab(NoTreePunching.NTP_Tab);
+        register();
+    }
+
+    public void register(){
+        ModItems.addItemToRegistry(this,name,true);
+        NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 
     public boolean shouldBreakBlock(Block block){

@@ -9,7 +9,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -29,9 +28,12 @@ public class ItemMattock extends ItemAxe {
         super(material,material.getAttackDamage(),-2.8F);
 
         this.name = name;
-        setUnlocalizedName(name);
-        setRegistryName(name);
-        setCreativeTab(NoTreePunching.NTP_Tab);
+        register();
+    }
+
+    public void register(){
+        ModItems.addItemToRegistry(this,name,true);
+        NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 
     public boolean shouldBreakBlock(Block block){

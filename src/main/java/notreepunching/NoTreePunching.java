@@ -84,7 +84,6 @@ public class NoTreePunching {
         logger.info("Init started");
 
         // Register Ore Dict
-        ModItems.initOreDict();
         ModRecipes.init();
     }
 

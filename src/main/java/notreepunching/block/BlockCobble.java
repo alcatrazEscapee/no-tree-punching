@@ -17,7 +17,6 @@ public class BlockCobble extends BlockBase {
         setHardness(2.0F);
         setResistance(10.0F);
 
-        setCreativeTab(NoTreePunching.NTP_Tab);
     }
 
 }

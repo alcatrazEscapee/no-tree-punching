@@ -5,14 +5,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemMultiTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
@@ -27,8 +26,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import notreepunching.NoTreePunching;
 import notreepunching.item.ModItems;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class BlockRock extends BlockBase {
 
@@ -39,6 +38,20 @@ public class BlockRock extends BlockBase {
 
         setHardness(0.15F);
         setDefaultState(this.blockState.getBaseState().withProperty(TYPE,EnumMineralType.STONE));
+    }
+
+    @Override
+    public void register(){
+        ModBlocks.addBlockToRegistry(this, new ItemMultiTexture(this, this ,this::getStoneName), name, false);
+    }
+    @Override
+    public void addModelToRegistry(){
+        for(int i=0; i<7; i++) {
+            if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
+            if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
+            NoTreePunching.proxy.addModelToRegistry(new ItemStack(this,1,i),this.getRegistryName(),"inventory");
+            //NoTreePunching.proxy.registerItemModelWithVariant(Item.getItemFromBlock(looseRock), i, looseRock.name,"type="+looseRock.getStoneName(i));
+        }
     }
 
     @Override
@@ -128,6 +141,7 @@ public class BlockRock extends BlockBase {
         return type.getMetadata();
     }
 
+    @Nonnull
     public String getStoneName(ItemStack stack){
         switch(stack.getMetadata()){
             case 0:
@@ -145,7 +159,7 @@ public class BlockRock extends BlockBase {
             case 6:
                 return "slate"; // Rustic Slate
             default:
-                return "";
+                return "unknown stone name - this is a bug";
         }
     }
     public String getStoneName(int meta){

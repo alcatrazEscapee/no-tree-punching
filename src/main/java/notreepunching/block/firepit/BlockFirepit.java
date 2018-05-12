@@ -13,6 +13,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -25,6 +26,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import notreepunching.NoTreePunching;
 import notreepunching.block.BlockWithTileEntity;
+import notreepunching.block.ModBlocks;
 import notreepunching.client.NTPGuiHandler;
 import notreepunching.item.ItemFirestarter;
 
@@ -41,6 +43,11 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
 
         setTickRandomly(true);
         setDefaultState(this.blockState.getBaseState().withProperty(BURNING,true));
+    }
+
+    @Override
+    public void register(){
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, false);
     }
 
     @Override

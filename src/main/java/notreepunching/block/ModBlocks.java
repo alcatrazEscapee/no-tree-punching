@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import notreepunching.NoTreePunching;
 import notreepunching.block.firepit.BlockFirepit;
 import notreepunching.config.Config;
+import notreepunching.registry.RegistryHandler;
 
 public class ModBlocks {
 
@@ -67,6 +68,17 @@ public class ModBlocks {
         }
 
         GameRegistry.registerTileEntity(firepit.getTileEntityClass(), "tile_entity_firepit");
+    }
+
+    public static void addBlockToRegistry(Block block, ItemBlock itemBlock, String name, boolean addToCreativeTab){
+        block.setRegistryName(name);
+        block.setUnlocalizedName(name);
+        itemBlock.setRegistryName(name);
+
+        if(addToCreativeTab) { block.setCreativeTab(NoTreePunching.NTP_Tab); }
+
+        RegistryHandler.BLOCK_REGISTRY.add(block);
+        RegistryHandler.ITEM_REGISTRY.add(itemBlock);
     }
 
     public static void registerItemBlocks(RegistryEvent.Register<Item> event){
