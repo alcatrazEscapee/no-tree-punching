@@ -1,6 +1,5 @@
 package notreepunching.item;
 
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +30,6 @@ public class ItemRock extends ItemBase {
     @Override
     public void register(){
         ModItems.addItemToRegistry(this,name,true);
-        //NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
         for(int i=0;i<7;i++) {
             if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
             if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
@@ -103,7 +101,8 @@ public class ItemRock extends ItemBase {
                     stack = ItemStack.EMPTY;
                 }
                 player.setHeldItem(hand,stack);
-                worldIn.playSound(player, pos, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                // Player is null here otherwise sound is only played to other players see: https://mcforge.readthedocs.io/en/latest/effects/sounds/
+                worldIn.playSound(null, pos, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 worldIn.setBlockState(pos.up(), ModBlocks.looseRock.getDefaultState().withProperty(TYPE, BlockRock.EnumMineralType.byMetadata(meta)));
                 return EnumActionResult.SUCCESS;
             }

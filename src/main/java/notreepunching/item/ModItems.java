@@ -1,5 +1,6 @@
 package notreepunching.item;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.RegistryEvent;
@@ -48,6 +49,7 @@ public class ModItems {
     public static ItemCrudeAxe crudeHatchet;
     public static ItemCrudePick crudePick;
     public static ItemCrudeShovel crudeShovel;
+    public static ItemCrudeHoe crudeHoe;
 
     public static ItemFirestarter firestarter;
 
@@ -64,6 +66,7 @@ public class ModItems {
         crudeHatchet = new ItemCrudeAxe(NoTreePunching.toolMaterialFlint,"crude_axe");
         crudePick = new ItemCrudePick(NoTreePunching.toolMaterialFlint,"crude_pick");
         crudeShovel = new ItemCrudeShovel(NoTreePunching.toolMaterialFlint, "crude_shovel");
+        crudeHoe = new ItemCrudeHoe(NoTreePunching.toolMaterialFlint, "crude_hoe");
 
         ironKnife = new ItemKnife(Item.ToolMaterial.IRON,"iron_knife");
         ironMattock = new ItemMattock(Item.ToolMaterial.IRON,"iron_mattock");
@@ -148,6 +151,9 @@ public class ModItems {
         if(addCopperTools) { OreDictionary.registerOre("toolSaw",new ItemStack(copperSaw,1,OreDictionary.WILDCARD_VALUE)); }
         if(addBronzeTools) { OreDictionary.registerOre("toolSaw",new ItemStack(bronzeSaw,1,OreDictionary.WILDCARD_VALUE)); }
         if(addSteelTools) { OreDictionary.registerOre("toolSaw",new ItemStack(steelSaw,1,OreDictionary.WILDCARD_VALUE)); }
+
+        OreDictionary.registerOre("materialString", new ItemStack(Items.STRING));
+        OreDictionary.registerOre("materialString", new ItemStack(ModItems.grassString));
     }
 }
 

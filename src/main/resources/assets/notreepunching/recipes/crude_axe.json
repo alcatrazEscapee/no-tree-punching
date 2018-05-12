@@ -6,13 +6,15 @@
 	],
 	"key": {
 		"T": {
-			"item": "minecraft:stick"
+			"type": "forge:ore_dict",
+			"ore": "stickWood"
 		},
 		"S": {
 			"item": "notreepunching:flint_shard"
 		},
 		"F": {
-          "item": "notreepunching:grass_string"
+			"type": "forge:ore_dict",
+			"ore": "materialString"
         }
 	},
 	"result": {

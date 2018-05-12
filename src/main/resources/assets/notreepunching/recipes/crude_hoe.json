@@ -1,9 +1,9 @@
 {
 	"type": "forge:ore_shaped",
 	"pattern": [
-		"SFS",
-		"STS",
-		" T "
+		"FSS",
+		"T  ",
+		"T  "
 	],
 	"key": {
 		"T": {
@@ -19,7 +19,7 @@
         }
 	},
 	"result": {
-		"item": "notreepunching:crude_pick",
+		"item": "notreepunching:crude_hoe",
 		"data": 0
 	}
 }

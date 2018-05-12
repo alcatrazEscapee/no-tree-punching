@@ -22,6 +22,8 @@ import notreepunching.block.ModBlocks;
 import notreepunching.config.Config;
 import notreepunching.item.ModItems;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -140,7 +142,7 @@ public class ModRecipes {
     // *************************** SMELTING ************************ //
 
     private static void initSmeltingRecipes(){
-        RecipeHelper.addSmelting(ModItems.grassString,new ItemStack(Items.STRING));
+        //RecipeHelper.addSmelting(ModItems.grassString,new ItemStack(Items.STRING));
 
         if(Config.VanillaTweaks.STONE_DROPS_ROCKS){
             RecipeHelper.addSmelting(ModBlocks.andesiteCobble,new ItemStack(Blocks.STONE,1,5));
@@ -148,11 +150,11 @@ public class ModRecipes {
             RecipeHelper.addSmelting(ModBlocks.graniteCobble,new ItemStack(Blocks.STONE,1,1));
         }
         if(NoTreePunching.replaceQuarkStones){
-            RecipeHelper.addSmelting(ModBlocks.marbleCobble,new ItemStack(Item.getByNameOrId("quark:marble"),1,0));
-            RecipeHelper.addSmelting(ModBlocks.limestoneCobble,new ItemStack(Item.getByNameOrId("quark:limestone"),1,0));
+            RecipeHelper.addSmelting(ModBlocks.marbleCobble,getSafeItem("quark:marble",1,0));
+            RecipeHelper.addSmelting(ModBlocks.limestoneCobble,getSafeItem("quark:limestone",1,0));
         }
         if(NoTreePunching.replaceRusticStone){
-            RecipeHelper.addSmelting(ModBlocks.slateCobble,new ItemStack(Item.getByNameOrId("rustic:slate"),1,0));
+            RecipeHelper.addSmelting(ModBlocks.slateCobble,getSafeItem("rustic:slate",1,0));
         }
     }
 
