@@ -46,12 +46,12 @@ public class BlockRock extends BlockBase {
     }
     @Override
     public void addModelToRegistry(){
-        for(int i=0; i<7; i++) {
+        /*for(int i=0; i<7; i++) {
             if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
             if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
             NoTreePunching.proxy.addModelToRegistry(new ItemStack(this,1,i),this.getRegistryName(),"inventory");
             //NoTreePunching.proxy.registerItemModelWithVariant(Item.getItemFromBlock(looseRock), i, looseRock.name,"type="+looseRock.getStoneName(i));
-        }
+        }*/
     }
 
     @Override

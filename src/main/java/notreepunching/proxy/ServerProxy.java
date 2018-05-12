@@ -27,16 +27,6 @@ public class ServerProxy implements IProxy {
         return I18n.translateToLocalFormatted(unlocalized, args);
     }
 
-    public void registerItemModel(Item item, int meta, String id) {
-    }
-    public void registerItemModel(Item item, int meta){
-    }
-    public void registerItemModel(Item item) {
-    }
-
-    public void registerItemModelWithVariant(Item item, int meta, String id, String variant){
-    }
-
     public void generateParticle(World world, BlockPos pos, EnumParticleTypes particle){
 
     }

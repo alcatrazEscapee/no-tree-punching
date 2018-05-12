@@ -1,4 +1,4 @@
-package notreepunching.block.firepit;
+package notreepunching.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
+import notreepunching.block.firepit.TileEntityFirepit;
 
 public class GuiFirepit extends GuiContainer {
 

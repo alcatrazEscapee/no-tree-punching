@@ -47,7 +47,7 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
 
     @Override
     public void register(){
-        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, false);
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, true);
     }
 
     @Override

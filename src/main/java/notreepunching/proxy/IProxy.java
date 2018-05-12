@@ -20,12 +20,6 @@ public interface IProxy{
 
     void addModelToRegistry(ItemStack stack, ResourceLocation location, String variant);
 
-    void registerItemModel(Item item, int meta, String id) ;
-    void registerItemModel(Item item, int meta) ;
-    void registerItemModel(Item item);
-
-    void registerItemModelWithVariant(Item item, int meta, String id, String variant);
-
     String localize(String unlocalized, Object... args);
 
     void generateParticle(World world, BlockPos pos, EnumParticleTypes particle);

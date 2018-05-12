@@ -34,22 +34,7 @@ public class ClientProxy implements IProxy {
     }
 
     public void addModelToRegistry(ItemStack stack, ResourceLocation location, String variant){
-        System.out.println("ADDING MODEL: "+stack.getItem().getUnlocalizedName()+" | "+location.toString()+" | "+variant);
         ClientRegistryHandler.MODEL_REGISTRY.put(stack, new ModelResourceLocation(location, variant));
-    }
-
-    public void registerItemModel(Item item, int meta, String id) {
-        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(NoTreePunching.MODID + ":" + id, "inventory"));
-    }
-    public void registerItemModel(Item item, int meta){
-        registerItemModel(item, meta, item.getRegistryName().getResourcePath());
-    }
-    public void registerItemModel(Item item) {
-        registerItemModel(item, 0, item.getRegistryName().getResourcePath());
-    }
-
-    public void registerItemModelWithVariant(Item item, int meta, String id, String variant){
-        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(NoTreePunching.MODID + ":" + id,variant));
     }
 
     public String localize(String unlocalized, Object... args) {

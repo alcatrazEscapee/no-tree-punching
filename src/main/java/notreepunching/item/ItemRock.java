@@ -5,6 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -102,7 +103,9 @@ public class ItemRock extends ItemBase {
                     stack = ItemStack.EMPTY;
                 }
                 player.setHeldItem(hand,stack);
+                worldIn.playSound(player, pos, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 worldIn.setBlockState(pos.up(), ModBlocks.looseRock.getDefaultState().withProperty(TYPE, BlockRock.EnumMineralType.byMetadata(meta)));
+                return EnumActionResult.SUCCESS;
             }
         }
 

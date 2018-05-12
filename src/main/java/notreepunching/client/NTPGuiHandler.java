@@ -6,7 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import notreepunching.block.firepit.ContainerFirepit;
-import notreepunching.block.firepit.GuiFirepit;
+import notreepunching.client.gui.GuiFirepit;
 import notreepunching.block.firepit.TileEntityFirepit;
 
 public class NTPGuiHandler implements IGuiHandler {
