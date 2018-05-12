@@ -46,12 +46,6 @@ public class BlockRock extends BlockBase {
     }
     @Override
     public void addModelToRegistry(){
-        /*for(int i=0; i<7; i++) {
-            if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
-            if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
-            NoTreePunching.proxy.addModelToRegistry(new ItemStack(this,1,i),this.getRegistryName(),"inventory");
-            //NoTreePunching.proxy.registerItemModelWithVariant(Item.getItemFromBlock(looseRock), i, looseRock.name,"type="+looseRock.getStoneName(i));
-        }*/
     }
 
     @Override
@@ -112,19 +106,6 @@ public class BlockRock extends BlockBase {
         }
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubBlocks(CreativeTabs whichTab, NonNullList<ItemStack> items)
-    {
-        EnumMineralType[] values = EnumMineralType.values();
-        for (EnumMineralType v : values) {
-            int meta = v.getMetadata();
-            if(!NoTreePunching.replaceQuarkStones && (meta == 4 || meta == 5)) { continue; }
-            if(!NoTreePunching.replaceRusticStone && (meta == 6)) { continue; }
-            items.add(new ItemStack(this, 1, v.getMetadata()));
-        }
-    }
-
     // ************* Block State Methods ************** //
 
     @Override
@@ -137,12 +118,12 @@ public class BlockRock extends BlockBase {
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        EnumMineralType type = (EnumMineralType) state.getValue(TYPE);
+        EnumMineralType type = state.getValue(TYPE);
         return type.getMetadata();
     }
 
     @Nonnull
-    public String getStoneName(ItemStack stack){
+    private String getStoneName(ItemStack stack){
         switch(stack.getMetadata()){
             case 0:
                 return "stone"; // Vanilla Stone
@@ -167,6 +148,7 @@ public class BlockRock extends BlockBase {
     }
 
     @Override
+    @Nonnull
     protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, new IProperty[] {TYPE});

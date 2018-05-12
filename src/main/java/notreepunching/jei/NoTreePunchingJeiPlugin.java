@@ -49,11 +49,8 @@ public class NoTreePunchingJeiPlugin implements IModPlugin {
         // Blacklist Ingredients
 
         IIngredientBlacklist blacklist = registry.getJeiHelpers().getIngredientBlacklist();
-        for(int i=0; i<7; i++) {
-            if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
-            if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
-            blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.looseRock,1,i));
-        }
+        blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.looseRock));
+        blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.charcoalPile));
 
         // Knife / Cutting Recipes
         registry.handleRecipes(CuttingRecipe.class, KnifeRecipeWrapper::new, KnifeRecipeCategory.UID);

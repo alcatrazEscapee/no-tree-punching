@@ -2,14 +2,15 @@ package notreepunching.recipe;
 
 import net.minecraft.item.ItemStack;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
 public class FirepitRecipe {
 
-    private ItemStack output;
-    private ItemStack ingredient;
-    private int cookTime;
+    private final ItemStack output;
+    private final ItemStack ingredient;
+    private final int cookTime;
 
     public FirepitRecipe(ItemStack ingredient, int time, ItemStack output){
 

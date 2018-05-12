@@ -20,6 +20,7 @@ import notreepunching.block.ModBlocks;
 import notreepunching.config.Config;
 import notreepunching.recipe.FirepitRecipe;
 import notreepunching.recipe.ModRecipes;
+import notreepunching.util.ItemUtil;
 
 import javax.annotation.Nullable;
 
@@ -63,22 +64,14 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
                 if(!cookStack.isEmpty() && isItemValidInput(cookStack)){
                     FirepitRecipe recipe = ModRecipes.getFirepitRecipe(cookStack);
 
-                    if((ItemStack.areItemsEqual(outStack,recipe.getOutput()) && outStack.getCount()+recipe.getCount()<=outStack.getMaxStackSize())
-                            || outStack.isEmpty()){
+                    if(ItemUtil.canMergeStack(recipe.getOutput(),outStack)){
                         cookTimer++;
                         maxCookTimer = recipe.getCookTime();
 
                         if(cookTimer >= maxCookTimer){
                             // Cook an item
-                            cookStack.shrink(1);
-                            if(cookStack.getCount() == 0){
-                                cookStack = ItemStack.EMPTY;
-                            }
-                            if(outStack.isEmpty()){
-                                outStack = new ItemStack(recipe.getOutput().getItem(),recipe.getCount(),recipe.getOutput().getMetadata());
-                            }else{
-                                outStack.grow(recipe.getOutput().getCount());
-                            }
+                            cookStack = ItemUtil.consumeItem(cookStack,1);
+                            outStack = ItemUtil.mergeStacks(outStack, recipe.getOutput());
 
                             inventory.setStackInSlot(1,cookStack);
                             inventory.setStackInSlot(2,outStack);
@@ -99,10 +92,7 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
                     if(isItemValidFuel(is)){
                         burnTicks += TileEntityFurnace.getItemBurnTime(is) * Config.Firepit.FUEL_MULT;
                         maxBurnTicks = burnTicks;
-                        is.shrink(1);
-                        if(is.getCount()==0){
-                            is = ItemStack.EMPTY;
-                        }
+                        is = ItemUtil.consumeItem(is);
                         inventory.setStackInSlot(0,is);
                     } else {
 

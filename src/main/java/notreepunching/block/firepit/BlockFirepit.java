@@ -29,6 +29,8 @@ import notreepunching.block.BlockWithTileEntity;
 import notreepunching.block.ModBlocks;
 import notreepunching.client.NTPGuiHandler;
 import notreepunching.item.ItemFirestarter;
+import notreepunching.item.ModItems;
+import notreepunching.util.ItemUtil;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -55,24 +57,37 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
         if (!world.isRemote) {
 
             ItemStack heldItem = player.getHeldItem(hand);
-            TileEntityFirepit tile = getTileEntity(world, pos);
-            //IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 
-            if(heldItem.getItem() instanceof ItemFirestarter || heldItem.getItem()==Items.FLINT_AND_STEEL){
-                world.setBlockState(pos,this.getDefaultState().withProperty(BURNING,true));
-                heldItem.damageItem(1,player); // remove for easier testing
-            }else if(heldItem.getItem() == Item.getItemFromBlock(Blocks.SAND)){
-                world.setBlockState(pos,this.getDefaultState().withProperty(BURNING,false));
-                heldItem.shrink(1);
-                if(heldItem.getCount() == 0){
-                    heldItem = ItemStack.EMPTY;
+            // Special Interactions
+            if(state.getValue(BURNING)) {
+                if (heldItem.getItem() == Item.getItemFromBlock(Blocks.SAND)) {
+                    // Extinguish a firepit
+                    world.setBlockState(pos, this.getDefaultState().withProperty(BURNING, false));
+                    player.setHeldItem(hand, ItemUtil.consumeItem(heldItem));
+                    return true;
                 }
-                player.setHeldItem(hand,heldItem);
+                if (heldItem.getItem() == Items.STICK) {
+                    // Burn the end of a stick into a torch
+                    ItemStack stack2 = new ItemStack(Blocks.TORCH);
+                    BlockPos playerPos = player.getPosition();
+                    EntityItem item = new EntityItem(world, playerPos.getX(), playerPos.getY(), playerPos.getZ(), stack2);
+                    world.spawnEntity(item);
+                    player.setHeldItem(hand, ItemUtil.consumeItem(heldItem));
+                    world.playSound(null, playerPos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 0.5F, 1.5F);
+                    return true;
+                }
+            }else{
+                if (heldItem.getItem() instanceof ItemFirestarter || heldItem.getItem() == Items.FLINT_AND_STEEL) {
+                    // Light an firepit
+                    world.setBlockState(pos, this.getDefaultState().withProperty(BURNING, true));
+                    heldItem.damageItem(1, player);
+                    return true;
+
+                }
             }
-            else{
-                if (!player.isSneaking()) {
-                    player.openGui(NoTreePunching.instance, NTPGuiHandler.FIREPIT, world, pos.getX(), pos.getY(), pos.getZ());
-                }
+            // Open the Firepit GUI
+            if (!player.isSneaking()) {
+                player.openGui(NoTreePunching.instance, NTPGuiHandler.FIREPIT, world, pos.getX(), pos.getY(), pos.getZ());
             }
         }
         return true;

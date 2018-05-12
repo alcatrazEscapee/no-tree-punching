@@ -3,17 +3,13 @@ package notreepunching.recipe;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
@@ -21,13 +17,12 @@ import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.Config;
 import notreepunching.item.ModItems;
+import notreepunching.util.ItemUtil;
+import notreepunching.util.RecipeUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class ModRecipes {
 
@@ -125,7 +120,8 @@ public class ModRecipes {
     }
 
     private static void initFirepitRecipes(){
-        addFirepitRecipe(new ItemStack(Items.STICK,1),40,new ItemStack(Blocks.TORCH,2));
+        // TODO: Better way of crafting torches
+        //addFirepitRecipe(new ItemStack(Items.STICK,1),40,new ItemStack(Blocks.TORCH,2));
 
         Map<ItemStack, ItemStack>  map = FurnaceRecipes.instance().getSmeltingList();
 
@@ -145,16 +141,16 @@ public class ModRecipes {
         //RecipeHelper.addSmelting(ModItems.grassString,new ItemStack(Items.STRING));
 
         if(Config.VanillaTweaks.STONE_DROPS_ROCKS){
-            RecipeHelper.addSmelting(ModBlocks.andesiteCobble,new ItemStack(Blocks.STONE,1,5));
-            RecipeHelper.addSmelting(ModBlocks.dioriteCobble,new ItemStack(Blocks.STONE,1,3));
-            RecipeHelper.addSmelting(ModBlocks.graniteCobble,new ItemStack(Blocks.STONE,1,1));
+            RecipeUtil.addSmelting(ModBlocks.andesiteCobble,new ItemStack(Blocks.STONE,1,5));
+            RecipeUtil.addSmelting(ModBlocks.dioriteCobble,new ItemStack(Blocks.STONE,1,3));
+            RecipeUtil.addSmelting(ModBlocks.graniteCobble,new ItemStack(Blocks.STONE,1,1));
         }
         if(NoTreePunching.replaceQuarkStones){
-            RecipeHelper.addSmelting(ModBlocks.marbleCobble,getSafeItem("quark:marble",1,0));
-            RecipeHelper.addSmelting(ModBlocks.limestoneCobble,getSafeItem("quark:limestone",1,0));
+            RecipeUtil.addSmelting(ModBlocks.marbleCobble, ItemUtil.getSafeItem("quark:marble",1,0));
+            RecipeUtil.addSmelting(ModBlocks.limestoneCobble,ItemUtil.getSafeItem("quark:limestone",1,0));
         }
         if(NoTreePunching.replaceRusticStone){
-            RecipeHelper.addSmelting(ModBlocks.slateCobble,getSafeItem("rustic:slate",1,0));
+            RecipeUtil.addSmelting(ModBlocks.slateCobble,ItemUtil.getSafeItem("rustic:slate",1,0));
         }
     }
 
@@ -202,39 +198,28 @@ public class ModRecipes {
 
     private static void replaceWoodRecipes(){
         if(Loader.isModLoaded("rustic")){
-            registerShaped(getSafeItem("rustic:planks",2), "A","P",'P',getSafeItem("rustic:log"), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
-            registerShaped(getSafeItem("rustic:planks",4), "A","P",'P',getSafeItem("rustic:log"), 'A', "toolSaw");
+            registerShaped(ItemUtil.getSafeItem("rustic:planks",2), "A","P",'P',ItemUtil.getSafeItem("rustic:log"), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
+            registerShaped(ItemUtil.getSafeItem("rustic:planks",4), "A","P",'P',ItemUtil.getSafeItem("rustic:log"), 'A', "toolSaw");
 
-            registerShaped(getSafeItem("rustic:planks",1,2), "A","P",'P',getSafeItem("rustic:log",1,1), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
-            registerShaped(getSafeItem("rustic:planks",1,4), "A","P",'P',getSafeItem("rustic:log",1,1), 'A', "toolSaw");
+            registerShaped(ItemUtil.getSafeItem("rustic:planks",1,2), "A","P",'P',ItemUtil.getSafeItem("rustic:log",1,1), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
+            registerShaped(ItemUtil.getSafeItem("rustic:planks",1,4), "A","P",'P',ItemUtil.getSafeItem("rustic:log",1,1), 'A', "toolSaw");
         }
         if(Loader.isModLoaded("traverse")){
-            registerShaped(getSafeItem("traverse:fir_planks",2), "A","P",'P',getSafeItem("traverse:fir_log"), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
-            registerShaped(getSafeItem("traverse:fir_planks",4), "A","P",'P',getSafeItem("traverse:fir_log"), 'A', "toolSaw");
+            registerShaped(ItemUtil.getSafeItem("traverse:fir_planks",2), "A","P",'P',ItemUtil.getSafeItem("traverse:fir_log"), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
+            registerShaped(ItemUtil.getSafeItem("traverse:fir_planks",4), "A","P",'P',ItemUtil.getSafeItem("traverse:fir_log"), 'A', "toolSaw");
         }
         if(Loader.isModLoaded("biomesoplenty")){
             for(int i = 0;i<16;i++){
                 // I'm proud of these two lines :)
                 String logName = "biomesoplenty:log_"+i/4;
-                registerShaped(getSafeItem("biomesoplenty:planks_0",i,2),"A","P",'P',getSafeItem(logName,4+i%4,1),'A', new ItemStack(ModItems.crudeHatchet,1,magic));
-                registerShaped(getSafeItem("biomesoplenty:planks_0",i,4),"A","P",'P',getSafeItem(logName,4+i%4,1),'A',"toolSaw");
+                registerShaped(ItemUtil.getSafeItem("biomesoplenty:planks_0",i,2),"A","P",'P',ItemUtil.getSafeItem(logName,4+i%4,1),'A', new ItemStack(ModItems.crudeHatchet,1,magic));
+                registerShaped(ItemUtil.getSafeItem("biomesoplenty:planks_0",i,4),"A","P",'P',ItemUtil.getSafeItem(logName,4+i%4,1),'A',"toolSaw");
             }
         }
     }
 
     private static void registerShaped(ItemStack output, Object... inputs) {
-        RecipeHelper.addShapedOreRecipe(output, inputs);
-    }
-
-    private static ItemStack getSafeItem(String name){
-        return getSafeItem(name, 0, 1);
-    }
-    private static ItemStack getSafeItem(String name, int count){
-        return getSafeItem(name, 0, count);
-    }
-    private static ItemStack getSafeItem(String name, int meta, int count){
-        Item item = Item.getByNameOrId(name);
-        return item == null ? ItemStack.EMPTY : new ItemStack(item, count, meta);
+        RecipeUtil.addShapedOreRecipe(output, inputs);
     }
 
     public static void removeVanillaRecipes(IForgeRegistry<IRecipe> reg){

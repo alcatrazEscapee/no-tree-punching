@@ -26,7 +26,7 @@
  * THE SOFTWARE.
  */
 
-package notreepunching.recipe;
+package notreepunching.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -52,7 +52,7 @@ import net.minecraftforge.registries.GameData;
  *
  * Also please, please point out places where this can be improved.
  */
-public class RecipeHelper {
+public class RecipeUtil {
 
     /**
      * Adds a shaped recipe that supports string input paramers corresponding to an oredict entry, can also be used for recipes without ore dict ingredients
