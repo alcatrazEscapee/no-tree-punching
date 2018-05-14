@@ -1,8 +1,6 @@
 package notreepunching.block.firepit;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -18,10 +16,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.Config;
-import notreepunching.recipe.FirepitRecipe;
-import notreepunching.recipe.ModRecipes;
+import notreepunching.recipe.firepit.FirepitRecipe;
+import notreepunching.recipe.firepit.FirepitRecipeHandler;
 import notreepunching.util.ItemUtil;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static notreepunching.block.firepit.BlockFirepit.BURNING;
@@ -62,7 +61,7 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
                 ItemStack cookStack = inventory.getStackInSlot(1);
                 ItemStack outStack = inventory.getStackInSlot(2);
                 if(!cookStack.isEmpty() && isItemValidInput(cookStack)){
-                    FirepitRecipe recipe = ModRecipes.getFirepitRecipe(cookStack);
+                    FirepitRecipe recipe = FirepitRecipeHandler.getRecipe(cookStack);
 
                     if(ItemUtil.canMergeStack(recipe.getOutput(),outStack)){
                         cookTimer++;
@@ -115,7 +114,7 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
     }
 
     public static boolean isItemValidInput(ItemStack is){
-        return ModRecipes.isFirepitRecipe(is);
+        return FirepitRecipeHandler.isRecipe(is);
     }
 
     public int getField(int id) {
@@ -146,7 +145,7 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
     public int getScaledBurnTicks(){
         if(maxBurnTicks!=0 && burnTicks!=0) {
             float f1 = burnTicks / (float) maxBurnTicks;
-            return Math.round(14 * f1);
+            return Math.round(13 * f1);
         }
         return 0;
     }
@@ -167,6 +166,7 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
     // ******************** Tile Entity / NBT Methods **************** //
 
     @Override
+    @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setTag("inventory", inventory.serializeNBT());
         compound.setInteger("burn_ticks",burnTicks);
@@ -200,6 +200,7 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
        Warning - although our getUpdatePacket() uses this method, vanilla also calls it directly, so don't remove it.
      */
     @Override
+    @Nonnull
     public NBTTagCompound getUpdateTag()
     {
         NBTTagCompound nbtTagCompound = new NBTTagCompound();
@@ -211,19 +212,19 @@ public class TileEntityFirepit extends TileEntity implements ITickable {
      Warning - although our onDataPacket() uses this method, vanilla also calls it directly, so don't remove it.
    */
     @Override
-    public void handleUpdateTag(NBTTagCompound tag)
+    public void handleUpdateTag(@Nonnull NBTTagCompound tag)
     {
         this.readFromNBT(tag);
     }
 
     @Override
-    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @Nullable
     @Override
-    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? (T)inventory : super.getCapability(capability, facing);
     }
 

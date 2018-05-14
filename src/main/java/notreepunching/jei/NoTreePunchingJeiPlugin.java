@@ -7,17 +7,22 @@ import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
 import notreepunching.client.gui.GuiFirepit;
+import notreepunching.client.gui.GuiForge;
 import notreepunching.item.ModItems;
 import notreepunching.jei.firepit.FirepitRecipeCategory;
 import notreepunching.jei.firepit.FirepitRecipeWrapper;
+import notreepunching.jei.forge.ForgeRecipeCategory;
+import notreepunching.jei.forge.ForgeRecipeWrapper;
 import notreepunching.jei.knife.KnifeRecipeCategory;
 import notreepunching.jei.knife.KnifeRecipeWrapper;
-import notreepunching.recipe.CuttingRecipe;
-import notreepunching.recipe.FirepitRecipe;
-import notreepunching.recipe.ModRecipes;
+import notreepunching.recipe.cutting.CuttingRecipe;
+import notreepunching.recipe.cutting.CuttingRecipeHandler;
+import notreepunching.recipe.firepit.FirepitRecipe;
+import notreepunching.recipe.firepit.FirepitRecipeHandler;
+import notreepunching.recipe.forge.ForgeRecipe;
+import notreepunching.recipe.forge.ForgeRecipeHandler;
 
 @JEIPlugin
 public class NoTreePunchingJeiPlugin implements IModPlugin {
@@ -26,7 +31,8 @@ public class NoTreePunchingJeiPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registry) {
         registry.addRecipeCategories(
                 new KnifeRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
-                new FirepitRecipeCategory(registry.getJeiHelpers().getGuiHelper())
+                new FirepitRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
+                new ForgeRecipeCategory(registry.getJeiHelpers().getGuiHelper())
         );
     }
 
@@ -45,22 +51,29 @@ public class NoTreePunchingJeiPlugin implements IModPlugin {
         registry.addIngredientInfo(ModItems.listAllSaws(),ItemStack.class,"jei.description.saw");
 
         registry.addIngredientInfo(new ItemStack(ModBlocks.firepit),ItemStack.class,"jei.description.firepit");
+        registry.addIngredientInfo(new ItemStack(Items.COAL,1,1),ItemStack.class,"jei.description.forge");
 
         // Blacklist Ingredients
 
         IIngredientBlacklist blacklist = registry.getJeiHelpers().getIngredientBlacklist();
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.looseRock));
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.charcoalPile));
+        blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.forge));
 
         // Knife / Cutting Recipes
         registry.handleRecipes(CuttingRecipe.class, KnifeRecipeWrapper::new, KnifeRecipeCategory.UID);
-        registry.addRecipes(ModRecipes.CUTTING_RECIPES, KnifeRecipeCategory.UID);
+        registry.addRecipes(CuttingRecipeHandler.getAll(), KnifeRecipeCategory.UID);
 
         // Firepit Recipes
         registry.handleRecipes(FirepitRecipe.class, FirepitRecipeWrapper::new, FirepitRecipeCategory.UID);
-        registry.addRecipes(ModRecipes.FIREPIT_RECIPES, FirepitRecipeCategory.UID);
-
+        registry.addRecipes(FirepitRecipeHandler.getAll(), FirepitRecipeCategory.UID);
         registry.addRecipeClickArea(GuiFirepit.class, 75, 22, 26, 19, FirepitRecipeCategory.UID);
+
+        // Forge Recipes
+        registry.handleRecipes(ForgeRecipe.class, ForgeRecipeWrapper::new, ForgeRecipeCategory.UID);
+        registry.addRecipes(ForgeRecipeHandler.getAll(), ForgeRecipeCategory.UID);
+        registry.addRecipeClickArea(GuiForge.class, 75, 22, 26, 19, ForgeRecipeCategory.UID);
+
     }
 
 }

@@ -8,16 +8,20 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import notreepunching.block.BlockCharcoalPile;
 import notreepunching.block.ModBlocks;
 import notreepunching.client.sound.Sounds;
 import notreepunching.config.Config;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
+
+import static notreepunching.block.BlockCharcoalPile.LAYERS;
 
 public class PlayerEventHandler {
 
@@ -54,14 +58,23 @@ public class PlayerEventHandler {
         // Creating a forge by placing charcoal
         else if(stack.getItem() == Items.COAL && stack.getMetadata() == 1){
 
-            if(state.getBlock().isFullCube(state) && world.getBlockState(pos.up()).getBlock() == Blocks.AIR) {
-                if (!world.isRemote) {
-                    world.setBlockState(pos.up(), ModBlocks.charcoalPile.getDefaultState());
+            EnumFacing facing = event.getFace();
+            if (!world.isRemote && facing != null) {
+                if (world.getBlockState(pos.down().offset(facing)).getBlock().isFullCube(world.getBlockState(pos.down().offset(facing)))
+                        && world.getBlockState(pos.offset(facing)).getBlock() == Blocks.AIR) {
 
-                    if(!player.isCreative()){
+                    if(world.getBlockState(pos).getBlock() instanceof BlockCharcoalPile || world.getBlockState(pos).getBlock() instanceof BlockCharcoalPile){
+                        if(world.getBlockState(pos).getValue(LAYERS) != 8){
+                            return;
+                        }
+                    }
+
+                    world.setBlockState(pos.offset(facing), ModBlocks.charcoalPile.getDefaultState());
+
+                    if (!player.isCreative()) {
                         player.setHeldItem(event.getHand(), ItemUtil.consumeItem(stack));
                     }
-                    world.playSound(null,pos, SoundEvents.BLOCK_GRAVEL_PLACE, SoundCategory.BLOCKS,1.0F,0.5F);
+                    world.playSound(null, pos.offset(facing), SoundEvents.BLOCK_GRAVEL_PLACE, SoundCategory.BLOCKS, 1.0F, 0.5F);
                 }
             }
         }

@@ -18,13 +18,14 @@ public class KnifeRecipeCategory implements IRecipeCategory {
 
     public static final String UID = "notreepunching.knife";
     private String localizedName;
+    private final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID,"textures/jei/knife.png");
     private final IDrawable background;
     private final IDrawable icon;
 
     public KnifeRecipeCategory(IGuiHelper guiHelper){
-        background = guiHelper.createDrawable(new ResourceLocation("notreepunching","textures/jei/knife_recipe_background.png"),0,0,164,32);
+        background = guiHelper.createDrawable(LOC,0,0,164,32);
         localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.knife_recipe");
-        icon = guiHelper.createDrawable(new ResourceLocation("notreepunching","textures/jei/knife_recipe_background.png"),164,0,16,16);
+        icon = guiHelper.createDrawable(LOC,164,0,16,16);
 
     }
 

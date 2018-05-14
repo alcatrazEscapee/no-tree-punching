@@ -22,7 +22,7 @@ public interface IProxy{
 
     String localize(String unlocalized, Object... args);
 
-    void generateParticle(World world, BlockPos pos, EnumParticleTypes particle);
+    void generateParticle(World world, BlockPos pos, int provider);
 
 }
 

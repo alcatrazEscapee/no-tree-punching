@@ -1,4 +1,4 @@
-package notreepunching.jei.firepit;
+package notreepunching.jei.forge;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -15,33 +15,38 @@ import notreepunching.NoTreePunching;
 
 import javax.annotation.Nonnull;
 
-public class FirepitRecipeCategory implements IRecipeCategory {
+public class ForgeRecipeCategory implements IRecipeCategory {
 
-    public static final String UID = "notreepunching.firepit";
+    public static final String UID = "notreepunching.forge";
     private String localizedName;
-    private final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID, "textures/jei/firepit.png");
+    private final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID,"textures/jei/forge.png");
     private final IDrawable background;
     private final IDrawable icon;
 
-    private final IDrawableAnimated animatedArrow;
     private final IDrawableAnimated animatedFlame;
+    private final IDrawableAnimated animatedArrow;
+    private IDrawable drawableTemperature;
+    private int temperature;
 
-    public FirepitRecipeCategory(IGuiHelper guiHelper){
-        background = guiHelper.createDrawable(LOC,0,0,74,54);
-        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.firepit_recipe");
-        icon = guiHelper.createDrawable(LOC,111,0,16,16);
+    private final IGuiHelper guiHelper;
 
-        IDrawableStatic staticArrow = guiHelper.createDrawable(LOC, 88, 0, 16, 23);
-        animatedArrow = guiHelper.createAnimatedDrawable(staticArrow, 200, IDrawableAnimated.StartDirection.LEFT, false);
+    public ForgeRecipeCategory(IGuiHelper guiHelper){
+        background = guiHelper.createDrawable(LOC,0,0,128,54);
+        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.forge_recipe");
+        icon = guiHelper.createDrawable(LOC,128,0,16,16);
 
-        IDrawableStatic staticFlame = guiHelper.createDrawable(LOC, 74,0,14,13);
+        IDrawableStatic staticFlame = guiHelper.createDrawable(LOC, 144, 0, 14, 14);
         animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
 
+        IDrawableStatic staticArrow = guiHelper.createDrawable(LOC, 158, 0, 16, 23);
+        animatedArrow = guiHelper.createAnimatedDrawable(staticArrow, 200, IDrawableAnimated.StartDirection.LEFT, false);
+
+        this.guiHelper = guiHelper;
     }
 
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper, @Nonnull IIngredients ingredients) {
-        if(!(recipeWrapper instanceof FirepitRecipeWrapper)) {
+        if(!(recipeWrapper instanceof ForgeRecipeWrapper)) {
             return;
         }
 
@@ -54,12 +59,15 @@ public class FirepitRecipeCategory implements IRecipeCategory {
          * @param xPosition x position of the slot relative to the recipe background
          * @param yPosition y position of the slot relative to the recipe background
          */
-        recipeLayout.getItemStacks().init(index, true, 0, 0);
+        recipeLayout.getItemStacks().init(index, true, 27, 0);
         recipeLayout.getItemStacks().set(index, ingredients.getInputs(ItemStack.class).get(0));
 
         index++;
-        recipeLayout.getItemStacks().init(index, false, 56, 0);
+        recipeLayout.getItemStacks().init(index, false, 83, 0);
         recipeLayout.getItemStacks().set(index, ingredients.getOutputs(ItemStack.class).get(0));
+
+        temperature = ((ForgeRecipeWrapper) recipeWrapper).getTemperature() / 50;
+        drawableTemperature = guiHelper.createDrawable(LOC, 181,30-temperature,10,temperature);
 
     }
 
@@ -95,7 +103,8 @@ public class FirepitRecipeCategory implements IRecipeCategory {
 
     @Override
     public void drawExtras(Minecraft minecraft) {
-        animatedArrow.draw(minecraft, 26, 2);
-        animatedFlame.draw(minecraft, 29, 20);
+        animatedFlame.draw(minecraft, 56, 20);
+        animatedArrow.draw(minecraft, 53, 2);
+        drawableTemperature.draw(minecraft, 0, 33 - temperature);
     }
 }

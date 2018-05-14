@@ -15,8 +15,9 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import notreepunching.NoTreePunching;
-import notreepunching.recipe.CuttingRecipe;
+import notreepunching.recipe.cutting.CuttingRecipe;
 import notreepunching.recipe.ModRecipes;
+import notreepunching.recipe.cutting.CuttingRecipeHandler;
 
 import java.util.Set;
 
@@ -57,8 +58,8 @@ public class ItemKnife extends ItemTool {
         ItemStack knifeStack = playerIn.getHeldItem(handIn);
         ItemStack cutStack = playerIn.getHeldItem(handOther);
 
-        if (ModRecipes.isCuttingRecipe(cutStack)){
-            CuttingRecipe recipe = ModRecipes.getCuttingRecipe(cutStack);
+        if (CuttingRecipeHandler.isRecipe(cutStack)){
+            CuttingRecipe recipe = CuttingRecipeHandler.getRecipe(cutStack);
 
             if(cutStack.getCount()>=1){
                 if(!worldIn.isRemote) {

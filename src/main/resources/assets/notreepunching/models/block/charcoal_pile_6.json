@@ -6,7 +6,7 @@
 			"faces": {
 				"up": {
 					"uv": [0, 0, 16, 16],
-					"texture": "#all"
+					"texture": "#top"
 				},
 				"north": {
 					"uv": [0, 0, 16, 12],

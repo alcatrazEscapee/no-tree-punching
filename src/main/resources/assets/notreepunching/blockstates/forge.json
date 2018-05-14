@@ -4,7 +4,6 @@
 		"model": "notreepunching:charcoal_pile_1",
 		"textures": {
 			"all": "notreepunching:blocks/charcoal_pile",
-			"top": "notreepunching:blocks/charcoal_pile",
 			"particle": "notreepunching:blocks/charcoal_pile"
 		}
 	},
@@ -18,6 +17,10 @@
 			"6": { "model": "notreepunching:charcoal_pile_6" },
 			"7": { "model": "notreepunching:charcoal_pile_7" },
 			"8": { "model": "notreepunching:charcoal_pile_8" }
+		},
+		"burning":{
+			"true": { "textures": { "top": "notreepunching:blocks/charcoal_pile_lit" }},
+			"false": { "textures": { "top": "notreepunching:blocks/charcoal_pile" }}
 		},
 		"normal": [{}],
 		"inventory": [{}]

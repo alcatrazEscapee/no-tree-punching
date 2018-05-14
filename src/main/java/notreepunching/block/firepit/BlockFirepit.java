@@ -39,8 +39,8 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
 
     public static final IProperty<Boolean> BURNING = PropertyBool.create("burning");
 
-    public BlockFirepit(Material material, String name) {
-        super(material, name);
+    public BlockFirepit(String name) {
+        super(name, Material.WOOD);
 
 
         setTickRandomly(true);
@@ -204,12 +204,12 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand){
         if(stateIn.getValue(BURNING)){
-            NoTreePunching.proxy.generateParticle(worldIn, pos, EnumParticleTypes.FLAME);
+            NoTreePunching.proxy.generateParticle(worldIn, pos, 0);
             worldIn.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
             if(worldIn.canBlockSeeSky(pos) && worldIn.isRaining() && worldIn.getTopSolidOrLiquidBlock(pos).getY()<pos.getY()+2){
                 if(rand.nextDouble() < 0.4D){
                     worldIn.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
-                    NoTreePunching.proxy.generateParticle(worldIn, pos, EnumParticleTypes.SMOKE_LARGE);
+                    NoTreePunching.proxy.generateParticle(worldIn, pos, 0);
                 }
             }
         }

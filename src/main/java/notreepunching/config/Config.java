@@ -36,7 +36,7 @@ public class Config {
     public static Tools tools;
     public static class Tools {
         @Comment({"Mining level for flint tools"})
-        public static int FLINT_MINING_LEVEL = 0;
+        public static int FLINT_MINING_LEVEL = 1;
 
         @Comment({"Mining level for copper tools"})
         public static int COPPER_MINING_LEVEL = 1;
@@ -71,6 +71,12 @@ public class Config {
         @Comment({"Chance for tall grass to drop plant fibers"})
         public static double GRASS_FIBER_CHANCE = 0.7D;
 
+    }
+
+    public static Forge forge;
+    public static class Forge {
+        @Comment({"Disable ore to ingot recipes in the furnace that can be made in a forge"})
+        public static boolean disableMetalSmelting = true;
     }
 
 }

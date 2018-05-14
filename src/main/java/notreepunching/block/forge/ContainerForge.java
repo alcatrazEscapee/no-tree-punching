@@ -1,4 +1,4 @@
-package notreepunching.block.firepit;
+package notreepunching.block.forge;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -13,21 +13,23 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import notreepunching.block.firepit.TileEntityFirepit;
+import notreepunching.recipe.forge.ForgeRecipeHandler;
 
-public class ContainerFirepit extends Container {
+import javax.annotation.Nonnull;
+
+public class ContainerForge extends Container {
 
     private int [] cachedFields;
 
-    private TileEntityFirepit firepit;
+    private TileEntityForge te;
 
-    public ContainerFirepit(InventoryPlayer playerInv, TileEntityFirepit firepit) {
-        IItemHandler inventory = firepit.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+    public ContainerForge(InventoryPlayer playerInv, TileEntityForge te) {
+        IItemHandler inventory = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
         // Firepit Slots
-        addSlotToContainer(new SlotFirepitFuel(inventory, 0,80,59,firepit));
-        addSlotToContainer(new SlotFirepitInput(inventory, 1,51,23,firepit));
-        addSlotToContainer(new SlotFirepitOutput(inventory, 2,109,23,firepit));
+        addSlotToContainer(new SlotForgeInput(inventory, 0,52,23,te));
+        addSlotToContainer(new SlotForgeOutput(inventory, 1,108,23,te));
 
-        this.firepit = firepit;
+        this.te = te;
 
         // Add Player Inventory Slots
         for (int i = 0; i < 3; i++) {
@@ -42,17 +44,18 @@ public class ContainerFirepit extends Container {
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer player) {
+    public boolean canInteractWith(@Nonnull EntityPlayer player) {
         return true;
     }
 
     // index is the id of the slot shift-clicked
     @Override
+    @Nonnull
     public ItemStack transferStackInSlot(EntityPlayer player, int index) {
         // Slot that was clicked
         Slot slot = inventorySlots.get(index);
 
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemstack;
 
         if(slot == null || !slot.getHasStack()) { return ItemStack.EMPTY; }
 
@@ -72,17 +75,11 @@ public class ContainerFirepit extends Container {
         }
         // Transfer into the container
         else {
-            // Try fuel slot first (most specific)
+            // Try input slot
             if(this.inventorySlots.get(0).isItemValid(itemstack)){
                 if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }
-            }else{
-                // Try input slot next (least specific)
-                if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
-                    return ItemStack.EMPTY;
-                }
-                // don't try to merge into the output slot
             }
         }
 
@@ -99,26 +96,27 @@ public class ContainerFirepit extends Container {
         return itemstack;
     }
 
+
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
 
         boolean allFieldsHaveChanged = false;
-        boolean fieldHasChanged [] = new boolean[firepit.getFieldCount()];
+        boolean fieldHasChanged [] = new boolean[te.getFieldCount()];
         if (cachedFields == null) {
-            cachedFields = new int[firepit.getFieldCount()];
+            cachedFields = new int[te.getFieldCount()];
             allFieldsHaveChanged = true;
         }
         for (int i = 0; i < cachedFields.length; ++i) {
-            if (allFieldsHaveChanged || cachedFields[i] != firepit.getField(i)) {
-                cachedFields[i] = firepit.getField(i);
+            if (allFieldsHaveChanged || cachedFields[i] != te.getField(i)) {
+                cachedFields[i] = te.getField(i);
                 fieldHasChanged[i] = true;
             }
         }
 
         // go through the list of listeners (players using this container) and update them if necessary
         for (IContainerListener listener : this.listeners) {
-            for (int fieldID = 0; fieldID < firepit.getFieldCount(); ++fieldID) {
+            for (int fieldID = 0; fieldID < te.getFieldCount(); ++fieldID) {
                 if (fieldHasChanged[fieldID]) {
                     // Note that although sendWindowProperty takes 2 ints on a server these are truncated to shorts
                     listener.sendWindowProperty(this, fieldID, cachedFields[fieldID]);
@@ -132,57 +130,38 @@ public class ContainerFirepit extends Container {
     @SideOnly(Side.CLIENT)
     @Override
     public void updateProgressBar(int id, int data) {
-        firepit.setField(id, data);
+        te.setField(id, data);
     }
+
 
     // ***************** Slot Classes ******************** //
 
-    class SlotFirepitFuel extends SlotItemHandler{
+    class SlotForgeInput extends SlotItemHandler{
+        private TileEntityForge te;
 
-        private TileEntityFirepit te;
-
-        private SlotFirepitFuel(IItemHandler inventory, int idx, int x, int y, final TileEntityFirepit firepit){
+        private SlotForgeInput(IItemHandler inventory, int idx, int x, int y, final TileEntityForge te){
             super(inventory, idx,x,y);
-            this.te = firepit;
+            this.te = te;
         }
 
         @Override
         public void onSlotChanged() {
             te.markDirty();
+            //te.resetCookTimer();
         }
 
         @Override
         public boolean isItemValid(ItemStack stack) {
-            return TileEntityFirepit.isItemValidFuel(stack);
+            return ForgeRecipeHandler.isIngredient(stack);
         }
     }
 
-    class SlotFirepitInput extends SlotItemHandler{
-        private TileEntityFirepit te;
+    class SlotForgeOutput extends SlotItemHandler{
+        private TileEntityForge te;
 
-        private SlotFirepitInput(IItemHandler inventory, int idx, int x, int y, final TileEntityFirepit firepit){
+        private SlotForgeOutput(IItemHandler inventory, int idx, int x, int y, final TileEntityForge te){
             super(inventory, idx,x,y);
-            this.te = firepit;
-        }
-
-        @Override
-        public void onSlotChanged() {
-            te.markDirty();
-            te.resetCookTimer();
-        }
-
-        @Override
-        public boolean isItemValid(ItemStack stack) {
-            return TileEntityFirepit.isItemValidInput(stack);
-        }
-    }
-
-    class SlotFirepitOutput extends SlotItemHandler{
-        private TileEntityFirepit te;
-
-        private SlotFirepitOutput(IItemHandler inventory, int idx, int x, int y, final TileEntityFirepit firepit){
-            super(inventory, idx,x,y);
-            this.te = firepit;
+            this.te = te;
         }
 
         @Override

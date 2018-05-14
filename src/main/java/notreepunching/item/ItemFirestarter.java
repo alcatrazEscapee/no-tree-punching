@@ -72,7 +72,7 @@ public class ItemFirestarter extends ItemTool {
             if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
                 Vec3d v = result.hitVec;
                 BlockPos pos = new BlockPos(v.x, v.y, v.z);
-                NoTreePunching.proxy.generateParticle(world, pos, EnumParticleTypes.SMOKE_LARGE);
+                NoTreePunching.proxy.generateParticle(world, pos, 2);
             }
         }
     }

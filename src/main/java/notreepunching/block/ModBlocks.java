@@ -1,14 +1,10 @@
 package notreepunching.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemMultiTexture;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import notreepunching.NoTreePunching;
 import notreepunching.block.firepit.BlockFirepit;
+import notreepunching.block.forge.BlockForge;
 import notreepunching.config.Config;
 import notreepunching.registry.RegistryHandler;
 
@@ -26,6 +22,7 @@ public class ModBlocks {
 
     public static BlockFirepit firepit;
     public static BlockCharcoalPile charcoalPile;
+    public static BlockForge forge;
 
     public static void init(){
         looseRock = new BlockRock("loose_rock");
@@ -43,8 +40,9 @@ public class ModBlocks {
             slateCobble = new BlockCobble("slate");
         }
 
-        firepit = new BlockFirepit(Material.WOOD,"firepit");
+        firepit = new BlockFirepit("firepit");
         charcoalPile = new BlockCharcoalPile("charcoal_pile");
+        forge = new BlockForge("forge");
     }
 
     public static void addBlockToRegistry(Block block, ItemBlock itemBlock, String name, boolean addToCreativeTab){

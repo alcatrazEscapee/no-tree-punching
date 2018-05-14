@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
+import notreepunching.client.particle.ParticleGenerator;
 import notreepunching.item.ModItems;
 import notreepunching.client.particle.FirepitParticle;
 import notreepunching.client.particle.FirepitSmokeParticle;
@@ -41,15 +42,17 @@ public class ClientProxy implements IProxy {
         return I18n.format(unlocalized, args);
     }
 
-    public void generateParticle(World world, BlockPos pos, EnumParticleTypes particle){
-        Random rand = new Random();
-        double x = pos.getX()+0.5d+0.05d*rand.nextGaussian();
-        double y = pos.getY()+0.1d;
-        double z = pos.getZ()+0.5d+0.05d*rand.nextGaussian();
-        if(particle == EnumParticleTypes.FLAME) {
-            Minecraft.getMinecraft().effectRenderer.addEffect(new FirepitParticle(world, x, y, z, 0d, 0.008d, 0d));
-        }else if(particle == EnumParticleTypes.SMOKE_LARGE){
-            Minecraft.getMinecraft().effectRenderer.addEffect(new FirepitSmokeParticle(world,x,y,z,0.01d*rand.nextGaussian(),0.03d,0.01d*rand.nextGaussian()));
+    public void generateParticle(World world, BlockPos pos, int provider){
+        switch(provider){
+            case 0:
+                ParticleGenerator.firepitParticle(world, pos);
+                break;
+            case 1:
+                ParticleGenerator.forgeParticle(world, pos);
+                break;
+            case 2:
+                ParticleGenerator.firestarterParticle(world, pos);
+                break;
         }
 
     }

@@ -1,25 +1,31 @@
-package notreepunching.jei.firepit;
+package notreepunching.jei.forge;
 
 import com.google.common.collect.ImmutableList;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
-import notreepunching.recipe.firepit.FirepitRecipe;
+import net.minecraftforge.oredict.OreDictionary;
+import notreepunching.recipe.forge.ForgeRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class FirepitRecipeWrapper implements IRecipeWrapper {
+public class ForgeRecipeWrapper implements IRecipeWrapper {
 
     private final List<List<ItemStack>> input;
     private final List<List<ItemStack>> output;
+    private final int temperature;
 
-    public FirepitRecipeWrapper(FirepitRecipe recipe){
+    public ForgeRecipeWrapper(ForgeRecipe recipe){
 
         ImmutableList.Builder<List<ItemStack>> builder = ImmutableList.builder();
 
         // Add the ingredient
-        builder.add(ImmutableList.of(recipe.getInput()));
+        if(!recipe.getOre().equals("") && OreDictionary.doesOreNameExist(recipe.getOre())) {
+            builder.add(OreDictionary.getOres(recipe.getOre()));
+        }else{
+            builder.add(ImmutableList.of(recipe.getStack()));
+        }
 
         // Set the input
         input = builder.build();
@@ -31,6 +37,7 @@ public class FirepitRecipeWrapper implements IRecipeWrapper {
         // Set the output
         output = builder.build();
 
+        temperature = recipe.getTemp();
     }
 
     @Override
@@ -38,4 +45,6 @@ public class FirepitRecipeWrapper implements IRecipeWrapper {
         ingredients.setInputLists(ItemStack.class, input);
         ingredients.setOutputLists(ItemStack.class, output);
     }
+
+    public int getTemperature(){ return temperature; }
 }

@@ -3,12 +3,14 @@ package notreepunching.registry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import notreepunching.block.ModBlocks;
 import notreepunching.block.firepit.TileEntityFirepit;
+import notreepunching.block.forge.TileEntityForge;
 import notreepunching.item.ModItems;
 import notreepunching.recipe.ModRecipes;
 
@@ -40,10 +42,13 @@ public class RegistryHandler {
         ModBlocks.init();
 
         for(Block block : BLOCK_REGISTRY){
-            event.getRegistry().register(block);
+            if(block!=null) {
+                event.getRegistry().register(block);
+            }
         }
 
-        GameRegistry.registerTileEntity(TileEntityFirepit.class, "tile_entity_firepit");
+        GameRegistry.registerTileEntity(TileEntityFirepit.class, "notreepunching_firepit");
+        GameRegistry.registerTileEntity(TileEntityForge.class, "notreepunching_forge");
 
         //ModBlocks.registerBlocks(event);
     }

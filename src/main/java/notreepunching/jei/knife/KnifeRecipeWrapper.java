@@ -4,12 +4,10 @@ import com.google.common.collect.ImmutableList;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.item.ModItems;
-import notreepunching.recipe.CuttingRecipe;
+import notreepunching.recipe.cutting.CuttingRecipe;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.List;
 
 public class KnifeRecipeWrapper implements IRecipeWrapper {

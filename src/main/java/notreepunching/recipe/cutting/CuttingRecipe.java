@@ -1,4 +1,4 @@
-package notreepunching.recipe;
+package notreepunching.recipe.cutting;
 
 import net.minecraft.item.ItemStack;
 
