@@ -38,10 +38,6 @@ public class PlayerEventHandler {
         ItemStack stack = event.getItemStack();
         EntityPlayer player = event.getEntityPlayer();
 
-        System.out.println("ITEMSTACK: "+stack.getUnlocalizedName());
-        System.out.println("PLAYER HAND: "+player.getHeldItem(event.getHand()).getUnlocalizedName()+" | "+event.getHand()+" | "+player.getHeldItem(event.getHand()).isEmpty());
-        System.out.println("PLAYER OTHER: "+player.getHeldItem(MiscUtil.getOtherHand(event.getHand())).getUnlocalizedName()+ " | " +player.getHeldItem(MiscUtil.getOtherHand(event.getHand())).isEmpty());
-
         if(stack.isEmpty()){ return; }
 
         if(event.getHand() == EnumHand.OFF_HAND){

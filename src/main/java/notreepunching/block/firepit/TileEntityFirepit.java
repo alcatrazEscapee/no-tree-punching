@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import notreepunching.block.IHasFields;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.Config;
 import notreepunching.recipe.firepit.FirepitRecipe;
@@ -25,7 +26,7 @@ import javax.annotation.Nullable;
 
 import static notreepunching.block.firepit.BlockFirepit.BURNING;
 
-public class TileEntityFirepit extends TileEntity implements ITickable {
+public class TileEntityFirepit extends TileEntity implements ITickable, IHasFields {
 
     private ItemStackHandler inventory = new ItemStackHandler(3){
         @Override
