@@ -59,7 +59,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
         super(name, Material.GROUND);
 
         setSoundType(SoundType.GROUND);
-        setHardness(1.2F);
+        setHardness(1.0F);
         setTickRandomly(true);
         this.setDefaultState(this.blockState.getBaseState().withProperty(LAYERS, 1).withProperty(BURNING, true));
     }
@@ -102,7 +102,6 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
 
                 return true;
             }
-            // TODO: Only open GUI if it is a forge
             if (!player.isSneaking()) {
                 player.openGui(NoTreePunching.instance, NTPGuiHandler.FORGE, world, pos.getX(), pos.getY(), pos.getZ());
             }

@@ -23,6 +23,7 @@ public class ModBlocks {
     public static BlockFirepit firepit;
     public static BlockCharcoalPile charcoalPile;
     public static BlockForge forge;
+    public static BlockWoodPile woodPile;
 
     public static void init(){
         looseRock = new BlockRock("loose_rock");
@@ -43,6 +44,7 @@ public class ModBlocks {
         firepit = new BlockFirepit("firepit");
         charcoalPile = new BlockCharcoalPile("charcoal_pile");
         forge = new BlockForge("forge");
+        woodPile = new BlockWoodPile("wood_pile");
     }
 
     public static void addBlockToRegistry(Block block, ItemBlock itemBlock, String name, boolean addToCreativeTab){

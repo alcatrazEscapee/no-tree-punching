@@ -18,6 +18,7 @@ import notreepunching.recipe.cutting.CuttingRecipeHandler;
 import notreepunching.recipe.firepit.FirepitRecipeHandler;
 import notreepunching.recipe.forge.ForgeRecipeHandler;
 import notreepunching.util.ItemUtil;
+import notreepunching.util.MiscUtil;
 import notreepunching.util.RecipeUtil;
 
 import java.util.Iterator;
@@ -67,15 +68,8 @@ public class ModRecipes {
             Iterator<ItemStack> iterator = recipes.keySet().iterator();
             while (iterator.hasNext()) {
                 ItemStack stack = recipes.get(iterator.next());
-                int[] ids = OreDictionary.getOreIDs(stack);
-                for(int id : ids){
-                    String name = OreDictionary.getOreName(id);
-                    if(name.length() >= 6) {
-                        if (OreDictionary.getOreName(id).substring(0, 5).equals("ingot") &&
-                                OreDictionary.doesOreNameExist("ore" + OreDictionary.getOreName(id).substring(5))) {
-                            iterator.remove();
-                        }
-                    }
+                if(MiscUtil.doesStackMatchOrePrefix(stack,"ingot")){
+                    iterator.remove();
                 }
             }
         }

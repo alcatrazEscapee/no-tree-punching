@@ -8,6 +8,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -29,6 +30,7 @@ import notreepunching.util.ItemUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 public class BlockCharcoalPile extends BlockBase {
@@ -49,7 +51,8 @@ public class BlockCharcoalPile extends BlockBase {
         super(name, Material.GROUND);
 
         setSoundType(SoundType.GROUND);
-        setHardness(1.2F);
+        setHarvestLevel("shovel",0);
+        setHardness(1.0F);
         setTickRandomly(true);
         this.setDefaultState(this.blockState.getBaseState().withProperty(LAYERS, 1));
     }
@@ -92,6 +95,27 @@ public class BlockCharcoalPile extends BlockBase {
         return true;
     }
 
+    @Override
+    @ParametersAreNonnullByDefault
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        this.onBlockHarvested(world, pos, state, player);
+
+        if(player.isCreative()){
+            return super.removedByPlayer(state, world, pos, player, willHarvest);
+        }
+
+        if(!world.isRemote){
+
+            int layers = state.getValue(LAYERS);
+            if(layers == 1){
+                world.setBlockToAir(pos);
+            }else{
+                world.setBlockState(pos, state.withProperty(LAYERS, layers - 1));
+            }
+        }
+        return true;
+    }
+
     @Nonnull
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
@@ -101,9 +125,9 @@ public class BlockCharcoalPile extends BlockBase {
     public int damageDropped(IBlockState state) {
         return 1;
     }
-    public int quantityDropped(IBlockState state, int fortune, @Nonnull Random random) {
-        return state.getValue(LAYERS);
-    }
+    //public int quantityDropped(IBlockState state, int fortune, @Nonnull Random random) {
+    //    return state.getValue(LAYERS);
+    //}
 
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
@@ -111,6 +135,22 @@ public class BlockCharcoalPile extends BlockBase {
         if (!worldIn.isRemote) {
             // Breaks rock if the block under it breaks.
             IBlockState stateUnder = worldIn.getBlockState(pos.down());
+            if(stateUnder.getBlock() instanceof BlockCharcoalPile){
+                int layersAt = state.getValue(LAYERS);
+                int layersUnder = stateUnder.getValue(LAYERS);
+                if(layersUnder < 8){
+                    if(layersUnder + layersAt <= 8){
+                        worldIn.setBlockState(pos.down(), stateUnder.withProperty(LAYERS, layersAt + layersUnder));
+                        worldIn.setBlockToAir(pos);
+                        return;
+                    }else{
+                        worldIn.setBlockState(pos.down(), stateUnder.withProperty(LAYERS, 8));
+                        worldIn.setBlockState(pos, state.withProperty(LAYERS, layersAt + layersUnder - 8));
+                        return;
+                    }
+                }
+            }
+
             if(!stateUnder.getBlock().isNormalCube(stateUnder,worldIn,pos.down())){
                 this.dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);

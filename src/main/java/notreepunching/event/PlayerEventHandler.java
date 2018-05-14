@@ -9,10 +9,14 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.block.BlockCharcoalPile;
 import notreepunching.block.ModBlocks;
@@ -20,18 +24,38 @@ import notreepunching.client.sound.Sounds;
 import notreepunching.config.Config;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
+import notreepunching.util.MiscUtil;
 
 import static notreepunching.block.BlockCharcoalPile.LAYERS;
 
 public class PlayerEventHandler {
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void playerInteractEvent(PlayerInteractEvent.RightClickBlock event){
         World world = event.getWorld();
         BlockPos pos = event.getPos();
         IBlockState state = world.getBlockState(pos);
         ItemStack stack = event.getItemStack();
         EntityPlayer player = event.getEntityPlayer();
+
+        System.out.println("ITEMSTACK: "+stack.getUnlocalizedName());
+        System.out.println("PLAYER HAND: "+player.getHeldItem(event.getHand()).getUnlocalizedName()+" | "+event.getHand()+" | "+player.getHeldItem(event.getHand()).isEmpty());
+        System.out.println("PLAYER OTHER: "+player.getHeldItem(MiscUtil.getOtherHand(event.getHand())).getUnlocalizedName()+ " | " +player.getHeldItem(MiscUtil.getOtherHand(event.getHand())).isEmpty());
+
+        if(stack.isEmpty()){ return; }
+
+        if(event.getHand() == EnumHand.OFF_HAND){
+            ItemStack mainStack = player.getHeldItem(EnumHand.MAIN_HAND);
+            if(mainStack.getItem() == Items.FLINT){
+                event.setCanceled(true);
+                return;
+            }
+            else if(mainStack.getItem() == Items.COAL && mainStack.getMetadata() == 1){
+                // Charcoal was placed with the main hand, so cancel the event
+                event.setCanceled(true);
+                return;
+            }
+        }
 
         // Flint shard creation
         if(stack.getItem() == Items.FLINT){
@@ -58,8 +82,9 @@ public class PlayerEventHandler {
         // Creating a forge by placing charcoal
         else if(stack.getItem() == Items.COAL && stack.getMetadata() == 1){
 
+
             EnumFacing facing = event.getFace();
-            if (!world.isRemote && facing != null) {
+            if (facing != null) {
                 if (world.getBlockState(pos.down().offset(facing)).getBlock().isFullCube(world.getBlockState(pos.down().offset(facing)))
                         && world.getBlockState(pos.offset(facing)).getBlock() == Blocks.AIR) {
 
@@ -68,15 +93,39 @@ public class PlayerEventHandler {
                             return;
                         }
                     }
+                    if(!world.isRemote) {
+                        world.setBlockState(pos.offset(facing), ModBlocks.charcoalPile.getDefaultState());
 
-                    world.setBlockState(pos.offset(facing), ModBlocks.charcoalPile.getDefaultState());
-
-                    if (!player.isCreative()) {
-                        player.setHeldItem(event.getHand(), ItemUtil.consumeItem(stack));
+                        if (!player.isCreative()) {
+                            player.setHeldItem(event.getHand(), ItemUtil.consumeItem(stack));
+                        }
+                        world.playSound(null, pos.offset(facing), SoundEvents.BLOCK_GRAVEL_PLACE, SoundCategory.BLOCKS, 1.0F, 0.5F);
                     }
-                    world.playSound(null, pos.offset(facing), SoundEvents.BLOCK_GRAVEL_PLACE, SoundCategory.BLOCKS, 1.0F, 0.5F);
+
+                }
+            }
+        }
+
+        else if(MiscUtil.doesStackMatchOre(stack, "logWood")){
+            EnumFacing facing = event.getFace();
+            if (facing != null) {
+                if (world.getBlockState(pos.down().offset(facing)).getBlock().isFullCube(world.getBlockState(pos.down().offset(facing)))
+                        && world.getBlockState(pos.offset(facing)).getBlock() == Blocks.AIR &&
+                        player.isSneaking()) {
+
+                    if(!world.isRemote) {
+                        world.setBlockState(pos.offset(facing), ModBlocks.woodPile.getDefaultState());
+
+                        if (!player.isCreative()) {
+                            player.setHeldItem(event.getHand(), ItemUtil.consumeItem(stack));
+                        }
+                        world.playSound(null, pos.offset(facing), SoundEvents.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    }
+                    event.setCanceled(true);
+                    return;
                 }
             }
         }
     }
+
 }
