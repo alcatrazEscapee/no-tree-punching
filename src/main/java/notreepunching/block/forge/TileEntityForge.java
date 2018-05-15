@@ -4,29 +4,23 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import notreepunching.block.IHasFields;
+import notreepunching.block.TileEntityInventory;
 import notreepunching.recipe.forge.ForgeRecipe;
 import notreepunching.recipe.forge.ForgeRecipeHandler;
 import notreepunching.util.ItemUtil;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 import static notreepunching.block.forge.BlockForge.BURNING;
 import static notreepunching.block.forge.BlockForge.LAYERS;
 
-public class TileEntityForge extends TileEntity implements ITickable {
+public class TileEntityForge extends TileEntityInventory implements ITickable, IHasFields {
 
     private int burnTicks;
     private final int maxBurnTicks = 1600;
@@ -50,16 +44,9 @@ public class TileEntityForge extends TileEntity implements ITickable {
     private final byte COOK_ID = 2;
     private final byte MAX_COOK_ID = 3;
 
-    private ItemStackHandler inventory = new ItemStackHandler(2){
-        @Override
-        protected void onContentsChanged(int slot) {
-            if(!world.isRemote) {
-                TileEntityForge.this.markDirty();
-            }
-        }
-    };
 
     public TileEntityForge(){
+        super(2);
         burning = true;
         cooking = false;
         closed = true;
@@ -105,7 +92,7 @@ public class TileEntityForge extends TileEntity implements ITickable {
                     }
 
                 }else{
-                    burnTicks -= burnAmount();
+                    burnTicks -= closed ? 1 : 3;;
                 }
             }
 
@@ -175,8 +162,6 @@ public class TileEntityForge extends TileEntity implements ITickable {
             this.markDirty();
         }
     }
-
-    private int burnAmount(){ return closed ? 1 : 3; }
 
     @Override
     @ParametersAreNonnullByDefault
@@ -248,19 +233,8 @@ public class TileEntityForge extends TileEntity implements ITickable {
     // ************** NBT METHODS ************* //
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @Nullable
-    @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? (T)inventory : super.getCapability(capability, facing);
-    }
-
-    @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    protected NBTTagCompound writeNBT(NBTTagCompound compound) {
         compound.setTag("inventory", inventory.serializeNBT());
         compound.setInteger("burn_ticks", burnTicks);
         compound.setInteger("cook_ticks",cookTicks);
@@ -268,11 +242,11 @@ public class TileEntityForge extends TileEntity implements ITickable {
         compound.setBoolean("cooking", cooking);
         compound.setInteger("min_temperature", minTemperature);
         compound.setBoolean("closed", closed);
-        return super.writeToNBT(compound);
+        return compound;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readNBT(NBTTagCompound compound) {
         inventory.deserializeNBT(compound.getCompoundTag("inventory"));
         burnTicks = compound.getInteger("burn_ticks");
         cookTicks = compound.getInteger("cook_ticks");
@@ -280,40 +254,5 @@ public class TileEntityForge extends TileEntity implements ITickable {
         cooking = compound.getBoolean("cooking");
         minTemperature = compound.getInteger("min_temperature");
         closed = compound.getBoolean("closed");
-        super.readFromNBT(compound);
-    }
-    @Override
-    @Nullable
-    public SPacketUpdateTileEntity getUpdatePacket()
-    {
-        NBTTagCompound updateTagDescribingTileEntityState = getUpdateTag();
-        return new SPacketUpdateTileEntity(this.pos, 1, updateTagDescribingTileEntityState);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-        NBTTagCompound updateTagDescribingTileEntityState = pkt.getNbtCompound();
-        handleUpdateTag(updateTagDescribingTileEntityState);
-    }
-
-    /* Creates a tag containing the TileEntity information, used by vanilla to transmit from server to client
-       Warning - although our getUpdatePacket() uses this method, vanilla also calls it directly, so don't remove it.
-     */
-    @Override
-    @Nonnull
-    public NBTTagCompound getUpdateTag()
-    {
-        NBTTagCompound nbtTagCompound = new NBTTagCompound();
-        writeToNBT(nbtTagCompound);
-        return nbtTagCompound;
-    }
-
-    /* Populates this TileEntity with information from the tag, used by vanilla to transmit from server to client
-     Warning - although our onDataPacket() uses this method, vanilla also calls it directly, so don't remove it.
-   */
-    @Override
-    public void handleUpdateTag(@Nonnull NBTTagCompound tag)
-    {
-        this.readFromNBT(tag);
     }
 }

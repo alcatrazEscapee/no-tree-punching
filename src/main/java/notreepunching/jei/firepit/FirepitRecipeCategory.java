@@ -96,6 +96,6 @@ public class FirepitRecipeCategory implements IRecipeCategory {
     @Override
     public void drawExtras(Minecraft minecraft) {
         animatedArrow.draw(minecraft, 26, 2);
-        animatedFlame.draw(minecraft, 29, 20);
+        animatedFlame.draw(minecraft, 30, 20);
     }
 }

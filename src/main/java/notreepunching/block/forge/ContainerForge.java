@@ -2,50 +2,26 @@ package notreepunching.block.forge;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import notreepunching.block.firepit.TileEntityFirepit;
+import notreepunching.block.ContainerBase;
 import notreepunching.recipe.forge.ForgeRecipeHandler;
 
 import javax.annotation.Nonnull;
 
-public class ContainerForge extends Container {
+public class ContainerForge extends ContainerBase<TileEntityForge> {
 
-    private int [] cachedFields;
+    public ContainerForge(InventoryPlayer playerInv, TileEntityForge forge) {
+        super(playerInv, forge);
 
-    private TileEntityForge te;
-
-    public ContainerForge(InventoryPlayer playerInv, TileEntityForge te) {
-        IItemHandler inventory = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+        IItemHandler inventory = forge.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
         // Firepit Slots
-        addSlotToContainer(new SlotForgeInput(inventory, 0,52,23,te));
-        addSlotToContainer(new SlotForgeOutput(inventory, 1,108,23,te));
-
-        this.te = te;
-
-        // Add Player Inventory Slots
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 9; j++) {
-                addSlotToContainer(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-            }
-        }
-
-        for (int k = 0; k < 9; k++) {
-            addSlotToContainer(new Slot(playerInv, k, 8 + k * 18, 142));
-        }
-    }
-
-    @Override
-    public boolean canInteractWith(@Nonnull EntityPlayer player) {
-        return true;
+        addSlotToContainer(new SlotForgeInput(inventory, 0,52,23, forge));
+        addSlotToContainer(new SlotForgeOutput(inventory, 1,108,23, forge));
     }
 
     // index is the id of the slot shift-clicked
@@ -96,44 +72,6 @@ public class ContainerForge extends Container {
         return itemstack;
     }
 
-
-    @Override
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
-
-        boolean allFieldsHaveChanged = false;
-        boolean fieldHasChanged [] = new boolean[te.getFieldCount()];
-        if (cachedFields == null) {
-            cachedFields = new int[te.getFieldCount()];
-            allFieldsHaveChanged = true;
-        }
-        for (int i = 0; i < cachedFields.length; ++i) {
-            if (allFieldsHaveChanged || cachedFields[i] != te.getField(i)) {
-                cachedFields[i] = te.getField(i);
-                fieldHasChanged[i] = true;
-            }
-        }
-
-        // go through the list of listeners (players using this container) and update them if necessary
-        for (IContainerListener listener : this.listeners) {
-            for (int fieldID = 0; fieldID < te.getFieldCount(); ++fieldID) {
-                if (fieldHasChanged[fieldID]) {
-                    // Note that although sendWindowProperty takes 2 ints on a server these are truncated to shorts
-                    listener.sendWindowProperty(this, fieldID, cachedFields[fieldID]);
-                }
-            }
-        }
-    }
-
-    // Called when a progress bar update is received from the server. The two values (id and data) are the same two
-    // values given to sendWindowProperty.  In this case we are using fields so we just pass them to the tileEntity.
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void updateProgressBar(int id, int data) {
-        te.setField(id, data);
-    }
-
-
     // ***************** Slot Classes ******************** //
 
     class SlotForgeInput extends SlotItemHandler{
@@ -151,7 +89,7 @@ public class ContainerForge extends Container {
         }
 
         @Override
-        public boolean isItemValid(ItemStack stack) {
+        public boolean isItemValid(@Nonnull ItemStack stack) {
             return ForgeRecipeHandler.isIngredient(stack);
         }
     }
@@ -170,7 +108,7 @@ public class ContainerForge extends Container {
         }
 
         @Override
-        public boolean isItemValid(ItemStack stack) {
+        public boolean isItemValid(@Nonnull ItemStack stack) {
             return false;
         }
     }

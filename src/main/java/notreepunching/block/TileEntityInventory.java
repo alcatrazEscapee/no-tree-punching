@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 
 public abstract class TileEntityInventory extends TileEntity {
 
-    private final ItemStackHandler inventory;
+    protected final ItemStackHandler inventory;
 
 
     public TileEntityInventory(int inventorySize){
@@ -35,7 +35,8 @@ public abstract class TileEntityInventory extends TileEntity {
     public void setAndUpdateSlots(){
     }
 
-    abstract NBTTagCompound writeNBT(NBTTagCompound c);
+    @Nonnull
+    protected abstract NBTTagCompound writeNBT(NBTTagCompound c);
 
     @Override
     @Nonnull
@@ -43,7 +44,7 @@ public abstract class TileEntityInventory extends TileEntity {
         return super.writeToNBT(writeNBT(compound));
     }
 
-    abstract void readNBT(NBTTagCompound c);
+    protected abstract void readNBT(NBTTagCompound c);
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {

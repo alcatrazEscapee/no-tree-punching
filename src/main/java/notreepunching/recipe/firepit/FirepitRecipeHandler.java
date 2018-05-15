@@ -47,11 +47,8 @@ public class FirepitRecipeHandler {
         return FIREPIT_RECIPES;
     }
 
-    private static void addFirepitRecipe(ItemStack input, int cookTime, ItemStack output){
-        FIREPIT_RECIPES.add(new FirepitRecipe(input,cookTime,output));
-    }
     private static void addFirepitRecipe(ItemStack input, ItemStack output){
-        addFirepitRecipe(input, Config.Firepit.COOK_MULT,output);
+        FIREPIT_RECIPES.add(new FirepitRecipe(input,output));
     }
 
 }

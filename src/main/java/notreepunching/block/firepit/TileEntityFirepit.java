@@ -3,37 +3,24 @@ package notreepunching.block.firepit;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import notreepunching.block.IHasFields;
 import notreepunching.block.ModBlocks;
+import notreepunching.block.TileEntityInventory;
 import notreepunching.config.Config;
 import notreepunching.recipe.firepit.FirepitRecipe;
 import notreepunching.recipe.firepit.FirepitRecipeHandler;
 import notreepunching.util.ItemUtil;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static notreepunching.block.firepit.BlockFirepit.BURNING;
 
-public class TileEntityFirepit extends TileEntity implements ITickable, IHasFields {
-
-    private ItemStackHandler inventory = new ItemStackHandler(3){
-        @Override
-        protected void onContentsChanged(int slot) {
-            TileEntityFirepit.this.markDirty();
-        }
-    };
+public class TileEntityFirepit extends TileEntityInventory implements ITickable, IHasFields {
 
     private int burnTicks;
     private int maxBurnTicks;
@@ -48,6 +35,7 @@ public class TileEntityFirepit extends TileEntity implements ITickable, IHasFiel
     private static final byte MAX_COOK_FIELD_ID = 3;
 
     public TileEntityFirepit(){
+        super(3);
         // Initial burn time from log that was thrown = 300
         burnTicks = 300*Config.Firepit.FUEL_MULT;
         maxBurnTicks = burnTicks;
@@ -66,7 +54,7 @@ public class TileEntityFirepit extends TileEntity implements ITickable, IHasFiel
 
                     if(ItemUtil.canMergeStack(recipe.getOutput(),outStack)){
                         cookTimer++;
-                        maxCookTimer = recipe.getCookTime();
+                        maxCookTimer = Config.Firepit.COOK_MULT;
 
                         if(cookTimer >= maxCookTimer){
                             // Cook an item
@@ -168,68 +156,24 @@ public class TileEntityFirepit extends TileEntity implements ITickable, IHasFiel
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    protected NBTTagCompound writeNBT(NBTTagCompound compound) {
         compound.setTag("inventory", inventory.serializeNBT());
         compound.setInteger("burn_ticks",burnTicks);
         compound.setInteger("max_burn_ticks",maxBurnTicks);
-        return super.writeToNBT(compound);
+        compound.setInteger("cook_ticks",cookTimer);
+        return compound;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    protected void readNBT(NBTTagCompound compound) {
         inventory.deserializeNBT(compound.getCompoundTag("inventory"));
         burnTicks = compound.getInteger("burn_ticks");
         maxBurnTicks = compound.getInteger("max_burn_ticks");
-        super.readFromNBT(compound);
+        cookTimer = compound.getInteger("cook_ticks");
     }
 
     @Override
-    @Nullable
-    public SPacketUpdateTileEntity getUpdatePacket()
-    {
-        NBTTagCompound updateTagDescribingTileEntityState = getUpdateTag();
-        return new SPacketUpdateTileEntity(this.pos, 1, updateTagDescribingTileEntityState);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-        NBTTagCompound updateTagDescribingTileEntityState = pkt.getNbtCompound();
-        handleUpdateTag(updateTagDescribingTileEntityState);
-    }
-
-    /* Creates a tag containing the TileEntity information, used by vanilla to transmit from server to client
-       Warning - although our getUpdatePacket() uses this method, vanilla also calls it directly, so don't remove it.
-     */
-    @Override
-    @Nonnull
-    public NBTTagCompound getUpdateTag()
-    {
-        NBTTagCompound nbtTagCompound = new NBTTagCompound();
-        writeToNBT(nbtTagCompound);
-        return nbtTagCompound;
-    }
-
-    /* Populates this TileEntity with information from the tag, used by vanilla to transmit from server to client
-     Warning - although our onDataPacket() uses this method, vanilla also calls it directly, so don't remove it.
-   */
-    @Override
-    public void handleUpdateTag(@Nonnull NBTTagCompound tag)
-    {
-        this.readFromNBT(tag);
-    }
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @Nullable
-    @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? (T)inventory : super.getCapability(capability, facing);
-    }
-
-    @Override
+    @ParametersAreNonnullByDefault
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
     {
         return (oldState.getBlock() != newState.getBlock());
