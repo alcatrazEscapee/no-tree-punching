@@ -1,11 +1,10 @@
-package notreepunching.block;
+package notreepunching.block.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -20,7 +19,6 @@ public abstract class TileEntityInventory extends TileEntity {
 
     public TileEntityInventory(int inventorySize){
         super();
-
         inventory = new ItemStackHandler(inventorySize){
             @Override
             protected void onContentsChanged(int slot) {
@@ -28,6 +26,25 @@ public abstract class TileEntityInventory extends TileEntity {
                     TileEntityInventory.this.markDirty();
                     TileEntityInventory.this.setAndUpdateSlots();
                 }
+            }
+        };
+        this.markDirty();
+    }
+    // Used by Wood Pile
+    public TileEntityInventory(int inventorySize, int maxStackSize){
+        super();
+        inventory = new ItemStackHandler(inventorySize){
+            @Override
+            protected void onContentsChanged(int slot) {
+                if(!world.isRemote){
+                    TileEntityInventory.this.markDirty();
+                    TileEntityInventory.this.setAndUpdateSlots();
+                }
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return maxStackSize;
             }
         };
     }
@@ -41,6 +58,7 @@ public abstract class TileEntityInventory extends TileEntity {
     @Override
     @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        compound.setTag("inventory", inventory.serializeNBT());
         return super.writeToNBT(writeNBT(compound));
     }
 
@@ -48,6 +66,7 @@ public abstract class TileEntityInventory extends TileEntity {
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
+        inventory.deserializeNBT(compound.getCompoundTag("inventory"));
         readNBT(compound);
         super.readFromNBT(compound);
     }

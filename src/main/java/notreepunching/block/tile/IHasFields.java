@@ -1,4 +1,4 @@
-package notreepunching.block;
+package notreepunching.block.tile;
 
 public interface IHasFields {
 

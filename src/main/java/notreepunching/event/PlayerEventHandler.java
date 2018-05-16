@@ -8,6 +8,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.block.BlockCharcoalPile;
 import notreepunching.block.ModBlocks;
+import notreepunching.block.tile.TileEntityWoodPile;
 import notreepunching.client.sound.Sounds;
 import notreepunching.config.Config;
 import notreepunching.item.ModItems;
@@ -82,7 +84,7 @@ public class PlayerEventHandler {
             EnumFacing facing = event.getFace();
             if (facing != null) {
                 if (world.getBlockState(pos.down().offset(facing)).getBlock().isFullCube(world.getBlockState(pos.down().offset(facing)))
-                        && world.getBlockState(pos.offset(facing)).getBlock() == Blocks.AIR) {
+                        && world.getBlockState(pos.offset(facing)).getBlock().isReplaceable(world, pos.offset(facing))) {
 
                     if(world.getBlockState(pos).getBlock() instanceof BlockCharcoalPile || world.getBlockState(pos).getBlock() instanceof BlockCharcoalPile){
                         if(world.getBlockState(pos).getValue(LAYERS) != 8){
@@ -106,11 +108,17 @@ public class PlayerEventHandler {
             EnumFacing facing = event.getFace();
             if (facing != null) {
                 if (world.getBlockState(pos.down().offset(facing)).getBlock().isFullCube(world.getBlockState(pos.down().offset(facing)))
-                        && world.getBlockState(pos.offset(facing)).getBlock() == Blocks.AIR &&
+                        && world.getBlockState(pos.offset(facing)).getBlock().isReplaceable(world, pos.offset(facing)) &&
                         player.isSneaking()) {
 
                     if(!world.isRemote) {
                         world.setBlockState(pos.offset(facing), ModBlocks.woodPile.getDefaultState());
+
+                        TileEntity te = world.getTileEntity(pos.offset(facing));
+                        if(te instanceof TileEntityWoodPile){
+                            ((TileEntityWoodPile) te).insertLog(ItemUtil.copyStack(stack,1));
+                            System.out.println("PUT THE LOG WHERE IF FUKIN BELONGED");
+                        }
 
                         if (!player.isCreative()) {
                             player.setHeldItem(event.getHand(), ItemUtil.consumeItem(stack));

@@ -1,4 +1,4 @@
-package notreepunching.block.forge;
+package notreepunching.block.tile;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -7,8 +7,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import notreepunching.block.IHasFields;
-import notreepunching.block.TileEntityInventory;
 import notreepunching.recipe.forge.ForgeRecipe;
 import notreepunching.recipe.forge.ForgeRecipeHandler;
 import notreepunching.util.ItemUtil;
@@ -17,8 +15,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
-import static notreepunching.block.forge.BlockForge.BURNING;
-import static notreepunching.block.forge.BlockForge.LAYERS;
+import static notreepunching.block.BlockForge.BURNING;
+import static notreepunching.block.BlockForge.LAYERS;
 
 public class TileEntityForge extends TileEntityInventory implements ITickable, IHasFields {
 
@@ -31,7 +29,7 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     private int maxTemperature;
     private final int maxTemp;
 
-    protected boolean closed;
+    public boolean closed;
     private boolean burning;
     private boolean cooking;
 
@@ -235,7 +233,6 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     @Override
     @Nonnull
     protected NBTTagCompound writeNBT(NBTTagCompound compound) {
-        compound.setTag("inventory", inventory.serializeNBT());
         compound.setInteger("burn_ticks", burnTicks);
         compound.setInteger("cook_ticks",cookTicks);
         compound.setInteger("temperature", temperature);
@@ -247,7 +244,6 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
 
     @Override
     public void readNBT(NBTTagCompound compound) {
-        inventory.deserializeNBT(compound.getCompoundTag("inventory"));
         burnTicks = compound.getInteger("burn_ticks");
         cookTicks = compound.getInteger("cook_ticks");
         temperature = compound.getInteger("temperature");

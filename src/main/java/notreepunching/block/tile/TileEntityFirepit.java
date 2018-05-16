@@ -1,4 +1,4 @@
-package notreepunching.block.firepit;
+package notreepunching.block.tile;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -7,9 +7,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import notreepunching.block.IHasFields;
 import notreepunching.block.ModBlocks;
-import notreepunching.block.TileEntityInventory;
 import notreepunching.config.Config;
 import notreepunching.recipe.firepit.FirepitRecipe;
 import notreepunching.recipe.firepit.FirepitRecipeHandler;
@@ -18,7 +16,7 @@ import notreepunching.util.ItemUtil;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static notreepunching.block.firepit.BlockFirepit.BURNING;
+import static notreepunching.block.BlockFirepit.BURNING;
 
 public class TileEntityFirepit extends TileEntityInventory implements ITickable, IHasFields {
 

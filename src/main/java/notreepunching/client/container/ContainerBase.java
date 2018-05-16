@@ -1,4 +1,4 @@
-package notreepunching.block;
+package notreepunching.client.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -7,6 +7,7 @@ import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import notreepunching.block.tile.IHasFields;
 
 import javax.annotation.Nonnull;
 

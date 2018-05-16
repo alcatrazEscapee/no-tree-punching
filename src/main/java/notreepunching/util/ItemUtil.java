@@ -65,4 +65,10 @@ public class ItemUtil {
         // Check if meta values match
         return stack1.getMetadata() == stack2.getMetadata();
     }
+
+    public static ItemStack copyStack(ItemStack stack, int count){
+        ItemStack stack2 = stack.copy();
+        stack2.setCount(count);
+        return stack2;
+    }
 }

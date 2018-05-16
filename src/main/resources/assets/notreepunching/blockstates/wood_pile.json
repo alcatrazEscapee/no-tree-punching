@@ -12,6 +12,10 @@
       "true": { "y": 0, "x": 90 },
       "false": { "y": 90, "x": 90 }
     },
+    "onfire": {
+      "true": {},
+      "false": {}
+    },
     "normal": [{}],
     "inventory": [{}]
   }

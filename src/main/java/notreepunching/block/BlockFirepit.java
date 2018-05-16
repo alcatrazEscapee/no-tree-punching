@@ -1,4 +1,4 @@
-package notreepunching.block.firepit;
+package notreepunching.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -27,12 +27,13 @@ import net.minecraftforge.items.IItemHandler;
 import notreepunching.NoTreePunching;
 import notreepunching.block.BlockWithTileEntity;
 import notreepunching.block.ModBlocks;
+import notreepunching.block.tile.TileEntityFirepit;
 import notreepunching.client.NTPGuiHandler;
 import notreepunching.item.ItemFirestarter;
-import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
@@ -94,14 +95,20 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        TileEntityFirepit tile = getTileEntity(world, pos);
-        IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
-        for(int i=0;i<3;i++) {
-            ItemStack stack = itemHandler.getStackInSlot(i);
-            if (!stack.isEmpty()) {
-                EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-                world.spawnEntity(item);
+        TileEntityFirepit tile = (TileEntityFirepit) world.getTileEntity(pos);
+
+        if(tile != null) {
+            IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+            if(itemHandler != null) {
+                for (int i = 0; i < itemHandler.getSlots(); i++) {
+                    ItemStack stack = itemHandler.getStackInSlot(i);
+                    if (!stack.isEmpty()) {
+                        EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+                        world.spawnEntity(item);
+                    }
+                }
             }
         }
         super.breakBlock(world, pos, state);
@@ -192,6 +199,7 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random random){
         if(!worldIn.isRemote){
             if(worldIn.canBlockSeeSky(pos) && worldIn.isRaining() && worldIn.getTopSolidOrLiquidBlock(pos).getY()<pos.getY()+2){

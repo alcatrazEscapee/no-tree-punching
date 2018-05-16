@@ -53,6 +53,9 @@ public class ClientProxy implements IProxy {
             case 2:
                 ParticleGenerator.firestarterParticle(world, pos);
                 break;
+            case 3:
+                ParticleGenerator.woodPileParticle(world, pos);
+                break;
         }
 
     }

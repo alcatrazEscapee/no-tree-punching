@@ -7,7 +7,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
-import notreepunching.block.firepit.TileEntityFirepit;
+import notreepunching.block.tile.TileEntityFirepit;
 
 public class GuiFirepit extends GuiContainer {
 

@@ -20,9 +20,9 @@ public class ParticleGenerator {
 
     public static void forgeParticle(World world, BlockPos pos){
         Random rand = new Random();
-        double x = pos.getX()+1d*rand.nextFloat();
+        double x = pos.getX()+0.9d*rand.nextFloat()+0.05d;
         double y = pos.getY()+world.getBlockState(pos).getValue(LAYERS)*0.125D;
-        double z = pos.getZ()+1d*rand.nextFloat();
+        double z = pos.getZ()+0.9d*rand.nextFloat()+0.05d;
         Minecraft.getMinecraft().effectRenderer.addEffect(new FirepitParticle(world, x, y, z, 0d, 0.008d, 0d));
     }
 
@@ -32,5 +32,13 @@ public class ParticleGenerator {
         double y = pos.getY()+0.1d;
         double z = pos.getZ()+0.5d+0.05d*rand.nextGaussian();
         Minecraft.getMinecraft().effectRenderer.addEffect(new FirepitSmokeParticle(world,x,y,z,0.01d*rand.nextGaussian(),0.03d,0.01d*rand.nextGaussian()));
+    }
+
+    public static void woodPileParticle(World world, BlockPos pos){
+        Random rand = new Random();
+        double x = pos.getX()+0.9d*rand.nextFloat()+0.05d;
+        double y = pos.getY()+1d;
+        double z = pos.getZ()+0.9d*rand.nextFloat()+0.05d;
+        Minecraft.getMinecraft().effectRenderer.addEffect(new WoodPileSmokeParticle(world,x,y,z,0.01d*rand.nextGaussian(),0.1d+rand.nextFloat()*0.02,0.01d*rand.nextGaussian()));
     }
 }

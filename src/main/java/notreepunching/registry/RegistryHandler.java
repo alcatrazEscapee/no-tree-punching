@@ -3,14 +3,15 @@ package notreepunching.registry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
-import notreepunching.block.firepit.TileEntityFirepit;
-import notreepunching.block.forge.TileEntityForge;
+import notreepunching.block.tile.IHasTileEntity;
+import notreepunching.block.tile.TileEntityFirepit;
+import notreepunching.block.tile.TileEntityForge;
 import notreepunching.item.ModItems;
 import notreepunching.recipe.ModRecipes;
 
@@ -42,13 +43,14 @@ public class RegistryHandler {
         ModBlocks.init();
 
         for(Block block : BLOCK_REGISTRY){
-            if(block!=null) {
-                event.getRegistry().register(block);
+            event.getRegistry().register(block);
+            if(block instanceof IHasTileEntity){
+                GameRegistry.registerTileEntity(((IHasTileEntity) block).getTileEntityClass(), NoTreePunching.MODID+"_"+block.getUnlocalizedName());
             }
         }
 
-        GameRegistry.registerTileEntity(TileEntityFirepit.class, "notreepunching_firepit");
-        GameRegistry.registerTileEntity(TileEntityForge.class, "notreepunching_forge");
+        //GameRegistry.registerTileEntity(TileEntityFirepit.class, "notreepunching_firepit");
+        //GameRegistry.registerTileEntity(TileEntityForge.class, "notreepunching_forge");
 
         //ModBlocks.registerBlocks(event);
     }

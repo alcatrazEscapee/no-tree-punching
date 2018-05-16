@@ -1,4 +1,4 @@
-package notreepunching.block.forge;
+package notreepunching.client.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -8,20 +8,20 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import notreepunching.block.ContainerBase;
-import notreepunching.recipe.forge.ForgeRecipeHandler;
+import notreepunching.block.tile.TileEntityFirepit;
 
 import javax.annotation.Nonnull;
 
-public class ContainerForge extends ContainerBase<TileEntityForge> {
+public class ContainerFirepit extends ContainerBase<TileEntityFirepit> {
 
-    public ContainerForge(InventoryPlayer playerInv, TileEntityForge forge) {
-        super(playerInv, forge);
+    public ContainerFirepit(InventoryPlayer playerInv, TileEntityFirepit firepit) {
+        super(playerInv, firepit);
 
-        IItemHandler inventory = forge.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+        IItemHandler inventory = firepit.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
         // Firepit Slots
-        addSlotToContainer(new SlotForgeInput(inventory, 0,52,23, forge));
-        addSlotToContainer(new SlotForgeOutput(inventory, 1,108,23, forge));
+        addSlotToContainer(new SlotFirepitFuel(inventory, 0,80,59,firepit));
+        addSlotToContainer(new SlotFirepitInput(inventory, 1,51,23,firepit));
+        addSlotToContainer(new SlotFirepitOutput(inventory, 2,109,23,firepit));
     }
 
     // index is the id of the slot shift-clicked
@@ -51,11 +51,17 @@ public class ContainerForge extends ContainerBase<TileEntityForge> {
         }
         // Transfer into the container
         else {
-            // Try input slot
+            // Try fuel slot first (most specific)
             if(this.inventorySlots.get(0).isItemValid(itemstack)){
                 if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }
+            }else{
+                // Try input slot next (least specific)
+                if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
+                    return ItemStack.EMPTY;
+                }
+                // don't try to merge into the output slot
             }
         }
 
@@ -74,32 +80,52 @@ public class ContainerForge extends ContainerBase<TileEntityForge> {
 
     // ***************** Slot Classes ******************** //
 
-    class SlotForgeInput extends SlotItemHandler{
-        private TileEntityForge te;
+    class SlotFirepitFuel extends SlotItemHandler{
 
-        private SlotForgeInput(IItemHandler inventory, int idx, int x, int y, final TileEntityForge te){
+        private TileEntityFirepit te;
+
+        private SlotFirepitFuel(IItemHandler inventory, int idx, int x, int y, final TileEntityFirepit firepit){
             super(inventory, idx,x,y);
-            this.te = te;
+            this.te = firepit;
         }
 
         @Override
         public void onSlotChanged() {
             te.markDirty();
-            //te.resetCookTimer();
         }
 
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
-            return ForgeRecipeHandler.isIngredient(stack);
+            return TileEntityFirepit.isItemValidFuel(stack);
         }
     }
 
-    class SlotForgeOutput extends SlotItemHandler{
-        private TileEntityForge te;
+    class SlotFirepitInput extends SlotItemHandler{
+        private TileEntityFirepit te;
 
-        private SlotForgeOutput(IItemHandler inventory, int idx, int x, int y, final TileEntityForge te){
+        private SlotFirepitInput(IItemHandler inventory, int idx, int x, int y, final TileEntityFirepit firepit){
             super(inventory, idx,x,y);
-            this.te = te;
+            this.te = firepit;
+        }
+
+        @Override
+        public void onSlotChanged() {
+            te.markDirty();
+            te.resetCookTimer();
+        }
+
+        @Override
+        public boolean isItemValid(@Nonnull ItemStack stack) {
+            return TileEntityFirepit.isItemValidInput(stack);
+        }
+    }
+
+    class SlotFirepitOutput extends SlotItemHandler{
+        private TileEntityFirepit te;
+
+        private SlotFirepitOutput(IItemHandler inventory, int idx, int x, int y, final TileEntityFirepit firepit){
+            super(inventory, idx,x,y);
+            this.te = firepit;
         }
 
         @Override

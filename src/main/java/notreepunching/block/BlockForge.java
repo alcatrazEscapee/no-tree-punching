@@ -1,4 +1,4 @@
-package notreepunching.block.forge;
+package notreepunching.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -31,6 +31,7 @@ import net.minecraftforge.items.IItemHandler;
 import notreepunching.NoTreePunching;
 import notreepunching.block.BlockWithTileEntity;
 import notreepunching.block.ModBlocks;
+import notreepunching.block.tile.TileEntityForge;
 import notreepunching.client.NTPGuiHandler;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;

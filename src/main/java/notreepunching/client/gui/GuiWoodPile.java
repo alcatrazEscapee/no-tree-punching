@@ -7,19 +7,19 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
-import notreepunching.block.tile.TileEntityForge;
+import notreepunching.block.tile.TileEntityWoodPile;
 
-public class GuiForge extends GuiContainer {
+public class GuiWoodPile extends GuiContainer {
 
     private InventoryPlayer playerInv;
-    private final TileEntityForge te;
+    private final TileEntityWoodPile tile;
 
-    private static final ResourceLocation BG_TEXTURE = new ResourceLocation(NoTreePunching.MODID, "textures/gui/forge.png");
+    private static final ResourceLocation BG_TEXTURE = new ResourceLocation(NoTreePunching.MODID, "textures/gui/wood_pile.png");
 
-    public GuiForge(Container container, InventoryPlayer playerInv, TileEntityForge te) {
+    public GuiWoodPile(Container container, InventoryPlayer playerInv, TileEntityWoodPile te) {
         super(container);
         this.playerInv = playerInv;
-        this.te = te;
+        this.tile = te;
     }
 
     @Override
@@ -39,28 +39,19 @@ public class GuiForge extends GuiContainer {
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 
         // Draw the fire / burn time indicator
-        int burnTime = this.te.getScaledFuelTicks();
-        int temp = this.te.getScaledTemp();
-        int fuel = (this.te.getBlockMetadata() % 8 + 1)*2;
-        int cookTime = this.te.getScaledCookTicks();
+        /*int burnTime = this.tile.getScaledBurnTicks();
+        int cookTime = this.tile.getScaledCookTime();
         if(burnTime>0){
-            drawTexturedModalRect(x+80,y+56-burnTime,176,14-burnTime,14,burnTime);
+            drawTexturedModalRect(x+81,y+54-burnTime,176,13-burnTime,14,burnTime);
         }
-        if(temp>0){
-            drawTexturedModalRect(x+24,y+55-temp,190,30-temp,10,temp);
-        }
-        if(fuel > 0){
-            drawTexturedModalRect(x+80, y+75-fuel,223,16-fuel,16,fuel);
-        }
-        if(cookTime > 0){
-            drawTexturedModalRect(x+77,y+24,200,0,cookTime, 16);
-        }
-
+        if(cookTime>0){
+            drawTexturedModalRect(x+77,y+24,190,0,cookTime,16);
+        }*/
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = NoTreePunching.proxy.localize(ModBlocks.charcoalPile.getUnlocalizedName() + ".name");
+        String name = NoTreePunching.proxy.localize(ModBlocks.woodPile.getUnlocalizedName() + ".name");
         fontRenderer.drawString(name, xSize / 2 - fontRenderer.getStringWidth(name) / 2, 6, 0x404040);
         fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 8, ySize - 94, 0x404040);
     }

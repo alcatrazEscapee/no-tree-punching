@@ -3,8 +3,6 @@ package notreepunching.block;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import notreepunching.NoTreePunching;
-import notreepunching.block.firepit.BlockFirepit;
-import notreepunching.block.forge.BlockForge;
 import notreepunching.config.Config;
 import notreepunching.registry.RegistryHandler;
 
