@@ -7,14 +7,7 @@
     }
   },
   "variants": {
-    "normal": {
-      "model": "minecraft:cube_all",
-      "textures": {
-        "all": "notreepunching:blocks/diorite_cobblestone"
-      }
-    },
-    "inventory": {
-      "transform": "forge:default-block"
-    }
+    "normal": [{}],
+    "inventory": [{}]
   }
 }

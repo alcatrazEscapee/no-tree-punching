@@ -53,6 +53,7 @@ item.steel_mattock.name=Steel Mattock
 
 tile.firepit.name=Firepit
 tile.charcoal_pile.name=Charcoal Forge
+tile.wood_pile.name=Log Pile
 
 tile.andesite_cobblestone.name=Andesite Cobblestone
 tile.diorite_cobblestone.name=Diorite Cobblestone
