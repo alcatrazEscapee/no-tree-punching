@@ -129,7 +129,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
         if (!worldIn.isRemote) {
             // Breaks rock if the block under it breaks.
             IBlockState stateUnder = worldIn.getBlockState(pos.down());
-            if(!stateUnder.getBlock().isNormalCube(stateUnder,worldIn,pos.down())){
+            if(!stateUnder.isNormalCube()){
                 this.dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);
                 return;

@@ -33,10 +33,10 @@ public class NoTreePunching {
     public static final String VERSION = "GRADLE:VERSION";
     public static final String actualName = "NoTreePunching";
 
-    public static final Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", Config.Tools.FLINT_MINING_LEVEL,45,2.5F,0.5F,0);
-    public static final Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", Config.Tools.COPPER_MINING_LEVEL,180,4F,1.5F,6);
-    public static final Item.ToolMaterial toolMaterialBronze = EnumHelper.addToolMaterial("NTP_BRONZE", Config.Tools.BRONZE_MINING_LEVEL,350,8F,2.5F,8);
-    public static final Item.ToolMaterial toolMaterialSteel = EnumHelper.addToolMaterial("NTP_STEEL", Config.Tools.STEEL_MINING_LEVEL,1400,11F,3.0F,10);
+    public static final Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", Config.Balance.FLINT_MINING_LEVEL,45,2.5F,0.5F,0);
+    public static final Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", Config.Balance.COPPER_MINING_LEVEL,180,4F,1.5F,6);
+    public static final Item.ToolMaterial toolMaterialBronze = EnumHelper.addToolMaterial("NTP_BRONZE", Config.Balance.BRONZE_MINING_LEVEL,350,8F,2.5F,8);
+    public static final Item.ToolMaterial toolMaterialSteel = EnumHelper.addToolMaterial("NTP_STEEL", Config.Balance.STEEL_MINING_LEVEL,1400,11F,3.0F,10);
 
     public static final CreativeTabBase NTP_Tab = new CreativeTabBase(NoTreePunching.MODID);
 

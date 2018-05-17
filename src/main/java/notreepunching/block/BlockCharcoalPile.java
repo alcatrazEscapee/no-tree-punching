@@ -129,7 +129,7 @@ public class BlockCharcoalPile extends BlockBase {
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (!worldIn.isRemote) {
-            // Breaks rock if the block under it breaks.
+            // Try to drop the rock down
             IBlockState stateUnder = worldIn.getBlockState(pos.down());
             if(stateUnder.getBlock() instanceof BlockCharcoalPile){
                 int layersAt = state.getValue(LAYERS);
@@ -147,7 +147,7 @@ public class BlockCharcoalPile extends BlockBase {
                 }
             }
 
-            if(!stateUnder.getBlock().isNormalCube(stateUnder,worldIn,pos.down())){
+            if(!stateUnder.isNormalCube()){
                 this.dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);
             }

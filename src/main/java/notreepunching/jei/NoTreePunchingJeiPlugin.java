@@ -7,6 +7,7 @@ import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.block.ModBlocks;
 import notreepunching.client.gui.GuiFirepit;
 import notreepunching.client.gui.GuiForge;
@@ -52,6 +53,7 @@ public class NoTreePunchingJeiPlugin implements IModPlugin {
 
         registry.addIngredientInfo(new ItemStack(ModBlocks.firepit),ItemStack.class,"jei.description.firepit");
         registry.addIngredientInfo(new ItemStack(Items.COAL,1,1),ItemStack.class,"jei.description.forge");
+        registry.addIngredientInfo(OreDictionary.getOres("logWood"),ItemStack.class,"jei.description.wood_pile");
 
         // Blacklist Ingredients
 
@@ -59,6 +61,7 @@ public class NoTreePunchingJeiPlugin implements IModPlugin {
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.looseRock));
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.charcoalPile));
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.forge));
+        blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.woodPile));
 
         // Knife / Cutting Recipes
         registry.handleRecipes(CuttingRecipe.class, KnifeRecipeWrapper::new, KnifeRecipeCategory.UID);

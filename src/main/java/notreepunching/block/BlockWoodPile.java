@@ -13,12 +13,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -49,10 +48,15 @@ public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
     public BlockWoodPile(String name){
         super(name, Material.WOOD);
 
-        setHardness(1.2F);
+        setHardness(2.0F);
         setSoundType(SoundType.WOOD);
         setTickRandomly(true);
+        setHarvestLevel("axe",0);
         this.setDefaultState(this.getDefaultState().withProperty(AXIS, false).withProperty(ONFIRE, false));
+    }
+    @Override
+    public void register(){
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, false);
     }
 
     @Override
@@ -82,32 +86,19 @@ public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
         return true;
     }
 
+    @Override
+    @ParametersAreNonnullByDefault
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        drops.clear();
+    }
+
+
     private boolean isValidCoverBlock(World world, BlockPos pos){
         IBlockState state = world.getBlockState(pos);
         if(state.getBlock() == ModBlocks.woodPile || state.getBlock() == ModBlocks.charcoalPile){ return true; }
         if(state.getMaterial().getCanBurn()){ return false; }
         return state.isNormalCube();
     }
-
-    /*@Override
-    @ParametersAreNonnullByDefault
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        if(world.isRemote) return;
-        TileEntityWoodPile tile = (TileEntityWoodPile) world.getTileEntity(pos);
-        if(tile!= null) {
-            IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
-            if (itemHandler != null & !tile.burning) {
-                for (int i = 0; i < itemHandler.getSlots(); i++) {
-                    ItemStack stack = itemHandler.getStackInSlot(i);
-                    if (!stack.isEmpty()) {
-                        EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-                        world.spawnEntity(item);
-                    }
-                }
-            }
-        }
-        super.breakBlock(world, pos, state);
-    }*/
 
     @Override
     @ParametersAreNonnullByDefault

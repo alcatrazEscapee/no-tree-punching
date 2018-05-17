@@ -35,7 +35,7 @@ public class TileEntityFirepit extends TileEntityInventory implements ITickable,
     public TileEntityFirepit(){
         super(3);
         // Initial burn time from log that was thrown = 300
-        burnTicks = 300*Config.Firepit.FUEL_MULT;
+        burnTicks = 300*Config.Balance.FUEL_MULT;
         maxBurnTicks = burnTicks;
     }
 
@@ -52,7 +52,7 @@ public class TileEntityFirepit extends TileEntityInventory implements ITickable,
 
                     if(ItemUtil.canMergeStack(recipe.getOutput(),outStack)){
                         cookTimer++;
-                        maxCookTimer = Config.Firepit.COOK_MULT;
+                        maxCookTimer = Config.Balance.COOK_MULT;
 
                         if(cookTimer >= maxCookTimer){
                             // Cook an item
@@ -76,7 +76,7 @@ public class TileEntityFirepit extends TileEntityInventory implements ITickable,
                     // Try and consume one item in fuel slot
                     ItemStack is = inventory.getStackInSlot(0);
                     if(isItemValidFuel(is)){
-                        burnTicks += TileEntityFurnace.getItemBurnTime(is) * Config.Firepit.FUEL_MULT;
+                        burnTicks += TileEntityFurnace.getItemBurnTime(is) * Config.Balance.FUEL_MULT;
                         maxBurnTicks = burnTicks;
                         is = ItemUtil.consumeItem(is);
                         inventory.setStackInSlot(0,is);
@@ -97,7 +97,7 @@ public class TileEntityFirepit extends TileEntityInventory implements ITickable,
     }
 
     public static boolean isItemValidFuel(ItemStack is){
-        return TileEntityFurnace.getItemBurnTime(is) > 0 && TileEntityFurnace.getItemBurnTime(is) <= Config.Firepit.FUEL_MAX;
+        return TileEntityFurnace.getItemBurnTime(is) > 0 && TileEntityFurnace.getItemBurnTime(is) <= Config.Balance.FUEL_MAX;
     }
 
     public static boolean isItemValidInput(ItemStack is){

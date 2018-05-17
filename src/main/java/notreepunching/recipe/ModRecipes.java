@@ -63,7 +63,7 @@ public class ModRecipes {
             RecipeUtil.addSmelting(ModBlocks.slateCobble,ItemUtil.getSafeItem("rustic:slate",1,0));
         }
 
-        if(Config.Forge.disableMetalSmelting) {
+        if(Config.VanillaTweaks.DISABLE_SMELTING_ORE) {
             Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
             Iterator<ItemStack> iterator = recipes.keySet().iterator();
             while (iterator.hasNext()) {

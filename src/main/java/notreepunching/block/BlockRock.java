@@ -2,6 +2,7 @@ package notreepunching.block;
 
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -37,6 +38,7 @@ public class BlockRock extends BlockBase {
         super(name, Material.ROCK);
 
         setHardness(0.15F);
+        setSoundType(SoundType.STONE);
         setDefaultState(this.blockState.getBaseState().withProperty(TYPE,EnumMineralType.STONE));
     }
 
@@ -99,7 +101,7 @@ public class BlockRock extends BlockBase {
         if (!worldIn.isRemote) {
             // Breaks rock if the block under it breaks.
             IBlockState stateUnder = worldIn.getBlockState(pos.down());
-            if(!stateUnder.getBlock().isNormalCube(stateUnder,worldIn,pos.down())){
+            if(!stateUnder.isNormalCube()){
                 this.dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);
             }

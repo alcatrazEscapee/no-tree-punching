@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
 import notreepunching.block.ModBlocks;
+import notreepunching.config.Config;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -30,7 +31,7 @@ public class TileEntityWoodPile extends TileEntityInventory implements ITickable
         super(NUM_SLOTS,4);
 
         burnTicks = 0;
-        maxBurnTicks = 200;
+        maxBurnTicks = Config.Balance.CHARCOAL_PIT_TIMER;
         burning = false;
     }
 

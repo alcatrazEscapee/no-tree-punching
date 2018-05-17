@@ -191,7 +191,7 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
         if (!worldIn.isRemote) {
             // Breaks block if the block under it breaks.
             IBlockState stateUnder = worldIn.getBlockState(pos.down());
-            if(!stateUnder.getBlock().isNormalCube(stateUnder,worldIn,pos.down())){
+            if(!stateUnder.isNormalCube()){
                 dropBlockAsItem(worldIn,pos,state,0);
                 worldIn.setBlockToAir(pos);
             }
