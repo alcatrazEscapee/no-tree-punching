@@ -1,4 +1,4 @@
-package notreepunching.jei;
+package notreepunching.apihandlers.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
@@ -12,12 +12,12 @@ import notreepunching.block.ModBlocks;
 import notreepunching.client.gui.GuiFirepit;
 import notreepunching.client.gui.GuiForge;
 import notreepunching.item.ModItems;
-import notreepunching.jei.firepit.FirepitRecipeCategory;
-import notreepunching.jei.firepit.FirepitRecipeWrapper;
-import notreepunching.jei.forge.ForgeRecipeCategory;
-import notreepunching.jei.forge.ForgeRecipeWrapper;
-import notreepunching.jei.knife.KnifeRecipeCategory;
-import notreepunching.jei.knife.KnifeRecipeWrapper;
+import notreepunching.apihandlers.jei.firepit.FirepitRecipeCategory;
+import notreepunching.apihandlers.jei.firepit.FirepitRecipeWrapper;
+import notreepunching.apihandlers.jei.forge.ForgeRecipeCategory;
+import notreepunching.apihandlers.jei.forge.ForgeRecipeWrapper;
+import notreepunching.apihandlers.jei.knife.KnifeRecipeCategory;
+import notreepunching.apihandlers.jei.knife.KnifeRecipeWrapper;
 import notreepunching.recipe.cutting.CuttingRecipe;
 import notreepunching.recipe.cutting.CuttingRecipeHandler;
 import notreepunching.recipe.firepit.FirepitRecipe;

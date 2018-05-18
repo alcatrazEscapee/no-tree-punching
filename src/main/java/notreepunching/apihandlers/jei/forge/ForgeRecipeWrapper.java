@@ -1,4 +1,4 @@
-package notreepunching.jei.forge;
+package notreepunching.apihandlers.jei.forge;
 
 import com.google.common.collect.ImmutableList;
 import mezz.jei.api.ingredients.IIngredients;

@@ -1,4 +1,4 @@
-package notreepunching.jei.forge;
+package notreepunching.apihandlers.jei.firepit;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -15,38 +15,33 @@ import notreepunching.NoTreePunching;
 
 import javax.annotation.Nonnull;
 
-public class ForgeRecipeCategory implements IRecipeCategory {
+public class FirepitRecipeCategory implements IRecipeCategory {
 
-    public static final String UID = "notreepunching.forge";
+    public static final String UID = "notreepunching.firepit";
     private String localizedName;
-    private final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID,"textures/jei/forge.png");
+    private final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID, "textures/jei/firepit.png");
     private final IDrawable background;
     private final IDrawable icon;
 
-    private final IDrawableAnimated animatedFlame;
     private final IDrawableAnimated animatedArrow;
-    private IDrawable drawableTemperature;
-    private int temperature;
+    private final IDrawableAnimated animatedFlame;
 
-    private final IGuiHelper guiHelper;
+    public FirepitRecipeCategory(IGuiHelper guiHelper){
+        background = guiHelper.createDrawable(LOC,0,0,74,54);
+        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.firepit_recipe");
+        icon = guiHelper.createDrawable(LOC,111,0,16,16);
 
-    public ForgeRecipeCategory(IGuiHelper guiHelper){
-        background = guiHelper.createDrawable(LOC,0,0,128,54);
-        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.forge_recipe");
-        icon = guiHelper.createDrawable(LOC,128,0,16,16);
-
-        IDrawableStatic staticFlame = guiHelper.createDrawable(LOC, 144, 0, 14, 14);
-        animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
-
-        IDrawableStatic staticArrow = guiHelper.createDrawable(LOC, 158, 0, 16, 23);
+        IDrawableStatic staticArrow = guiHelper.createDrawable(LOC, 88, 0, 16, 23);
         animatedArrow = guiHelper.createAnimatedDrawable(staticArrow, 200, IDrawableAnimated.StartDirection.LEFT, false);
 
-        this.guiHelper = guiHelper;
+        IDrawableStatic staticFlame = guiHelper.createDrawable(LOC, 74,0,14,13);
+        animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
+
     }
 
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper, @Nonnull IIngredients ingredients) {
-        if(!(recipeWrapper instanceof ForgeRecipeWrapper)) {
+        if(!(recipeWrapper instanceof FirepitRecipeWrapper)) {
             return;
         }
 
@@ -59,15 +54,12 @@ public class ForgeRecipeCategory implements IRecipeCategory {
          * @param xPosition x position of the slot relative to the recipe background
          * @param yPosition y position of the slot relative to the recipe background
          */
-        recipeLayout.getItemStacks().init(index, true, 27, 0);
+        recipeLayout.getItemStacks().init(index, true, 0, 0);
         recipeLayout.getItemStacks().set(index, ingredients.getInputs(ItemStack.class).get(0));
 
         index++;
-        recipeLayout.getItemStacks().init(index, false, 83, 0);
+        recipeLayout.getItemStacks().init(index, false, 56, 0);
         recipeLayout.getItemStacks().set(index, ingredients.getOutputs(ItemStack.class).get(0));
-
-        temperature = ((ForgeRecipeWrapper) recipeWrapper).getTemperature() / 50;
-        drawableTemperature = guiHelper.createDrawable(LOC, 181,30-temperature,10,temperature);
 
     }
 
@@ -103,8 +95,7 @@ public class ForgeRecipeCategory implements IRecipeCategory {
 
     @Override
     public void drawExtras(Minecraft minecraft) {
-        animatedFlame.draw(minecraft, 56, 20);
-        animatedArrow.draw(minecraft, 53, 2);
-        drawableTemperature.draw(minecraft, 0, 33 - temperature);
+        animatedArrow.draw(minecraft, 26, 2);
+        animatedFlame.draw(minecraft, 30, 20);
     }
 }

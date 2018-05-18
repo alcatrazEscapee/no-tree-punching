@@ -1,4 +1,4 @@
-package notreepunching.jei.knife;
+package notreepunching.apihandlers.jei.knife;
 
 import com.google.common.collect.ImmutableList;
 import mezz.jei.api.ingredients.IIngredients;
