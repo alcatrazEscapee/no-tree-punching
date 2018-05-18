@@ -58,7 +58,7 @@ public class PlayerEventHandler {
         // Flint shard creation
         if(stack.getItem() == Items.FLINT){
 
-            if(world.getBlockState(pos).getMaterial() == Material.ROCK && state.getBlock().isFullCube(state)){
+            if(world.getBlockState(pos).getMaterial() == Material.ROCK && state.isNormalCube()){
                 if(!world.isRemote){
                     if(Math.random()< 0.7) {
                         if(Math.random() < Config.Balance.FLINT_CHANCE) {
@@ -83,7 +83,7 @@ public class PlayerEventHandler {
 
             EnumFacing facing = event.getFace();
             if (facing != null) {
-                if (world.getBlockState(pos.down().offset(facing)).getBlock().isFullCube(world.getBlockState(pos.down().offset(facing)))
+                if (world.getBlockState(pos.down().offset(facing)).isNormalCube()
                         && world.getBlockState(pos.offset(facing)).getBlock().isReplaceable(world, pos.offset(facing))) {
 
                     if(world.getBlockState(pos).getBlock() instanceof BlockCharcoalPile || world.getBlockState(pos).getBlock() instanceof BlockCharcoalPile){
@@ -107,7 +107,7 @@ public class PlayerEventHandler {
         else if(MiscUtil.doesStackMatchOre(stack, "logWood")){
             EnumFacing facing = event.getFace();
             if (facing != null) {
-                if (world.getBlockState(pos.down().offset(facing)).getBlock().isFullCube(world.getBlockState(pos.down().offset(facing)))
+                if (world.getBlockState(pos.down().offset(facing)).isNormalCube()
                         && world.getBlockState(pos.offset(facing)).getBlock().isReplaceable(world, pos.offset(facing)) &&
                         player.isSneaking()) {
 
@@ -117,7 +117,6 @@ public class PlayerEventHandler {
                         TileEntity te = world.getTileEntity(pos.offset(facing));
                         if(te instanceof TileEntityWoodPile){
                             ((TileEntityWoodPile) te).insertLog(ItemUtil.copyStack(stack,1));
-                            System.out.println("PUT THE LOG WHERE IF FUKIN BELONGED");
                         }
 
                         if (!player.isCreative()) {
@@ -126,7 +125,6 @@ public class PlayerEventHandler {
                         world.playSound(null, pos.offset(facing), SoundEvents.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     }
                     event.setCanceled(true);
-                    return;
                 }
             }
         }

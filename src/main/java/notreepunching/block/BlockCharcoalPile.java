@@ -138,13 +138,12 @@ public class BlockCharcoalPile extends BlockBase {
                     if(layersUnder + layersAt <= 8){
                         worldIn.setBlockState(pos.down(), stateUnder.withProperty(LAYERS, layersAt + layersUnder));
                         worldIn.setBlockToAir(pos);
-                        return;
                     }else{
                         worldIn.setBlockState(pos.down(), stateUnder.withProperty(LAYERS, 8));
                         worldIn.setBlockState(pos, state.withProperty(LAYERS, layersAt + layersUnder - 8));
-                        return;
                     }
                 }
+                return;
             }
 
             if(!stateUnder.isNormalCube()){

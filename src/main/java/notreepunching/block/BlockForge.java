@@ -61,6 +61,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
 
         setSoundType(SoundType.GROUND);
         setHardness(1.0F);
+        setHarvestLevel("shovel",0);
         setTickRandomly(true);
         this.setDefaultState(this.blockState.getBaseState().withProperty(LAYERS, 1).withProperty(BURNING, true));
     }

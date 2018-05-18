@@ -1,5 +1,6 @@
 package notreepunching.block.tile;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -8,7 +9,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.ItemStackHandler;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.Config;
 
@@ -42,11 +42,11 @@ public class TileEntityWoodPile extends TileEntityInventory implements ITickable
             if(burnTicks < maxBurnTicks){
                 burnTicks ++;
             }else{
-                // Turn this log pile into charcoal
+                // Attempt to turn this log pile into charcoal
                 createCharcoal();
             }
         }else{
-            if(world.getBlockState(pos).getBlock() == Blocks.FIRE){
+            if(world.getBlockState(pos.up()).getBlock() == Blocks.FIRE){
                 burning = true;
             }
         }
@@ -68,13 +68,57 @@ public class TileEntityWoodPile extends TileEntityInventory implements ITickable
         inventory.setStackInSlot(0, stack);
     }
 
-    public void createCharcoal(){
+    // This function does some magic fuckery to not create floating charcoal. Don't touch unless broken
+    private void createCharcoal(){
+        int j = 0;
+        Block block;
+        do {
+            j++;
+            block = world.getBlockState(pos.down(j)).getBlock();
+            // This is here so that the charcoal pile will collapse Bottom > Top
+            // Because the pile scans Top > Bottom this is nessecary to avoid floating blocks
+            if(block == ModBlocks.woodPile){ return; }
+        } while (block == Blocks.AIR || block == ModBlocks.charcoalPile);
+
         double logs = 0;
         for(int i = 0; i < inventory.getSlots(); i++){
             logs += inventory.getStackInSlot(i).getCount();
         }
-        double log2 = 0.015625*logs*logs + 3.0d*Math.random() + 1.0d;
-        int charcoal = (int) Math.round(log2);
+        double log2 = 0.008d*logs*(logs + 42.5d) - 0.75d + 1.5d*Math.random();
+        int charcoal = (int) Math.min(8,Math.max(0,Math.round(log2)));
+        if(charcoal == 0){
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+            return;
+        }
+        if(j == 1){
+            // This log pile is at the bottom of the charcoal pit
+            world.setBlockState(pos,ModBlocks.charcoalPile.getDefaultState().withProperty(LAYERS, charcoal));
+            return;
+        }
+        for(int k = j - 1; k >= 0; k--){
+            // Climb back up from the bottom
+            IBlockState state = world.getBlockState(pos.down(k));
+            if(state.getBlock() == Blocks.AIR){
+                // If it hits air, place the remaining pile in that block
+                world.setBlockState(pos.down(k), ModBlocks.charcoalPile.getDefaultState().withProperty(LAYERS, charcoal));
+                world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                return;
+            }
+
+            if(state.getBlock() == ModBlocks.charcoalPile){
+                // Place what it can in the existing charcoal pit, then continue climbing
+                charcoal += state.getValue(LAYERS);
+                int toCreate = charcoal > 8 ? 8 : charcoal;
+                world.setBlockState(pos.down(k), ModBlocks.charcoalPile.getDefaultState().withProperty(LAYERS, toCreate));
+                charcoal -= toCreate;
+            }
+
+            if(charcoal <= 0){
+                world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                return;
+            }
+        }
+        // If you exit the loop, its arrived back at the original position OR needs to rest the original position, and needs to replace that block
         world.setBlockState(pos, ModBlocks.charcoalPile.getDefaultState().withProperty(LAYERS, charcoal));
     }
 

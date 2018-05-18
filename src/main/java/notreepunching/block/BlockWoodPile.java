@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -92,6 +93,12 @@ public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
         drops.clear();
     }
 
+    @Override
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+        return new ItemStack(Blocks.LOG);
+    }
 
     private boolean isValidCoverBlock(World world, BlockPos pos){
         IBlockState state = world.getBlockState(pos);
@@ -147,6 +154,12 @@ public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
             for(EnumFacing side : EnumFacing.values()){
                 if(!isValidCoverBlock(worldIn, pos.offset(side))){
                     worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState());
+                }
+                IBlockState state2 = worldIn.getBlockState(pos.offset(side));
+                if(state2.getBlock() == ModBlocks.woodPile){
+                    if(!state2.getValue(ONFIRE)){
+                        worldIn.setBlockState(pos.offset(side),state2.withProperty(ONFIRE,true));
+                    }
                 }
             }
         }
