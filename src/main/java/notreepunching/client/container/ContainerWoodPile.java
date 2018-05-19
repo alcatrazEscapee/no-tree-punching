@@ -43,7 +43,8 @@ public class ContainerWoodPile extends Container {
 
     @Override
     public boolean canInteractWith(@Nonnull EntityPlayer player) {
-        return !this.tile.burning;
+        if(this.tile.burning){ return false; }
+        return this.tile.countLogs() > 0;
     }
 
     // index is the id of the slot shift-clicked

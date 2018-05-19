@@ -80,10 +80,7 @@ public class TileEntityWoodPile extends TileEntityInventory implements ITickable
             if(block == ModBlocks.woodPile){ return; }
         } while (block == Blocks.AIR || block == ModBlocks.charcoalPile);
 
-        double logs = 0;
-        for(int i = 0; i < inventory.getSlots(); i++){
-            logs += inventory.getStackInSlot(i).getCount();
-        }
+        double logs = (double) countLogs();
         double log2 = 0.008d*logs*(logs + 42.5d) - 0.75d + 1.5d*Math.random();
         int charcoal = (int) Math.min(8,Math.max(0,Math.round(log2)));
         if(charcoal == 0){
@@ -134,6 +131,14 @@ public class TileEntityWoodPile extends TileEntityInventory implements ITickable
                 tile.tryLightNearby(world, pos.offset(side));
             }
         }
+    }
+
+    public int countLogs(){
+        int logs = 0;
+        for(int i = 0; i < inventory.getSlots(); i++){
+            logs += inventory.getStackInSlot(i).getCount();
+        }
+        return logs;
     }
 
     @Nonnull

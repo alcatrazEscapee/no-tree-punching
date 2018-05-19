@@ -72,16 +72,7 @@ public class ForgeRecipeHandler {
     }
 
     public static void removeRecipe(ItemStack stack){
-        System.out.println("ATTEMPTING TO REMOVE!!!");
         CT_REMOVE.add(stack);
-        //Iterator<ForgeRecipe> iterator = FORGE_RECIPES.iterator();
-        //FORGE_RECIPES.removeIf(p -> ItemUtil.areStacksEqual(stack,p.getStack()));
-        /*while(iterator.hasNext()){
-            if(ItemStack.areItemStacksEqual(stack, iterator.next().getOutput())){
-                iterator.remove();
-                //break;
-            }
-        }*/
     }
 
 }
