@@ -32,10 +32,7 @@ public class RegistryHandler {
             event.getRegistry().register(item);
         }
 
-        //ModItems.registerItems(event);
-
         ModItems.initOreDict();
-        //ModBlocks.registerItemBlocks(event);
     }
 
     @SubscribeEvent

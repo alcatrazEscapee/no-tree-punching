@@ -31,6 +31,7 @@ public class ModRecipes {
     public static void init(){
         KnifeRecipeHandler.init();
         ForgeRecipeHandler.init();
+
         initCraftingRecipes();
         initSmeltingRecipes();
     }
@@ -40,26 +41,28 @@ public class ModRecipes {
         ForgeRecipeHandler.postInit();
         KnifeRecipeHandler.postInit();
 
-        // Compat wood recipes
-        replaceWoodRecipes();
+        postInitSmeltingRecipes();
+        postInitCraftingRecipes();
     }
 
     // *************************** SMELTING ************************ //
 
     private static void initSmeltingRecipes(){
-        //RecipeHelper.addSmelting(ModItems.grassString,new ItemStack(Items.STRING));
-
         if(Config.VanillaTweaks.STONE_DROPS_ROCKS){
             RecipeUtil.addSmelting(ModBlocks.andesiteCobble,new ItemStack(Blocks.STONE,1,5));
             RecipeUtil.addSmelting(ModBlocks.dioriteCobble,new ItemStack(Blocks.STONE,1,3));
             RecipeUtil.addSmelting(ModBlocks.graniteCobble,new ItemStack(Blocks.STONE,1,1));
         }
+    }
+
+    private static void postInitSmeltingRecipes(){
+
         if(NoTreePunching.replaceQuarkStones){
-            RecipeUtil.addSmelting(ModBlocks.marbleCobble, ItemUtil.getSafeItem("quark:marble",1,0));
-            RecipeUtil.addSmelting(ModBlocks.limestoneCobble,ItemUtil.getSafeItem("quark:limestone",1,0));
+            RecipeUtil.addSmelting(ModBlocks.marbleCobble, ItemUtil.getSafeItem("quark:marble",0,1));
+            RecipeUtil.addSmelting(ModBlocks.limestoneCobble,ItemUtil.getSafeItem("quark:limestone",0,1));
         }
         if(NoTreePunching.replaceRusticStone){
-            RecipeUtil.addSmelting(ModBlocks.slateCobble,ItemUtil.getSafeItem("rustic:slate",1,0));
+            RecipeUtil.addSmelting(ModBlocks.slateCobble,ItemUtil.getSafeItem("rustic:slate",0,1));
         }
 
         if(Config.VanillaTweaks.DISABLE_SMELTING_ORE) {
@@ -116,7 +119,8 @@ public class ModRecipes {
 
     }
 
-    private static void replaceWoodRecipes(){
+    private static void postInitCraftingRecipes(){
+
         if(Loader.isModLoaded("rustic")){
             registerShaped(ItemUtil.getSafeItem("rustic:planks",2), "A","P",'P',ItemUtil.getSafeItem("rustic:log"), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
             registerShaped(ItemUtil.getSafeItem("rustic:planks",4), "A","P",'P',ItemUtil.getSafeItem("rustic:log"), 'A', "toolSaw");

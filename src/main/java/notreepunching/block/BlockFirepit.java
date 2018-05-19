@@ -32,6 +32,7 @@ import notreepunching.client.NTPGuiHandler;
 import notreepunching.item.ItemFirestarter;
 import notreepunching.util.ItemUtil;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
@@ -42,7 +43,6 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
 
     public BlockFirepit(String name) {
         super(name, Material.WOOD);
-
 
         setTickRandomly(true);
         setDefaultState(this.blockState.getBaseState().withProperty(BURNING,true));
@@ -115,6 +115,7 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         drops.clear();
         drops.add(new ItemStack(Items.STICK,2,0));

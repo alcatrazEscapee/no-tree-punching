@@ -21,7 +21,7 @@ import static notreepunching.block.BlockForge.LAYERS;
 public class TileEntityForge extends TileEntityInventory implements ITickable, IHasFields {
 
     private int burnTicks;
-    private final int maxBurnTicks = 1600;
+    private final int maxBurnTicks = 1600; // This can never be zero
     private int cookTicks;
     private int maxCookTicks = 400;
     private int temperature;
@@ -36,6 +36,7 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     private final byte IN_SLOT = 0;
     private final byte OUT_SLOT = 1;
 
+    // Fields
     private final byte NUM_FIELDS = 4;
     private final byte BURN_ID = 0;
     private final byte TEMP_ID = 1;
@@ -61,7 +62,6 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
         if(!world.isRemote) {
             IBlockState state = world.getBlockState(pos);
             burning = state.getValue(BURNING);
-            //System.out.println("THIS IS CURRENTLY BURNING? "+burning);
 
             if(burning){
                 if(burnTicks <= 0){
@@ -206,8 +206,7 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     }
 
     public int getScaledFuelTicks(){
-        //System.out.println("SETTING FIELD: "+burnTicks+" | "+burning);
-        if(maxBurnTicks!=0 && burnTicks!=0 && world.getBlockState(pos).getValue(BURNING)) {
+        if(burnTicks!=0 && world.getBlockState(pos).getValue(BURNING)) {
             float f1 = burnTicks / (float) maxBurnTicks;
             return Math.round(14 * f1);
         }
