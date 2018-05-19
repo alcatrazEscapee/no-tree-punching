@@ -1,5 +1,6 @@
 package notreepunching.recipe.firepit;
 
+import com.google.common.collect.LinkedListMultimap;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -13,7 +14,7 @@ import java.util.Map;
 public class FirepitRecipeHandler {
 
     private static List<FirepitRecipe> FIREPIT_RECIPES = new ArrayList<FirepitRecipe>();
-    private static List<ItemStack> CT_REMOVE = new ArrayList<ItemStack>();
+    private static LinkedListMultimap<Boolean, FirepitRecipe> CT_ENTRY = LinkedListMultimap.create();
 
     public static void postInit(){
         Map<ItemStack, ItemStack> map = FurnaceRecipes.instance().getSmeltingList();
@@ -27,9 +28,13 @@ public class FirepitRecipeHandler {
             }
         }
 
-        for(ItemStack stack : CT_REMOVE){
-            FIREPIT_RECIPES.removeIf(p -> ItemUtil.areStacksEqual(p.getOutput(), stack));
-        }
+        CT_ENTRY.forEach((action, entry) -> {
+            if(action){
+                FIREPIT_RECIPES.add(entry);
+            }else {
+                FIREPIT_RECIPES.removeIf(p -> ItemUtil.areStacksEqual(entry.getOutput(),p.getOutput()));
+            }
+        });
     }
 
     public static boolean isRecipe(ItemStack stack) { return getRecipe(stack) != null; }
@@ -53,12 +58,8 @@ public class FirepitRecipeHandler {
     }
 
     // Craft Tweaker
-
-    public static void addRecipe(FirepitRecipe recipe){
-        FIREPIT_RECIPES.add(recipe);
-    }
-    public static void removeRecipe(ItemStack stack){
-        CT_REMOVE.add(stack);
+    public static void addEntry(FirepitRecipe recipe, boolean type){
+        CT_ENTRY.put(type, recipe);
     }
 
 }

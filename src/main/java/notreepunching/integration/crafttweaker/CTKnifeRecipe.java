@@ -18,8 +18,8 @@ public class CTKnifeRecipe {
 
     @ZenMethod
     public static void add(IItemStack input, IItemStack output){
-        KnifeRecipe recipe = new KnifeRecipe(CTPluginHelper.toStack(output),
-                CTPluginHelper.toStack(input));
+        KnifeRecipe recipe = new KnifeRecipe(CTPluginHelper.toStack(input),
+                CTPluginHelper.toStack(output));
         CraftTweakerAPI.apply(new Add(recipe));
     }
 
@@ -38,7 +38,7 @@ public class CTKnifeRecipe {
 
         @Override
         public void apply() {
-            KnifeRecipeHandler.addRecipe(recipe);
+            KnifeRecipeHandler.addEntry(recipe, true);
         }
 
         @Override
@@ -57,7 +57,7 @@ public class CTKnifeRecipe {
 
         @Override
         public void apply() {
-            KnifeRecipeHandler.removeRecipe(stack);
+            KnifeRecipeHandler.addEntry(new KnifeRecipe(stack, ItemStack.EMPTY), false);
         }
 
         @Override

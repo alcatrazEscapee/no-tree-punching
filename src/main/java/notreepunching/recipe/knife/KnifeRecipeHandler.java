@@ -1,5 +1,6 @@
 package notreepunching.recipe.knife;
 
+import com.google.common.collect.LinkedListMultimap;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -15,7 +16,7 @@ import java.util.List;
 public class KnifeRecipeHandler {
 
     private static List<KnifeRecipe> CUTTING_RECIPES = new ArrayList<KnifeRecipe>();
-    private static List<ItemStack> CT_REMOVE = new ArrayList<ItemStack>();
+    private static LinkedListMultimap<Boolean, KnifeRecipe> CT_ENTRY = LinkedListMultimap.create();
 
     public static void init(){
         for(int i=0;i<7;i++) {
@@ -46,9 +47,13 @@ public class KnifeRecipeHandler {
     }
 
     public static void postInit(){
-        for(ItemStack stack : CT_REMOVE){
-            CUTTING_RECIPES.removeIf(p -> ItemUtil.areStacksEqual(p.getInput(), stack));
-        }
+        CT_ENTRY.forEach((action, entry) -> {
+            if(action){
+                CUTTING_RECIPES.add(entry);
+            }else {
+                CUTTING_RECIPES.removeIf(p -> ItemUtil.areStacksEqual(entry.getInput(),p.getInput()));
+            }
+        });
     }
 
     public static boolean isRecipe(ItemStack stack){
@@ -80,11 +85,7 @@ public class KnifeRecipeHandler {
     }
 
     // Craft Tweaker
-
-    public static void addRecipe(KnifeRecipe recipe){
-        CUTTING_RECIPES.add(recipe);
-    }
-    public static void removeRecipe(ItemStack stack){
-        CT_REMOVE.add(stack);
+    public static void addEntry(KnifeRecipe recipe, boolean type){
+        CT_ENTRY.put(type, recipe);
     }
 }

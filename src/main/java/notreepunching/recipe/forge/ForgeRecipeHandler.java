@@ -1,5 +1,6 @@
 package notreepunching.recipe.forge;
 
+import com.google.common.collect.LinkedListMultimap;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -7,14 +8,12 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.util.ItemUtil;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class ForgeRecipeHandler {
 
     private static List<ForgeRecipe> FORGE_RECIPES = new ArrayList<ForgeRecipe>();
-    private static List<ItemStack> CT_REMOVE = new ArrayList<ItemStack>();
+    private static LinkedListMultimap<Boolean, ForgeRecipe> CT_ENTRY = LinkedListMultimap.create();
 
     public static void init(){
         FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Items.NETHERBRICK), new ItemStack(Blocks.NETHERRACK),400));
@@ -32,9 +31,13 @@ public class ForgeRecipeHandler {
             }
         }
 
-        for(ItemStack stack : CT_REMOVE){
-            FORGE_RECIPES.removeIf(p -> ItemUtil.areStacksEqual(stack,p.getOutput()));
-        }
+        CT_ENTRY.forEach((action, entry) -> {
+            if(action){
+                FORGE_RECIPES.add(entry);
+            }else {
+                FORGE_RECIPES.removeIf(p -> ItemUtil.areStacksEqual(entry.getOutput(),p.getOutput()));
+            }
+        });
     }
 
     public static ForgeRecipe getRecipe(ItemStack stack){ return getRecipe(stack, false); }
@@ -67,12 +70,8 @@ public class ForgeRecipeHandler {
     public static List<ForgeRecipe> getAll() { return FORGE_RECIPES; }
 
     // Craft Tweaker
-    public static void addRecipe(ForgeRecipe recipe){
-        FORGE_RECIPES.add(recipe);
-    }
-
-    public static void removeRecipe(ItemStack stack){
-        CT_REMOVE.add(stack);
+    public static void addEntry(ForgeRecipe recipe, boolean type){
+        CT_ENTRY.put(type, recipe);
     }
 
 }

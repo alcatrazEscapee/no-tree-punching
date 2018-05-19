@@ -36,7 +36,7 @@ public class CTForgeRecipe {
 
         @Override
         public void apply() {
-            ForgeRecipeHandler.addRecipe(recipe);
+            ForgeRecipeHandler.addEntry(recipe, true);
         }
 
         @Override
@@ -55,7 +55,7 @@ public class CTForgeRecipe {
 
         @Override
         public void apply() {
-            ForgeRecipeHandler.removeRecipe(stack);
+            ForgeRecipeHandler.addEntry(new ForgeRecipe(stack, ItemStack.EMPTY, 0), false);
         }
 
         @Override

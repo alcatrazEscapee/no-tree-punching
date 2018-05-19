@@ -36,7 +36,7 @@ public class CTFirepitRecipe {
 
         @Override
         public void apply() {
-            FirepitRecipeHandler.addRecipe(recipe);
+            FirepitRecipeHandler.addEntry(recipe, true);
         }
 
         @Override
@@ -55,7 +55,7 @@ public class CTFirepitRecipe {
 
         @Override
         public void apply() {
-            FirepitRecipeHandler.removeRecipe(stack);
+            FirepitRecipeHandler.addEntry(new FirepitRecipe(ItemStack.EMPTY, stack), false);
         }
 
         @Override
