@@ -31,33 +31,9 @@ public class Config {
         @Comment({"Rustic Stone (Slate) breaks into small rocks when mined, must be crafted back into cobblestone"})
         public static boolean RUSTIC_STONE_REPLACE = true;
 
-    }
+        @Comment({"Disable Furnace ore smelting recipes, forcing the use of the forge"})
+        public static boolean DISABLE_SMELTING_ORE = true;
 
-    public static Tools tools;
-    public static class Tools {
-        @Comment({"Mining level for flint tools"})
-        public static int FLINT_MINING_LEVEL = 0;
-
-        @Comment({"Mining level for copper tools"})
-        public static int COPPER_MINING_LEVEL = 1;
-
-        @Comment({"Mining level for bronze tools"})
-        public static int BRONZE_MINING_LEVEL = 2;
-
-        @Comment({"Mining level for steel tools"})
-        public static int STEEL_MINING_LEVEL = 3;
-    }
-
-    public static Firepit firepit;
-    public static class Firepit {
-        @Comment({"Multiplier for how long fuel lasts in a firepit vs a furnace"})
-        public static int FUEL_MULT = 10;
-
-        @Comment({"How long (in ticks) food takes to cook in the firepit for recipes added by furnace. (Default Value)"})
-        public static int COOK_MULT = 400;
-
-        @Comment({"Maximum burn time (in ticks) for fuel that is allowed in the firepit (Coal = 1600, Log = 300)"})
-        public static int FUEL_MAX = 800;
     }
 
     public static Balance balance;
@@ -70,6 +46,31 @@ public class Config {
 
         @Comment({"Chance for tall grass to drop plant fibers"})
         public static double GRASS_FIBER_CHANCE = 0.7D;
+
+        @Comment({"Time (in ticks) for the charcoal pit to run (1000 ticks = 1 in game hour)"})
+        public static int CHARCOAL_PIT_TIMER = 8000;
+
+        @Comment({"Multiplier for how long fuel lasts in a firepit vs a furnace"})
+        public static int FUEL_MULT = 10;
+
+        @Comment({"How long (in ticks) food takes to cook in the firepit. (Default Value)"})
+        @net.minecraftforge.common.config.Config.Name("COOK_TIME")
+        public static int COOK_MULT = 400;
+
+        @Comment({"Maximum burn time (in ticks) for fuel that is allowed in the firepit (Coal = 1600, Log = 300)"})
+        public static int FUEL_MAX = 800;
+
+        @Comment({"Mining level for flint tools"})
+        public static int FLINT_MINING_LEVEL = 1;
+
+        @Comment({"Mining level for copper tools"})
+        public static int COPPER_MINING_LEVEL = 1;
+
+        @Comment({"Mining level for bronze tools"})
+        public static int BRONZE_MINING_LEVEL = 2;
+
+        @Comment({"Mining level for steel tools"})
+        public static int STEEL_MINING_LEVEL = 3;
 
     }
 

@@ -5,13 +5,8 @@
   },
   "variants": {
     "burning": {
-      "true": {
-        "model": "notreepunching:firepit"
-      },
-      "false":
-      {
-        "model": "notreepunching:firepit"
-      }
+      "true": {},
+      "false": {}
     },
     "inventory": {
       "transform": "forge:default-block"

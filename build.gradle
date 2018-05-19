@@ -21,6 +21,10 @@ repositories {
         name = "ModMaven"
         url = "modmaven.k-4u.nl"
     }
+    maven { // CraftTweaker
+        name 'jared maven'
+        url "http://maven.blamejared.com/"
+    }
 }
 
 dependencies {
@@ -28,6 +32,10 @@ dependencies {
     deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+    // CraftTweaker API
+    deobfProvided "CraftTweaker2:CraftTweaker2-API:4.1.8.5"
+    // At runtime, use the full jar
+    runtime "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
 }
 
 

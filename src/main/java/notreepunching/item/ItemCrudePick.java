@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.ItemStack;
 import notreepunching.NoTreePunching;
 
 import java.util.Set;
@@ -18,9 +18,12 @@ public class ItemCrudePick extends ItemPickaxe {
 
         super(material);
         this.name = name;
-        setUnlocalizedName(name);
-        setRegistryName(name);
-        setCreativeTab(NoTreePunching.NTP_Tab);
+        register();
+    }
+
+    public void register(){
+        ModItems.addItemToRegistry(this,name,true);
+        NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 
     public boolean shouldBreakBlock(Block block){

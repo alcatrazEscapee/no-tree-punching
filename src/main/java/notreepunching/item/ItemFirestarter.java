@@ -33,13 +33,16 @@ public class ItemFirestarter extends ItemTool {
     public ItemFirestarter(String name){
         super(ToolMaterial.WOOD, Sets.newHashSet());
 
-        setRegistryName(name);
-        setUnlocalizedName(name);
         this.name = name;
-        setCreativeTab(NoTreePunching.NTP_Tab);
+        register();
 
         this.setMaxDamage(10);
         this.setMaxStackSize(1);
+    }
+
+    public void register(){
+        ModItems.addItemToRegistry(this,name,true);
+        NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 
     @Override
@@ -69,7 +72,7 @@ public class ItemFirestarter extends ItemTool {
             if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
                 Vec3d v = result.hitVec;
                 BlockPos pos = new BlockPos(v.x, v.y, v.z);
-                NoTreePunching.proxy.generateParticle(world, pos, EnumParticleTypes.SMOKE_LARGE);
+                NoTreePunching.proxy.generateParticle(world, pos, 2);
             }
         }
     }

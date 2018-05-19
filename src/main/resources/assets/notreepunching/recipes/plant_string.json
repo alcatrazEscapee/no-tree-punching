@@ -1,0 +1,17 @@
+{
+	"type": "forge:ore_shapeless",
+	"ingredients": [
+		{
+			"item": "notreepunching:grass_fiber"
+		},
+		{
+			"item": "notreepunching:grass_fiber"
+		},
+		{
+			"item": "notreepunching:grass_fiber"
+		}
+	],
+	"result": {
+		"item": "notreepunching:grass_string"
+	}
+}

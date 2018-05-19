@@ -6,12 +6,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import notreepunching.block.tile.IHasTileEntity;
 
 import javax.annotation.Nullable;
 
-public abstract class BlockWithTileEntity<TE extends TileEntity> extends BlockBase {
+public abstract class BlockWithTileEntity<TE extends TileEntity> extends BlockBase implements IHasTileEntity<TE> {
 
-    public BlockWithTileEntity(Material material, String name) {
+    public BlockWithTileEntity(String name, Material material) {
         super(name, material);
     }
 

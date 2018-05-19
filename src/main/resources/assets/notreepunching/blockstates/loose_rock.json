@@ -4,65 +4,45 @@
 		"model": "notreepunching:loose_rock",
 		"textures": {
 			"all": "minecraft:blocks/stone",
-			"side": "minecraft:blocks/stone",
 			"particle": "minecraft:blocks/stone"
 		}
 	},
 	"variants": {
 		"type": {
-			"stone": {
-				"model": "notreepunching:loose_rock",
-				"textures": {
-					"all": "minecraft:blocks/stone",
-					"side": "minecraft:blocks/stone",
-					"particle": "minecraft:blocks/stone"
-				}
-			},
+			"stone": {},
 			"andesite": {
-				"model": "notreepunching:loose_rock",
 				"textures": {
 					"all": "minecraft:blocks/stone_andesite",
-					"side": "minecraft:blocks/stone_andesite",
 					"particle": "minecraft:blocks/stone_andesite"
 				}
 			},
 			"diorite": {
-				"model": "notreepunching:loose_rock",
 				"textures": {
 					"all": "minecraft:blocks/stone_diorite",
-					"side": "minecraft:blocks/stone_diorite",
 					"particle": "minecraft:blocks/stone_diorite"
 				}
 			},
 			"granite": {
-				"model": "notreepunching:loose_rock",
 				"textures": {
 					"all": "minecraft:blocks/stone_granite",
-					"side": "minecraft:blocks/stone_granite",
 					"particle": "minecraft:blocks/stone_granite"
 				}
 			},
 			"limestone": {
-				"model": "notreepunching:loose_rock",
 				"textures": {
 					"all": "notreepunching:blocks/quark_limestone",
-					"side": "notreepunching:blocks/quark_limestone",
 					"particle": "notreepunching:blocks/quark_limestone"
 				}
 			},
 			"marble": {
-				"model": "notreepunching:loose_rock",
 				"textures": {
 					"all": "notreepunching:blocks/quark_marble",
-					"side": "notreepunching:blocks/quark_marble",
 					"particle": "notreepunching:blocks/quark_marble"
 				}
 			},
 			"slate": {
-				"model": "notreepunching:loose_rock",
 				"textures": {
 					"all": "notreepunching:blocks/rustic_slate",
-					"side": "notreepunching:blocks/rustic_slate",
 					"particle": "notreepunching:blocks/rustic_slate"
 				}
 			}

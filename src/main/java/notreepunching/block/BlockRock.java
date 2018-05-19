@@ -1,18 +1,15 @@
 package notreepunching.block;
 
-
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemMultiTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
@@ -22,13 +19,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import notreepunching.NoTreePunching;
 import notreepunching.item.ModItems;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class BlockRock extends BlockBase {
 
@@ -38,7 +32,16 @@ public class BlockRock extends BlockBase {
         super(name, Material.ROCK);
 
         setHardness(0.15F);
+        setSoundType(SoundType.STONE);
         setDefaultState(this.blockState.getBaseState().withProperty(TYPE,EnumMineralType.STONE));
+    }
+
+    @Override
+    public void register(){
+        ModBlocks.addBlockToRegistry(this, new ItemMultiTexture(this, this ,this::getStoneName), name, false);
+    }
+    @Override
+    public void addModelToRegistry(){
     }
 
     @Override
@@ -92,23 +95,10 @@ public class BlockRock extends BlockBase {
         if (!worldIn.isRemote) {
             // Breaks rock if the block under it breaks.
             IBlockState stateUnder = worldIn.getBlockState(pos.down());
-            if(!stateUnder.getBlock().isNormalCube(stateUnder,worldIn,pos.down())){
+            if(!stateUnder.isNormalCube()){
                 this.dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);
             }
-        }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubBlocks(CreativeTabs whichTab, NonNullList<ItemStack> items)
-    {
-        EnumMineralType[] values = EnumMineralType.values();
-        for (EnumMineralType v : values) {
-            int meta = v.getMetadata();
-            if(!NoTreePunching.replaceQuarkStones && (meta == 4 || meta == 5)) { continue; }
-            if(!NoTreePunching.replaceRusticStone && (meta == 6)) { continue; }
-            items.add(new ItemStack(this, 1, v.getMetadata()));
         }
     }
 
@@ -124,11 +114,12 @@ public class BlockRock extends BlockBase {
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        EnumMineralType type = (EnumMineralType) state.getValue(TYPE);
+        EnumMineralType type = state.getValue(TYPE);
         return type.getMetadata();
     }
 
-    public String getStoneName(ItemStack stack){
+    @Nonnull
+    private String getStoneName(ItemStack stack){
         switch(stack.getMetadata()){
             case 0:
                 return "stone"; // Vanilla Stone
@@ -145,7 +136,7 @@ public class BlockRock extends BlockBase {
             case 6:
                 return "slate"; // Rustic Slate
             default:
-                return "";
+                return "unknown stone name - this is a bug";
         }
     }
     public String getStoneName(int meta){
@@ -153,6 +144,7 @@ public class BlockRock extends BlockBase {
     }
 
     @Override
+    @Nonnull
     protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, new IProperty[] {TYPE});

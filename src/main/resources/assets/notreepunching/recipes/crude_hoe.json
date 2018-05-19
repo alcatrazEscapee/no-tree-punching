@@ -1,0 +1,25 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"FSS",
+		"T  ",
+		"T  "
+	],
+	"key": {
+		"T": {
+			"type": "forge:ore_dict",
+			"ore": "stickWood"
+		},
+		"S": {
+			"item": "notreepunching:flint_shard"
+		},
+		"F": {
+			"type": "forge:ore_dict",
+			"ore": "materialString"
+        }
+	},
+	"result": {
+		"item": "notreepunching:crude_hoe",
+		"data": 0
+	}
+}

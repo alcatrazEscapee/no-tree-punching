@@ -1,6 +1,7 @@
 package notreepunching.item;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import notreepunching.NoTreePunching;
 
 public class ItemBase extends Item {
@@ -11,8 +12,11 @@ public class ItemBase extends Item {
         super();
 
         this.name = name;
-        setUnlocalizedName(name);
-        setRegistryName(name);
-        setCreativeTab(NoTreePunching.NTP_Tab);
+        register();
+    }
+
+    public void register(){
+        ModItems.addItemToRegistry(this,name,true);
+        NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 }

@@ -15,9 +15,7 @@ public class BlockCobble extends BlockBase {
         super(name+"_cobblestone", Material.ROCK);
 
         setHardness(2.0F);
-        setResistance(10.0F);
 
-        setCreativeTab(NoTreePunching.NTP_Tab);
     }
 
 }

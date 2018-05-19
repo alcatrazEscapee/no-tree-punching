@@ -33,6 +33,7 @@ item.stone_knife.name=Crude Knife
 item.crude_pick.name=Crude Pickaxe
 item.crude_axe.name=Crude Axe
 item.crude_shovel.name=Crude Shovel
+item.crude_hoe.name=Crude Hoe
 
 item.firestarter.name=Fire Starter
 
@@ -51,6 +52,8 @@ item.steel_mattock.name=Steel Mattock
 #Blocks
 
 tile.firepit.name=Firepit
+tile.charcoal_pile.name=Charcoal Forge
+tile.wood_pile.name=Log Pile
 
 tile.andesite_cobblestone.name=Andesite Cobblestone
 tile.diorite_cobblestone.name=Diorite Cobblestone
@@ -78,9 +81,12 @@ jei.description.knife=Knives can be used to cut certain materials. Hold the knif
 jei.description.mattock=Mattocks are a combination of an axe, a shovel, and a hoe. They can be used as an axe, with the added benefit of breaking most soft blocks that are broken with a shovel.
 jei.description.saw=Saws are multipurpose cutting instruments. They can function as an axe, and also are able to cut wood down into parts by using them as crafting ingredients. They are more effective than a crude axe in this way, giving four planks per log and two sticks per plank
 jei.description.firepit=To build a firepit, throw one log, one plant string, and three sticks on the ground. Then right click and hold a firestarter on that block. The items will be consumed and a firepit will be created. You can relight a firepit by clicking on it with a firestarter. You can extinguish a firepit by breaking it or clicking on it with a piece of sand.
+jei.description.forge=To create a charcoal forge, place charcoal on the ground by right clicking. The higher the pile, the better. Surround the charcoal pile with four stone type blocks, then light it with either a flint and steel or a fire starter.
+jei.description.wood_pile=Wood piles can be created by shift right clicking any log. They function as small storage containers that only store logs. In addition, these log piles can be turned into charcoal. By placing log piles on the ground, and completely covering them on all sides with other log piles or full, non flammable blocks, and then lighting it on fire, they become a charcoal pit, and will eventually turn into charcoal.
 
 notreepunching.jei.category.knife_recipe=Knife Cutting
 notreepunching.jei.category.firepit_recipe=Firepit
+notreepunching.jei.category.forge_recipe=Charcoal Forge
 
 
 

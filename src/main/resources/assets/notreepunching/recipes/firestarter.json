@@ -10,7 +10,8 @@
 			"ore": "stickWood"
 		},
 		"P": {
-			"item": "notreepunching:grass_string"
+			"type": "forge:ore_dict",
+			"ore": "materialString"
 		},
 		"F": {
 			"item": "notreepunching:flint_shard"

@@ -1,10 +1,12 @@
 package notreepunching.item;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
+import notreepunching.registry.RegistryHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,7 @@ public class ModItems {
     public static ItemCrudeAxe crudeHatchet;
     public static ItemCrudePick crudePick;
     public static ItemCrudeShovel crudeShovel;
+    public static ItemCrudeHoe crudeHoe;
 
     public static ItemFirestarter firestarter;
 
@@ -63,6 +66,7 @@ public class ModItems {
         crudeHatchet = new ItemCrudeAxe(NoTreePunching.toolMaterialFlint,"crude_axe");
         crudePick = new ItemCrudePick(NoTreePunching.toolMaterialFlint,"crude_pick");
         crudeShovel = new ItemCrudeShovel(NoTreePunching.toolMaterialFlint, "crude_shovel");
+        crudeHoe = new ItemCrudeHoe(NoTreePunching.toolMaterialFlint, "crude_hoe");
 
         ironKnife = new ItemKnife(Item.ToolMaterial.IRON,"iron_knife");
         ironMattock = new ItemMattock(Item.ToolMaterial.IRON,"iron_mattock");
@@ -98,96 +102,13 @@ public class ModItems {
 
     }
 
-    public static void registerItems(RegistryEvent.Register<Item> event) {
-        event.getRegistry().registerAll(
-                rockStone,
-                grassFiber,
-                grassString,
-                flintShard,
-                stoneKnife,
-                ironKnife,
-                goldKnife,
-                diamondKnife,
-                ironSaw,
-                goldSaw,
-                diamondSaw,
-                ironMattock,
-                goldMattock,
-                diamondMattock,
-                crudeHatchet,
-                crudePick,
-                crudeShovel,
-                firestarter
-        );
-        if(addCopperTools){
-            event.getRegistry().registerAll(
-                    copperKnife,
-                    copperMattock,
-                    copperSaw
-            );
-        }
-        if(addBronzeTools) {
-            event.getRegistry().registerAll(
-                    bronzeKnife,
-                    bronzeSaw,
-                    bronzeMattock
-            );
-        }
-        if(addSteelTools) {
-            event.getRegistry().registerAll(
-                    steelKnife,
-                    steelMattock,
-                    steelSaw
-            );
-        }
-    }
+    public static void addItemToRegistry(Item item, String name, boolean addToCreativeTab){
+        item.setUnlocalizedName(name);
+        item.setRegistryName(name);
 
-    public static void registerItemModels(){
+        if(addToCreativeTab) { item.setCreativeTab(NoTreePunching.NTP_Tab); }
 
-        for(int i=0;i<7;i++) {
-            if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
-            if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
-            NoTreePunching.proxy.registerItemModelWithVariant(rockStone, i, rockStone.name + "_" +  rockStone.getStoneName(new ItemStack(rockStone,1,i)),"inventory");
-        }
-        NoTreePunching.proxy.registerItemModel(grassFiber);
-        NoTreePunching.proxy.registerItemModel(grassString);
-        NoTreePunching.proxy.registerItemModel(flintShard);
-
-        NoTreePunching.proxy.registerItemModel(stoneKnife);
-        NoTreePunching.proxy.registerItemModel(ironKnife);
-        NoTreePunching.proxy.registerItemModel(goldKnife);
-        NoTreePunching.proxy.registerItemModel(diamondKnife);
-
-        NoTreePunching.proxy.registerItemModel(ironMattock);
-        NoTreePunching.proxy.registerItemModel(goldMattock);
-        NoTreePunching.proxy.registerItemModel(diamondMattock);
-
-        NoTreePunching.proxy.registerItemModel(ironSaw);
-        NoTreePunching.proxy.registerItemModel(goldSaw);
-        NoTreePunching.proxy.registerItemModel(diamondSaw);
-
-        NoTreePunching.proxy.registerItemModel(crudePick);
-        NoTreePunching.proxy.registerItemModel(crudeHatchet);
-        NoTreePunching.proxy.registerItemModel(crudeShovel);
-
-        NoTreePunching.proxy.registerItemModel(firestarter);
-
-        if(addCopperTools){
-            NoTreePunching.proxy.registerItemModel(copperKnife);
-            NoTreePunching.proxy.registerItemModel(copperMattock);
-            NoTreePunching.proxy.registerItemModel(copperSaw);
-        }
-
-        if(addBronzeTools) {
-            NoTreePunching.proxy.registerItemModel(bronzeKnife);
-            NoTreePunching.proxy.registerItemModel(bronzeSaw);
-            NoTreePunching.proxy.registerItemModel(bronzeMattock);
-        }
-        if(addSteelTools){
-            NoTreePunching.proxy.registerItemModel(steelKnife);
-            NoTreePunching.proxy.registerItemModel(steelMattock);
-            NoTreePunching.proxy.registerItemModel(steelSaw);
-        }
+        RegistryHandler.ITEM_REGISTRY.add(item);
     }
 
     public static List<ItemStack> listAllKnives(){
@@ -230,6 +151,9 @@ public class ModItems {
         if(addCopperTools) { OreDictionary.registerOre("toolSaw",new ItemStack(copperSaw,1,OreDictionary.WILDCARD_VALUE)); }
         if(addBronzeTools) { OreDictionary.registerOre("toolSaw",new ItemStack(bronzeSaw,1,OreDictionary.WILDCARD_VALUE)); }
         if(addSteelTools) { OreDictionary.registerOre("toolSaw",new ItemStack(steelSaw,1,OreDictionary.WILDCARD_VALUE)); }
+
+        OreDictionary.registerOre("materialString", new ItemStack(Items.STRING));
+        OreDictionary.registerOre("materialString", new ItemStack(ModItems.grassString));
     }
 }
 

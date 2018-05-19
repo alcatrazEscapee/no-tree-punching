@@ -12,13 +12,16 @@ public class ItemSaw extends ItemAxe {
         super(material,material.getAttackDamage(),-3.0F);
 
         this.name = name;
-        setUnlocalizedName(name);
-        setRegistryName(name);
-        setCreativeTab(NoTreePunching.NTP_Tab);
+        register();
 
         setNoRepair();
         setMaxStackSize(1);
         setContainerItem(this);
+    }
+
+    public void register(){
+        ModItems.addItemToRegistry(this,name,true);
+        NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 
     @Override

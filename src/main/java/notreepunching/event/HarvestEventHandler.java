@@ -1,26 +1,17 @@
 package notreepunching.event;
 
 import net.minecraft.block.*;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.NoTreePunching;
 import notreepunching.config.Config;
 import notreepunching.item.*;
-import notreepunching.recipe.ModRecipes;
-import scala.actors.threadpool.Arrays;
-
-import java.util.Iterator;
 
 public class HarvestEventHandler {
 
@@ -76,6 +67,7 @@ public class HarvestEventHandler {
             // Always allow certian blocks to break at normal speed
             //Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
             for(String name : Config.VanillaTweaks.BREAKABLE){
+                if(block.getRegistryName() == null) continue;
                 if (block.getRegistryName().toString().equals(name)) {
                     return;
                 }
@@ -116,6 +108,7 @@ public class HarvestEventHandler {
             // Get Variables for the block and item held
             Block block = event.getState().getBlock();
             ItemStack heldItemStack = player.getHeldItemMainhand();
+            if(block.getRegistryName() == null) return;
 
 
             // Leaves now drop sticks 20% without a knife. 50% with a knife
@@ -230,6 +223,7 @@ public class HarvestEventHandler {
     @SubscribeEvent
     public void harvestBlockInitialCheck(PlayerEvent.HarvestCheck event){
         Block block = event.getTargetBlock().getBlock();
+        if(block.getRegistryName() == null) return;
         String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
         for(String name : Config.VanillaTweaks.BREAKABLE){
             if(blockName.equals(name)){ event.setCanHarvest(true); }
@@ -240,6 +234,7 @@ public class HarvestEventHandler {
     public void blockEventCheck(BlockEvent.BreakEvent event){
         // Additional check for IC2 and the Damn Rubberwood
         Block block = event.getState().getBlock();
+        if(block.getRegistryName() == null) return;
         if(block.getUnlocalizedName().equals("ic2.rubber_wood")){
             EntityPlayer player = event.getPlayer();
             if (player == null || player instanceof FakePlayer) {
