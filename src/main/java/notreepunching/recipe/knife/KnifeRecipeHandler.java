@@ -1,4 +1,4 @@
-package notreepunching.recipe.cutting;
+package notreepunching.recipe.knife;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -7,13 +7,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import notreepunching.NoTreePunching;
 import notreepunching.item.ModItems;
+import notreepunching.util.ItemUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CuttingRecipeHandler{
+public class KnifeRecipeHandler {
 
-    private static List<CuttingRecipe> CUTTING_RECIPES = new ArrayList<CuttingRecipe>();
+    private static List<KnifeRecipe> CUTTING_RECIPES = new ArrayList<KnifeRecipe>();
+    private static List<ItemStack> CT_REMOVE = new ArrayList<ItemStack>();
 
     public static void init(){
         for(int i=0;i<7;i++) {
@@ -43,11 +45,17 @@ public class CuttingRecipeHandler{
 
     }
 
+    public static void postInit(){
+        for(ItemStack stack : CT_REMOVE){
+            CUTTING_RECIPES.removeIf(p -> ItemUtil.areStacksEqual(p.getInput(), stack));
+        }
+    }
+
     public static boolean isRecipe(ItemStack stack){
         return getRecipe(stack)!=null;
     }
 
-    public static CuttingRecipe getRecipe(ItemStack stack){
+    public static KnifeRecipe getRecipe(ItemStack stack){
         for(int i=0;i<CUTTING_RECIPES.size();i++){
             ItemStack is = CUTTING_RECIPES.get(i).getInput();
             if(is.getItem() == stack.getItem() && stack.getCount()>=is.getCount() && is.getMetadata() == stack.getMetadata()){
@@ -57,17 +65,26 @@ public class CuttingRecipeHandler{
         return null;
     }
 
-    public static List<CuttingRecipe> getAll(){
+    public static List<KnifeRecipe> getAll(){
         return CUTTING_RECIPES;
     }
 
     private static void addCuttingRecipe(ItemStack inputStack, ItemStack... outputs){
-        CUTTING_RECIPES.add(new CuttingRecipe(inputStack,outputs));
+        CUTTING_RECIPES.add(new KnifeRecipe(inputStack,outputs));
     }
     private static void addCuttingRecipe(Item input, ItemStack... outputs){
         addCuttingRecipe(new ItemStack(input,1,0),outputs);
     }
     private static void addCuttingRecipe(Block input, ItemStack... outputs){
         addCuttingRecipe(new ItemStack(input,1,0),outputs);
+    }
+
+    // Craft Tweaker
+
+    public static void addRecipe(KnifeRecipe recipe){
+        CUTTING_RECIPES.add(recipe);
+    }
+    public static void removeRecipe(ItemStack stack){
+        CT_REMOVE.add(stack);
     }
 }

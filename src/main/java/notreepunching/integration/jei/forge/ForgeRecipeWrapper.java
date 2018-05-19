@@ -1,20 +1,26 @@
-package notreepunching.apihandlers.jei.forge;
+package notreepunching.integration.jei.forge;
 
 import com.google.common.collect.ImmutableList;
+import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import notreepunching.integration.jei.JEIPluginHelper;
 import notreepunching.recipe.forge.ForgeRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+
+import static notreepunching.integration.jei.forge.ForgeRecipeCategory.LOC;
 
 public class ForgeRecipeWrapper implements IRecipeWrapper {
 
     private final List<List<ItemStack>> input;
     private final List<List<ItemStack>> output;
     private final int temperature;
+    private final IDrawable drawableTemperature;
 
     public ForgeRecipeWrapper(ForgeRecipe recipe){
 
@@ -37,7 +43,8 @@ public class ForgeRecipeWrapper implements IRecipeWrapper {
         // Set the output
         output = builder.build();
 
-        temperature = recipe.getTemp();
+        temperature = recipe.getTemp() / 50;
+        drawableTemperature = JEIPluginHelper.helper.createDrawable(LOC, 181,30-temperature,10,temperature);
     }
 
     @Override
@@ -46,5 +53,8 @@ public class ForgeRecipeWrapper implements IRecipeWrapper {
         ingredients.setOutputLists(ItemStack.class, output);
     }
 
-    public int getTemperature(){ return temperature; }
+    @Override
+    public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+        drawableTemperature.draw(minecraft,0, 33 - temperature);
+    }
 }

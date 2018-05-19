@@ -1,16 +1,16 @@
-package notreepunching.recipe.cutting;
+package notreepunching.recipe.knife;
 
 import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CuttingRecipe {
+public class KnifeRecipe {
 
     private List<ItemStack> drops;
     private ItemStack ingredient;
 
-    public CuttingRecipe(ItemStack ingredient, ItemStack... drops){
+    public KnifeRecipe(ItemStack ingredient, ItemStack... drops){
 
         this.drops = Arrays.asList(drops);
         this.ingredient = ingredient;

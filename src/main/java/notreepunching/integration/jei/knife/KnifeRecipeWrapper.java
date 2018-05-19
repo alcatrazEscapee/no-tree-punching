@@ -1,11 +1,11 @@
-package notreepunching.apihandlers.jei.knife;
+package notreepunching.integration.jei.knife;
 
 import com.google.common.collect.ImmutableList;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
 import notreepunching.item.ModItems;
-import notreepunching.recipe.cutting.CuttingRecipe;
+import notreepunching.recipe.knife.KnifeRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -15,7 +15,7 @@ public class KnifeRecipeWrapper implements IRecipeWrapper {
     private final List<List<ItemStack>> input;
     private final List<List<ItemStack>> output;
 
-    public KnifeRecipeWrapper(CuttingRecipe recipe){
+    public KnifeRecipeWrapper(KnifeRecipe recipe){
 
         ImmutableList.Builder<List<ItemStack>> builder = ImmutableList.builder();
 

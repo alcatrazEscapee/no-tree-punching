@@ -1,47 +1,35 @@
-package notreepunching.apihandlers.jei.firepit;
+package notreepunching.integration.jei.knife;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IDrawableAnimated;
-import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import notreepunching.NoTreePunching;
 
 import javax.annotation.Nonnull;
 
-public class FirepitRecipeCategory implements IRecipeCategory {
+public class KnifeRecipeCategory implements IRecipeCategory {
 
-    public static final String UID = "notreepunching.firepit";
+    public static final String UID = "notreepunching.knife";
     private String localizedName;
-    private final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID, "textures/jei/firepit.png");
+    private final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID,"textures/jei/knife.png");
     private final IDrawable background;
     private final IDrawable icon;
 
-    private final IDrawableAnimated animatedArrow;
-    private final IDrawableAnimated animatedFlame;
-
-    public FirepitRecipeCategory(IGuiHelper guiHelper){
-        background = guiHelper.createDrawable(LOC,0,0,74,54);
-        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.firepit_recipe");
-        icon = guiHelper.createDrawable(LOC,111,0,16,16);
-
-        IDrawableStatic staticArrow = guiHelper.createDrawable(LOC, 88, 0, 16, 23);
-        animatedArrow = guiHelper.createAnimatedDrawable(staticArrow, 200, IDrawableAnimated.StartDirection.LEFT, false);
-
-        IDrawableStatic staticFlame = guiHelper.createDrawable(LOC, 74,0,14,13);
-        animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
+    public KnifeRecipeCategory(IGuiHelper guiHelper){
+        background = guiHelper.createDrawable(LOC,0,0,164,32);
+        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.knife_recipe");
+        icon = guiHelper.createDrawable(LOC,164,0,16,16);
 
     }
 
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper, @Nonnull IIngredients ingredients) {
-        if(!(recipeWrapper instanceof FirepitRecipeWrapper)) {
+        if(!(recipeWrapper instanceof KnifeRecipeWrapper)) {
             return;
         }
 
@@ -54,13 +42,16 @@ public class FirepitRecipeCategory implements IRecipeCategory {
          * @param xPosition x position of the slot relative to the recipe background
          * @param yPosition y position of the slot relative to the recipe background
          */
-        recipeLayout.getItemStacks().init(index, true, 0, 0);
+        recipeLayout.getItemStacks().init(index, true, 14, 8);
         recipeLayout.getItemStacks().set(index, ingredients.getInputs(ItemStack.class).get(0));
 
         index++;
-        recipeLayout.getItemStacks().init(index, false, 56, 0);
-        recipeLayout.getItemStacks().set(index, ingredients.getOutputs(ItemStack.class).get(0));
+        recipeLayout.getItemStacks().init(index, true, 73, 8);
+        recipeLayout.getItemStacks().set(index, ingredients.getInputs(ItemStack.class).get(1));
 
+        index++;
+        recipeLayout.getItemStacks().init(index, false, 131, 8);
+        recipeLayout.getItemStacks().set(index, ingredients.getOutputs(ItemStack.class).get(0));
     }
 
 
@@ -91,11 +82,5 @@ public class FirepitRecipeCategory implements IRecipeCategory {
     @Override
     public IDrawable getIcon() {
         return icon;
-    }
-
-    @Override
-    public void drawExtras(Minecraft minecraft) {
-        animatedArrow.draw(minecraft, 26, 2);
-        animatedFlame.draw(minecraft, 30, 20);
     }
 }

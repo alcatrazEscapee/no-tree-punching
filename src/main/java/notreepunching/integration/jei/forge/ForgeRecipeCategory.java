@@ -1,4 +1,4 @@
-package notreepunching.apihandlers.jei.forge;
+package notreepunching.integration.jei.forge;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -19,16 +19,12 @@ public class ForgeRecipeCategory implements IRecipeCategory {
 
     public static final String UID = "notreepunching.forge";
     private String localizedName;
-    private final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID,"textures/jei/forge.png");
+    public static final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID,"textures/jei/forge.png");
     private final IDrawable background;
     private final IDrawable icon;
 
     private final IDrawableAnimated animatedFlame;
     private final IDrawableAnimated animatedArrow;
-    private IDrawable drawableTemperature;
-    private int temperature;
-
-    private final IGuiHelper guiHelper;
 
     public ForgeRecipeCategory(IGuiHelper guiHelper){
         background = guiHelper.createDrawable(LOC,0,0,128,54);
@@ -41,7 +37,6 @@ public class ForgeRecipeCategory implements IRecipeCategory {
         IDrawableStatic staticArrow = guiHelper.createDrawable(LOC, 158, 0, 16, 23);
         animatedArrow = guiHelper.createAnimatedDrawable(staticArrow, 200, IDrawableAnimated.StartDirection.LEFT, false);
 
-        this.guiHelper = guiHelper;
     }
 
     @Override
@@ -66,8 +61,11 @@ public class ForgeRecipeCategory implements IRecipeCategory {
         recipeLayout.getItemStacks().init(index, false, 83, 0);
         recipeLayout.getItemStacks().set(index, ingredients.getOutputs(ItemStack.class).get(0));
 
-        temperature = ((ForgeRecipeWrapper) recipeWrapper).getTemperature() / 50;
-        drawableTemperature = guiHelper.createDrawable(LOC, 181,30-temperature,10,temperature);
+        //temperature = ((ForgeRecipeWrapper) recipeWrapper).getTemperature() / 50;
+        //temperature = ingredients.getInputs(int.class).get(0).get(0);
+
+        //System.out.println("INIT THE RECIPE: "+ingredients.getOutputs(ItemStack.class).get(0)+" | T="+temperature);
+        //drawableTemperature = guiHelper.createDrawable(LOC, 181,30-temperature,10,temperature);
 
     }
 
@@ -105,6 +103,7 @@ public class ForgeRecipeCategory implements IRecipeCategory {
     public void drawExtras(Minecraft minecraft) {
         animatedFlame.draw(minecraft, 56, 20);
         animatedArrow.draw(minecraft, 53, 2);
-        drawableTemperature.draw(minecraft, 0, 33 - temperature);
+        //System.out.println("DRAWING THE FKING THING!!!"+temperature);
+        //drawableTemperature.draw(minecraft, 0, 33 - temperature);
     }
 }

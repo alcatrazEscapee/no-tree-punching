@@ -33,7 +33,9 @@ dependencies {
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
     // CraftTweaker API
-    compile "CraftTweaker2:CraftTweaker2-API:4.0.10.298"
+    deobfProvided "CraftTweaker2:CraftTweaker2-API:4.1.8.5"
+    // At runtime, use the full jar
+    runtime "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
 }
 
 

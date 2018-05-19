@@ -1,14 +1,10 @@
 package notreepunching.recipe.firepit;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import notreepunching.config.Config;
-import notreepunching.recipe.cutting.CuttingRecipe;
+import notreepunching.util.ItemUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +13,7 @@ import java.util.Map;
 public class FirepitRecipeHandler {
 
     private static List<FirepitRecipe> FIREPIT_RECIPES = new ArrayList<FirepitRecipe>();
+    private static List<ItemStack> CT_REMOVE = new ArrayList<ItemStack>();
 
     public static void postInit(){
         Map<ItemStack, ItemStack> map = FurnaceRecipes.instance().getSmeltingList();
@@ -28,6 +25,10 @@ public class FirepitRecipeHandler {
 
                 addFirepitRecipe(new ItemStack(m.getKey().getItem(),1,meta1),new ItemStack(m.getValue().getItem(),1,meta2));
             }
+        }
+
+        for(ItemStack stack : CT_REMOVE){
+            FIREPIT_RECIPES.removeIf(p -> ItemUtil.areStacksEqual(p.getOutput(), stack));
         }
     }
 
@@ -49,6 +50,15 @@ public class FirepitRecipeHandler {
 
     private static void addFirepitRecipe(ItemStack input, ItemStack output){
         FIREPIT_RECIPES.add(new FirepitRecipe(input,output));
+    }
+
+    // Craft Tweaker
+
+    public static void addRecipe(FirepitRecipe recipe){
+        FIREPIT_RECIPES.add(recipe);
+    }
+    public static void removeRecipe(ItemStack stack){
+        CT_REMOVE.add(stack);
     }
 
 }

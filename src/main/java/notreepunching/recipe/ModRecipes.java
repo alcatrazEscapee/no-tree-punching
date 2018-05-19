@@ -14,7 +14,7 @@ import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.Config;
 import notreepunching.item.ModItems;
-import notreepunching.recipe.cutting.CuttingRecipeHandler;
+import notreepunching.recipe.knife.KnifeRecipeHandler;
 import notreepunching.recipe.firepit.FirepitRecipeHandler;
 import notreepunching.recipe.forge.ForgeRecipeHandler;
 import notreepunching.util.ItemUtil;
@@ -29,17 +29,16 @@ public class ModRecipes {
     private static int magic = OreDictionary.WILDCARD_VALUE;
 
     public static void init(){
-        CuttingRecipeHandler.init();
+        KnifeRecipeHandler.init();
         ForgeRecipeHandler.init();
         initCraftingRecipes();
         initSmeltingRecipes();
     }
 
     public static void postInit(){
-        // Furnace based food recipes
         FirepitRecipeHandler.postInit();
-
         ForgeRecipeHandler.postInit();
+        KnifeRecipeHandler.postInit();
 
         // Compat wood recipes
         replaceWoodRecipes();

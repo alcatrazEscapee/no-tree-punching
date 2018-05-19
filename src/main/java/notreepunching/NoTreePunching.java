@@ -19,6 +19,7 @@ import notreepunching.config.Config;
 import notreepunching.event.HarvestEventHandler;
 import notreepunching.event.PlayerEventHandler;
 import notreepunching.item.ModItems;
+import notreepunching.integration.crafttweaker.CTPluginHelper;
 import notreepunching.proxy.IProxy;
 import notreepunching.recipe.ModRecipes;
 import notreepunching.registry.RegistryHandler;
@@ -75,6 +76,9 @@ public class NoTreePunching {
 
         // Registry Handler
         MinecraftForge.EVENT_BUS.register(new RegistryHandler());
+
+        // Craft Tweaker support
+        CTPluginHelper.register();
 
         proxy.preInit(event);
     }

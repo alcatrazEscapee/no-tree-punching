@@ -2,20 +2,19 @@ package notreepunching.recipe.forge;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.util.ItemUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class ForgeRecipeHandler {
 
     private static List<ForgeRecipe> FORGE_RECIPES = new ArrayList<ForgeRecipe>();
+    private static List<ItemStack> CT_REMOVE = new ArrayList<ItemStack>();
 
     public static void init(){
         FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Items.NETHERBRICK), new ItemStack(Blocks.NETHERRACK),400));
@@ -31,6 +30,10 @@ public class ForgeRecipeHandler {
                     FORGE_RECIPES.add(new ForgeRecipe(OreDictionary.getOres("ingot"+oreName.substring(3)).get(0),oreName,1000));
                 }
             }
+        }
+
+        for(ItemStack stack : CT_REMOVE){
+            FORGE_RECIPES.removeIf(p -> ItemUtil.areStacksEqual(stack,p.getOutput()));
         }
     }
 
@@ -62,5 +65,23 @@ public class ForgeRecipeHandler {
     }
 
     public static List<ForgeRecipe> getAll() { return FORGE_RECIPES; }
+
+    // Craft Tweaker
+    public static void addRecipe(ForgeRecipe recipe){
+        FORGE_RECIPES.add(recipe);
+    }
+
+    public static void removeRecipe(ItemStack stack){
+        System.out.println("ATTEMPTING TO REMOVE!!!");
+        CT_REMOVE.add(stack);
+        //Iterator<ForgeRecipe> iterator = FORGE_RECIPES.iterator();
+        //FORGE_RECIPES.removeIf(p -> ItemUtil.areStacksEqual(stack,p.getStack()));
+        /*while(iterator.hasNext()){
+            if(ItemStack.areItemStacksEqual(stack, iterator.next().getOutput())){
+                iterator.remove();
+                //break;
+            }
+        }*/
+    }
 
 }

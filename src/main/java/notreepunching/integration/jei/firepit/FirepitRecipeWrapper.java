@@ -1,4 +1,4 @@
-package notreepunching.apihandlers.jei.firepit;
+package notreepunching.integration.jei.firepit;
 
 import com.google.common.collect.ImmutableList;
 import mezz.jei.api.ingredients.IIngredients;
