@@ -54,7 +54,7 @@ public class NoTreePunching {
     @Mod.Instance
     public static NoTreePunching instance;
 
-    public static Logger logger;
+    private static Logger logger;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -76,9 +76,6 @@ public class NoTreePunching {
 
         // Registry Handler
         MinecraftForge.EVENT_BUS.register(new RegistryHandler());
-
-        // Craft Tweaker support
-        CTPluginHelper.register();
 
         proxy.preInit(event);
     }
