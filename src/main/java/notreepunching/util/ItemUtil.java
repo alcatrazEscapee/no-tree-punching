@@ -48,8 +48,8 @@ public class ItemUtil {
     @Nonnull
     public static ItemStack mergeStacks(ItemStack stack, ItemStack stackToAdd){
         if(!canMergeStack(stack, stackToAdd)) { return ItemStack.EMPTY; }
-        if(stack.isEmpty()) { return stackToAdd; }
-        if(stackToAdd.isEmpty()) { return stack; }
+        if(stack.isEmpty()) { return stackToAdd.copy(); }
+        if(stackToAdd.isEmpty()) { return stack.copy(); }
         stack.grow(stackToAdd.getCount());
         return stack;
     }

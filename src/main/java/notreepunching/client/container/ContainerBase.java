@@ -5,23 +5,32 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import notreepunching.block.tile.IHasFields;
 
 import javax.annotation.Nonnull;
 
 public abstract class ContainerBase<TE extends IHasFields> extends Container {
 
-    protected int [] cachedFields;
+    private int [] cachedFields;
 
     protected TE tile;
 
     public ContainerBase(InventoryPlayer playerInv, TE te) {
         this.tile = te;
+
+        addContainerSlots(te);
         addPlayerInventorySlots(playerInv);
     }
-    protected void addPlayerInventorySlots(InventoryPlayer playerInv){
+
+    protected abstract void addContainerSlots(TE tile);
+
+    private void addPlayerInventorySlots(InventoryPlayer playerInv){
         // Add Player Inventory Slots
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {

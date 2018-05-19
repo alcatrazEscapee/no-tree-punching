@@ -90,7 +90,7 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
                     }
 
                 }else{
-                    burnTicks -= closed ? 1 : 3;;
+                    burnTicks -= closed ? 1 : 3;
                 }
             }
 

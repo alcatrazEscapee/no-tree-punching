@@ -18,11 +18,14 @@ public class ContainerForge extends ContainerBase<TileEntityForge> {
 
     public ContainerForge(InventoryPlayer playerInv, TileEntityForge forge) {
         super(playerInv, forge);
+    }
 
-        IItemHandler inventory = forge.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
-        // Firepit Slots
-        addSlotToContainer(new SlotForgeInput(inventory, 0,52,23, forge));
-        addSlotToContainer(new SlotForgeOutput(inventory, 1,108,23, forge));
+    @Override
+    protected void addContainerSlots(TileEntityForge tile) {
+        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+
+        addSlotToContainer(new SlotForgeInput(inventory, 0,52,23, tile));
+        addSlotToContainer(new SlotForgeOutput(inventory, 1,108,23, tile));
     }
 
     // index is the id of the slot shift-clicked

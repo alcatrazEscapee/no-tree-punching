@@ -16,12 +16,15 @@ public class ContainerFirepit extends ContainerBase<TileEntityFirepit> {
 
     public ContainerFirepit(InventoryPlayer playerInv, TileEntityFirepit firepit) {
         super(playerInv, firepit);
+    }
 
-        IItemHandler inventory = firepit.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+    @Override
+    protected void addContainerSlots(TileEntityFirepit tile) {
+        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
         // Firepit Slots
-        addSlotToContainer(new SlotFirepitFuel(inventory, 0,80,59,firepit));
-        addSlotToContainer(new SlotFirepitInput(inventory, 1,52,23,firepit));
-        addSlotToContainer(new SlotFirepitOutput(inventory, 2,108,23,firepit));
+        addSlotToContainer(new SlotFirepitFuel(inventory, 0,80,59, tile));
+        addSlotToContainer(new SlotFirepitInput(inventory, 1,52,23, tile));
+        addSlotToContainer(new SlotFirepitOutput(inventory, 2,108,23, tile));
     }
 
     // index is the id of the slot shift-clicked

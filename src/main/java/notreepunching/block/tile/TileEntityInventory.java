@@ -16,7 +16,6 @@ public abstract class TileEntityInventory extends TileEntity {
 
     protected final ItemStackHandler inventory;
 
-
     public TileEntityInventory(int inventorySize){
         super();
         inventory = new ItemStackHandler(inventorySize){
