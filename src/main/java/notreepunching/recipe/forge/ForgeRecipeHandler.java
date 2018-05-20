@@ -24,9 +24,12 @@ public class ForgeRecipeHandler {
         // Add ore > ingot recipes based on ore dictionary
         String[] oreNames = OreDictionary.getOreNames();
         for(String oreName : oreNames){
+            if(oreName.length()<=3) continue;
             if(oreName.substring(0,3).equals("ore")){
                 if(OreDictionary.doesOreNameExist("ingot"+oreName.substring(3))){
-                    FORGE_RECIPES.add(new ForgeRecipe(OreDictionary.getOres("ingot"+oreName.substring(3)).get(0),oreName,1000));
+                    NonNullList<ItemStack> oreList = OreDictionary.getOres("ingot"+oreName.substring(3));
+                    if(oreList.isEmpty()) continue;
+                    FORGE_RECIPES.add(new ForgeRecipe(oreList.get(0),oreName,1000));
                 }
             }
         }
