@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
-import notreepunching.config.Config;
+import notreepunching.config.ModConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,7 +177,7 @@ public class ItemFirestarter extends ItemTool {
                     }
                     else{
                         // No firepit to make, just light the fking place up
-                        if(Math.random() < Config.Balance.FIRE_CHANCE){
+                        if(Math.random() < ModConfig.Balance.FIRE_CHANCE){
                             worldIn.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
                         }
                         stack.damageItem(1,entityLiving);

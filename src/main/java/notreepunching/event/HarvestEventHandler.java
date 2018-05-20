@@ -10,7 +10,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.NoTreePunching;
-import notreepunching.config.Config;
+import notreepunching.config.ModConfig;
 import notreepunching.item.*;
 
 public class HarvestEventHandler {
@@ -66,7 +66,7 @@ public class HarvestEventHandler {
             }
             // Always allow certian blocks to break at normal speed
             //Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
-            for(String name : Config.VanillaTweaks.BREAKABLE){
+            for(String name : ModConfig.VanillaTweaks.BREAKABLE){
                 if(block.getRegistryName() == null) continue;
                 if (block.getRegistryName().toString().equals(name)) {
                     return;
@@ -124,7 +124,7 @@ public class HarvestEventHandler {
             }
 
             // Stone and its Variants drop the respective rock
-            if(Config.VanillaTweaks.STONE_DROPS_ROCKS) {
+            if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS) {
                 if(block == Blocks.STONE) {
                     int meta = block.getMetaFromState(event.getState());
                     if (meta == 0) { // Stone
@@ -173,7 +173,7 @@ public class HarvestEventHandler {
                 ItemKnife knife = (ItemKnife) heldItemStack.getItem();
                 if (knife.shouldBreakBlock(block)) {
                     if(block instanceof BlockDoublePlant || block instanceof BlockTallGrass){
-                        if(Math.random()<Config.Balance.GRASS_FIBER_CHANCE){
+                        if(Math.random()< ModConfig.Balance.GRASS_FIBER_CHANCE){
                             event.getDrops().add(new ItemStack(ModItems.grassFiber,1,0));
                         }
                     }
@@ -204,7 +204,7 @@ public class HarvestEventHandler {
 
                 //Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
                 String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
-                for(String name : Config.VanillaTweaks.BREAKABLE) {
+                for(String name : ModConfig.VanillaTweaks.BREAKABLE) {
                     if(name.equals(blockName)) {
                         return;
                     }
@@ -225,7 +225,7 @@ public class HarvestEventHandler {
         Block block = event.getTargetBlock().getBlock();
         if(block.getRegistryName() == null) return;
         String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
-        for(String name : Config.VanillaTweaks.BREAKABLE){
+        for(String name : ModConfig.VanillaTweaks.BREAKABLE){
             if(blockName.equals(name)){ event.setCanHarvest(true); }
         }
     }
@@ -250,7 +250,7 @@ public class HarvestEventHandler {
             }
             //Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
             String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
-            for(String name : Config.VanillaTweaks.BREAKABLE){
+            for(String name : ModConfig.VanillaTweaks.BREAKABLE){
                 if(blockName.equals(name)){ return; }
             }
             // Else, cancel the event and do a manual break, not triggering the IC2 breaking

@@ -15,11 +15,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import notreepunching.client.CreativeTabBase;
 import notreepunching.client.NTPGuiHandler;
-import notreepunching.config.Config;
+import notreepunching.config.ModConfig;
 import notreepunching.event.HarvestEventHandler;
 import notreepunching.event.PlayerEventHandler;
 import notreepunching.item.ModItems;
-import notreepunching.integration.crafttweaker.CTPluginHelper;
 import notreepunching.proxy.IProxy;
 import notreepunching.recipe.ModRecipes;
 import notreepunching.registry.RegistryHandler;
@@ -34,10 +33,10 @@ public class NoTreePunching {
     public static final String VERSION = "GRADLE:VERSION";
     public static final String actualName = "NoTreePunching";
 
-    public static final Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", Config.Balance.FLINT_MINING_LEVEL,45,2.5F,0.5F,0);
-    public static final Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", Config.Balance.COPPER_MINING_LEVEL,180,4F,1.5F,6);
-    public static final Item.ToolMaterial toolMaterialBronze = EnumHelper.addToolMaterial("NTP_BRONZE", Config.Balance.BRONZE_MINING_LEVEL,350,8F,2.5F,8);
-    public static final Item.ToolMaterial toolMaterialSteel = EnumHelper.addToolMaterial("NTP_STEEL", Config.Balance.STEEL_MINING_LEVEL,1400,11F,3.0F,10);
+    public static final Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", ModConfig.Balance.FLINT_MINING_LEVEL,45,2.5F,0.5F,0);
+    public static final Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", ModConfig.Balance.COPPER_MINING_LEVEL,180,4F,1.5F,6);
+    public static final Item.ToolMaterial toolMaterialBronze = EnumHelper.addToolMaterial("NTP_BRONZE", ModConfig.Balance.BRONZE_MINING_LEVEL,350,8F,2.5F,8);
+    public static final Item.ToolMaterial toolMaterialSteel = EnumHelper.addToolMaterial("NTP_STEEL", ModConfig.Balance.STEEL_MINING_LEVEL,1400,11F,3.0F,10);
 
     public static final CreativeTabBase NTP_Tab = new CreativeTabBase(NoTreePunching.MODID);
 
@@ -61,8 +60,8 @@ public class NoTreePunching {
         logger = event.getModLog();
         logger.info("Pre-init started");
 
-        replaceQuarkStones = Loader.isModLoaded("quark") && Config.VanillaTweaks.QUARK_STONE_REPLACE;
-        replaceRusticStone = Loader.isModLoaded("rustic") && Config.VanillaTweaks.RUSTIC_STONE_REPLACE;
+        replaceQuarkStones = Loader.isModLoaded("quark") && ModConfig.VanillaTweaks.QUARK_STONE_REPLACE;
+        replaceRusticStone = Loader.isModLoaded("rustic") && ModConfig.VanillaTweaks.RUSTIC_STONE_REPLACE;
 
         // Register World Generation
         MinecraftForge.EVENT_BUS.register(new WorldGen());
@@ -96,13 +95,6 @@ public class NoTreePunching {
         NTP_Tab.setTabItem(ModItems.stoneKnife);
 
         logger.info("Finished Loading");
-    }
-
-    @SubscribeEvent
-    public void configChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equals(MODID)) {
-            ConfigManager.sync(MODID, net.minecraftforge.common.config.Config.Type.INSTANCE);
-        }
     }
 }
 

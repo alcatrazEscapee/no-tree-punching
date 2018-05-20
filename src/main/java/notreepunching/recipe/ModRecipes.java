@@ -12,7 +12,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
-import notreepunching.config.Config;
+import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
 import notreepunching.recipe.knife.KnifeRecipeHandler;
 import notreepunching.recipe.firepit.FirepitRecipeHandler;
@@ -48,7 +48,7 @@ public class ModRecipes {
     // *************************** SMELTING ************************ //
 
     private static void initSmeltingRecipes(){
-        if(Config.VanillaTweaks.STONE_DROPS_ROCKS){
+        if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS){
             RecipeUtil.addSmelting(ModBlocks.andesiteCobble,new ItemStack(Blocks.STONE,1,5));
             RecipeUtil.addSmelting(ModBlocks.dioriteCobble,new ItemStack(Blocks.STONE,1,3));
             RecipeUtil.addSmelting(ModBlocks.graniteCobble,new ItemStack(Blocks.STONE,1,1));
@@ -65,7 +65,7 @@ public class ModRecipes {
             RecipeUtil.addSmelting(ModBlocks.slateCobble,ItemUtil.getSafeItem("rustic:slate",0,1));
         }
 
-        if(Config.VanillaTweaks.DISABLE_SMELTING_ORE) {
+        if(ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE) {
             Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
             Iterator<ItemStack> iterator = recipes.keySet().iterator();
             while (iterator.hasNext()) {
@@ -150,7 +150,7 @@ public class ModRecipes {
         IForgeRegistryModifiable modRegistry = (IForgeRegistryModifiable) reg;
 
         // Wooden Tools
-        if(Config.VanillaTweaks.WOOD_TOOLS_DISABLE) {
+        if(ModConfig.VanillaTweaks.WOOD_TOOLS_DISABLE) {
             modRegistry.remove(new ResourceLocation("minecraft:wooden_pickaxe"));
             modRegistry.remove(new ResourceLocation("minecraft:wooden_shovel"));
             modRegistry.remove(new ResourceLocation("minecraft:wooden_hoe"));
@@ -159,7 +159,7 @@ public class ModRecipes {
         }
 
         // Stone Tools
-        if(Config.VanillaTweaks.STONE_TOOLS_DISABLE) {
+        if(ModConfig.VanillaTweaks.STONE_TOOLS_DISABLE) {
             modRegistry.remove(new ResourceLocation("minecraft:stone_pickaxe"));
             modRegistry.remove(new ResourceLocation("minecraft:stone_shovel"));
             modRegistry.remove(new ResourceLocation("minecraft:stone_hoe"));
@@ -167,7 +167,7 @@ public class ModRecipes {
             modRegistry.remove(new ResourceLocation("minecraft:stone_axe"));
         }
 
-        if(Config.VanillaTweaks.WOOD_RECIPE_DISABLE) {
+        if(ModConfig.VanillaTweaks.WOOD_RECIPE_DISABLE) {
             modRegistry.remove(new ResourceLocation("minecraft:oak_planks"));
             modRegistry.remove(new ResourceLocation("minecraft:spruce_planks"));
             modRegistry.remove(new ResourceLocation("minecraft:birch_planks"));
