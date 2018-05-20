@@ -4,7 +4,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -15,15 +14,13 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.block.BlockCharcoalPile;
 import notreepunching.block.ModBlocks;
 import notreepunching.block.tile.TileEntityWoodPile;
 import notreepunching.client.sound.Sounds;
-import notreepunching.config.Config;
+import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
 import notreepunching.util.MiscUtil;
@@ -61,7 +58,7 @@ public class PlayerEventHandler {
             if(world.getBlockState(pos).getMaterial() == Material.ROCK && state.isNormalCube()){
                 if(!world.isRemote){
                     if(Math.random()< 0.7) {
-                        if(Math.random() < Config.Balance.FLINT_CHANCE) {
+                        if(Math.random() < ModConfig.Balance.FLINT_CHANCE) {
                             // Create flint shard
                             ItemStack stack2 = new ItemStack(ModItems.flintShard, 2);
                             EntityItem item = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, stack2);

@@ -1,12 +1,19 @@
 package notreepunching.config;
 
-import notreepunching.NoTreePunching;
-
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.Comment;
 
+import javax.annotation.Nonnull;
 
-@net.minecraftforge.common.config.Config(modid=NoTreePunching.MODID)
-public class Config {
+import static notreepunching.NoTreePunching.MODID;
+
+@Mod.EventBusSubscriber
+@Config(modid= MODID)
+public class ModConfig {
 
     public static VanillaTweaks tweaks;
     public static class VanillaTweaks {
@@ -72,6 +79,13 @@ public class Config {
         @Comment({"Mining level for steel tools"})
         public static int STEEL_MINING_LEVEL = 3;
 
+    }
+
+    @SubscribeEvent
+    public static void configChanged(@Nonnull ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.getModID().equals(MODID)) {
+            ConfigManager.sync(MODID, net.minecraftforge.common.config.Config.Type.INSTANCE);
+        }
     }
 
 }

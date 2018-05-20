@@ -3,7 +3,7 @@ package notreepunching.block;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import notreepunching.NoTreePunching;
-import notreepunching.config.Config;
+import notreepunching.config.ModConfig;
 import notreepunching.registry.RegistryHandler;
 
 public class ModBlocks {
@@ -26,7 +26,7 @@ public class ModBlocks {
     public static void init(){
         looseRock = new BlockRock("loose_rock");
 
-        if(Config.VanillaTweaks.STONE_DROPS_ROCKS) {
+        if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS) {
             andesiteCobble = new BlockCobble("andesite");
             graniteCobble = new BlockCobble("granite");
             dioriteCobble = new BlockCobble("diorite");
