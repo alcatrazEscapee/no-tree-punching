@@ -18,12 +18,14 @@ import notreepunching.block.ModBlocks;
 import java.util.Random;
 
 import notreepunching.block.BlockRock.EnumMineralType;
+import notreepunching.config.ModConfig;
+
 import static notreepunching.block.BlockRock.EnumMineralType;
 import static notreepunching.block.BlockRock.EnumMineralType.*;
 import static notreepunching.block.BlockRock.TYPE;
 
 
-public class WorldGen {
+public class WorldGenDeco {
 
     @SubscribeEvent
     public void decorateBiome(DecorateBiomeEvent.Post event) {
@@ -32,7 +34,7 @@ public class WorldGen {
         int chunkX = event.getPos().getX() >> 4;
         int chunkZ = event.getPos().getZ() >> 4;
         // Generate Surface Loose Rocks
-        if(world.provider.getDimension() == 0){
+        if(world.provider.getDimension() == 0 && ModConfig.World.LOOSE_ROCKS){
             for (int i = 0; i < 3; i++)
             {
                 int xCoord = chunkX*16 + random.nextInt(16) + 8;

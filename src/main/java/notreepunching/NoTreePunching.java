@@ -2,19 +2,15 @@ package notreepunching;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import notreepunching.client.CreativeTabBase;
 import notreepunching.client.NTPGuiHandler;
 import notreepunching.config.ModConfig;
@@ -22,12 +18,11 @@ import notreepunching.event.HarvestEventHandler;
 import notreepunching.event.PlayerEventHandler;
 import notreepunching.item.ModItems;
 import notreepunching.network.ModNetwork;
-import notreepunching.network.PacketRequestBellows;
-import notreepunching.network.PacketUpdateBellows;
 import notreepunching.proxy.IProxy;
 import notreepunching.recipe.ModRecipes;
 import notreepunching.registry.RegistryHandler;
-import notreepunching.world.WorldGen;
+import notreepunching.world.WorldGenDeco;
+import notreepunching.world.WorldGenOres;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = NoTreePunching.MODID, version = NoTreePunching.VERSION, dependencies = "after:quark;after:rustic;after:biomeoplenty")
@@ -47,9 +42,6 @@ public class NoTreePunching {
 
     public static boolean replaceQuarkStones;
     public static boolean replaceRusticStone;
-
-    public static boolean addCopperTools;
-    public static boolean addBronzeTools;
     public static boolean addSteelTools;
 
     @SidedProxy(clientSide = MODID+".proxy.ClientProxy", serverSide = MODID+".proxy.ServerProxy")
@@ -69,7 +61,8 @@ public class NoTreePunching {
         replaceRusticStone = Loader.isModLoaded("rustic") && ModConfig.VanillaTweaks.RUSTIC_STONE_REPLACE;
 
         // Register World Generation
-        MinecraftForge.EVENT_BUS.register(new WorldGen());
+        MinecraftForge.EVENT_BUS.register(new WorldGenDeco());
+        GameRegistry.registerWorldGenerator(new WorldGenOres(), 3);
 
         // Register GUI Handler
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new NTPGuiHandler());

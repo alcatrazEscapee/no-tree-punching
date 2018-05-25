@@ -65,6 +65,7 @@ public class JEIPluginHelper implements IModPlugin {
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.charcoalPile));
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.forge));
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.woodPile));
+        // TODO: add the tuyere block as a blacklisted ingredient
 
         // Knife / Cutting Recipes
         registry.handleRecipes(KnifeRecipe.class, KnifeRecipeWrapper::new, KnifeRecipeCategory.UID);

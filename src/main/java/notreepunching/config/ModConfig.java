@@ -81,6 +81,19 @@ public class ModConfig {
 
     }
 
+    public static World world;
+    public static class World{
+
+        @Comment({"Generate Copper ore in the world"})
+        public static boolean COPPER_ORE = true;
+
+        @Comment({"Generate Tin ore in the world"})
+        public static boolean TIN_ORE = true;
+
+        @Comment({"Generate Loose rocks on the surface"})
+        public static boolean LOOSE_ROCKS = true;
+    }
+
     @SubscribeEvent
     public static void configChanged(@Nonnull ConfigChangedEvent.OnConfigChangedEvent event) {
         if (event.getModID().equals(MODID)) {

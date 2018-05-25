@@ -101,16 +101,15 @@ public class ModRecipes {
         }
 
         // Tool Types
-        if(NoTreePunching.addCopperTools){
-            registerShaped(new ItemStack(ModItems.copperKnife),"I","H",'I',"ingotCopper",'H',"stickWood");
-            registerShaped(new ItemStack(ModItems.copperMattock),"III","IH "," H ",'I',"ingotCopper",'H',"stickWood");
-            registerShaped(new ItemStack(ModItems.copperSaw)," HI","HI ","H  ",'I',"ingotCopper",'H',"stickWood");
-        }
-        if(NoTreePunching.addBronzeTools){
-            registerShaped(new ItemStack(ModItems.bronzeKnife),"I","H",'I',"ingotBronze",'H',"stickWood");
-            registerShaped(new ItemStack(ModItems.bronzeSaw)," HI","HI ","H  ",'I',"ingotBronze",'H',"stickWood");
-            registerShaped(new ItemStack(ModItems.bronzeMattock),"III","IH "," H ",'I',"ingotBronze",'H',"stickWood");
-        }
+        // TODO: MOVE THESE TO JSON RECIPES
+        registerShaped(new ItemStack(ModItems.copperKnife),"I","H",'I',"ingotCopper",'H',"stickWood");
+        registerShaped(new ItemStack(ModItems.copperMattock),"III","IH "," H ",'I',"ingotCopper",'H',"stickWood");
+        registerShaped(new ItemStack(ModItems.copperSaw)," HI","HI ","H  ",'I',"ingotCopper",'H',"stickWood");
+
+        registerShaped(new ItemStack(ModItems.bronzeKnife),"I","H",'I',"ingotBronze",'H',"stickWood");
+        registerShaped(new ItemStack(ModItems.bronzeSaw)," HI","HI ","H  ",'I',"ingotBronze",'H',"stickWood");
+        registerShaped(new ItemStack(ModItems.bronzeMattock),"III","IH "," H ",'I',"ingotBronze",'H',"stickWood");
+
         if(NoTreePunching.addSteelTools) {
             registerShaped(new ItemStack(ModItems.steelKnife),"I","H",'I',"ingotSteel",'H',"stickWood");
             registerShaped(new ItemStack(ModItems.steelMattock),"III","IH "," H ",'I',"ingotSteel",'H',"stickWood");
