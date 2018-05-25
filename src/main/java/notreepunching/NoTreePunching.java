@@ -13,12 +13,17 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 import notreepunching.client.CreativeTabBase;
 import notreepunching.client.NTPGuiHandler;
 import notreepunching.config.ModConfig;
 import notreepunching.event.HarvestEventHandler;
 import notreepunching.event.PlayerEventHandler;
 import notreepunching.item.ModItems;
+import notreepunching.network.ModNetwork;
+import notreepunching.network.PacketRequestBellows;
+import notreepunching.network.PacketUpdateBellows;
 import notreepunching.proxy.IProxy;
 import notreepunching.recipe.ModRecipes;
 import notreepunching.registry.RegistryHandler;
@@ -75,6 +80,9 @@ public class NoTreePunching {
 
         // Registry Handler
         MinecraftForge.EVENT_BUS.register(new RegistryHandler());
+
+        // Register Network
+        ModNetwork.preInit();
 
         proxy.preInit(event);
     }
