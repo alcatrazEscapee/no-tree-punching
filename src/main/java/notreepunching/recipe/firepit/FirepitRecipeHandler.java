@@ -40,10 +40,12 @@ public class FirepitRecipeHandler {
     public static boolean isRecipe(ItemStack stack) { return getRecipe(stack) != null; }
 
     public static FirepitRecipe getRecipe(ItemStack stack){
-        for(int i=0;i<FIREPIT_RECIPES.size();i++){
-            ItemStack is = FIREPIT_RECIPES.get(i).getInput();
+        if(stack.isEmpty()) return null;
+
+        for(FirepitRecipe recipe : FIREPIT_RECIPES){
+            ItemStack is = recipe.getInput();
             if(is.getItem().getUnlocalizedName().equals(stack.getItem().getUnlocalizedName()) && is.getMetadata() == stack.getMetadata() && stack.getCount()>=is.getCount()){
-                return FIREPIT_RECIPES.get(i);
+                return recipe;
             }
         }
         return null;

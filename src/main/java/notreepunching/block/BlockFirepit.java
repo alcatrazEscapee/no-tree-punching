@@ -1,5 +1,6 @@
 package notreepunching.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -37,6 +38,8 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
 
     public static final IProperty<Boolean> BURNING = PropertyBool.create("burning");
@@ -95,7 +98,6 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
         TileEntityFirepit tile = (TileEntityFirepit) world.getTileEntity(pos);
 
@@ -115,7 +117,6 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         drops.clear();
         drops.add(new ItemStack(Items.STICK,2,0));
@@ -200,7 +201,6 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random random){
         if(!worldIn.isRemote){
             if(worldIn.canBlockSeeSky(pos) && worldIn.isRaining() && worldIn.getTopSolidOrLiquidBlock(pos).getY()<pos.getY()+2){

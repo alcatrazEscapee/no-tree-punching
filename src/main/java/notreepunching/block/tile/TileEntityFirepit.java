@@ -47,8 +47,9 @@ public class TileEntityFirepit extends TileEntityInventory implements ITickable,
                 // Try and cook the item in the firepit
                 ItemStack cookStack = inventory.getStackInSlot(1);
                 ItemStack outStack = inventory.getStackInSlot(2);
-                if(!cookStack.isEmpty() && isItemValidInput(cookStack)){
-                    FirepitRecipe recipe = FirepitRecipeHandler.getRecipe(cookStack);
+
+                FirepitRecipe recipe = FirepitRecipeHandler.getRecipe(cookStack);
+                if(recipe != null){
 
                     if(ItemUtil.canMergeStack(recipe.getOutput(),outStack)){
                         cookTimer++;

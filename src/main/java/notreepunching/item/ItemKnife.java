@@ -1,6 +1,7 @@
 package notreepunching.item;
 
 import com.google.common.collect.Sets;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockTallGrass;
@@ -18,8 +19,11 @@ import notreepunching.NoTreePunching;
 import notreepunching.recipe.knife.KnifeRecipe;
 import notreepunching.recipe.knife.KnifeRecipeHandler;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Set;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ItemKnife extends ItemTool {
 
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.TALLGRASS,Blocks.DOUBLE_PLANT,Blocks.MELON_BLOCK,Blocks.PUMPKIN,Blocks.WOOL);
@@ -45,6 +49,7 @@ public class ItemKnife extends ItemTool {
         return (block instanceof BlockTallGrass || block instanceof BlockDoublePlant);
     }
 
+    @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
         // Get Opposite Hand to Knife
@@ -57,8 +62,8 @@ public class ItemKnife extends ItemTool {
         ItemStack knifeStack = playerIn.getHeldItem(handIn);
         ItemStack cutStack = playerIn.getHeldItem(handOther);
 
-        if (KnifeRecipeHandler.isRecipe(cutStack)){
-            KnifeRecipe recipe = KnifeRecipeHandler.getRecipe(cutStack);
+        KnifeRecipe recipe = KnifeRecipeHandler.getRecipe(cutStack);
+        if (recipe != null){
 
             if(cutStack.getCount()>=1){
                 if(!worldIn.isRemote) {
