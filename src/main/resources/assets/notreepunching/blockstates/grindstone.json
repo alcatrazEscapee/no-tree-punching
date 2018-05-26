@@ -7,7 +7,7 @@
 			"base": "notreepunching:blocks/grindstone_base",
 			"top": "notreepunching:blocks/grindstone_top",
 			"stone": "notreepunching:blocks/grindstone_stone",
-			"handle": "minecraft:blocks/oak_planks",
+			"handle": "minecraft:blocks/planks_oak",
 			"particle": "notreepunching:blocks/grindstone_base"
 		}
 	},
