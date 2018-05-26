@@ -1,0 +1,22 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"II",
+		"TI",
+		"T "
+	],
+	"key": {
+		"T": {
+			"type": "forge:ore_dict",
+			"ore": "stickWood"
+		},
+		"I": {
+			"type": "forge:ore_dict",
+			"ore": "ingotSteel"
+		}
+	},
+	"result": {
+		"item": "notreepunching:steel_axe",
+		"data": 0
+	}
+}

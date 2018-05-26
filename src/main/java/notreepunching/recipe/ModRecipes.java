@@ -103,11 +103,6 @@ public class ModRecipes {
         if(NoTreePunching.replaceRusticStone){
             registerShaped(new ItemStack(ModBlocks.slateCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone,1,6));
         }
-        // TODO: Move these to json recipes
-        // TODO: Add the other 15 tool recipes
-        registerShaped(new ItemStack(ModItems.steelKnife),"I","H",'I',"ingotSteel",'H',"stickWood");
-        registerShaped(new ItemStack(ModItems.steelMattock),"III","IH "," H ",'I',"ingotSteel",'H',"stickWood");
-        registerShaped(new ItemStack(ModItems.steelSaw)," HI","HI ","H  ",'I',"ingotSteel",'H',"stickWood");
 
         // Cooler recipes
         if(ModConfig.VanillaTweaks.COOLER_RECIPES){
