@@ -1,7 +1,8 @@
 
 #Creative Tabs
 
-itemGroup.notreepunching=No Tree Punching
+itemGroup.notreepunching.items=NTP Stuff
+itemGroup.notreepunching.tools=NTP Tools
 
 #Items
 
@@ -37,17 +38,43 @@ item.crude_hoe.name=Crude Hoe
 
 item.firestarter.name=Fire Starter
 
+item.dust_bronze.name=Bronze Dust
+item.dust_tin.name=Tin Dust
+item.ingot_copper.name=Copper Ingot
+item.dust_iron.name=Iron Dust
+item.dust_copper.name=Copper Dust
+item.ingot_bronze.name=Bronze Ingot
+item.ingot_tin.name=Tin Ingot
+item.gear_wood.name=Wooden Gear
+item.ingot_steel.name=Steel Ingot
+item.dust_steel.name=Steel Dust
+
 item.copper_knife.name=Copper Knife
 item.copper_mattock.name=Copper Mattock
 item.copper_saw.name=Copper Saw
+item.copper_hoe.name=Copper Hoe
+item.copper_shovel.name=Copper Shovel
+item.copper_sword.name=Copper Sword
+item.copper_axe.name=Copper Axe
+item.copper_pick.name=Copper Pick
 
 item.bronze_knife.name=Bronze Knife
 item.bronze_saw.name=Bronze Saw
 item.bronze_mattock.name=Bronze Mattock
+item.bronze_pick.name=Bronze Pick
+item.bronze_axe.name=Bronze Axe
+item.bronze_hoe.name=Bronze Hoe
+item.bronze_shovel.name=Bronze Shovel
+item.bronze_sword.name=Bronze Sword
 
 item.steel_knife.name=Steel Knife
 item.steel_saw.name=Steel Saw
 item.steel_mattock.name=Steel Mattock
+item.steel_pick.name=Steel Pick
+item.steel_axe.name=Steel Axe
+item.steel_hoe.name=Steel Hoe
+item.steel_shovel.name=Steel Shovel
+item.steel_sword.name=Steel Sword
 
 #Blocks
 
@@ -55,6 +82,7 @@ tile.firepit.name=Firepit
 tile.charcoal_pile.name=Charcoal Forge
 tile.wood_pile.name=Log Pile
 tile.bellows.name=Bellows
+tile.grindstone.name=Grindstone
 
 tile.andesite_cobblestone.name=Andesite Cobblestone
 tile.diorite_cobblestone.name=Diorite Cobblestone
@@ -70,6 +98,9 @@ tile.loose_rock.granite.name=Loose Rock (Granite)
 tile.loose_rock.marble.name=Loose Rock (Marble)
 tile.loose_rock.limestone.name=Loose Rock (Limestone)
 tile.loose_rock.slate.name=Loose Rock (Slate)
+
+tile.ore_tin.name=Tin Ore
+tile.ore_copper.name=Copper Ore
 
 #JEI
 
