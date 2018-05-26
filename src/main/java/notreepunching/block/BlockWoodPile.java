@@ -52,7 +52,7 @@ public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
     }
     @Override
     public void register(){
-        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, false);
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name);
     }
 
     @Override

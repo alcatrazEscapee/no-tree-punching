@@ -16,6 +16,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import notreepunching.NoTreePunching;
+import notreepunching.client.ModTabs;
 
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public class ItemMattock extends ItemAxe {
     }
 
     public void register(){
-        ModItems.addItemToRegistry(this,name,true);
+        ModItems.addItemToRegistry(this,name, ModTabs.TOOLS_TAB);
         NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 

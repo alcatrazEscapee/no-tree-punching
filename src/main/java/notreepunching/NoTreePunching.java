@@ -1,8 +1,6 @@
 package notreepunching;
 
-import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -11,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import notreepunching.client.CreativeTabBase;
+import notreepunching.client.ModTabs;
 import notreepunching.client.NTPGuiHandler;
 import notreepunching.config.ModConfig;
 import notreepunching.event.HarvestEventHandler;
@@ -32,8 +30,6 @@ public class NoTreePunching {
     public static final String MODID = "notreepunching";
     public static final String VERSION = "GRADLE:VERSION";
     public static final String actualName = "NoTreePunching";
-
-    public static final CreativeTabBase NTP_Tab = new CreativeTabBase(NoTreePunching.MODID);
 
     public static boolean replaceQuarkStones;
     public static boolean replaceRusticStone;
@@ -87,7 +83,8 @@ public class NoTreePunching {
         logger.info("Post-init started");
 
         ModRecipes.postInit();
-        NTP_Tab.setTabItem(ModItems.stoneKnife);
+        ModTabs.ITEMS_TAB.setTabItem(ModItems.rockStone);
+        ModTabs.TOOLS_TAB.setTabItem(ModItems.crudePick);
 
         logger.info("Finished Loading");
     }

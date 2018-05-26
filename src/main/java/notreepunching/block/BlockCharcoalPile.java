@@ -55,7 +55,7 @@ public class BlockCharcoalPile extends BlockBase {
 
     @Override
     public void register(){
-        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, false);
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name);
     }
 
     @Override

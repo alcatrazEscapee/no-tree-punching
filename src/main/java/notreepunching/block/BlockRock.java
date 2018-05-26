@@ -38,7 +38,7 @@ public class BlockRock extends BlockBase {
 
     @Override
     public void register(){
-        ModBlocks.addBlockToRegistry(this, new ItemMultiTexture(this, this ,this::getStoneName), name, false);
+        ModBlocks.addBlockToRegistry(this, new ItemMultiTexture(this, this ,this::getStoneName), name);
     }
     @Override
     public void addModelToRegistry(){

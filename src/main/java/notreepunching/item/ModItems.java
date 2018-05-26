@@ -7,9 +7,11 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
+import notreepunching.client.ModTabs;
 import notreepunching.config.ModConfig;
 import notreepunching.registry.RegistryHandler;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,11 +158,16 @@ public class ModItems {
 
     }
 
-    public static void addItemToRegistry(Item item, String name, boolean addToCreativeTab){
+    public static void addItemToRegistry(Item item, String name){
+        addItemToRegistry(item, name, null);
+    }
+    public static void addItemToRegistry(Item item, String name, @Nullable ModTabs tab){
         item.setUnlocalizedName(name);
         item.setRegistryName(name);
 
-        if(addToCreativeTab) { item.setCreativeTab(NoTreePunching.NTP_Tab); }
+        if(tab != null){
+            item.setCreativeTab(tab);
+        }
 
         RegistryHandler.ITEM_REGISTRY.add(item);
     }

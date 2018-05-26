@@ -9,7 +9,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import notreepunching.block.ModBlocks;
-import notreepunching.client.sound.ModSounds;
+import notreepunching.client.ModSounds;
 import notreepunching.network.ModNetwork;
 import notreepunching.network.PacketRequestBellows;
 import notreepunching.network.PacketUpdateBellows;

@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.block.BlockCharcoalPile;
 import notreepunching.block.ModBlocks;
 import notreepunching.block.tile.TileEntityWoodPile;
-import notreepunching.client.sound.ModSounds;
+import notreepunching.client.ModSounds;
 import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;

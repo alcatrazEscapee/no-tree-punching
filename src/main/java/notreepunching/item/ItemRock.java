@@ -13,6 +13,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import notreepunching.NoTreePunching;
 import notreepunching.block.BlockRock;
 import notreepunching.block.ModBlocks;
+import notreepunching.client.ModTabs;
 
 import javax.annotation.Nonnull;
 
@@ -29,7 +30,7 @@ public class ItemRock extends ItemBase {
 
     @Override
     public void register(){
-        ModItems.addItemToRegistry(this,name,true);
+        ModItems.addItemToRegistry(this,name, ModTabs.ITEMS_TAB);
         for(int i=0;i<7;i++) {
             if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
             if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }

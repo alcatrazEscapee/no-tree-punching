@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import notreepunching.NoTreePunching;
+import notreepunching.client.ModTabs;
 
 public class BlockBase extends Block implements IHasItemBlockModel {
 
@@ -20,7 +21,7 @@ public class BlockBase extends Block implements IHasItemBlockModel {
     }
 
     public void register(){
-        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, true);
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, ModTabs.ITEMS_TAB);
     }
     public void addModelToRegistry(){
         NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");

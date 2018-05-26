@@ -1,4 +1,4 @@
-package notreepunching.client.sound;
+package notreepunching.client;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;

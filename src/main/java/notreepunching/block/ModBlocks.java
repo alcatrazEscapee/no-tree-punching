@@ -3,8 +3,11 @@ package notreepunching.block;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import notreepunching.NoTreePunching;
+import notreepunching.client.ModTabs;
 import notreepunching.config.ModConfig;
 import notreepunching.registry.RegistryHandler;
+
+import javax.annotation.Nullable;
 
 public class ModBlocks {
 
@@ -56,12 +59,17 @@ public class ModBlocks {
 
     }
 
-    public static void addBlockToRegistry(Block block, ItemBlock itemBlock, String name, boolean addToCreativeTab){
+    public static void addBlockToRegistry(Block block, ItemBlock itemBlock, String name){
+        addBlockToRegistry(block, itemBlock, name, null);
+    }
+    public static void addBlockToRegistry(Block block, ItemBlock itemBlock, String name, @Nullable ModTabs tab){
         block.setRegistryName(name);
         block.setUnlocalizedName(name);
         itemBlock.setRegistryName(name);
 
-        if(addToCreativeTab) { block.setCreativeTab(NoTreePunching.NTP_Tab); }
+        if(tab != null){
+            block.setCreativeTab(tab);
+        }
 
         RegistryHandler.BLOCK_REGISTRY.add(block);
         RegistryHandler.ITEM_REGISTRY.add(itemBlock);

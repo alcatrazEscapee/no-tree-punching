@@ -3,6 +3,7 @@ package notreepunching.item;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import notreepunching.NoTreePunching;
+import notreepunching.client.ModTabs;
 
 import javax.annotation.Nonnull;
 
@@ -22,7 +23,7 @@ public class ItemCrudeAxe extends ItemAxe {
     }
 
     public void register(){
-        ModItems.addItemToRegistry(this,name,true);
+        ModItems.addItemToRegistry(this,name, ModTabs.TOOLS_TAB);
         NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 
