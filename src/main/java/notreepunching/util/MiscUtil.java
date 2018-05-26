@@ -41,4 +41,32 @@ public class MiscUtil {
     public static EnumHand getOtherHand(EnumHand hand){
         return hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
     }
+
+    // Gets the temperature for different metals (ore dictionary name)
+    // This is roughly based on actual melting temperature (in C)
+    // Actual melting temperature (via google) is in comment
+    public static int getMetalForgeTemperature(String name){
+        switch(name){
+            case "tin":
+                return 300; // 231.9
+            case "lead":
+                return 400; // 327.5
+            case "zinc":
+                return 400; // 419.5
+            case "aluminium":
+                return 700; // 660.3
+            case "silver":
+                return 900; // 961.8
+            case "copper":
+                return 1000; // 1085.0
+            case "gold":
+                return 1100; // 1064.0
+            case "nickel":
+                return 1400; // 1455.0
+            case "iron":
+                return 1500; // 1538.0
+            default:
+                return 1500;
+        }
+    }
 }

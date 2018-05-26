@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.util.ItemUtil;
+import notreepunching.util.MiscUtil;
 
 import java.util.*;
 
@@ -29,7 +30,7 @@ public class ForgeRecipeHandler {
                 if(OreDictionary.doesOreNameExist("ingot"+oreName.substring(3))){
                     NonNullList<ItemStack> oreList = OreDictionary.getOres("ingot"+oreName.substring(3));
                     if(oreList.isEmpty()) continue;
-                    FORGE_RECIPES.add(new ForgeRecipe(oreList.get(0),oreName,1000));
+                    FORGE_RECIPES.add(new ForgeRecipe(oreList.get(0),oreName, MiscUtil.getMetalForgeTemperature(oreName.substring(3).toLowerCase())));
                 }
             }
         }

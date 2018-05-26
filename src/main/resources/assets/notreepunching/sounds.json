@@ -3,10 +3,28 @@
     "category": "block",
     "subtitle": "notreepunching.subtitle.knapping",
     "sounds": [
-      "notreepunching:knapping_1",
-      "notreepunching:knapping_2",
-      "notreepunching:knapping_3",
-      "notreepunching:knapping_4"
+      "notreepunching:knapping/1",
+      "notreepunching:knapping/2",
+      "notreepunching:knapping/3",
+      "notreepunching:knapping/4"
+    ]
+  },
+  "bellows_out": {
+    "category": "block",
+    "subtitle": "notreepunching.subtitle.bellows",
+    "sounds": [
+      "notreepunching:bellows/out_1",
+      "notreepunching:bellows/out_2",
+      "notreepunching:bellows/out_3"
+    ]
+  },
+  "bellows_in": {
+    "category": "block",
+    "subtitle": "notreepunching.subtitle.bellows",
+    "sounds": [
+      "notreepunching:bellows/in_1",
+      "notreepunching:bellows/in_2",
+      "notreepunching:bellows/in_3"
     ]
   }
 }

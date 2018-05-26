@@ -1,5 +1,6 @@
 package notreepunching.block.tile;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,8 @@ import java.util.Random;
 import static notreepunching.block.BlockForge.BURNING;
 import static notreepunching.block.BlockForge.LAYERS;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class TileEntityForge extends TileEntityInventory implements ITickable, IHasFields {
 
     private int burnTicks;
@@ -27,6 +30,7 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     private int temperature;
     private int minTemperature;
     private int maxTemperature;
+    private int airTicks;
     private final int maxTemp;
 
     public boolean closed;
@@ -103,6 +107,11 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
             // One piece of charcoal provides 80s of fuel
             maxTemperature = burning ? 1000 : 0;
             if(!closed){ maxTemperature = 500; }
+            // Update Air ticks
+            if(airTicks > 0){
+                airTicks--;
+                maxTemperature *= 1.5;
+            }
 
             // Adjust temperature towards maxTemp
             if(temperature > maxTemperature){
@@ -148,7 +157,11 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
         }
     }
 
-    private void cookStacks(@Nonnull ForgeRecipe recipe){
+    public void setAirTimer(){
+        this.airTicks = 40;
+    }
+
+    private void cookStacks(ForgeRecipe recipe){
         if(!world.isRemote) {
 
             ItemStack inStack = inventory.getStackInSlot(IN_SLOT);
@@ -162,7 +175,6 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
         return (oldState.getBlock() != newState.getBlock());
     }
@@ -230,7 +242,6 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     // ************** NBT METHODS ************* //
 
     @Override
-    @Nonnull
     protected NBTTagCompound writeNBT(NBTTagCompound compound) {
         compound.setInteger("burn_ticks", burnTicks);
         compound.setInteger("cook_ticks",cookTicks);
@@ -238,6 +249,7 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
         compound.setBoolean("cooking", cooking);
         compound.setInteger("min_temperature", minTemperature);
         compound.setBoolean("closed", closed);
+        compound.setInteger("air_ticks", airTicks);
         return compound;
     }
 
@@ -249,5 +261,6 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
         cooking = compound.getBoolean("cooking");
         minTemperature = compound.getInteger("min_temperature");
         closed = compound.getBoolean("closed");
+        airTicks = compound.getInteger("air_ticks");
     }
 }

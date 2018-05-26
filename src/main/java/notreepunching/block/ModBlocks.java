@@ -27,8 +27,6 @@ public class ModBlocks {
     public static BlockOreBase oreCopper;
     public static BlockOreBase oreTin;
 
-    public static BlockTuyere blockTuyere;
-
     public static void init(){
         looseRock = new BlockRock("loose_rock");
 
@@ -54,7 +52,6 @@ public class ModBlocks {
         oreCopper = new BlockOreBase("ore_copper");
         oreTin = new BlockOreBase("ore_tin");
 
-        blockTuyere = new BlockTuyere("block_tuyere");
     }
 
     public static void addBlockToRegistry(Block block, ItemBlock itemBlock, String name, boolean addToCreativeTab){

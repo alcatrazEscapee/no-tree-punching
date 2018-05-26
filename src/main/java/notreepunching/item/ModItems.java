@@ -52,7 +52,6 @@ public class ModItems {
     public static ItemCrudeHoe crudeHoe;
 
     public static ItemFirestarter firestarter;
-    public static ItemTuyere tuyere;
 
     public static ItemBase ingotTin;
     public static ItemBase ingotCopper;
@@ -69,7 +68,6 @@ public class ModItems {
         flintShard = new ItemBase("flint_shard");
 
         firestarter = new ItemFirestarter("firestarter");
-        tuyere = new ItemTuyere("tuyere");
 
         ingotBronze = new ItemBase("ingot_bronze");
         ingotTin = new ItemBase("ingot_tin");
@@ -188,6 +186,9 @@ public class ModItems {
         OreDictionary.registerOre("dustCopper", new ItemStack(dustCopper));
         OreDictionary.registerOre("dustTin", new ItemStack(dustTin));
         OreDictionary.registerOre("dustBronze", new ItemStack(dustBronze));
+
+        OreDictionary.registerOre("oreCopper", new ItemStack(ModBlocks.oreCopper));
+        OreDictionary.registerOre("oreTin", new ItemStack(ModBlocks.oreTin));
     }
 }
 

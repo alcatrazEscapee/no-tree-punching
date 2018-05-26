@@ -1,8 +1,11 @@
 package notreepunching.registry;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.audio.Sound;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -12,6 +15,7 @@ import notreepunching.block.ModBlocks;
 import notreepunching.block.tile.IHasTileEntity;
 import notreepunching.block.tile.TileEntityFirepit;
 import notreepunching.block.tile.TileEntityForge;
+import notreepunching.client.sound.ModSounds;
 import notreepunching.item.ModItems;
 import notreepunching.recipe.ModRecipes;
 
@@ -23,6 +27,7 @@ public class RegistryHandler {
 
     public static final List<Item> ITEM_REGISTRY = new ArrayList<Item>();
     public static final List<Block> BLOCK_REGISTRY = new ArrayList<Block>();
+    public static final List<SoundEvent> SOUND_REGISTRY = new ArrayList<SoundEvent>();
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
@@ -42,18 +47,22 @@ public class RegistryHandler {
         for(Block block : BLOCK_REGISTRY){
             event.getRegistry().register(block);
             if(block instanceof IHasTileEntity){
-                GameRegistry.registerTileEntity(((IHasTileEntity) block).getTileEntityClass(), NoTreePunching.MODID+"_"+block.getUnlocalizedName());
+                GameRegistry.registerTileEntity(((IHasTileEntity<?>)block).getTileEntityClass(), NoTreePunching.MODID+"_"+block.getUnlocalizedName());
             }
         }
-
-        //GameRegistry.registerTileEntity(TileEntityFirepit.class, "notreepunching_firepit");
-        //GameRegistry.registerTileEntity(TileEntityForge.class, "notreepunching_forge");
-
-        //ModBlocks.registerBlocks(event);
     }
 
     @SubscribeEvent
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
         ModRecipes.removeVanillaRecipes(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public static void registerSoundEvents(RegistryEvent.Register<SoundEvent> event) {
+        ModSounds.init();
+
+        for(SoundEvent sound : SOUND_REGISTRY){
+            event.getRegistry().register(sound);
+        }
     }
 }

@@ -89,6 +89,11 @@ notreepunching.jei.category.knife_recipe=Knife Cutting
 notreepunching.jei.category.firepit_recipe=Firepit
 notreepunching.jei.category.forge_recipe=Charcoal Forge
 
+# Sound Subtitles
+
+notreepunching.subtitle.knapping=Stone taps
+notreepunching.subtitle.bellows=Bellows wheeze
+
 
 
 

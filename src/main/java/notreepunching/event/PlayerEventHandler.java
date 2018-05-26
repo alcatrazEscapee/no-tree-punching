@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.block.BlockCharcoalPile;
 import notreepunching.block.ModBlocks;
 import notreepunching.block.tile.TileEntityWoodPile;
-import notreepunching.client.sound.Sounds;
+import notreepunching.client.sound.ModSounds;
 import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
@@ -70,7 +70,7 @@ public class PlayerEventHandler {
                             player.setHeldItem(event.getHand(), ItemUtil.consumeItem(stack));
                         }
                     }
-                    world.playSound(null,pos, Sounds.FLINT_KNAPPING, SoundCategory.BLOCKS,0.5F,1.0F);
+                    world.playSound(null,pos, ModSounds.flintKnapping, SoundCategory.BLOCKS,1.0F,1.0F);
                 }
             }
         }
