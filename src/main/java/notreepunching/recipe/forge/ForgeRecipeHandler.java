@@ -3,9 +3,12 @@ package notreepunching.recipe.forge;
 import com.google.common.collect.LinkedListMultimap;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
+import notreepunching.NoTreePunching;
+import notreepunching.block.ModBlocks;
 import notreepunching.util.ItemUtil;
 import notreepunching.util.MiscUtil;
 
@@ -19,6 +22,22 @@ public class ForgeRecipeHandler {
     public static void init(){
         FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Items.NETHERBRICK), new ItemStack(Blocks.NETHERRACK),400));
         FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Items.BRICK), new ItemStack(Items.CLAY_BALL),400));
+
+        FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.GLASS), new ItemStack(Blocks.SAND,1,0), 300));
+        FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STAINED_GLASS,1, EnumDyeColor.RED.getMetadata()), new ItemStack(Blocks.SAND, 1,1), 300));
+
+        FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE,1,0), new ItemStack(Blocks.COBBLESTONE), 500));
+        FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE,1,1), new ItemStack(ModBlocks.graniteCobble), 500));
+        FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE,1,3), new ItemStack(ModBlocks.dioriteCobble), 500));
+        FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE,1,5), new ItemStack(ModBlocks.andesiteCobble), 500));
+
+        if(NoTreePunching.replaceQuarkStones){
+            FORGE_RECIPES.add(new ForgeRecipe(ItemUtil.getSafeItem("quark:marble"), new ItemStack(ModBlocks.marbleCobble), 500));
+            FORGE_RECIPES.add(new ForgeRecipe(ItemUtil.getSafeItem("quark:limestone"), new ItemStack(ModBlocks.limestoneCobble), 500));
+        }
+        if(NoTreePunching.replaceRusticStone){
+            FORGE_RECIPES.add(new ForgeRecipe(ItemUtil.getSafeItem("rustic:slate"), new ItemStack(ModBlocks.slateCobble), 500));
+        }
     }
 
     public static void postInit(){
