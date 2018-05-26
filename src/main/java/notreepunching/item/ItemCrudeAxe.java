@@ -4,6 +4,8 @@ import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import notreepunching.NoTreePunching;
 
+import javax.annotation.Nonnull;
+
 public class ItemCrudeAxe extends ItemAxe {
 
     public String name;
@@ -24,10 +26,14 @@ public class ItemCrudeAxe extends ItemAxe {
         NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 
+    @Nonnull
     @Override
-    public ItemStack getContainerItem(ItemStack stack){
+    public ItemStack getContainerItem(@Nonnull ItemStack stack){
         ItemStack copy = stack.copy();
         copy.setItemDamage(copy.getItemDamage()+1);
+        if(copy.getItemDamage() == copy.getMaxDamage()){
+            copy = ItemStack.EMPTY;
+        }
         return copy;
     }
 

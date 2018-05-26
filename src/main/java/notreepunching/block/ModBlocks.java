@@ -23,6 +23,7 @@ public class ModBlocks {
     public static BlockForge forge;
     public static BlockWoodPile woodPile;
     public static BlockBellows bellows;
+    public static BlockGrindstone grindstone;
 
     public static BlockOreBase oreCopper;
     public static BlockOreBase oreTin;
@@ -48,6 +49,7 @@ public class ModBlocks {
         forge = new BlockForge("forge");
         woodPile = new BlockWoodPile("wood_pile");
         bellows = new BlockBellows("bellows");
+        grindstone = new BlockGrindstone("grindstone");
 
         oreCopper = new BlockOreBase("ore_copper");
         oreTin = new BlockOreBase("ore_tin");

@@ -41,6 +41,9 @@ public class ModConfig {
         @Comment({"Disable Furnace ore smelting recipes, forcing the use of the forge"})
         public static boolean DISABLE_SMELTING_ORE = true;
 
+        @Comment({"Alternate recipes for various blocks and items using NTP materials (generally slightly harder)"})
+        public static boolean COOLER_RECIPES = true;
+
     }
 
     public static Balance balance;

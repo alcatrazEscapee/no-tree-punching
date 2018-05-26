@@ -3,15 +3,16 @@ package notreepunching.item;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
+import notreepunching.config.ModConfig;
 import notreepunching.registry.RegistryHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static notreepunching.NoTreePunching.addSteelTools;
 import static notreepunching.NoTreePunching.replaceQuarkStones;
 import static notreepunching.NoTreePunching.replaceRusticStone;
 
@@ -47,19 +48,46 @@ public class ModItems {
     public static ItemMattock steelMattock;
 
     public static ItemCrudeAxe crudeHatchet;
-    public static ItemCrudePick crudePick;
-    public static ItemCrudeShovel crudeShovel;
-    public static ItemCrudeHoe crudeHoe;
+    public static ItemAxeBase copperAxe;
+    public static ItemAxeBase bronzeAxe;
+    public static ItemAxeBase steelAxe;
+
+    public static ItemSwordBase copperSword;
+    public static ItemSwordBase bronzeSword;
+    public static ItemSwordBase steelSword;
+
+    public static ItemPickBase crudePick;
+    public static ItemPickBase copperPick;
+    public static ItemPickBase bronzePick;
+    public static ItemPickBase steelPick;
+
+    public static ItemShovelBase crudeShovel;
+    public static ItemShovelBase copperShovel;
+    public static ItemShovelBase bronzeShovel;
+    public static ItemShovelBase steelShovel;
+
+    public static ItemHoeBase crudeHoe;
+    public static ItemHoeBase copperHoe;
+    public static ItemHoeBase bronzeHoe;
+    public static ItemHoeBase steelHoe;
 
     public static ItemFirestarter firestarter;
 
     public static ItemBase ingotTin;
     public static ItemBase ingotCopper;
     public static ItemBase ingotBronze;
+    public static ItemBase ingotSteel;
     public static ItemBase dustTin;
     public static ItemBase dustCopper;
     public static ItemBase dustBronze;
     public static ItemBase dustIron;
+    public static ItemBase dustSteel;
+    public static ItemBase gearWood;
+
+    private static Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", ModConfig.Balance.FLINT_MINING_LEVEL,45,2.5F,0.5F,0);
+    private static Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", ModConfig.Balance.COPPER_MINING_LEVEL,180,4F,1.5F,6);
+    private static Item.ToolMaterial toolMaterialBronze = EnumHelper.addToolMaterial("NTP_BRONZE", ModConfig.Balance.BRONZE_MINING_LEVEL,350,8F,2.5F,8);
+    private static Item.ToolMaterial toolMaterialSteel = EnumHelper.addToolMaterial("NTP_STEEL", ModConfig.Balance.STEEL_MINING_LEVEL,1400,11F,3.0F,10);
 
     public static void init(){
         rockStone = new ItemRock("rock");
@@ -72,18 +100,20 @@ public class ModItems {
         ingotBronze = new ItemBase("ingot_bronze");
         ingotTin = new ItemBase("ingot_tin");
         ingotCopper = new ItemBase("ingot_copper");
+        ingotSteel = new ItemBase("ingot_steel");
         dustBronze = new ItemBase("dust_bronze");
         dustCopper = new ItemBase("dust_copper");
         dustTin = new ItemBase("dust_tin");
         dustIron = new ItemBase("dust_iron");
+        dustSteel = new ItemBase("dust_steel");
+        gearWood = new ItemBase("gear_wood");
 
         // TOOLS
-
-        stoneKnife = new ItemKnife(NoTreePunching.toolMaterialFlint,"stone_knife");
-        crudeHatchet = new ItemCrudeAxe(NoTreePunching.toolMaterialFlint,"crude_axe");
-        crudePick = new ItemCrudePick(NoTreePunching.toolMaterialFlint,"crude_pick");
-        crudeShovel = new ItemCrudeShovel(NoTreePunching.toolMaterialFlint, "crude_shovel");
-        crudeHoe = new ItemCrudeHoe(NoTreePunching.toolMaterialFlint, "crude_hoe");
+        stoneKnife = new ItemKnife(toolMaterialFlint,"stone_knife");
+        crudeHatchet = new ItemCrudeAxe(toolMaterialFlint,"crude_axe");
+        crudePick = new ItemPickBase(toolMaterialFlint,"crude_pick");
+        crudeShovel = new ItemShovelBase(toolMaterialFlint, "crude_shovel");
+        crudeHoe = new ItemHoeBase(toolMaterialFlint, "crude_hoe");
 
         ironKnife = new ItemKnife(Item.ToolMaterial.IRON,"iron_knife");
         ironMattock = new ItemMattock(Item.ToolMaterial.IRON,"iron_mattock");
@@ -97,20 +127,32 @@ public class ModItems {
         diamondMattock = new ItemMattock(Item.ToolMaterial.DIAMOND,"diamond_mattock");
         diamondSaw = new ItemSaw(Item.ToolMaterial.DIAMOND,"diamond_saw");
 
-        copperKnife = new ItemKnife(NoTreePunching.toolMaterialCopper,"copper_knife");
-        copperSaw = new ItemSaw(NoTreePunching.toolMaterialCopper,"copper_saw");
-        copperMattock = new ItemMattock(NoTreePunching.toolMaterialCopper,"copper_mattock");
+        copperKnife = new ItemKnife(toolMaterialCopper,"copper_knife");
+        copperSaw = new ItemSaw(toolMaterialCopper,"copper_saw");
+        copperMattock = new ItemMattock(toolMaterialCopper,"copper_mattock");
+        copperPick = new ItemPickBase(toolMaterialCopper, "copper_pick");
+        copperAxe = new ItemAxeBase(toolMaterialCopper, "copper_axe");
+        copperHoe = new ItemHoeBase(toolMaterialCopper, "copper_hoe");
+        copperShovel = new ItemShovelBase(toolMaterialCopper, "copper_shovel");
+        copperSword = new ItemSwordBase(toolMaterialCopper, "copper_sword");
 
-        bronzeKnife = new ItemKnife(NoTreePunching.toolMaterialBronze,"bronze_knife");
-        bronzeSaw = new ItemSaw(NoTreePunching.toolMaterialBronze, "bronze_saw");
-        bronzeMattock = new ItemMattock(NoTreePunching.toolMaterialBronze, "bronze_mattock");
+        bronzeKnife = new ItemKnife(toolMaterialBronze,"bronze_knife");
+        bronzeSaw = new ItemSaw(toolMaterialBronze, "bronze_saw");
+        bronzeMattock = new ItemMattock(toolMaterialBronze, "bronze_mattock");
+        bronzePick = new ItemPickBase(toolMaterialBronze, "bronze_pick");
+        bronzeAxe = new ItemAxeBase(toolMaterialBronze, "bronze_axe");
+        bronzeHoe = new ItemHoeBase(toolMaterialBronze, "bronze_hoe");
+        bronzeShovel = new ItemShovelBase(toolMaterialBronze, "bronze_shovel");
+        bronzeSword = new ItemSwordBase(toolMaterialBronze, "bronze_sword");
 
-        addSteelTools = OreDictionary.doesOreNameExist("ingotSteel");
-        if(addSteelTools){
-            steelKnife = new ItemKnife(NoTreePunching.toolMaterialSteel, "steel_knife");
-            steelSaw = new ItemSaw(NoTreePunching.toolMaterialSteel, "steel_saw");
-            steelMattock = new ItemMattock(NoTreePunching.toolMaterialSteel, "steel_mattock");
-        }
+        steelKnife = new ItemKnife(toolMaterialSteel, "steel_knife");
+        steelSaw = new ItemSaw(toolMaterialSteel, "steel_saw");
+        steelMattock = new ItemMattock(toolMaterialSteel, "steel_mattock");
+        steelPick = new ItemPickBase(toolMaterialSteel, "steel_pick");
+        steelAxe = new ItemAxeBase(toolMaterialSteel, "steel_axe");
+        steelHoe = new ItemHoeBase(toolMaterialSteel, "steel_hoe");
+        steelShovel = new ItemShovelBase(toolMaterialSteel, "steel_shovel");
+        steelSword = new ItemSwordBase(toolMaterialSteel, "steel_sword");
 
     }
 
@@ -131,7 +173,7 @@ public class ModItems {
         array.add(new ItemStack(diamondKnife));
         array.add(new ItemStack(copperKnife));
         array.add(new ItemStack(bronzeKnife));
-        if(addSteelTools) { array.add(new ItemStack(steelKnife)); }
+        array.add(new ItemStack(steelKnife));
         return array;
     }
     public static List<ItemStack> listAllMattocks(){
@@ -141,7 +183,7 @@ public class ModItems {
         array.add(new ItemStack(diamondMattock));
         array.add(new ItemStack(copperMattock));
         array.add(new ItemStack(bronzeMattock));
-        if(addSteelTools) { array.add(new ItemStack(steelMattock)); }
+        array.add(new ItemStack(steelMattock));
         return array;
     }
 
@@ -152,7 +194,7 @@ public class ModItems {
         array.add(new ItemStack(diamondSaw));
         array.add(new ItemStack(copperSaw));
         array.add(new ItemStack(bronzeSaw));
-        if(addSteelTools) { array.add(new ItemStack(steelSaw)); }
+        array.add(new ItemStack(steelSaw));
         return array;
     }
 
@@ -162,7 +204,7 @@ public class ModItems {
         OreDictionary.registerOre("toolSaw", new ItemStack(goldSaw,1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("toolSaw",new ItemStack(copperSaw,1,OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("toolSaw",new ItemStack(bronzeSaw,1,OreDictionary.WILDCARD_VALUE));
-        if(addSteelTools) { OreDictionary.registerOre("toolSaw",new ItemStack(steelSaw,1,OreDictionary.WILDCARD_VALUE)); }
+        OreDictionary.registerOre("toolSaw",new ItemStack(steelSaw,1,OreDictionary.WILDCARD_VALUE));
 
         OreDictionary.registerOre("string", new ItemStack(Items.STRING));
         OreDictionary.registerOre("string", new ItemStack(ModItems.grassString));
@@ -181,13 +223,17 @@ public class ModItems {
         OreDictionary.registerOre("ingotCopper", new ItemStack(ingotCopper));
         OreDictionary.registerOre("ingotTin", new ItemStack(ingotTin));
         OreDictionary.registerOre("ingotBronze", new ItemStack(ingotBronze));
+        OreDictionary.registerOre("ingotSteel", new ItemStack(ingotSteel));
         OreDictionary.registerOre("dustIron", new ItemStack(dustIron));
         OreDictionary.registerOre("dustCopper", new ItemStack(dustCopper));
         OreDictionary.registerOre("dustTin", new ItemStack(dustTin));
         OreDictionary.registerOre("dustBronze", new ItemStack(dustBronze));
+        OreDictionary.registerOre("dustSteel", new ItemStack(dustSteel));
 
         OreDictionary.registerOre("oreCopper", new ItemStack(ModBlocks.oreCopper));
         OreDictionary.registerOre("oreTin", new ItemStack(ModBlocks.oreTin));
+
+        OreDictionary.registerOre("gearWood", new ItemStack(gearWood));
     }
 }
 

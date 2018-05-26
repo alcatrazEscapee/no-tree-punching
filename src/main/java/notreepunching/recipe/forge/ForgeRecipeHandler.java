@@ -9,6 +9,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
+import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
 import notreepunching.util.MiscUtil;
 
@@ -38,6 +39,7 @@ public class ForgeRecipeHandler {
         if(NoTreePunching.replaceRusticStone){
             FORGE_RECIPES.add(new ForgeRecipe(ItemUtil.getSafeItem("rustic:slate"), new ItemStack(ModBlocks.slateCobble), 500));
         }
+
     }
 
     public static void postInit(){
@@ -47,9 +49,17 @@ public class ForgeRecipeHandler {
             if(oreName.length()<=3) continue;
             if(oreName.substring(0,3).equals("ore")){
                 if(OreDictionary.doesOreNameExist("ingot"+oreName.substring(3))){
-                    NonNullList<ItemStack> oreList = OreDictionary.getOres("ingot"+oreName.substring(3));
-                    if(oreList.isEmpty()) continue;
-                    FORGE_RECIPES.add(new ForgeRecipe(oreList.get(0),oreName, MiscUtil.getMetalForgeTemperature(oreName.substring(3).toLowerCase())));
+                    NonNullList<ItemStack> ingotList = OreDictionary.getOres("ingot"+oreName.substring(3));
+                    if(ingotList.isEmpty()) continue;
+                    // Ore --> Ingot Recipe
+                    FORGE_RECIPES.add(new ForgeRecipe(ingotList.get(0),oreName, MiscUtil.getMetalForgeTemperature(oreName.substring(3).toLowerCase())));
+
+                    if(OreDictionary.doesOreNameExist("dust"+oreName.substring(3))){
+                        NonNullList<ItemStack> dustList = OreDictionary.getOres("dust"+oreName.substring(3));
+                        if(dustList.isEmpty()) continue;
+                        // Dust --> Ingot Recipe
+                        FORGE_RECIPES.add(new ForgeRecipe(ingotList.get(0), "dust"+oreName.substring(3), MiscUtil.getMetalForgeTemperature(oreName.substring(3).toLowerCase())));
+                    }
                 }
             }
         }

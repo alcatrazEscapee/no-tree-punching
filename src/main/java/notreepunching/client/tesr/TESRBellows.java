@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import notreepunching.NoTreePunching;
 import notreepunching.block.tile.TileEntityBellows;
@@ -12,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
 
-public class TESRBellows extends TileEntitySpecialRenderer<TileEntityBellows> {
+public class TESRBellows extends TESRBase<TileEntityBellows> {
 
     private static final ResourceLocation texture = new ResourceLocation(NoTreePunching.MODID+":textures/tesr/bellows.png");
 
@@ -47,7 +48,7 @@ public class TESRBellows extends TileEntitySpecialRenderer<TileEntityBellows> {
     }
 
     private void drawMiddle(BufferBuilder b, double y){
-        double[][] sides = drawBoxByVertex(0.125, 0.875, y, 0.875, 0.125, 0.125);
+        double[][] sides = getVerticesBySide(0.125, 0.875, y, 0.875, 0.125, 0.125, "xy");
 
         for (double [] v : sides) {
             b.pos(v[0], v[1], v[2]).tex(v[3]*0.5, v[4]*0.5).endVertex();
@@ -55,8 +56,8 @@ public class TESRBellows extends TileEntitySpecialRenderer<TileEntityBellows> {
     }
 
     private void drawTop(BufferBuilder b, double y){
-        double[][] sides = drawBoxByVertex(0, 1, 0.125+y, 1, 0, y);
-        double[][] tops = drawCubeByVertex(0, 1, 0.125+y, 1, 0, y);
+        double[][] sides = getVerticesBySide(0, 1, 0.125+y, 1, 0, y,"xy");
+        double[][] tops = getVerticesBySide(0, 1, 0.125+y, 1, 0, y, "z");
 
         for (double [] v : sides) {
             b.pos(v[0], v[1], v[2]).tex(v[3]*0.5+0.5, v[4]*0.0625+0.5).endVertex();
@@ -69,43 +70,5 @@ public class TESRBellows extends TileEntitySpecialRenderer<TileEntityBellows> {
     @Override
     public boolean isGlobalRenderer(TileEntityBellows te) {
         return false;
-    }
-
-    private double[][] drawBoxByVertex(double minX, double minY, double minZ, double maxX, double maxY, double maxZ){
-        return new double[][] {
-                {minX, maxY, minZ, 0, 1}, // Top
-                {minX, maxY, maxZ, 1, 1},
-                {maxX, maxY, maxZ, 1, 0},
-                {maxX, maxY, minZ, 0, 0},
-
-                {minX, minY, maxZ, 0, 1}, // Bottom
-                {minX, minY, minZ, 1, 1},
-                {maxX, minY, minZ, 1, 0},
-                {maxX, minY, maxZ, 0, 0},
-
-                {minX, minY, minZ, 0, 1}, // Main +X Side
-                {minX, minY, maxZ, 1, 1},
-                {minX, maxY, maxZ, 1, 0},
-                {minX, maxY, minZ, 0, 0},
-
-                {maxX, minY, maxZ, 0, 1}, // Main -X Side
-                {maxX, minY, minZ, 1, 1},
-                {maxX, maxY, minZ, 1, 0},
-                {maxX, maxY, maxZ, 0, 0}
-        };
-    }
-
-    private double[][] drawCubeByVertex(double minX, double minY, double minZ, double maxX, double maxY, double maxZ){
-        return new double[][] {
-                {maxX, minY, minZ, 0, 1}, // Main +Z Side
-                {minX, minY, minZ, 1, 1},
-                {minX, maxY, minZ, 1, 0},
-                {maxX, maxY, minZ, 0, 0},
-
-                {minX, minY, maxZ, 0, 1}, // Main -Z Side
-                {maxX, minY, maxZ, 1, 1},
-                {maxX, maxY, maxZ, 1, 0},
-                {minX, maxY, maxZ, 0, 0}
-        };
     }
 }

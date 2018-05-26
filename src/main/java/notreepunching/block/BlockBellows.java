@@ -9,21 +9,27 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import notreepunching.block.tile.IHasTESR;
 import notreepunching.block.tile.IHasTileEntity;
 import notreepunching.block.tile.TileEntityBellows;
+import notreepunching.client.tesr.TESRBellows;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 @MethodsReturnNonnullByDefault
-public class BlockBellows extends BlockWithTileEntity<TileEntityBellows> implements IHasTileEntity<TileEntityBellows> {
+@ParametersAreNonnullByDefault
+public class BlockBellows extends BlockWithTileEntity<TileEntityBellows> implements IHasTESR<TileEntityBellows, TESRBellows> {
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
@@ -42,6 +48,10 @@ public class BlockBellows extends BlockWithTileEntity<TileEntityBellows> impleme
     @Override
     public TileEntityBellows createTileEntity(World world, IBlockState state) {
         return new TileEntityBellows(state.getValue(FACING));
+    }
+    @Override
+    public TESRBellows getTESR(){
+        return new TESRBellows();
     }
 
     @Override

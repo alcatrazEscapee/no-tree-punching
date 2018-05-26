@@ -1,0 +1,26 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"WWW",
+		"LLL",
+		"WGW"
+	],
+	"key": {
+		"G": {
+			"type": "forge:ore_dict",
+			"ore": "gearWood"
+		},
+		"W": {
+			"type": "forge:ore_dict",
+			"ore": "plankWood"
+		},
+		"L": {
+			"type": "forge:ore_dict",
+			"ore": "leather"
+		}
+	},
+	"result": {
+		"item": "notreepunching:bellows",
+		"data": 0
+	}
+}

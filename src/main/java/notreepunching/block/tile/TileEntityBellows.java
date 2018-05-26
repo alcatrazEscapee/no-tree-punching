@@ -78,7 +78,6 @@ public class TileEntityBellows extends TileEntity implements ITickable{
     private void updateForges(){
         if(!world.isRemote) {
             BlockPos forgePos = getPos().offset(EnumFacing.getHorizontal(facing)).down();
-            System.out.println("BLOWING FORGES AT " + forgePos);
 
             IBlockState state = world.getBlockState(forgePos);
             if (state.getBlock() != ModBlocks.forge) return;

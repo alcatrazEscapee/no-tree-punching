@@ -1,0 +1,23 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"SPS",
+		"P P",
+		"SPS"
+	],
+	"key": {
+		"S": {
+			"type": "forge:ore_dict",
+			"ore": "stickWood"
+		},
+		"P": {
+			"type": "forge:ore_dict",
+			"ore": "plankWood"
+		}
+	},
+	"result": {
+		"item": "notreepunching:gear_wood",
+		"data": 0,
+		"count": 2
+	}
+}

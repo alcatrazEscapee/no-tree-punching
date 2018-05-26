@@ -103,10 +103,19 @@ public class ModRecipes {
         if(NoTreePunching.replaceRusticStone){
             registerShaped(new ItemStack(ModBlocks.slateCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone,1,6));
         }
-        if(NoTreePunching.addSteelTools) {
-            registerShaped(new ItemStack(ModItems.steelKnife),"I","H",'I',"ingotSteel",'H',"stickWood");
-            registerShaped(new ItemStack(ModItems.steelMattock),"III","IH "," H ",'I',"ingotSteel",'H',"stickWood");
-            registerShaped(new ItemStack(ModItems.steelSaw)," HI","HI ","H  ",'I',"ingotSteel",'H',"stickWood");
+        // TODO: Move these to json recipes
+        // TODO: Add the other 15 tool recipes
+        registerShaped(new ItemStack(ModItems.steelKnife),"I","H",'I',"ingotSteel",'H',"stickWood");
+        registerShaped(new ItemStack(ModItems.steelMattock),"III","IH "," H ",'I',"ingotSteel",'H',"stickWood");
+        registerShaped(new ItemStack(ModItems.steelSaw)," HI","HI ","H  ",'I',"ingotSteel",'H',"stickWood");
+
+        // Cooler recipes
+        if(ModConfig.VanillaTweaks.COOLER_RECIPES){
+            registerShaped(new ItemStack(Blocks.LEVER), "RGS",'S',"stickWood",'G',"gearWood",'R',"cobblestone");
+            registerShaped(new ItemStack(Blocks.STONE_BUTTON),"GS",'G',"gearWood",'S',"stone");
+            registerShaped(new ItemStack(Blocks.WOODEN_BUTTON), "GS",'G',"gearWood",'S',"plankWood");
+            registerShaped(new ItemStack(Blocks.WOODEN_PRESSURE_PLATE), "SGS",'G',"gearWood",'S',"plankWood");
+            registerShaped(new ItemStack(Blocks.STONE_PRESSURE_PLATE), "SGS",'G',"gearWood",'S',"cobblestone");
         }
 
     }
@@ -194,6 +203,14 @@ public class ModRecipes {
                 modRegistry.remove(new ResourceLocation("biomesoplenty:ebony_planks"));
                 modRegistry.remove(new ResourceLocation("biomesoplenty:eucalyptus_planks"));
             }
+        }
+
+        if(ModConfig.VanillaTweaks.COOLER_RECIPES){
+            modRegistry.remove(new ResourceLocation("minecraft:lever"));
+            modRegistry.remove(new ResourceLocation("minecraft:wooden_button"));
+            modRegistry.remove(new ResourceLocation("minecraft:stone_button"));
+            modRegistry.remove(new ResourceLocation("minecraft:wooden_pressure_plate"));
+            modRegistry.remove(new ResourceLocation("minecraft:stone_pressure_plate"));
         }
     }
 }

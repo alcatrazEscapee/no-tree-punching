@@ -6,11 +6,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import notreepunching.block.tile.IHasTESR;
 import notreepunching.block.tile.IHasTileEntity;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-public abstract class BlockWithTileEntity<TE extends TileEntity> extends BlockBase implements IHasTileEntity<TE> {
+@ParametersAreNonnullByDefault
+public abstract class BlockWithTileEntity<TE extends TileEntity> extends BlockBase implements IHasTileEntity<TE>{
 
     public BlockWithTileEntity(String name, Material material) {
         super(name, material);
@@ -29,6 +33,6 @@ public abstract class BlockWithTileEntity<TE extends TileEntity> extends BlockBa
 
     @Nullable
     @Override
-    public abstract TE createTileEntity(World world, IBlockState state);
+    public abstract TE createTileEntity(World world,IBlockState state);
 
 }
