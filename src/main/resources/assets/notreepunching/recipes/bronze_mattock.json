@@ -1,25 +1,22 @@
 {
 	"type": "forge:ore_shaped",
 	"pattern": [
-		"FSS",
-		"T  ",
-		"T  "
+		"III",
+		"IT ",
+		" T "
 	],
 	"key": {
 		"T": {
 			"type": "forge:ore_dict",
 			"ore": "stickWood"
 		},
-		"S": {
-			"item": "notreepunching:flint_shard"
-		},
-		"F": {
+		"I": {
 			"type": "forge:ore_dict",
-			"ore": "string"
-        }
+			"ore": "ingotBronze"
+		}
 	},
 	"result": {
-		"item": "notreepunching:crude_hoe",
+		"item": "notreepunching:bronze_mattock",
 		"data": 0
 	}
 }

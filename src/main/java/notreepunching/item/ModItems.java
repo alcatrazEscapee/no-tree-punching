@@ -164,7 +164,6 @@ public class ModItems {
         OreDictionary.registerOre("toolSaw",new ItemStack(bronzeSaw,1,OreDictionary.WILDCARD_VALUE));
         if(addSteelTools) { OreDictionary.registerOre("toolSaw",new ItemStack(steelSaw,1,OreDictionary.WILDCARD_VALUE)); }
 
-        // TODO: Update all recipes that use "material String" ore dictionary to use "string" instead
         OreDictionary.registerOre("string", new ItemStack(Items.STRING));
         OreDictionary.registerOre("string", new ItemStack(ModItems.grassString));
 

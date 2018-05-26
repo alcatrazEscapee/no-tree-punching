@@ -57,7 +57,6 @@ public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        // TODO: Change this to only open if burning is false
         if (!world.isRemote) {
             TileEntityWoodPile te = (TileEntityWoodPile) world.getTileEntity(pos);
             if(te == null){ return true; }

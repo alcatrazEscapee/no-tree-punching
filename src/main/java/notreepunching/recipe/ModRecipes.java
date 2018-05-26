@@ -69,8 +69,12 @@ public class ModRecipes {
             Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
             Iterator<ItemStack> iterator = recipes.keySet().iterator();
             while (iterator.hasNext()) {
-                ItemStack stack = recipes.get(iterator.next());
+                ItemStack stack1 = iterator.next();
+                ItemStack stack = recipes.get(stack1);
                 if(MiscUtil.doesStackMatchOrePrefix(stack,"ingot")){
+                    iterator.remove();
+                }
+                else if(ItemUtil.areStacksEqual(stack1, new ItemStack(Items.COAL, 1, 1))){
                     iterator.remove();
                 }
             }
@@ -101,7 +105,6 @@ public class ModRecipes {
         }
 
         // Tool Types
-        // TODO: MOVE THESE TO JSON RECIPES
         registerShaped(new ItemStack(ModItems.copperKnife),"I","H",'I',"ingotCopper",'H',"stickWood");
         registerShaped(new ItemStack(ModItems.copperMattock),"III","IH "," H ",'I',"ingotCopper",'H',"stickWood");
         registerShaped(new ItemStack(ModItems.copperSaw)," HI","HI ","H  ",'I',"ingotCopper",'H',"stickWood");

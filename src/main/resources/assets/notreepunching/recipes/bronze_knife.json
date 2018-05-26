@@ -1,9 +1,8 @@
 {
 	"type": "forge:ore_shaped",
 	"pattern": [
-		"FSS",
-		"T  ",
-		"T  "
+		"S",
+		"T"
 	],
 	"key": {
 		"T": {
@@ -11,15 +10,12 @@
 			"ore": "stickWood"
 		},
 		"S": {
-			"item": "notreepunching:flint_shard"
-		},
-		"F": {
 			"type": "forge:ore_dict",
-			"ore": "string"
-        }
+			"ore": "ingotBronze"
+		}
 	},
 	"result": {
-		"item": "notreepunching:crude_hoe",
+		"item": "notreepunching:bronze_knife",
 		"data": 0
 	}
 }

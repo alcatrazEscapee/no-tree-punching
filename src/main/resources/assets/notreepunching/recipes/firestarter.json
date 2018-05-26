@@ -11,7 +11,7 @@
 		},
 		"P": {
 			"type": "forge:ore_dict",
-			"ore": "materialString"
+			"ore": "string"
 		},
 		"F": {
 			"item": "notreepunching:flint_shard"
