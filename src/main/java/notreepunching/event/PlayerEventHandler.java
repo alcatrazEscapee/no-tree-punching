@@ -74,7 +74,7 @@ public class PlayerEventHandler {
                 }
             }
         }
-        // Creating a forge by placing charcoal
+        // Creating a charcoal pile by placing charcoal
         else if(stack.getItem() == Items.COAL && stack.getMetadata() == 1){
 
 
@@ -109,7 +109,7 @@ public class PlayerEventHandler {
                         player.isSneaking()) {
 
                     if(!world.isRemote) {
-                        world.setBlockState(pos.offset(facing), ModBlocks.woodPile.getDefaultState());
+                        world.setBlockState(pos.offset(facing), ModBlocks.woodPile.getStateForPlacement(world, pos, facing, 0, 0, 0, 0, player));
 
                         TileEntity te = world.getTileEntity(pos.offset(facing));
                         if(te instanceof TileEntityWoodPile){
