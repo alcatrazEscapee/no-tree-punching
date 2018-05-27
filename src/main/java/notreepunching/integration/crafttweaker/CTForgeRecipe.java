@@ -3,7 +3,9 @@ package notreepunching.integration.crafttweaker;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
+import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.oredict.IOreDictEntry;
 import net.minecraft.item.ItemStack;
 import notreepunching.recipe.forge.ForgeRecipe;
 import notreepunching.recipe.forge.ForgeRecipeHandler;
@@ -15,10 +17,16 @@ import stanhebben.zenscript.annotations.ZenMethod;
 public class CTForgeRecipe {
 
     @ZenMethod
-    public static void add(IItemStack input, IItemStack output, int mininumTemperature){
-        ForgeRecipe recipe = new ForgeRecipe(CTPluginHelper.toStack(output),
-                CTPluginHelper.toStack(input), mininumTemperature);
-        CraftTweakerAPI.apply(new Add(recipe));
+    public static void add(IIngredient input, IItemStack output, int mininumTemperature){
+        ForgeRecipe recipe;
+        if(input instanceof IOreDictEntry){
+            IOreDictEntry ore = (IOreDictEntry) input;
+            recipe = new ForgeRecipe(CTPluginHelper.toStack(output),ore.getName(), ore.getAmount(), mininumTemperature);
+            CraftTweakerAPI.apply(new Add(recipe));
+        }else if(input instanceof IItemStack){
+            recipe = new ForgeRecipe(CTPluginHelper.toStack(output), CTPluginHelper.toStack(input), mininumTemperature);
+            CraftTweakerAPI.apply(new Add(recipe));
+        }
     }
 
     @ZenMethod

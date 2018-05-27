@@ -60,7 +60,7 @@ public class TESRBellows extends TESRBase<TileEntityBellows> {
         double[][] tops = getVerticesBySide(0, 1, 0.125+y, 1, 0, y, "z");
 
         for (double [] v : sides) {
-            b.pos(v[0], v[1], v[2]).tex(v[3]*0.5+0.5, v[4]*0.0625+0.5).endVertex();
+            b.pos(v[0], v[1], v[2]).tex(v[3]*0.0625+0.5, v[4]*0.5+0.5).endVertex();
         }
         for (double [] v : tops) {
             b.pos(v[0], v[1], v[2]).tex(v[3]*0.5, v[4]*0.5+0.5).endVertex();

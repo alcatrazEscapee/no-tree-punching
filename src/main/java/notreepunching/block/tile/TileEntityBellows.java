@@ -24,7 +24,7 @@ public class TileEntityBellows extends TileEntity implements ITickable{
     private double step = stepSize;
     private int facing;
 
-    private TileEntityBellows(){
+    public TileEntityBellows(){
         super();
         power = false;
         height = 0.2;
@@ -58,6 +58,7 @@ public class TileEntityBellows extends TileEntity implements ITickable{
     }
 
     public void setPower(boolean power){
+        System.out.println("ON POINT OF UPDATE: "+power+" | "+step+" | "+height);
         if(world.isRemote) return;
 
         this.power = power;
@@ -79,6 +80,7 @@ public class TileEntityBellows extends TileEntity implements ITickable{
     }
     public void setStep(double step){ this.step = step; } // Called from PacketUpdateBellows on CLIENT
     public void setFacing(int facing){ this.facing = facing; } // Called from PacketUpdateBellows on CLIENT
+    public void setHeight(double height){ this.height = height; } // Called from PacketUpdateBellows on CLIENT
     public double getHeight(){ return height; } // Called from TESRBellows
     public int getFacing(){ return facing; } // Called from TESRBellows
     public double getStep(){ return step; } // Called from PacketUpdateBellows on SERVER

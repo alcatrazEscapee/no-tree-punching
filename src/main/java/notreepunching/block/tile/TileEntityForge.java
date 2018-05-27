@@ -167,7 +167,7 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
             ItemStack inStack = inventory.getStackInSlot(IN_SLOT);
             ItemStack outStack = inventory.getStackInSlot(OUT_SLOT);
 
-            inventory.setStackInSlot(IN_SLOT, ItemUtil.consumeItem(inStack, 1));
+            inventory.setStackInSlot(IN_SLOT, ItemUtil.consumeItem(inStack, recipe.getCount()));
 
             inventory.setStackInSlot(OUT_SLOT, ItemUtil.mergeStacks(outStack, recipe.getOutput()));
             this.markDirty();

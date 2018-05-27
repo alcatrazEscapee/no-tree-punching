@@ -11,14 +11,16 @@ import notreepunching.block.tile.TileEntityBellows;
 public class PacketUpdateBellows implements IMessage {
 
     private double step;
+    private double height;
     private int facing;
     private BlockPos pos;
 
     public PacketUpdateBellows(TileEntityBellows te){
-        this(te.getPos(), te.getFacing(), te.getStep());
+        this(te.getPos(), te.getFacing(), te.getStep(), te.getHeight());
     }
-    public PacketUpdateBellows(BlockPos pos, int facing, double step){
+    public PacketUpdateBellows(BlockPos pos, int facing, double step, double height){
         this.step = step;
+        this.height = height;
         this.pos = pos;
         this.facing = facing;
     }
@@ -28,6 +30,7 @@ public class PacketUpdateBellows implements IMessage {
     @Override
     public void toBytes(ByteBuf buf) {
         buf.writeDouble(step);
+        buf.writeDouble(height);
         buf.writeLong(pos.toLong());
         buf.writeInt(facing);
     }
@@ -35,6 +38,7 @@ public class PacketUpdateBellows implements IMessage {
     @Override
     public void fromBytes(ByteBuf buf) {
         step = buf.readDouble();
+        height = buf.readDouble();
         pos = BlockPos.fromLong(buf.readLong());
         facing = buf.readInt();
     }
@@ -48,6 +52,7 @@ public class PacketUpdateBellows implements IMessage {
                 if(te != null) {
                     te.setStep(message.step);
                     te.setFacing(message.facing);
+                    te.setHeight(message.height);
                 }
             });
             return null;

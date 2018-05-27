@@ -52,13 +52,13 @@ public class ForgeRecipeHandler {
                     NonNullList<ItemStack> ingotList = OreDictionary.getOres("ingot"+oreName.substring(3));
                     if(ingotList.isEmpty()) continue;
                     // Ore --> Ingot Recipe
-                    FORGE_RECIPES.add(new ForgeRecipe(ingotList.get(0),oreName, MiscUtil.getMetalForgeTemperature(oreName.substring(3).toLowerCase())));
+                    FORGE_RECIPES.add(new ForgeRecipe(ingotList.get(0),oreName, 1, MiscUtil.getMetalForgeTemperature(oreName.substring(3).toLowerCase())));
 
                     if(OreDictionary.doesOreNameExist("dust"+oreName.substring(3))){
                         NonNullList<ItemStack> dustList = OreDictionary.getOres("dust"+oreName.substring(3));
                         if(dustList.isEmpty()) continue;
                         // Dust --> Ingot Recipe
-                        FORGE_RECIPES.add(new ForgeRecipe(ingotList.get(0), "dust"+oreName.substring(3), MiscUtil.getMetalForgeTemperature(oreName.substring(3).toLowerCase())));
+                        FORGE_RECIPES.add(new ForgeRecipe(ingotList.get(0), "dust"+oreName.substring(3), 1, MiscUtil.getMetalForgeTemperature(oreName.substring(3).toLowerCase())));
                     }
                 }
             }
@@ -74,26 +74,26 @@ public class ForgeRecipeHandler {
     }
 
     public static ForgeRecipe getRecipe(ItemStack stack){ return getRecipe(stack, false); }
+    public static boolean isIngredient(ItemStack stack){
+        return getRecipe(stack, true) != null;
+    }
     private static ForgeRecipe getRecipe(ItemStack stack, boolean skipCountCheck){
         for(ForgeRecipe recipe : FORGE_RECIPES) {
             if (recipe.getOre().equals("")) {
-                if(ItemUtil.areStacksEqual(stack, recipe.getStack()) && (stack.getCount() >= 1 || skipCountCheck)){
+                if(ItemUtil.areStacksEqual(stack, recipe.getStack()) && (stack.getCount() >= recipe.getCount() || skipCountCheck)){
                     return recipe;
                 }
             }
             else {
                 NonNullList<ItemStack> oreList = OreDictionary.getOres(recipe.getOre());
                 for (ItemStack oreStack : oreList) {
-                    if (ItemUtil.areStacksEqual(stack, oreStack) && (stack.getCount() >= 1 || skipCountCheck)) {
+                    if (ItemUtil.areStacksEqual(stack, oreStack) && (stack.getCount() >= recipe.getCount() || skipCountCheck)) {
                         return recipe;
                     }
                 }
             }
         }
         return null;
-    }
-    public static boolean isIngredient(ItemStack stack){
-        return getRecipe(stack, true) != null;
     }
 
     public static List<ForgeRecipe> getAll() { return FORGE_RECIPES; }
