@@ -31,9 +31,9 @@ import java.util.Random;
 @ParametersAreNonnullByDefault
 public class BlockBellows extends BlockWithTileEntity<TileEntityBellows> implements IHasTESR<TileEntityBellows, TESRBellows> {
 
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
+    private static final PropertyDirection FACING = BlockHorizontal.FACING;
 
-    public BlockBellows(String name){
+    BlockBellows(String name){
         super(name, Material.WOOD);
 
         setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
@@ -73,7 +73,7 @@ public class BlockBellows extends BlockWithTileEntity<TileEntityBellows> impleme
 
         TileEntityBellows te = (TileEntityBellows) world.getTileEntity(pos);
         if (te != null){
-            te.updatePower(world.isBlockPowered(pos));
+            te.setPower(world.isBlockPowered(pos));
         }
     }
 

@@ -1,5 +1,6 @@
 package notreepunching.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -25,23 +26,23 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import notreepunching.NoTreePunching;
 import notreepunching.block.tile.TileEntityWoodPile;
-import notreepunching.client.NTPGuiHandler;
+import notreepunching.client.ModGuiHandler;
 import notreepunching.item.ModItems;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.Random;
 
-import static net.minecraft.util.EnumFacing.UP;
-
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("deprecation")
 public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
 
     private static final PropertyBool AXIS = PropertyBool.create("axis");
     public static final PropertyBool ONFIRE = PropertyBool.create("onfire");
 
-    public BlockWoodPile(String name){
+    BlockWoodPile(String name){
         super(name, Material.WOOD);
 
         setHardness(2.0F);
@@ -75,21 +76,18 @@ public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
             }
 
             if (!player.isSneaking() && !state.getValue(ONFIRE)) {
-                player.openGui(NoTreePunching.instance, NTPGuiHandler.WOODPILE, world, pos.getX(), pos.getY(), pos.getZ());
+                player.openGui(NoTreePunching.instance, ModGuiHandler.WOODPILE, world, pos.getX(), pos.getY(), pos.getZ());
             }
         }
         return true;
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         drops.clear();
     }
 
     @Override
-    @Nonnull
-    @ParametersAreNonnullByDefault
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(Blocks.LOG);
     }
@@ -102,7 +100,6 @@ public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
         if(!worldIn.isRemote && te != null){
             TileEntityWoodPile tile = (TileEntityWoodPile) te;
@@ -142,7 +139,6 @@ public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random random){
         if(!worldIn.isRemote && state.getValue(ONFIRE)){
             for(EnumFacing side : EnumFacing.values()){
@@ -159,23 +155,18 @@ public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    @Nonnull
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         if(placer.getHorizontalFacing().getAxis() == EnumFacing.Axis.Z) {return this.getDefaultState().withProperty(AXIS, true); }
         return this.getDefaultState();
     }
 
-    @SuppressWarnings("deprecation")
-    @Nonnull
     public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(AXIS, meta == 0).withProperty(ONFIRE, meta >= 2);
     }
     public int getMetaFromState(IBlockState state) {
         return (state.getValue(AXIS) ? 0 : 1) + (state.getValue(ONFIRE) ? 2 : 0);
     }
-    @Nonnull
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, AXIS, ONFIRE);
     }

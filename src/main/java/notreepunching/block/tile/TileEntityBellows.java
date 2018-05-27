@@ -24,10 +24,11 @@ public class TileEntityBellows extends TileEntity implements ITickable{
     private double step = stepSize;
     private int facing;
 
-    public TileEntityBellows(){
+    private TileEntityBellows(){
         super();
         power = false;
         height = 0.2;
+        step = 0;
     }
     public TileEntityBellows(EnumFacing facing){
         this();
@@ -41,15 +42,12 @@ public class TileEntityBellows extends TileEntity implements ITickable{
         if(height <= 0.2 && step < 0){
             step = 0;
             height = 0.2;
+            setPower(power);
         }else if(height >= 0.875 && step > 0){
             step = 0;
             height = 0.875;
+            setPower(power);
         }
-    }
-
-    public void updatePower(boolean power){
-        setPower(power);
-        ModNetwork.network.sendToAllAround(new PacketUpdateBellows(TileEntityBellows.this), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
     }
 
     @Override
@@ -59,21 +57,31 @@ public class TileEntityBellows extends TileEntity implements ITickable{
         }
     }
 
-    public double getHeight(){ return height; }
     public void setPower(boolean power){
-        if(power != this.power){
-            if(!world.isRemote){
-                updateForges();
-                world.playSound(null,pos, power ? ModSounds.bellowsOut : ModSounds.bellowsIn, SoundCategory.BLOCKS,2.0F,1.0F);
-            }
-        }
+        if(world.isRemote) return;
+
         this.power = power;
-        this.step = power ? stepSize : -stepSize;
         this.markDirty();
+        if(step != 0) return;
+
+        if(height == 0.2){
+            step = power ? stepSize : 0;
+        }else if(height == 0.875){
+            step = power ? 0 : -stepSize;
+        }
+        // If step was changed, then update client + forges + play sound
+        if(step != 0){
+            updateForges();
+            world.playSound(null,pos, power ? ModSounds.bellowsOut : ModSounds.bellowsIn, SoundCategory.BLOCKS,1.0F,1.0F);
+            ModNetwork.network.sendToAllAround(new PacketUpdateBellows(this),
+                    new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
+        }
     }
-    public boolean getPower(){ return power; }
-    public int getFacing(){ return facing; }
-    public void setFacing(int facing){ this.facing = facing; }
+    public void setStep(double step){ this.step = step; } // Called from PacketUpdateBellows on CLIENT
+    public void setFacing(int facing){ this.facing = facing; } // Called from PacketUpdateBellows on CLIENT
+    public double getHeight(){ return height; } // Called from TESRBellows
+    public int getFacing(){ return facing; } // Called from TESRBellows
+    public double getStep(){ return step; } // Called from PacketUpdateBellows on SERVER
 
     private void updateForges(){
         if(!world.isRemote) {
@@ -94,6 +102,7 @@ public class TileEntityBellows extends TileEntity implements ITickable{
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setBoolean("power", power);
         compound.setDouble("height", height);
+        compound.setDouble("step", step);
         compound.setInteger("facing", facing);
         return super.writeToNBT(compound);
     }
@@ -102,6 +111,7 @@ public class TileEntityBellows extends TileEntity implements ITickable{
     public void readFromNBT(NBTTagCompound compound) {
         power = compound.getBoolean("power");
         height = compound.getDouble("height");
+        step = compound.getDouble("step");
         facing = compound.getInteger("facing");
         super.readFromNBT(compound);
     }

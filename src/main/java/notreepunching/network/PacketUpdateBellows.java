@@ -10,15 +10,15 @@ import notreepunching.block.tile.TileEntityBellows;
 
 public class PacketUpdateBellows implements IMessage {
 
-    private boolean power;
+    private double step;
     private int facing;
     private BlockPos pos;
 
     public PacketUpdateBellows(TileEntityBellows te){
-        this(te.getPower(), te.getPos(), te.getFacing());
+        this(te.getPos(), te.getFacing(), te.getStep());
     }
-    public PacketUpdateBellows(boolean power, BlockPos pos, int facing){
-        this.power = power;
+    public PacketUpdateBellows(BlockPos pos, int facing, double step){
+        this.step = step;
         this.pos = pos;
         this.facing = facing;
     }
@@ -27,14 +27,14 @@ public class PacketUpdateBellows implements IMessage {
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeBoolean(power);
+        buf.writeDouble(step);
         buf.writeLong(pos.toLong());
         buf.writeInt(facing);
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        power = buf.readBoolean();
+        step = buf.readDouble();
         pos = BlockPos.fromLong(buf.readLong());
         facing = buf.readInt();
     }
@@ -46,7 +46,7 @@ public class PacketUpdateBellows implements IMessage {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 TileEntityBellows te = (TileEntityBellows) Minecraft.getMinecraft().world.getTileEntity(message.pos);
                 if(te != null) {
-                    te.setPower(message.power);
+                    te.setStep(message.step);
                     te.setFacing(message.facing);
                 }
             });

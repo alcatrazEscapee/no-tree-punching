@@ -1,7 +1,6 @@
 package notreepunching.util;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
@@ -35,11 +34,6 @@ public class MiscUtil {
             }
         }
         return false;
-    }
-
-    // Gets the opposite of EnumHand
-    public static EnumHand getOtherHand(EnumHand hand){
-        return hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
     }
 
     // Gets the temperature for different metals (ore dictionary name)

@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import notreepunching.client.ModTabs;
-import notreepunching.client.NTPGuiHandler;
+import notreepunching.client.ModGuiHandler;
 import notreepunching.config.ModConfig;
 import notreepunching.event.HarvestEventHandler;
 import notreepunching.event.PlayerEventHandler;
@@ -55,7 +55,7 @@ public class NoTreePunching {
         GameRegistry.registerWorldGenerator(new WorldGenOres(), 3);
 
         // Register GUI Handler
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new NTPGuiHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
 
         // Register Event Handlers
         MinecraftForge.EVENT_BUS.register(new HarvestEventHandler());

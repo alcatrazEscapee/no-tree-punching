@@ -11,6 +11,9 @@ import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.block.ModBlocks;
 import notreepunching.client.gui.GuiFirepit;
 import notreepunching.client.gui.GuiForge;
+import notreepunching.client.gui.GuiGrindstone;
+import notreepunching.integration.jei.grindstone.GrindstoneRecipeCategory;
+import notreepunching.integration.jei.grindstone.GrindstoneRecipeWrapper;
 import notreepunching.item.ModItems;
 import notreepunching.integration.jei.firepit.FirepitRecipeCategory;
 import notreepunching.integration.jei.firepit.FirepitRecipeWrapper;
@@ -18,6 +21,8 @@ import notreepunching.integration.jei.forge.ForgeRecipeCategory;
 import notreepunching.integration.jei.forge.ForgeRecipeWrapper;
 import notreepunching.integration.jei.knife.KnifeRecipeCategory;
 import notreepunching.integration.jei.knife.KnifeRecipeWrapper;
+import notreepunching.recipe.grindstone.GrindstoneRecipe;
+import notreepunching.recipe.grindstone.GrindstoneRecipeHandler;
 import notreepunching.recipe.knife.KnifeRecipe;
 import notreepunching.recipe.knife.KnifeRecipeHandler;
 import notreepunching.recipe.firepit.FirepitRecipe;
@@ -35,7 +40,8 @@ public class JEIPluginHelper implements IModPlugin {
         registry.addRecipeCategories(
                 new KnifeRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
                 new FirepitRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
-                new ForgeRecipeCategory(registry.getJeiHelpers().getGuiHelper())
+                new ForgeRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
+                new GrindstoneRecipeCategory(registry.getJeiHelpers().getGuiHelper())
         );
     }
 
@@ -80,6 +86,12 @@ public class JEIPluginHelper implements IModPlugin {
         registry.handleRecipes(ForgeRecipe.class, ForgeRecipeWrapper::new, ForgeRecipeCategory.UID);
         registry.addRecipes(ForgeRecipeHandler.getAll(), ForgeRecipeCategory.UID);
         registry.addRecipeClickArea(GuiForge.class, 75, 22, 26, 19, ForgeRecipeCategory.UID);
+
+        // Grindstone Recipes
+        registry.handleRecipes(GrindstoneRecipe.class, GrindstoneRecipeWrapper::new, GrindstoneRecipeCategory.UID);
+        registry.addRecipes(GrindstoneRecipeHandler.getAll(), GrindstoneRecipeCategory.UID);
+        registry.addRecipeClickArea(GuiGrindstone.class, 75, 29, 26, 19, GrindstoneRecipeCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.grindstone), GrindstoneRecipeCategory.UID);
 
     }
 

@@ -9,9 +9,15 @@ public class ModNetwork {
     public static final SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel("ntp");
 
     public static void preInit(){
+        int id = 0;
+
         // Bellows
-        network.registerMessage(PacketUpdateBellows.Handler.class, PacketUpdateBellows.class, 0, Side.CLIENT);
-        network.registerMessage(PacketRequestBellows.Handler.class, PacketRequestBellows.class, 1, Side.SERVER);
+        network.registerMessage(PacketUpdateBellows.Handler.class, PacketUpdateBellows.class, ++id, Side.CLIENT);
+        network.registerMessage(PacketRequestBellows.Handler.class, PacketRequestBellows.class, ++id, Side.SERVER);
+
+        // Grindstone
+        network.registerMessage(PacketUpdateGrindstone.Handler.class, PacketUpdateGrindstone.class, ++id, Side.CLIENT);
+        network.registerMessage(PacketRequestGrindstone.Handler.class, PacketRequestGrindstone.class, ++id, Side.SERVER);
 
     }
 

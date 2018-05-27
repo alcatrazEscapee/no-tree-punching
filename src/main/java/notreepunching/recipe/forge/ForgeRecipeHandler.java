@@ -92,10 +92,6 @@ public class ForgeRecipeHandler {
         }
         return null;
     }
-
-    public static boolean isRecipe(ItemStack stack){
-        return getRecipe(stack) != null;
-    }
     public static boolean isIngredient(ItemStack stack){
         return getRecipe(stack, true) != null;
     }

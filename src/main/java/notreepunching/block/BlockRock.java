@@ -1,5 +1,6 @@
 package notreepunching.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -23,12 +24,16 @@ import notreepunching.item.ModItems;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
 public class BlockRock extends BlockBase {
 
     public static final IProperty<EnumMineralType> TYPE = PropertyEnum.create("type",EnumMineralType.class);
 
-    public BlockRock(String name) {
+    BlockRock(String name) {
         super(name, Material.ROCK);
 
         setHardness(0.15F);
@@ -45,13 +50,11 @@ public class BlockRock extends BlockBase {
     }
 
     @Override
-    @Deprecated
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    @Deprecated
     public boolean isFullCube(IBlockState state) {
         return false;
     }
@@ -139,15 +142,12 @@ public class BlockRock extends BlockBase {
                 return "unknown stone name - this is a bug";
         }
     }
-    public String getStoneName(int meta){
-        return getStoneName(new ItemStack(this,1,meta));
-    }
 
     @Override
     @Nonnull
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[] {TYPE});
+        return new BlockStateContainer(this, TYPE);
     }
 
     public enum EnumMineralType implements IStringSerializable {
@@ -189,7 +189,7 @@ public class BlockRock extends BlockBase {
         private final String name;
         private static final EnumMineralType[] META_LOOKUP = new EnumMineralType[values().length];
 
-        private EnumMineralType(int i_meta, String i_name)
+        EnumMineralType(int i_meta, String i_name)
         {
             this.meta = i_meta;
             this.name = i_name;

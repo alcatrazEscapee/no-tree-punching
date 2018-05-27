@@ -18,6 +18,8 @@ public class TESRGrindstone extends TESRBase<TileEntityGrindstone> {
     @Override
     public void render(@Nonnull TileEntityGrindstone tile, double x, double y, double z, float partialTicks, int blockDamageProgress, float alpha) {
 
+        if(!tile.getHasWheel()) return;
+
         try {
             GlStateManager.pushMatrix();
             GlStateManager.color(1, 1, 1, 1);
@@ -25,7 +27,7 @@ public class TESRGrindstone extends TESRBase<TileEntityGrindstone> {
             GlStateManager.disableLighting();
 
             GlStateManager.translate(x + 0.5d, y, z + 0.5d);
-            GL11.glRotatef(tile.getTimer(), 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(tile.getRotation(), 0.0F, 1.0F, 0.0F);
             GlStateManager.translate(-0.5d, 0.0d, -0.5d);
 
             Tessellator t = Tessellator.getInstance();

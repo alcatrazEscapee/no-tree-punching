@@ -29,10 +29,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import notreepunching.NoTreePunching;
-import notreepunching.block.BlockWithTileEntity;
-import notreepunching.block.ModBlocks;
 import notreepunching.block.tile.TileEntityForge;
-import notreepunching.client.NTPGuiHandler;
+import notreepunching.client.ModGuiHandler;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
 
@@ -41,6 +39,8 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
+@ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
 public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
 
     public static final PropertyInteger LAYERS = PropertyInteger.create("type",1,8);
@@ -56,7 +56,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
             new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D),
             new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
 
-    public BlockForge(String name){
+    BlockForge(String name){
         super(name, Material.GROUND);
 
         setSoundType(SoundType.GROUND);
@@ -105,7 +105,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
                 return true;
             }
             if (!player.isSneaking()) {
-                player.openGui(NoTreePunching.instance, NTPGuiHandler.FORGE, world, pos.getX(), pos.getY(), pos.getZ());
+                player.openGui(NoTreePunching.instance, ModGuiHandler.FORGE, world, pos.getX(), pos.getY(), pos.getZ());
             }
         }
         return true;
@@ -149,7 +149,6 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
         TileEntityForge tile = getTileEntity(world, pos);
         IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
@@ -214,7 +213,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
         return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         int i = blockState.getValue(LAYERS) - 1;
         AxisAlignedBB axisalignedbb = blockState.getBoundingBox(worldIn, pos);
         return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.maxX, (double)((float)i * 0.125F), axisalignedbb.maxZ);

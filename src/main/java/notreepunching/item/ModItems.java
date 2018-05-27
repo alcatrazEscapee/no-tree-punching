@@ -74,6 +74,7 @@ public class ModItems {
     public static ItemHoeBase steelHoe;
 
     public static ItemFirestarter firestarter;
+    public static ItemGrindWheel grindWheel;
 
     public static ItemBase ingotTin;
     public static ItemBase ingotCopper;
@@ -98,6 +99,7 @@ public class ModItems {
         flintShard = new ItemBase("flint_shard");
 
         firestarter = new ItemFirestarter("firestarter");
+        grindWheel = new ItemGrindWheel("grind_wheel");
 
         ingotBronze = new ItemBase("ingot_bronze");
         ingotTin = new ItemBase("ingot_tin");

@@ -26,25 +26,23 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import notreepunching.NoTreePunching;
-import notreepunching.block.BlockWithTileEntity;
-import notreepunching.block.ModBlocks;
 import notreepunching.block.tile.TileEntityFirepit;
-import notreepunching.client.NTPGuiHandler;
+import notreepunching.client.ModGuiHandler;
 import notreepunching.item.ItemFirestarter;
 import notreepunching.util.ItemUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
 public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
 
     public static final IProperty<Boolean> BURNING = PropertyBool.create("burning");
 
-    public BlockFirepit(String name) {
+    BlockFirepit(String name) {
         super(name, Material.WOOD);
 
         setTickRandomly(true);
@@ -91,7 +89,7 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
             }
             // Open the Firepit GUI
             if (!player.isSneaking()) {
-                player.openGui(NoTreePunching.instance, NTPGuiHandler.FIREPIT, world, pos.getX(), pos.getY(), pos.getZ());
+                player.openGui(NoTreePunching.instance, ModGuiHandler.FIREPIT, world, pos.getX(), pos.getY(), pos.getZ());
             }
         }
         return true;
