@@ -119,6 +119,7 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
             }
             if(temperature < maxTemperature){
                 temperature ++;
+                if(temperature <= 1000 && airTicks >= 1){ temperature++; }
             }
 
 

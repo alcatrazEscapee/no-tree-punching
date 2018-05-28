@@ -58,7 +58,6 @@ public class TileEntityBellows extends TileEntity implements ITickable{
     }
 
     public void setPower(boolean power){
-        System.out.println("ON POINT OF UPDATE: "+power+" | "+step+" | "+height);
         if(world.isRemote) return;
 
         this.power = power;

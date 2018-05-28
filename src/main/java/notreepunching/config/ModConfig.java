@@ -82,6 +82,9 @@ public class ModConfig {
         @Comment({"Mining level for steel tools"})
         public static int STEEL_MINING_LEVEL = 3;
 
+        @Comment({"Amount of dust generated per ore in the grindstone"})
+        public static int DUST_PER_ORE = 1;
+
     }
 
     public static World world;

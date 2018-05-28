@@ -1,0 +1,18 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"RRR",
+		"RRR",
+		"RRR"
+	],
+	"key": {
+		"R": {
+			"type": "forge:ore_dict",
+			"ore": "nuggetCopper"
+		}
+	},
+	"result": {
+		"item": "notreepunching:ingot_copper",
+		"data": 0
+	}
+}

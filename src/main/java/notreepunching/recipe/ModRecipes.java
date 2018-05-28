@@ -116,6 +116,9 @@ public class ModRecipes {
             registerShaped(new ItemStack(Blocks.WOODEN_BUTTON), "GS",'G',"gearWood",'S',"plankWood");
             registerShaped(new ItemStack(Blocks.WOODEN_PRESSURE_PLATE), "SGS",'G',"gearWood",'S',"plankWood");
             registerShaped(new ItemStack(Blocks.STONE_PRESSURE_PLATE), "SGS",'G',"gearWood",'S',"cobblestone");
+
+            registerShapeless(new ItemStack(Items.FLINT_AND_STEEL), new ItemStack(Items.FLINT), "ingotSteel");
+            registerShaped(new ItemStack(Blocks.ANVIL), "BBB"," I ","III",'B',"blockSteel",'I',"ingotSteel");
         }
 
     }
@@ -145,6 +148,9 @@ public class ModRecipes {
 
     private static void registerShaped(ItemStack output, Object... inputs) {
         RecipeUtil.addShapedOreRecipe(output, inputs);
+    }
+    private static void registerShapeless(ItemStack output, Object... inputs) {
+        RecipeUtil.addShapelessOreRecipe(output, inputs);
     }
 
     public static void removeVanillaRecipes(IForgeRegistry<IRecipe> reg){
@@ -211,6 +217,9 @@ public class ModRecipes {
             modRegistry.remove(new ResourceLocation("minecraft:stone_button"));
             modRegistry.remove(new ResourceLocation("minecraft:wooden_pressure_plate"));
             modRegistry.remove(new ResourceLocation("minecraft:stone_pressure_plate"));
+
+            modRegistry.remove(new ResourceLocation("minecraft:flint_and_steel"));
+            modRegistry.remove(new ResourceLocation("minecraft:anvil"));
         }
     }
 }

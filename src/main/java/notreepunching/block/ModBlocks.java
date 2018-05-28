@@ -28,8 +28,12 @@ public class ModBlocks {
     public static BlockBellows bellows;
     public static BlockGrindstone grindstone;
 
-    public static BlockOreBase oreCopper;
-    public static BlockOreBase oreTin;
+    public static BlockMetal oreCopper;
+    public static BlockMetal oreTin;
+    public static BlockMetal blockTin;
+    public static BlockMetal blockCopper;
+    public static BlockMetal blockBronze;
+    public static BlockMetal blockSteel;
 
     public static void init(){
         looseRock = new BlockRock("loose_rock");
@@ -54,8 +58,12 @@ public class ModBlocks {
         bellows = new BlockBellows("bellows");
         grindstone = new BlockGrindstone("grindstone");
 
-        oreCopper = new BlockOreBase("ore_copper");
-        oreTin = new BlockOreBase("ore_tin");
+        oreCopper = new BlockMetal("ore_copper");
+        oreTin = new BlockMetal("ore_tin");
+        blockBronze = new BlockMetal("block_bronze");
+        blockSteel = new BlockMetal("block_steel");
+        blockCopper = new BlockMetal("block_copper");
+        blockTin = new BlockMetal("block_tin");
 
     }
 

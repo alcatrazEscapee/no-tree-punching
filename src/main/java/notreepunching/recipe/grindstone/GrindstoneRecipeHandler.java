@@ -9,7 +9,9 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
+import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
+import notreepunching.recipe.ModRecipes;
 import notreepunching.recipe.forge.ForgeRecipe;
 import notreepunching.util.ItemUtil;
 
@@ -24,8 +26,9 @@ public class GrindstoneRecipeHandler {
     private static LinkedListMultimap<Boolean, GrindstoneRecipe> CT_ENTRY = LinkedListMultimap.create();
 
     public static void init(){
-        GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(ModItems.dustTin), "oreTin", 1));
-        GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(ModItems.dustCopper), "oreCopper", 1));
+        GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(ModItems.dustTin), "oreTin", ModConfig.Balance.DUST_PER_ORE));
+        GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(ModItems.dustCopper), "oreCopper", ModConfig.Balance.DUST_PER_ORE));
+        GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(ModItems.dustIron), "oreIron", ModConfig.Balance.DUST_PER_ORE));
 
         // Dyes from plants and other things
         GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(Items.DYE,2, EnumDyeColor.RED.getDyeDamage()), new ItemStack(Blocks.RED_FLOWER, 1, BlockFlower.EnumFlowerType.POPPY.getMeta())));

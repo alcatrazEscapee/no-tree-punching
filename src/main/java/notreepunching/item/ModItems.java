@@ -1,7 +1,10 @@
 package notreepunching.item;
 
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
@@ -85,12 +88,36 @@ public class ModItems {
     public static ItemBase dustBronze;
     public static ItemBase dustIron;
     public static ItemBase dustSteel;
+    public static ItemBase nuggetCopper;
+    public static ItemBase nuggetTin;
+    public static ItemBase nuggetBronze;
+    public static ItemBase nuggetSteel;
     public static ItemBase gearWood;
 
+    public static ItemBaseArmor helmetCopper;
+    public static ItemBaseArmor helmetBronze;
+    public static ItemBaseArmor helmetSteel;
+    public static ItemBaseArmor chestplateCopper;
+    public static ItemBaseArmor chestplateBronze;
+    public static ItemBaseArmor chestplateSteel;
+    public static ItemBaseArmor leggingsCopper;
+    public static ItemBaseArmor leggingsBronze;
+    public static ItemBaseArmor leggingsSteel;
+    public static ItemBaseArmor bootsCopper;
+    public static ItemBaseArmor bootsBronze;
+    public static ItemBaseArmor bootsSteel;
+
     private static Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", ModConfig.Balance.FLINT_MINING_LEVEL,45,2.5F,0.5F,0);
-    private static Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", ModConfig.Balance.COPPER_MINING_LEVEL,180,4F,1.5F,6);
-    private static Item.ToolMaterial toolMaterialBronze = EnumHelper.addToolMaterial("NTP_BRONZE", ModConfig.Balance.BRONZE_MINING_LEVEL,350,8F,2.5F,8);
-    private static Item.ToolMaterial toolMaterialSteel = EnumHelper.addToolMaterial("NTP_STEEL", ModConfig.Balance.STEEL_MINING_LEVEL,1400,11F,3.0F,10);
+    private static Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", ModConfig.Balance.COPPER_MINING_LEVEL,220,4F,1.5F,6);
+    private static Item.ToolMaterial toolMaterialBronze = EnumHelper.addToolMaterial("NTP_BRONZE", ModConfig.Balance.BRONZE_MINING_LEVEL,400,8F,2.5F,8);
+    private static Item.ToolMaterial toolMaterialSteel = EnumHelper.addToolMaterial("NTP_STEEL", ModConfig.Balance.STEEL_MINING_LEVEL,1600,11F,3.0F,10);
+
+    private static ItemArmor.ArmorMaterial armorMaterialCopper = EnumHelper.addArmorMaterial(
+            "NTP_COPPER", NoTreePunching.MODID+"copper", 80, new int[]{1,3,4,1}, 6, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
+    private static ItemArmor.ArmorMaterial armorMaterialBronze = EnumHelper.addArmorMaterial(
+            "NTP_BRONZE", NoTreePunching.MODID+"bronze", 140, new int[]{2,4,6,2}, 8, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 2.0F);
+    private static ItemArmor.ArmorMaterial armorMaterialSteel = EnumHelper.addArmorMaterial(
+            "NTP_STEEL", NoTreePunching.MODID+"steel", 400, new int[]{3,6,8,3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 4.0F);
 
     public static void init(){
         rockStone = new ItemRock("rock");
@@ -111,6 +138,10 @@ public class ModItems {
         dustIron = new ItemBase("dust_iron");
         dustSteel = new ItemBase("dust_steel");
         gearWood = new ItemBase("gear_wood");
+        nuggetBronze = new ItemBase("nugget_bronze");
+        nuggetSteel = new ItemBase("nugget_steel");
+        nuggetTin = new ItemBase("nugget_tin");
+        nuggetCopper = new ItemBase("nugget_copper");
 
         // TOOLS
         stoneKnife = new ItemKnife(toolMaterialFlint,"stone_knife");
@@ -157,6 +188,23 @@ public class ModItems {
         steelHoe = new ItemHoeBase(toolMaterialSteel, "steel_hoe");
         steelShovel = new ItemShovelBase(toolMaterialSteel, "steel_shovel");
         steelSword = new ItemSwordBase(toolMaterialSteel, "steel_sword");
+
+        // ARMOR
+        helmetCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.HEAD, "copper_helmet");
+        chestplateCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.CHEST, "copper_chestplate");
+        leggingsCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.LEGS, "copper_leggings");
+        bootsCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.FEET, "copper_boots");
+
+        helmetBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.HEAD, "bronze_helmet");
+        chestplateBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.CHEST, "bronze_chestplate");
+        leggingsBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.LEGS, "bronze_leggings");
+        bootsBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.FEET, "bronze_boots");
+
+        helmetSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.HEAD, "steel_helmet");
+        chestplateSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.CHEST, "steel_chestplate");
+        leggingsSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.LEGS, "steel_leggings");
+        bootsSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.FEET, "steel_boots");
+
 
     }
 
@@ -238,9 +286,17 @@ public class ModItems {
         OreDictionary.registerOre("dustTin", new ItemStack(dustTin));
         OreDictionary.registerOre("dustBronze", new ItemStack(dustBronze));
         OreDictionary.registerOre("dustSteel", new ItemStack(dustSteel));
+        OreDictionary.registerOre("nuggetBronze", new ItemStack(nuggetBronze));
+        OreDictionary.registerOre("nuggetCopper", new ItemStack(nuggetCopper));
+        OreDictionary.registerOre("nuggetSteel", new ItemStack(nuggetSteel));
+        OreDictionary.registerOre("nuggetTin", new ItemStack(nuggetTin));
 
         OreDictionary.registerOre("oreCopper", new ItemStack(ModBlocks.oreCopper));
         OreDictionary.registerOre("oreTin", new ItemStack(ModBlocks.oreTin));
+        OreDictionary.registerOre("blockTin", new ItemStack(ModBlocks.blockTin));
+        OreDictionary.registerOre("blockCopper", new ItemStack(ModBlocks.blockCopper));
+        OreDictionary.registerOre("blockBronze", new ItemStack(ModBlocks.blockBronze));
+        OreDictionary.registerOre("blockSteel", new ItemStack(ModBlocks.blockSteel));
 
         OreDictionary.registerOre("gearWood", new ItemStack(gearWood));
     }

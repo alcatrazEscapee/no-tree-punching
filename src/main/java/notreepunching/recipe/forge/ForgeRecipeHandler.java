@@ -44,22 +44,21 @@ public class ForgeRecipeHandler {
 
     public static void postInit(){
         // Add ore > ingot recipes based on ore dictionary
-        String[] oreNames = OreDictionary.getOreNames();
-        for(String oreName : oreNames){
-            if(oreName.length()<=3) continue;
-            if(oreName.substring(0,3).equals("ore")){
-                if(OreDictionary.doesOreNameExist("ingot"+oreName.substring(3))){
-                    NonNullList<ItemStack> ingotList = OreDictionary.getOres("ingot"+oreName.substring(3));
-                    if(ingotList.isEmpty()) continue;
-                    // Ore --> Ingot Recipe
-                    FORGE_RECIPES.add(new ForgeRecipe(ingotList.get(0),oreName, 1, MiscUtil.getMetalForgeTemperature(oreName.substring(3).toLowerCase())));
+        String[] ingotNames = OreDictionary.getOreNames();
+        for(String ingotName : ingotNames){
+            if(ingotName.length()<=5) continue;
+            if(ingotName.substring(0,5).equals("ingot")){
+                String type = ingotName.substring(5);
+                NonNullList<ItemStack> ingotList = OreDictionary.getOres("ingot"+type);
+                if(ingotList.isEmpty()) continue;
 
-                    if(OreDictionary.doesOreNameExist("dust"+oreName.substring(3))){
-                        NonNullList<ItemStack> dustList = OreDictionary.getOres("dust"+oreName.substring(3));
-                        if(dustList.isEmpty()) continue;
-                        // Dust --> Ingot Recipe
-                        FORGE_RECIPES.add(new ForgeRecipe(ingotList.get(0), "dust"+oreName.substring(3), 1, MiscUtil.getMetalForgeTemperature(oreName.substring(3).toLowerCase())));
-                    }
+                if(MiscUtil.doesOreHaveStack("ore"+type)) {
+                    // Ore --> Ingot Recipe
+                    FORGE_RECIPES.add(new ForgeRecipe(ingotList.get(0),"ore"+type, 1, MiscUtil.getMetalForgeTemperature(type)));
+                }
+                if(MiscUtil.doesOreHaveStack("dust"+type)) {
+                    // Dust --> Ingot Recipe
+                    FORGE_RECIPES.add(new ForgeRecipe(ingotList.get(0),"dust"+type, 1, MiscUtil.getMetalForgeTemperature(type)));
                 }
             }
         }
