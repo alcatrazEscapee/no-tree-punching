@@ -16,7 +16,6 @@ public class WorldGenOres implements IWorldGenerator {
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-        System.out.println("FUNCTION CALLED");
         if(world.provider.getDimension() == 0) {
             if (ModConfig.World.COPPER_ORE) {
                 generateOre(ModBlocks.oreCopper.getDefaultState(), world, random, chunkX * 16, chunkZ * 16, 40, 80, 4 + random.nextInt(4), 16);
@@ -35,7 +34,6 @@ public class WorldGenOres implements IWorldGenerator {
 
             WorldGenMinable generator = new WorldGenMinable(ore, size);
             generator.generate(world, random, pos);
-            System.out.println("GENERATING ORE");
         }
     }
 }

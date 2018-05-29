@@ -98,6 +98,10 @@ public class ModConfig {
 
         @Comment({"Generate Loose rocks on the surface"})
         public static boolean LOOSE_ROCKS = true;
+
+        @Comment({"Frequency of loose rocks appearing in the world"})
+        @Config.RangeInt(min = 1, max = 100)
+        public static int LOOSE_ROCKS_FREQUENCY = 100;
     }
 
     @SubscribeEvent

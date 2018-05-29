@@ -85,6 +85,7 @@ public class BlockCharcoalPile extends BlockBase {
             if(stack.getItem() == Items.FLINT_AND_STEEL || stack.getItem() == ModItems.firestarter){
                 if(BlockForge.updateSideBlocks(world, pos)) {
                     world.setBlockState(pos, ModBlocks.forge.getDefaultState().withProperty(LAYERS, state.getValue(LAYERS)));
+                    BlockForge.lightNearbyForges(world, pos);
                 }
 
                 return true;

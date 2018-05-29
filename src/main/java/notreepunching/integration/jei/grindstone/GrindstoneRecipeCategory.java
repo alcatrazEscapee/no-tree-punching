@@ -28,7 +28,7 @@ public class GrindstoneRecipeCategory implements IRecipeCategory {
 
     public GrindstoneRecipeCategory(IGuiHelper guiHelper){
         background = guiHelper.createDrawable(LOC,0,0,73,43);
-        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.grindstone_recipe");
+        localizedName = NoTreePunching.proxy.localize("jei.category.grindstone_recipe");
         icon = guiHelper.createDrawable(LOC,73,0,16,16);
 
         IDrawableStatic staticArrow = guiHelper.createDrawable(LOC, 90, 0, 23, 16);

@@ -8,11 +8,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import notreepunching.block.ModBlocks;
 import notreepunching.recipe.forge.ForgeRecipe;
 import notreepunching.recipe.forge.ForgeRecipeHandler;
 import notreepunching.util.ItemUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
@@ -76,19 +76,23 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
                     int layers = state.getValue(LAYERS);
                     if(layers == 1){
                         // Set the block to air and drop contents
-                        world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                        if(consumeFuelFromNearby(world, pos, layers)) {
+                            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                        }
                         return;
                     }else{
                         // Remove topmost layer
-                        world.setBlockState(pos,state.withProperty(LAYERS,layers - 1));
+                        if(consumeFuelFromNearby(world, pos, layers)) {
+                            world.setBlockState(pos, state.withProperty(LAYERS, layers - 1));
+                        }
                     }
                     state = world.getBlockState(pos);
                     // Attempt to burn out
                     Random rand = new Random();
                     if((closed && layers == 2) || // Always burn out on last layer when closed
-                            (closed && rand.nextFloat() < 0.25 && layers <= 4) || // 25% Chance to burn out when closed, layer  4>3>2
+                            (closed && rand.nextFloat() < 0.25 && layers <= 3) || // 25% Chance to burn out when closed, layer  3>2
                             (!closed && rand.nextFloat() < 0.25 && layers <= 2)){ // 25% Chance to burn out when open, layer 2>1
-                        // Always burn out at 1 when closed
+
                         world.setBlockState(pos, state.withProperty(BURNING, false));
                         burning = false;
                     }
@@ -178,6 +182,29 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
         return (oldState.getBlock() != newState.getBlock());
+    }
+
+    private boolean consumeFuelFromNearby(World world, BlockPos pos, int current){
+        BlockPos currentPos = pos;
+        int next;
+        for(int i = -2; i <= 2; i++){
+            for(int j = -2; j <= 2; j++){
+                IBlockState state = world.getBlockState(pos.add(i,0,j));
+                if(state.getBlock() == ModBlocks.forge){
+                    next = state.getValue(LAYERS);
+                    if(next > current || next == 8){
+                        current = next;
+                        currentPos = pos.add(i,0,j);
+                    }
+                }
+            }
+        }
+        if(currentPos == pos){
+            return true;
+        }else{
+            world.setBlockState(currentPos, ModBlocks.forge.getDefaultState().withProperty(BURNING, world.getBlockState(pos).getValue(BURNING)).withProperty(LAYERS, current - 1));
+            return false;
+        }
     }
 
     // ************* FIELD METHODS ************* //

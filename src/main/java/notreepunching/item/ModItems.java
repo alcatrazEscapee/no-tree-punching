@@ -113,11 +113,11 @@ public class ModItems {
     private static Item.ToolMaterial toolMaterialSteel = EnumHelper.addToolMaterial("NTP_STEEL", ModConfig.Balance.STEEL_MINING_LEVEL,1600,11F,3.0F,10);
 
     private static ItemArmor.ArmorMaterial armorMaterialCopper = EnumHelper.addArmorMaterial(
-            "NTP_COPPER", NoTreePunching.MODID+"copper", 80, new int[]{1,3,4,1}, 6, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
+            "NTP_COPPER", NoTreePunching.MODID+":copper", 80, new int[]{1,3,4,1}, 6, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
     private static ItemArmor.ArmorMaterial armorMaterialBronze = EnumHelper.addArmorMaterial(
-            "NTP_BRONZE", NoTreePunching.MODID+"bronze", 140, new int[]{2,4,6,2}, 8, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 2.0F);
+            "NTP_BRONZE", NoTreePunching.MODID+":bronze", 140, new int[]{2,4,6,2}, 8, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 2.0F);
     private static ItemArmor.ArmorMaterial armorMaterialSteel = EnumHelper.addArmorMaterial(
-            "NTP_STEEL", NoTreePunching.MODID+"steel", 400, new int[]{3,6,8,3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 4.0F);
+            "NTP_STEEL", NoTreePunching.MODID+":steel", 400, new int[]{3,6,8,3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 4.0F);
 
     public static void init(){
         rockStone = new ItemRock("rock");

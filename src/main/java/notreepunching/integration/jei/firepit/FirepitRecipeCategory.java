@@ -28,7 +28,7 @@ public class FirepitRecipeCategory implements IRecipeCategory {
 
     public FirepitRecipeCategory(IGuiHelper guiHelper){
         background = guiHelper.createDrawable(LOC,0,0,74,54);
-        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.firepit_recipe");
+        localizedName = NoTreePunching.proxy.localize("jei.category.firepit_recipe");
         icon = guiHelper.createDrawable(LOC,111,0,16,16);
 
         IDrawableStatic staticArrow = guiHelper.createDrawable(LOC, 88, 0, 16, 23);

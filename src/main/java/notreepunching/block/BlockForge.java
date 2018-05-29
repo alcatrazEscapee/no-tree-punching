@@ -1,6 +1,5 @@
 package notreepunching.block;
 
-import crafttweaker.api.block.IBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -9,7 +8,6 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -99,6 +97,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
             }
             if(stack.getItem() == Items.FLINT_AND_STEEL || stack.getItem() == ModItems.firestarter){
                 world.setBlockState(pos,state.withProperty(BURNING, !state.getValue(BURNING)));
+                lightNearbyForges(world, pos);
                 stack.damageItem(1, player);
                 world.playSound(null,pos, SoundEvents.ITEM_FLINTANDSTEEL_USE,SoundCategory.PLAYERS,1.0F,1.0F);
 
@@ -133,7 +132,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (!worldIn.isRemote) {
-            // Breaks rock if the block under it breaks.
+            // Breaks block if the block under it breaks.
             IBlockState stateUnder = worldIn.getBlockState(pos.down());
             if(!stateUnder.isNormalCube()){
                 this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -170,24 +169,36 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
     }
     public static boolean updateSideBlocks(World world, BlockPos pos) {
         if (!world.isRemote){
-            IBlockState state = world.getBlockState(pos.north());
-            if (!state.getBlock().isNormalCube(state, world, pos) || !state.getBlock().getMaterial(state).equals(Material.ROCK)) {
-                return false;
-            }
-            state = world.getBlockState(pos.east());
-            if (!state.getBlock().isNormalCube(state, world, pos) || !state.getBlock().getMaterial(state).equals(Material.ROCK)) {
-                return false;
-            }
-            state = world.getBlockState(pos.west());
-            if (!state.getBlock().isNormalCube(state, world, pos) || !state.getBlock().getMaterial(state).equals(Material.ROCK)) {
-                return false;
-            }
-            state = world.getBlockState(pos.south());
-            if (!state.getBlock().isNormalCube(state, world, pos) || !state.getBlock().getMaterial(state).equals(Material.ROCK)) {
-                return false;
+            IBlockState state;
+            for(EnumFacing face : EnumFacing.HORIZONTALS){
+                state = world.getBlockState(pos.offset(face));
+                if (!isValidSideBlock(state)) {
+                    return false;
+                }
             }
         }
         return true;
+    }
+    private static boolean isValidSideBlock(IBlockState state){
+        return (state.isNormalCube() && !state.getMaterial().getCanBurn()) || state.getBlock() == ModBlocks.forge || state.getBlock() == ModBlocks.charcoalPile;
+    }
+    public static void lightNearbyForges(World world, BlockPos pos){
+        for(EnumFacing face : EnumFacing.HORIZONTALS){
+            BlockPos pos1 = pos.offset(face);
+            IBlockState state = world.getBlockState(pos1);
+            if(state.getBlock() == ModBlocks.forge){
+                if(!state.getValue(BURNING) && updateSideBlocks(world, pos1)){
+                    world.setBlockState(pos1, ModBlocks.forge.getDefaultState().withProperty(LAYERS, state.getValue(LAYERS)));
+                    lightNearbyForges(world, pos1);
+                }
+            }
+            else if(state.getBlock() == ModBlocks.charcoalPile){
+                if(updateSideBlocks(world, pos1)) {
+                    world.setBlockState(pos1, ModBlocks.forge.getDefaultState().withProperty(LAYERS, state.getValue(LAYERS)));
+                    lightNearbyForges(world, pos1);
+                }
+            }
+        }
     }
 
 

@@ -35,8 +35,8 @@ public class WorldGenDeco {
         int chunkZ = event.getPos().getZ() >> 4;
         // Generate Surface Loose Rocks
         if(world.provider.getDimension() == 0 && ModConfig.World.LOOSE_ROCKS){
-            for (int i = 0; i < 3; i++)
-            {
+
+            for (int i = 0; i < ModConfig.World.LOOSE_ROCKS_FREQUENCY; i++) {
                 int xCoord = chunkX*16 + random.nextInt(16) + 8;
                 int zCoord = chunkZ*16 + random.nextInt(16) + 8;
                 if(world.getBiome(new BlockPos(xCoord,1,zCoord))!= Biomes.OCEAN && world.getBiome(new BlockPos(xCoord,1,zCoord))!=Biomes.DEEP_OCEAN && world.getBiome(new BlockPos(xCoord,1,zCoord))!= Biomes.FROZEN_OCEAN) {
@@ -46,7 +46,7 @@ public class WorldGenDeco {
         }
     }
 
-    private boolean generateRocks(World world, Random random, int i, int j, int k) {
+    private void generateRocks(World world, Random random, int i, int j, int k) {
 
         Block upBl = world.getBlockState(new BlockPos(i,j+1,k)).getBlock();
         Block atBl = world.getBlockState(new BlockPos(i,j,k)).getBlock();
@@ -90,6 +90,5 @@ public class WorldGenDeco {
             }
             world.setBlockState(new BlockPos(i, j+1, k), ModBlocks.looseRock.getDefaultState().withProperty(TYPE,type));
         }
-        return true;
     }
 }

@@ -28,7 +28,7 @@ public class ForgeRecipeCategory implements IRecipeCategory {
 
     public ForgeRecipeCategory(IGuiHelper guiHelper){
         background = guiHelper.createDrawable(LOC,0,0,128,54);
-        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.forge_recipe");
+        localizedName = NoTreePunching.proxy.localize("jei.category.forge_recipe");
         icon = guiHelper.createDrawable(LOC,128,0,16,16);
 
         IDrawableStatic staticFlame = guiHelper.createDrawable(LOC, 144, 0, 14, 14);

@@ -49,6 +49,10 @@ item.ingot_tin.name=Tin Ingot
 item.gear_wood.name=Wooden Gear
 item.ingot_steel.name=Steel Ingot
 item.dust_steel.name=Steel Dust
+item.nugget_tin.name=Tin Nugget
+item.nugget_copper.name=Copper Nugget
+item.steel_nugget.name=Steel Nugget
+item.bronze_nugget.name=Bronze Nugget
 
 item.copper_knife.name=Copper Knife
 item.copper_mattock.name=Copper Mattock
@@ -58,6 +62,10 @@ item.copper_shovel.name=Copper Shovel
 item.copper_sword.name=Copper Sword
 item.copper_axe.name=Copper Axe
 item.copper_pick.name=Copper Pick
+item.copper_helmet.name=Copper Helmet
+item.copper_chestplate.name=Copper Chestplate
+item.copper_leggings.name=Copper Leggings
+item.copper_boots.name=Copper Boots
 
 item.bronze_knife.name=Bronze Knife
 item.bronze_saw.name=Bronze Saw
@@ -67,6 +75,10 @@ item.bronze_axe.name=Bronze Axe
 item.bronze_hoe.name=Bronze Hoe
 item.bronze_shovel.name=Bronze Shovel
 item.bronze_sword.name=Bronze Sword
+item.bronze_helmet.name=Bronze Helmet
+item.bronze_chestplate.name=Bronze Chestplate
+item.bronze_leggings.name=Bronze Leggings
+item.bronze_boots.name=Bronze Boots
 
 item.steel_knife.name=Steel Knife
 item.steel_saw.name=Steel Saw
@@ -76,6 +88,10 @@ item.steel_axe.name=Steel Axe
 item.steel_hoe.name=Steel Hoe
 item.steel_shovel.name=Steel Shovel
 item.steel_sword.name=Steel Sword
+item.steel_helmet.name=Steel Helmet
+item.steel_chestplate.name=Steel Chestplate
+item.steel_leggings.name=Steel Leggings
+item.steel_boots.name=Steel Boots
 
 #Blocks
 
@@ -102,6 +118,10 @@ tile.loose_rock.slate.name=Loose Rock (Slate)
 
 tile.ore_tin.name=Tin Ore
 tile.ore_copper.name=Copper Ore
+tile.block_copper.name=Copper Block
+tile.block_bronze.name=Bronze Block
+tile.block_steel.name=Steel Block
+tile.block_tin.name=Tin Block
 
 #JEI
 
@@ -117,9 +137,10 @@ jei.description.firepit=To build a firepit, throw one log, one plant string, and
 jei.description.forge=To create a charcoal forge, place charcoal on the ground by right clicking. The higher the pile, the better. Surround the charcoal pile with four stone type blocks, then light it with either a flint and steel or a fire starter.
 jei.description.wood_pile=Wood piles can be created by shift right clicking any log. They function as small storage containers that only store logs. In addition, these log piles can be turned into charcoal. By placing log piles on the ground, and completely covering them on all sides with other log piles or full, non flammable blocks, and then lighting it on fire, they become a charcoal pit, and will eventually turn into charcoal.
 
-notreepunching.jei.category.knife_recipe=Knife Cutting
-notreepunching.jei.category.firepit_recipe=Firepit
-notreepunching.jei.category.forge_recipe=Charcoal Forge
+jei.category.knife_recipe=Knife Cutting
+jei.category.firepit_recipe=Firepit
+jei.category.forge_recipe=Charcoal Forge
+jei.category.grindstone_recipe=Grindstone
 
 # Sound Subtitles
 

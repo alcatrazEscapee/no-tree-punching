@@ -22,7 +22,7 @@ public class KnifeRecipeCategory implements IRecipeCategory {
 
     public KnifeRecipeCategory(IGuiHelper guiHelper){
         background = guiHelper.createDrawable(LOC,0,0,164,32);
-        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.knife_recipe");
+        localizedName = NoTreePunching.proxy.localize("jei.category.knife_recipe");
         icon = guiHelper.createDrawable(LOC,164,0,16,16);
 
     }
