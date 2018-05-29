@@ -1,6 +1,7 @@
 package notreepunching.item;
 
 import com.google.common.collect.Sets;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.state.IBlockState;
@@ -18,14 +19,17 @@ import net.minecraft.world.World;
 import notreepunching.NoTreePunching;
 import notreepunching.client.ModTabs;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Set;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ItemMattock extends ItemAxe {
 
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.DIRT,Blocks.GRAVEL,Blocks.SAND,Blocks.FARMLAND,Blocks.GRASS,Blocks.GRASS_PATH,Blocks.MYCELIUM);
     public String name;
 
-    public ItemMattock(ToolMaterial material, String name){
+    ItemMattock(ToolMaterial material, String name){
         super(material,material.getAttackDamage(),-2.8F);
 
         this.name = name;
@@ -75,7 +79,7 @@ public class ItemMattock extends ItemAxe {
         }
     }
 
-    protected void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, IBlockState state)
+    private void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, IBlockState state)
     {
         worldIn.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
 

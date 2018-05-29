@@ -30,7 +30,7 @@ public class ItemKnife extends ItemTool {
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.TALLGRASS,Blocks.DOUBLE_PLANT,Blocks.MELON_BLOCK,Blocks.PUMPKIN,Blocks.WOOL);
     public String name;
 
-    public ItemKnife(Item.ToolMaterial material, String name){
+    ItemKnife(Item.ToolMaterial material, String name){
         super(material.getAttackDamage(),-2.0F,material,EFFECTIVE_ON);
 
         this.name = name;
@@ -82,9 +82,9 @@ public class ItemKnife extends ItemTool {
                 // Play a cool sound effect:
                 BlockPos pos = new BlockPos(playerIn.posX,playerIn.posY,playerIn.posZ);
                 worldIn.playSound(playerIn, pos, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+                return new ActionResult<>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
             }
         }
-        return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
+        return new ActionResult<>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
     }
 }

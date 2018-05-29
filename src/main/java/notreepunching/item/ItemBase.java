@@ -9,7 +9,7 @@ public class ItemBase extends Item {
 
     public String name;
 
-    public ItemBase(String name){
+    ItemBase(String name){
         super();
 
         this.name = name;

@@ -1,6 +1,5 @@
 package notreepunching.item;
 
-
 import com.google.common.collect.Sets;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;

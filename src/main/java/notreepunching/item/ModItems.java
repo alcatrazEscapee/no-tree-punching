@@ -53,28 +53,28 @@ public class ModItems {
     public static ItemMattock steelMattock;
 
     public static ItemCrudeAxe crudeHatchet;
-    public static ItemAxeBase copperAxe;
-    public static ItemAxeBase bronzeAxe;
-    public static ItemAxeBase steelAxe;
+    public static ItemBaseAxe copperAxe;
+    public static ItemBaseAxe bronzeAxe;
+    public static ItemBaseAxe steelAxe;
 
-    public static ItemSwordBase copperSword;
-    public static ItemSwordBase bronzeSword;
-    public static ItemSwordBase steelSword;
+    public static ItemBaseSword copperSword;
+    public static ItemBaseSword bronzeSword;
+    public static ItemBaseSword steelSword;
 
-    public static ItemPickBase crudePick;
-    public static ItemPickBase copperPick;
-    public static ItemPickBase bronzePick;
-    public static ItemPickBase steelPick;
+    public static ItemBasePick crudePick;
+    public static ItemBasePick copperPick;
+    public static ItemBasePick bronzePick;
+    public static ItemBasePick steelPick;
 
-    public static ItemShovelBase crudeShovel;
-    public static ItemShovelBase copperShovel;
-    public static ItemShovelBase bronzeShovel;
-    public static ItemShovelBase steelShovel;
+    public static ItemBaseShovel crudeShovel;
+    public static ItemBaseShovel copperShovel;
+    public static ItemBaseShovel bronzeShovel;
+    public static ItemBaseShovel steelShovel;
 
-    public static ItemHoeBase crudeHoe;
-    public static ItemHoeBase copperHoe;
-    public static ItemHoeBase bronzeHoe;
-    public static ItemHoeBase steelHoe;
+    public static ItemBaseHoe crudeHoe;
+    public static ItemBaseHoe copperHoe;
+    public static ItemBaseHoe bronzeHoe;
+    public static ItemBaseHoe steelHoe;
 
     public static ItemFirestarter firestarter;
     public static ItemGrindWheel grindWheel;
@@ -146,9 +146,9 @@ public class ModItems {
         // TOOLS
         stoneKnife = new ItemKnife(toolMaterialFlint,"stone_knife");
         crudeHatchet = new ItemCrudeAxe(toolMaterialFlint,"crude_axe");
-        crudePick = new ItemPickBase(toolMaterialFlint,"crude_pick");
-        crudeShovel = new ItemShovelBase(toolMaterialFlint, "crude_shovel");
-        crudeHoe = new ItemHoeBase(toolMaterialFlint, "crude_hoe");
+        crudePick = new ItemBasePick(toolMaterialFlint,"crude_pick");
+        crudeShovel = new ItemBaseShovel(toolMaterialFlint, "crude_shovel");
+        crudeHoe = new ItemBaseHoe(toolMaterialFlint, "crude_hoe");
 
         ironKnife = new ItemKnife(Item.ToolMaterial.IRON,"iron_knife");
         ironMattock = new ItemMattock(Item.ToolMaterial.IRON,"iron_mattock");
@@ -165,29 +165,29 @@ public class ModItems {
         copperKnife = new ItemKnife(toolMaterialCopper,"copper_knife");
         copperSaw = new ItemSaw(toolMaterialCopper,"copper_saw");
         copperMattock = new ItemMattock(toolMaterialCopper,"copper_mattock");
-        copperPick = new ItemPickBase(toolMaterialCopper, "copper_pick");
-        copperAxe = new ItemAxeBase(toolMaterialCopper, "copper_axe");
-        copperHoe = new ItemHoeBase(toolMaterialCopper, "copper_hoe");
-        copperShovel = new ItemShovelBase(toolMaterialCopper, "copper_shovel");
-        copperSword = new ItemSwordBase(toolMaterialCopper, "copper_sword");
+        copperPick = new ItemBasePick(toolMaterialCopper, "copper_pick");
+        copperAxe = new ItemBaseAxe(toolMaterialCopper, "copper_axe");
+        copperHoe = new ItemBaseHoe(toolMaterialCopper, "copper_hoe");
+        copperShovel = new ItemBaseShovel(toolMaterialCopper, "copper_shovel");
+        copperSword = new ItemBaseSword(toolMaterialCopper, "copper_sword");
 
         bronzeKnife = new ItemKnife(toolMaterialBronze,"bronze_knife");
         bronzeSaw = new ItemSaw(toolMaterialBronze, "bronze_saw");
         bronzeMattock = new ItemMattock(toolMaterialBronze, "bronze_mattock");
-        bronzePick = new ItemPickBase(toolMaterialBronze, "bronze_pick");
-        bronzeAxe = new ItemAxeBase(toolMaterialBronze, "bronze_axe");
-        bronzeHoe = new ItemHoeBase(toolMaterialBronze, "bronze_hoe");
-        bronzeShovel = new ItemShovelBase(toolMaterialBronze, "bronze_shovel");
-        bronzeSword = new ItemSwordBase(toolMaterialBronze, "bronze_sword");
+        bronzePick = new ItemBasePick(toolMaterialBronze, "bronze_pick");
+        bronzeAxe = new ItemBaseAxe(toolMaterialBronze, "bronze_axe");
+        bronzeHoe = new ItemBaseHoe(toolMaterialBronze, "bronze_hoe");
+        bronzeShovel = new ItemBaseShovel(toolMaterialBronze, "bronze_shovel");
+        bronzeSword = new ItemBaseSword(toolMaterialBronze, "bronze_sword");
 
         steelKnife = new ItemKnife(toolMaterialSteel, "steel_knife");
         steelSaw = new ItemSaw(toolMaterialSteel, "steel_saw");
         steelMattock = new ItemMattock(toolMaterialSteel, "steel_mattock");
-        steelPick = new ItemPickBase(toolMaterialSteel, "steel_pick");
-        steelAxe = new ItemAxeBase(toolMaterialSteel, "steel_axe");
-        steelHoe = new ItemHoeBase(toolMaterialSteel, "steel_hoe");
-        steelShovel = new ItemShovelBase(toolMaterialSteel, "steel_shovel");
-        steelSword = new ItemSwordBase(toolMaterialSteel, "steel_sword");
+        steelPick = new ItemBasePick(toolMaterialSteel, "steel_pick");
+        steelAxe = new ItemBaseAxe(toolMaterialSteel, "steel_axe");
+        steelHoe = new ItemBaseHoe(toolMaterialSteel, "steel_hoe");
+        steelShovel = new ItemBaseShovel(toolMaterialSteel, "steel_shovel");
+        steelSword = new ItemBaseSword(toolMaterialSteel, "steel_sword");
 
         // ARMOR
         helmetCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.HEAD, "copper_helmet");
