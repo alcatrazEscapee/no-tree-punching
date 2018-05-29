@@ -1,6 +1,7 @@
 package notreepunching.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import notreepunching.NoTreePunching;
 import notreepunching.client.ModTabs;
@@ -13,13 +14,12 @@ public class ModBlocks {
 
     public static BlockRock looseRock;
 
-    public static BlockCobble andesiteCobble;
-    public static BlockCobble graniteCobble;
-    public static BlockCobble dioriteCobble;
-
-    public static BlockCobble marbleCobble;
-    public static BlockCobble limestoneCobble;
-    public static BlockCobble slateCobble;
+    public static BlockBase andesiteCobble;
+    public static BlockBase graniteCobble;
+    public static BlockBase dioriteCobble;
+    public static BlockBase marbleCobble;
+    public static BlockBase limestoneCobble;
+    public static BlockBase slateCobble;
 
     public static BlockFirepit firepit;
     public static BlockCharcoalPile charcoalPile;
@@ -28,27 +28,27 @@ public class ModBlocks {
     public static BlockBellows bellows;
     public static BlockGrindstone grindstone;
 
-    public static BlockMetal oreCopper;
-    public static BlockMetal oreTin;
-    public static BlockMetal blockTin;
-    public static BlockMetal blockCopper;
-    public static BlockMetal blockBronze;
-    public static BlockMetal blockSteel;
+    public static BlockBase oreCopper;
+    public static BlockBase oreTin;
+    public static BlockBase blockTin;
+    public static BlockBase blockCopper;
+    public static BlockBase blockBronze;
+    public static BlockBase blockSteel;
 
     public static void init(){
         looseRock = new BlockRock("loose_rock");
 
         if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS) {
-            andesiteCobble = new BlockCobble("andesite");
-            graniteCobble = new BlockCobble("granite");
-            dioriteCobble = new BlockCobble("diorite");
+            andesiteCobble = new BlockBase("andesite_cobblestone", Material.ROCK).setHardness(2.0F);
+            graniteCobble = new BlockBase("granite_cobblestone", Material.ROCK).setHardness(2.0F);
+            dioriteCobble = new BlockBase("diorite_cobblestone", Material.ROCK).setHardness(2.0F);
         }
         if(NoTreePunching.replaceQuarkStones){
-            marbleCobble = new BlockCobble("marble");
-            limestoneCobble = new BlockCobble("limestone");
+            marbleCobble = new BlockBase("marble", Material.ROCK).setHardness(2.0F);
+            limestoneCobble = new BlockBase("limestone", Material.ROCK).setHardness(2.0F);
         }
         if(NoTreePunching.replaceRusticStone){
-            slateCobble = new BlockCobble("slate");
+            slateCobble = new BlockBase("slate", Material.ROCK).setHardness(2.0F);
         }
 
         firepit = new BlockFirepit("firepit");
@@ -58,12 +58,12 @@ public class ModBlocks {
         bellows = new BlockBellows("bellows");
         grindstone = new BlockGrindstone("grindstone");
 
-        oreCopper = new BlockMetal("ore_copper");
-        oreTin = new BlockMetal("ore_tin");
-        blockBronze = new BlockMetal("block_bronze");
-        blockSteel = new BlockMetal("block_steel");
-        blockCopper = new BlockMetal("block_copper");
-        blockTin = new BlockMetal("block_tin");
+        oreCopper = new BlockBase("ore_copper", Material.ROCK).setHardness(2.5F).setHarvestType("pickaxe",0);
+        oreTin = new BlockBase("ore_tin", Material.ROCK).setHardness(2.5F).setHarvestType("pickaxe",0);
+        blockBronze = new BlockBase("block_bronze", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",2);
+        blockSteel = new BlockBase("block_steel", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",3);
+        blockCopper = new BlockBase("block_copper", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",1);
+        blockTin = new BlockBase("block_tin", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",1);
 
     }
 

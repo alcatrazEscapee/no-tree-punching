@@ -1,5 +1,6 @@
 package notreepunching.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -24,11 +25,13 @@ import net.minecraft.world.World;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("deprecation")
 public class BlockCharcoalPile extends BlockBase {
 
     public static final PropertyInteger LAYERS = PropertyInteger.create("type",1,8);
@@ -43,7 +46,7 @@ public class BlockCharcoalPile extends BlockBase {
             new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D),
             new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
 
-    public BlockCharcoalPile(String name){
+    BlockCharcoalPile(String name){
         super(name, Material.GROUND);
 
         setSoundType(SoundType.GROUND);
@@ -92,7 +95,6 @@ public class BlockCharcoalPile extends BlockBase {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
         this.onBlockHarvested(world, pos, state, player);
 
@@ -112,7 +114,6 @@ public class BlockCharcoalPile extends BlockBase {
         return true;
     }
 
-    @Nonnull
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Items.COAL;
@@ -121,9 +122,6 @@ public class BlockCharcoalPile extends BlockBase {
     public int damageDropped(IBlockState state) {
         return 1;
     }
-    //public int quantityDropped(IBlockState state, int fortune, @Nonnull Random random) {
-    //    return state.getValue(LAYERS);
-    //}
 
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
@@ -154,26 +152,23 @@ public class BlockCharcoalPile extends BlockBase {
     }
 
     @Override
-    @Nonnull
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(Items.COAL, 1, 1);
     }
 
     // *************** APPEARANCE AND BLOCK STATE METHODS ********************** //
 
-    @Nonnull
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return PILE_AABB[state.getValue(LAYERS)];
     }
     public boolean isTopSolid(IBlockState state) {
         return state.getValue(LAYERS) == 8;
     }
-    @Nonnull
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         int i = blockState.getValue(LAYERS) - 1;
         AxisAlignedBB axisalignedbb = blockState.getBoundingBox(worldIn, pos);
         return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.maxX, (double)((float)i * 0.125F), axisalignedbb.maxZ);
@@ -184,14 +179,12 @@ public class BlockCharcoalPile extends BlockBase {
     public boolean isFullCube(IBlockState state) {
         return state.getValue(LAYERS) == 8;
     }
-    @Nonnull
     public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(LAYERS, meta + 1);
     }
     public int getMetaFromState(IBlockState state) {
         return state.getValue(LAYERS) - 1;
     }
-    @Nonnull
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, LAYERS);
     }

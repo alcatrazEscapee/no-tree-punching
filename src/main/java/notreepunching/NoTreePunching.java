@@ -24,7 +24,6 @@ import notreepunching.world.WorldGenOres;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = NoTreePunching.MODID, version = NoTreePunching.VERSION, dependencies = "after:quark;after:rustic;after:biomeoplenty")
-
 public class NoTreePunching {
 
     public static final String MODID = "notreepunching";
@@ -74,7 +73,7 @@ public class NoTreePunching {
     public void init(FMLInitializationEvent event){
         logger.info("Init started");
 
-        // Register Ore Dict
+        // Recipes init
         ModRecipes.init();
     }
 
@@ -82,7 +81,9 @@ public class NoTreePunching {
     public void postInit(FMLPostInitializationEvent event) {
         logger.info("Post-init started");
 
+        // Recipes Post init
         ModRecipes.postInit();
+
         ModTabs.ITEMS_TAB.setTabItem(ModItems.rockStone);
         ModTabs.TOOLS_TAB.setTabItem(ModItems.crudePick);
 

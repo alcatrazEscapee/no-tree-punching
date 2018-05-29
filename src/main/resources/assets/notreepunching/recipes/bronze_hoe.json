@@ -2,7 +2,7 @@
 	"type": "forge:ore_shaped",
 	"pattern": [
 		"II",
-		"T",
+		"T ",
 		"T "
 	],
 	"key": {

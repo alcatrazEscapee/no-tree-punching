@@ -6,22 +6,21 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import notreepunching.block.tile.IHasTESR;
 import notreepunching.block.tile.IHasTileEntity;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public abstract class BlockWithTileEntity<TE extends TileEntity> extends BlockBase implements IHasTileEntity<TE>{
 
-    public BlockWithTileEntity(String name, Material material) {
+    BlockWithTileEntity(String name, Material material) {
         super(name, material);
     }
 
     public abstract Class<TE> getTileEntityClass();
 
+    @SuppressWarnings("unchecked")
     public TE getTileEntity(IBlockAccess world, BlockPos pos) {
         return (TE) world.getTileEntity(pos);
     }
