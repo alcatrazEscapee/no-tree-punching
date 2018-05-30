@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.ModConfig;
+import notreepunching.util.MiscUtil;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -64,6 +65,13 @@ public class TileEntityWoodPile extends TileEntitySidedInventory implements ITic
         }
 
         world.setBlockToAir(pos);
+    }
+
+    public static boolean isItemValid(ItemStack stack) {
+        if(!stack.isEmpty()){
+            return MiscUtil.doesStackMatchOre(stack, "logWood");
+        }
+        return true;
     }
 
     public void insertLog(ItemStack stack){

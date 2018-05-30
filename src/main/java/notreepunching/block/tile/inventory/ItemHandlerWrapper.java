@@ -3,6 +3,7 @@ package notreepunching.block.tile.inventory;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
+import notreepunching.block.tile.TileEntitySidedInventory;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -11,14 +12,17 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class ItemHandlerWrapper extends ItemStackHandler {
 
     private final ItemStackHandler internalInventory;
+    private final TileEntitySidedInventory tile;
 
     private boolean[] extractSlots;
     private boolean[] insertSlots;
 
-    public ItemHandlerWrapper(ItemStackHandler inventory){
+    public ItemHandlerWrapper(ItemStackHandler inventory, TileEntitySidedInventory tile){
         super();
 
-        internalInventory = inventory;
+        this.internalInventory = inventory;
+        this.tile = tile;
+
         extractSlots = new boolean[inventory.getSlots()];
         insertSlots = new boolean[inventory.getSlots()];
     }
@@ -52,7 +56,7 @@ public class ItemHandlerWrapper extends ItemStackHandler {
     // Return stack to prevent insertion
     @Override
     public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-        if(insertSlots[slot]) {
+        if(insertSlots[slot] && tile.isItemValid(slot, stack)) {
             return internalInventory.insertItem(slot, stack, simulate);
         }
         return stack;

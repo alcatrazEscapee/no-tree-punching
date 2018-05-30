@@ -2,6 +2,7 @@ package notreepunching.block.tile;
 
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -34,6 +35,7 @@ public abstract class TileEntitySidedInventory extends TileEntity {
     public int getSlotLimit(int slot){
         return 64;
     }
+    public boolean isItemValid(int slot, ItemStack stack){ return true; }
 
     protected abstract NBTTagCompound writeNBT(NBTTagCompound c);
 

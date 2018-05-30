@@ -68,7 +68,7 @@ public class TileEntityForge extends TileEntitySidedInventory implements ITickab
         maxTemperature = 0;
         maxTemp = 1500;
 
-        wrapper = new ItemHandlerWrapper(inventory);
+        wrapper = new ItemHandlerWrapper(inventory,this);
         wrapper.addExtractSlot(OUT_SLOT);
         wrapper.addInsertSlot(IN_SLOT);
     }
@@ -215,6 +215,16 @@ public class TileEntityForge extends TileEntitySidedInventory implements ITickab
         }else{
             world.setBlockState(currentPos, ModBlocks.forge.getDefaultState().withProperty(BURNING, world.getBlockState(pos).getValue(BURNING)).withProperty(LAYERS, current - 1));
             return false;
+        }
+    }
+
+    @Override
+    public boolean isItemValid(int slot, ItemStack stack) {
+        switch(slot){
+            case IN_SLOT:
+                return ForgeRecipeHandler.isIngredient(stack);
+            default:
+                return false;
         }
     }
 

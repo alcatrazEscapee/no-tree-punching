@@ -36,10 +36,10 @@ public class TileEntityGrindstone extends TileEntitySidedInventory implements IT
     public TileEntityGrindstone(){
         super(3);
 
-        outputWrapper = new ItemHandlerWrapper(inventory);
+        outputWrapper = new ItemHandlerWrapper(inventory, this);
         outputWrapper.addExtractSlot(OUTPUT_SLOT);
 
-        inputWrapper = new ItemHandlerWrapper(inventory);
+        inputWrapper = new ItemHandlerWrapper(inventory, this);
         inputWrapper.addInsertSlot(INPUT_SLOT, WHEEL_SLOT);
     }
 
@@ -56,8 +56,15 @@ public class TileEntityGrindstone extends TileEntitySidedInventory implements IT
     }
 
     @Override
+    public boolean isItemValid(int slot, ItemStack stack) {
+        return slot == WHEEL_SLOT ? isWheel(stack) : super.isItemValid(slot, stack);
+    }
+    public static boolean isWheel(ItemStack stack){ return stack.getItem() == ModItems.grindWheel; }
+
+    @Override
     public void setAndUpdateSlots(int slot){
         updateWheel();
+        this.markDirty();
     }
 
     public void startGrinding() {

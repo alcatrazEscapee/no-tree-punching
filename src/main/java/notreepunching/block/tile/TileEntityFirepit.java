@@ -104,10 +104,6 @@ public class TileEntityFirepit extends TileEntitySidedInventory implements ITick
         return TileEntityFurnace.getItemBurnTime(is) > 0 && TileEntityFurnace.getItemBurnTime(is) <= ModConfig.Balance.FUEL_MAX;
     }
 
-    public static boolean isItemValidInput(ItemStack is){
-        return FirepitRecipeHandler.isRecipe(is);
-    }
-
     public int getField(int id) {
         if (id == BURN_FIELD_ID) return burnTicks;
         if (id == MAX_BURN_FIELD_ID) return maxBurnTicks;
