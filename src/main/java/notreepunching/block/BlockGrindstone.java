@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -16,6 +17,7 @@ import notreepunching.block.tile.IHasTESR;
 import notreepunching.block.tile.TileEntityGrindstone;
 import notreepunching.client.ModGuiHandler;
 import notreepunching.client.tesr.TESRGrindstone;
+import notreepunching.item.ModItems;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -75,19 +77,26 @@ public class BlockGrindstone extends BlockWithTileEntity<TileEntityGrindstone> i
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
-            if(side != EnumFacing.UP){
+            ItemStack stack = player.getHeldItem(hand);
+            TileEntityGrindstone te = (TileEntityGrindstone) world.getTileEntity(pos);
+            if(te == null) return true;
+
+            if(stack.getItem() == ModItems.grindWheel){
+                if(!te.getHasWheel()){
+                    te.insertWheel(stack);
+                    player.setHeldItem(hand, ItemStack.EMPTY);
+                    return true;
+                }
+            }
+
+            // Only start grinding if there is a wheel, you clicked on it, and its not already grinding
+            if(te.getHasWheel() && side == EnumFacing.UP && te.getRotation() == 0){
+                te.startGrinding();
+            }else{
                 if(!player.isSneaking()){
                     player.openGui(NoTreePunching.instance, ModGuiHandler.GRINDSTONE, world, pos.getX(), pos.getY(), pos.getZ());
                 }
-            }else{
-                TileEntityGrindstone te = (TileEntityGrindstone) world.getTileEntity(pos);
-                if(te != null){
-                    te.startGrinding();
-                }
             }
-            // If the TE grind slot is empty, and the player is not shifting open it
-            // If the TE grind slot is not empty, and player is shifting, open it
-            // If the TE grind slot is not empty, and the player is not shifting, turn the crank
         }
         return true;
     }

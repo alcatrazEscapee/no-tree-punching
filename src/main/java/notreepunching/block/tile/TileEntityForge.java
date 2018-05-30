@@ -5,14 +5,19 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
 import notreepunching.block.ModBlocks;
+import notreepunching.block.tile.inventory.ItemHandlerWrapper;
 import notreepunching.recipe.forge.ForgeRecipe;
 import notreepunching.recipe.forge.ForgeRecipeHandler;
 import notreepunching.util.ItemUtil;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
@@ -21,7 +26,7 @@ import static notreepunching.block.BlockForge.LAYERS;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TileEntityForge extends TileEntityInventory implements ITickable, IHasFields {
+public class TileEntityForge extends TileEntitySidedInventory implements ITickable, IHasFields {
 
     private int burnTicks;
     private final int maxBurnTicks = 1600; // This can never be zero
@@ -47,6 +52,8 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     private final byte COOK_ID = 2;
     private final byte MAX_COOK_ID = 3;
 
+    private final ItemHandlerWrapper wrapper;
+
 
     public TileEntityForge(){
         super(2);
@@ -60,6 +67,10 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
         minTemperature = 800;
         maxTemperature = 0;
         maxTemp = 1500;
+
+        wrapper = new ItemHandlerWrapper(inventory);
+        wrapper.addExtractSlot(OUT_SLOT);
+        wrapper.addInsertSlot(IN_SLOT);
     }
 
     public void update(){
@@ -290,5 +301,19 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
         minTemperature = compound.getInteger("min_temperature");
         closed = compound.getBoolean("closed");
         airTicks = compound.getInteger("air_ticks");
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+        if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing == EnumFacing.UP){
+            return (T) wrapper;
+        }
+        return super.getCapability(capability, facing);
+    }
+
+    @Override
+    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+        return (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing == EnumFacing.UP) || super.hasCapability(capability, facing);
     }
 }

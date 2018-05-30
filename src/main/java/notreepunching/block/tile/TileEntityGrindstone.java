@@ -3,19 +3,24 @@ package notreepunching.block.tile;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.items.CapabilityItemHandler;
+import notreepunching.block.tile.inventory.ItemHandlerWrapper;
 import notreepunching.item.ModItems;
 import notreepunching.network.*;
 import notreepunching.recipe.grindstone.GrindstoneRecipe;
 import notreepunching.recipe.grindstone.GrindstoneRecipeHandler;
 import notreepunching.util.ItemUtil;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TileEntityGrindstone extends TileEntityInventory implements ITickable, IHasFields {
+public class TileEntityGrindstone extends TileEntitySidedInventory implements ITickable, IHasFields {
 
     private int rotation = 0;
     private boolean hasWheel = false;
@@ -25,8 +30,17 @@ public class TileEntityGrindstone extends TileEntityInventory implements ITickab
     private final byte OUTPUT_SLOT = 1;
     private final byte WHEEL_SLOT = 2;
 
+    private final ItemHandlerWrapper outputWrapper;
+    private final ItemHandlerWrapper inputWrapper;
+
     public TileEntityGrindstone(){
         super(3);
+
+        outputWrapper = new ItemHandlerWrapper(inventory);
+        outputWrapper.addExtractSlot(OUTPUT_SLOT);
+
+        inputWrapper = new ItemHandlerWrapper(inventory);
+        inputWrapper.addInsertSlot(INPUT_SLOT, WHEEL_SLOT);
     }
 
     public void update(){
@@ -42,7 +56,7 @@ public class TileEntityGrindstone extends TileEntityInventory implements ITickab
     }
 
     @Override
-    public void setAndUpdateSlots(){
+    public void setAndUpdateSlots(int slot){
         updateWheel();
     }
 
@@ -92,6 +106,11 @@ public class TileEntityGrindstone extends TileEntityInventory implements ITickab
             ModNetwork.network.sendToAllAround(new PacketUpdateGrindstone(this), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
         }
     }
+    public void insertWheel(ItemStack stack){
+        if(inventory.getStackInSlot(WHEEL_SLOT).isEmpty()) {
+            inventory.setStackInSlot(WHEEL_SLOT, stack);
+        }
+    }
 
     public int getRotation(){ return rotation; }
     public void setRotation(int rotation){ this.rotation = rotation; }
@@ -131,5 +150,26 @@ public class TileEntityGrindstone extends TileEntityInventory implements ITickab
     @Override
     public int getFieldCount() {
         return 1;
+    }
+
+    @Override
+    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+        if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing != null){
+            return true;
+        }
+        return super.hasCapability(capability, facing);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+        if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing != null){
+            if(facing == EnumFacing.DOWN){
+                return (T) outputWrapper;
+            }else{
+                return (T) inputWrapper;
+            }
+        }
+        return super.getCapability(capability, facing);
     }
 }

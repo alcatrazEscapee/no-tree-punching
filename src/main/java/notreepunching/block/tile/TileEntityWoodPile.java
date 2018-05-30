@@ -1,5 +1,6 @@
 package notreepunching.block.tile;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -12,23 +13,24 @@ import net.minecraft.world.World;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.ModConfig;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import static notreepunching.block.BlockWoodPile.ONFIRE;
 
 import static notreepunching.block.BlockCharcoalPile.LAYERS;
 
-public class TileEntityWoodPile extends TileEntityInventory implements ITickable {
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+public class TileEntityWoodPile extends TileEntitySidedInventory implements ITickable {
 
     public boolean burning;
     private int burnTicks;
     private final int maxBurnTicks;
 
-    public static final int NUM_SLOTS = 4;
+    private static final int NUM_SLOTS = 4;
 
     public TileEntityWoodPile(){
-        super(NUM_SLOTS,4);
+        super(NUM_SLOTS);
 
         burnTicks = 0;
         maxBurnTicks = ModConfig.Balance.CHARCOAL_PIT_TIMER;
@@ -53,7 +55,7 @@ public class TileEntityWoodPile extends TileEntityInventory implements ITickable
     }
 
     @Override
-    public void setAndUpdateSlots(){
+    public void setAndUpdateSlots(int slot){
         if(world.isRemote){ return; }
         for(int i = 0; i < 4; i++){
             if(!inventory.getStackInSlot(i).isEmpty()){
@@ -64,7 +66,7 @@ public class TileEntityWoodPile extends TileEntityInventory implements ITickable
         world.setBlockToAir(pos);
     }
 
-    public void insertLog(@Nonnull ItemStack stack){
+    public void insertLog(ItemStack stack){
         inventory.setStackInSlot(0, stack);
     }
 
@@ -141,7 +143,6 @@ public class TileEntityWoodPile extends TileEntityInventory implements ITickable
         return logs;
     }
 
-    @Nonnull
     @Override
     protected NBTTagCompound writeNBT(NBTTagCompound c) {
         c.setInteger("burn_ticks",burnTicks);
@@ -155,7 +156,6 @@ public class TileEntityWoodPile extends TileEntityInventory implements ITickable
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
     {
         return (oldState.getBlock() != newState.getBlock());

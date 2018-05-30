@@ -27,6 +27,7 @@ public class ModBlocks {
     public static BlockWoodPile woodPile;
     public static BlockBellows bellows;
     public static BlockGrindstone grindstone;
+    public static BlockBlastFurnace blastFurnace;
 
     public static BlockBase oreCopper;
     public static BlockBase oreTin;
@@ -34,6 +35,7 @@ public class ModBlocks {
     public static BlockBase blockCopper;
     public static BlockBase blockBronze;
     public static BlockBase blockSteel;
+    public static BlockBase bronzeBricks;
 
     public static void init(){
         looseRock = new BlockRock("loose_rock");
@@ -57,13 +59,15 @@ public class ModBlocks {
         woodPile = new BlockWoodPile("wood_pile");
         bellows = new BlockBellows("bellows");
         grindstone = new BlockGrindstone("grindstone");
+        blastFurnace = new BlockBlastFurnace("blast_furnace");
 
         oreCopper = new BlockBase("ore_copper", Material.ROCK).setHardness(2.5F).setHarvestType("pickaxe",0);
         oreTin = new BlockBase("ore_tin", Material.ROCK).setHardness(2.5F).setHarvestType("pickaxe",0);
         blockBronze = new BlockBase("block_bronze", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",2);
         blockSteel = new BlockBase("block_steel", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",3);
         blockCopper = new BlockBase("block_copper", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",1);
-        blockTin = new BlockBase("block_tin", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",1);
+        blockTin = new BlockBase("block_tin", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",0);
+        bronzeBricks = new BlockBase("bronze_bricks", Material.IRON).setHardness(5.0F).setHarvestType("pickaxe",2);
 
     }
 

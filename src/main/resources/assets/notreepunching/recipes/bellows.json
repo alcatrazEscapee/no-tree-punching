@@ -3,7 +3,7 @@
 	"pattern": [
 		"WWW",
 		"LLL",
-		"WGW"
+		"BGB"
 	],
 	"key": {
 		"G": {
@@ -17,6 +17,10 @@
 		"L": {
 			"type": "forge:ore_dict",
 			"ore": "leather"
+		},
+		"B": {
+			"type": "forge:ore_dict",
+			"ore": "ingotBronze"
 		}
 	},
 	"result": {

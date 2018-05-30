@@ -1,5 +1,7 @@
 package notreepunching.block.tile;
 
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -8,54 +10,34 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import notreepunching.block.tile.inventory.ItemHandlerCustom;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-public abstract class TileEntityInventory extends TileEntity {
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
+public abstract class TileEntitySidedInventory extends TileEntity {
 
     protected final ItemStackHandler inventory;
 
-    public TileEntityInventory(int inventorySize){
+    TileEntitySidedInventory(int inventorySize){
         super();
-        inventory = new ItemStackHandler(inventorySize){
-            @Override
-            protected void onContentsChanged(int slot) {
-                if(!world.isRemote){
-                    TileEntityInventory.this.markDirty();
-                    TileEntityInventory.this.setAndUpdateSlots();
-                }
-            }
-        };
+        inventory = new ItemHandlerCustom(this, inventorySize);
         this.markDirty();
     }
-    // Used by Wood Pile
-    public TileEntityInventory(int inventorySize, int maxStackSize){
-        super();
-        inventory = new ItemStackHandler(inventorySize){
-            @Override
-            protected void onContentsChanged(int slot) {
-                if(!world.isRemote){
-                    TileEntityInventory.this.markDirty();
-                    TileEntityInventory.this.setAndUpdateSlots();
-                }
-            }
 
-            @Override
-            public int getSlotLimit(int slot) {
-                return maxStackSize;
-            }
-        };
+    public void setAndUpdateSlots(int slot){
+        this.markDirty();
+    }
+    public int getSlotLimit(int slot){
+        return 64;
     }
 
-    public void setAndUpdateSlots(){
-    }
-
-    @Nonnull
     protected abstract NBTTagCompound writeNBT(NBTTagCompound c);
 
     @Override
-    @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setTag("inventory", inventory.serializeNBT());
         return super.writeToNBT(writeNBT(compound));
@@ -88,7 +70,6 @@ public abstract class TileEntityInventory extends TileEntity {
        Warning - although our getUpdatePacket() uses this method, vanilla also calls it directly, so don't remove it.
      */
     @Override
-    @Nonnull
     public NBTTagCompound getUpdateTag()
     {
         NBTTagCompound nbtTagCompound = new NBTTagCompound();
@@ -100,19 +81,22 @@ public abstract class TileEntityInventory extends TileEntity {
      Warning - although our onDataPacket() uses this method, vanilla also calls it directly, so don't remove it.
    */
     @Override
-    public void handleUpdateTag(@Nonnull NBTTagCompound tag)
+    public void handleUpdateTag(NBTTagCompound tag)
     {
         this.readFromNBT(tag);
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+        return (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing == null) || super.hasCapability(capability, facing);
     }
 
-    @Nullable
     @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? (T)inventory : super.getCapability(capability, facing);
+    @SuppressWarnings("unchecked")
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+        if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing == null) {
+            return (T) inventory;
+        }
+        return super.getCapability(capability, facing);
     }
 }

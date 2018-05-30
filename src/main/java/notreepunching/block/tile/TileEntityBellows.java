@@ -24,7 +24,7 @@ public class TileEntityBellows extends TileEntity implements ITickable{
     private double step = stepSize;
     private int facing;
 
-    public TileEntityBellows(){
+    private TileEntityBellows(){
         super();
         power = false;
         height = 0.2;

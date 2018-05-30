@@ -25,7 +25,7 @@ public class ContainerGrindstone extends ContainerBase<TileEntityGrindstone> {
 
     @Override
     protected void addContainerSlots(TileEntityGrindstone tile) {
-        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
         addSlotToContainer(new SlotInput(inventory, 0,52,44, tile));
         addSlotToContainer(new SlotOutput(inventory, 1,108,31, tile));
