@@ -37,7 +37,7 @@ import java.util.Random;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("deprecation")
-public class BlockWoodPile extends BlockWithTileEntity<TileEntityWoodPile> {
+public class BlockWoodPile extends BlockWithTE<TileEntityWoodPile> {
 
     private static final PropertyBool AXIS = PropertyBool.create("axis");
     public static final PropertyBool ONFIRE = PropertyBool.create("onfire");

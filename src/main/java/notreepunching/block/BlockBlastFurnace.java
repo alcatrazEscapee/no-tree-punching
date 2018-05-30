@@ -19,7 +19,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class BlockBlastFurnace extends BlockWithTileEntity<TileEntityBlastFurnace> {
+public class BlockBlastFurnace extends BlockWithTE<TileEntityBlastFurnace> {
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final IProperty<Boolean> BURNING = PropertyBool.create("burning");

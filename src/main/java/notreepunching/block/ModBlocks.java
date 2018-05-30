@@ -35,7 +35,6 @@ public class ModBlocks {
     public static BlockBase blockCopper;
     public static BlockBase blockBronze;
     public static BlockBase blockSteel;
-    public static BlockBase bronzeBricks;
 
     public static void init(){
         looseRock = new BlockRock("loose_rock");
@@ -67,7 +66,6 @@ public class ModBlocks {
         blockSteel = new BlockBase("block_steel", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",3);
         blockCopper = new BlockBase("block_copper", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",1);
         blockTin = new BlockBase("block_tin", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",0);
-        bronzeBricks = new BlockBase("bronze_bricks", Material.IRON).setHardness(5.0F).setHarvestType("pickaxe",2);
 
     }
 

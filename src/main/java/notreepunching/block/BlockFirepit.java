@@ -38,7 +38,7 @@ import java.util.Random;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
+public class BlockFirepit extends BlockWithTEInventory<TileEntityFirepit> {
 
     public static final IProperty<Boolean> BURNING = PropertyBool.create("burning");
 
@@ -93,25 +93,6 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
             }
         }
         return true;
-    }
-
-    @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        TileEntityFirepit tile = (TileEntityFirepit) world.getTileEntity(pos);
-
-        if(tile != null) {
-            IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
-            if(itemHandler != null) {
-                for (int i = 0; i < itemHandler.getSlots(); i++) {
-                    ItemStack stack = itemHandler.getStackInSlot(i);
-                    if (!stack.isEmpty()) {
-                        EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-                        world.spawnEntity(item);
-                    }
-                }
-            }
-        }
-        super.breakBlock(world, pos, state);
     }
 
     @Override

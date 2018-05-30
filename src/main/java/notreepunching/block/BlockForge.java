@@ -10,7 +10,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -29,8 +28,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import notreepunching.NoTreePunching;
 import notreepunching.block.tile.TileEntityForge;
 import notreepunching.client.ModGuiHandler;
@@ -44,7 +41,7 @@ import java.util.Random;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
+public class BlockForge extends BlockWithTEInventory<TileEntityForge> {
 
     public static final PropertyInteger LAYERS = PropertyInteger.create("type",1,8);
     public static final PropertyBool BURNING = PropertyBool.create("burning");
@@ -152,21 +149,6 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
         return new ItemStack(Items.COAL, 1, 1);
     }
 
-    @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        TileEntityForge tile = getTileEntity(world, pos);
-        IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
-        if(itemHandler!=null) {
-            for (int i = 0; i < itemHandler.getSlots(); i++) {
-                ItemStack stack = itemHandler.getStackInSlot(i);
-                if (!stack.isEmpty()) {
-                    EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-                    world.spawnEntity(item);
-                }
-            }
-        }
-        super.breakBlock(world, pos, state);
-    }
     public static boolean updateSideBlocks(World world, BlockPos pos) {
         if (!world.isRemote){
             IBlockState state;

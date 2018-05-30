@@ -26,7 +26,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class BlockGrindstone extends BlockWithTileEntity<TileEntityGrindstone> implements IHasTESR<TileEntityGrindstone, TESRGrindstone>{
+public class BlockGrindstone extends BlockWithTEInventory<TileEntityGrindstone> implements IHasTESR<TileEntityGrindstone, TESRGrindstone>{
 
     BlockGrindstone(String name){
         super(name, Material.ROCK);

@@ -12,9 +12,9 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public abstract class BlockWithTileEntity<TE extends TileEntity> extends BlockBase implements IHasTileEntity<TE>{
+public abstract class BlockWithTE<TE extends TileEntity> extends BlockBase implements IHasTileEntity<TE>{
 
-    BlockWithTileEntity(String name, Material material) {
+    BlockWithTE(String name, Material material) {
         super(name, material);
     }
 

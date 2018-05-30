@@ -25,7 +25,7 @@ import java.util.Random;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class BlockBellows extends BlockWithTileEntity<TileEntityBellows> implements IHasTESR<TileEntityBellows, TESRBellows> {
+public class BlockBellows extends BlockWithTE<TileEntityBellows> implements IHasTESR<TileEntityBellows, TESRBellows> {
 
     private static final PropertyDirection FACING = BlockHorizontal.FACING;
 
