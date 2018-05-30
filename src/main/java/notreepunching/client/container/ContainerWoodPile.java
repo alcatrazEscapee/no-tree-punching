@@ -20,7 +20,7 @@ public class ContainerWoodPile extends Container {
     private TileEntityWoodPile tile;
 
     public ContainerWoodPile(InventoryPlayer playerInv, TileEntityWoodPile woodPile) {
-        IItemHandler inventory = woodPile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+        IItemHandler inventory = woodPile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         // Firepit Slots
         addSlotToContainer(new SlotWoodPile(inventory, 0, 71, 23, woodPile));
         addSlotToContainer(new SlotWoodPile(inventory, 1, 89, 23, woodPile));
@@ -71,7 +71,7 @@ public class ContainerWoodPile extends Container {
                 // Don't transfer anything
                 return ItemStack.EMPTY;
             }
-            tile.setAndUpdateSlots();
+            tile.setAndUpdateSlots(index);
         }
         // Transfer into the container
         else {

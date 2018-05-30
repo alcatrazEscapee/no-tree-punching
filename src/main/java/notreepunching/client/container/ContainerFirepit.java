@@ -20,7 +20,7 @@ public class ContainerFirepit extends ContainerBase<TileEntityFirepit> {
 
     @Override
     protected void addContainerSlots(TileEntityFirepit tile) {
-        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         // Firepit Slots
         addSlotToContainer(new SlotFirepitFuel(inventory, 0,80,59, tile));
         addSlotToContainer(new SlotFirepitInput(inventory, 1,52,23, tile));

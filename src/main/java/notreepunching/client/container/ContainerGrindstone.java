@@ -57,7 +57,7 @@ public class ContainerGrindstone extends ContainerBase<TileEntityGrindstone> {
                 return ItemStack.EMPTY;
             }
             // This is the only circumstance when the slot doesn't send this itself
-            tile.setAndUpdateSlots();
+            tile.setAndUpdateSlots(index);
         }
         // Transfer into the container
         else {

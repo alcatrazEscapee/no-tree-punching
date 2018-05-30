@@ -22,7 +22,7 @@ public class ContainerForge extends ContainerBase<TileEntityForge> {
 
     @Override
     protected void addContainerSlots(TileEntityForge tile) {
-        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
         addSlotToContainer(new SlotForgeInput(inventory, 0,52,23, tile));
         addSlotToContainer(new SlotForgeOutput(inventory, 1,108,23, tile));

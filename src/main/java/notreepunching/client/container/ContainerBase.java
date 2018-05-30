@@ -21,7 +21,7 @@ public abstract class ContainerBase<TE extends IHasFields> extends Container {
 
     protected TE tile;
 
-    public ContainerBase(InventoryPlayer playerInv, TE te) {
+    ContainerBase(InventoryPlayer playerInv, TE te) {
         this.tile = te;
 
         addContainerSlots(te);
