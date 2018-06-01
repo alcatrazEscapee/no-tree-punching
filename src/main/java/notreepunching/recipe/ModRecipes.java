@@ -61,6 +61,17 @@ public class ModRecipes {
             RecipeUtil.addSmelting(ModBlocks.dioriteCobble,new ItemStack(Blocks.STONE,1,3));
             RecipeUtil.addSmelting(ModBlocks.graniteCobble,new ItemStack(Blocks.STONE,1,1));
         }
+
+        if(!ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE){
+            RecipeUtil.addSmelting(ModBlocks.oreCopper,new ItemStack(ModItems.ingotCopper));
+            RecipeUtil.addSmelting(ModBlocks.oreTin,new ItemStack(ModItems.ingotTin));
+
+            RecipeUtil.addSmelting(ModItems.dustTin,new ItemStack(ModItems.ingotTin));
+            RecipeUtil.addSmelting(ModItems.dustCopper,new ItemStack(ModItems.ingotCopper));
+            RecipeUtil.addSmelting(ModItems.dustSteel,new ItemStack(ModItems.ingotSteel));
+            RecipeUtil.addSmelting(ModItems.dustIron,new ItemStack(Items.IRON_INGOT));
+            RecipeUtil.addSmelting(ModItems.dustBronze,new ItemStack(ModItems.ingotBronze));
+        }
     }
 
     private static void postInitSmeltingRecipes(){

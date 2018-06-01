@@ -11,6 +11,9 @@
   "variants": {
     "burning": {
       "true": {
+        "textures": {
+          "side": "notreepunching:blocks/blast_furnace_side_lit"
+        }
       },
       "false":{
       }
