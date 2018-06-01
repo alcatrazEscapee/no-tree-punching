@@ -18,9 +18,9 @@ public class BlastRecipeHandler {
 
     public static void init(){
         BLAST_RECIPES.add(new ForgeRecipe(new ItemStack(ModItems.ingotSteel), "dustIron", 1, 1050));
-        BLAST_RECIPES.add(new ForgeRecipe(new ItemStack(ModItems.ingotSteel), "ingotIron", 1, 1150));
-        BLAST_RECIPES.add(new ForgeRecipe(new ItemStack(ModItems.ingotSteel,2), "oreIron", 1, 1250));
-        BLAST_RECIPES.add(new ForgeRecipe(new ItemStack(ModBlocks.blockSteel), "blockIron",1,1450));
+        BLAST_RECIPES.add(new ForgeRecipe(new ItemStack(ModItems.ingotSteel), "ingotIron", 1, 1050));
+        BLAST_RECIPES.add(new ForgeRecipe(new ItemStack(ModItems.ingotSteel), "oreIron", 1, 1050));
+        BLAST_RECIPES.add(new ForgeRecipe(new ItemStack(ModBlocks.blockSteel), "blockIron",1,1050));
     }
 
     public static void postInit(){

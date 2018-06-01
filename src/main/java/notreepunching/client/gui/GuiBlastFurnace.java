@@ -53,7 +53,7 @@ public class GuiBlastFurnace extends GuiContainer{
             drawTexturedModalRect(x+32,y+54-temp,190,30-temp,10,temp);
         }
         if(cookTime > 0){
-            drawTexturedModalRect(x+96,y+36,200,0,cookTime, 16);
+            drawTexturedModalRect(x+96,y+35,200,0,cookTime, 16);
         }
 
     }

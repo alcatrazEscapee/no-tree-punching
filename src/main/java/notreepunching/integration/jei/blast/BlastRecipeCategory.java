@@ -1,4 +1,4 @@
-package notreepunching.integration.jei.grindstone;
+package notreepunching.integration.jei.blast;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -12,39 +12,46 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import notreepunching.NoTreePunching;
-import notreepunching.integration.jei.forge.ForgeRecipeWrapper;
 
 import javax.annotation.Nonnull;
 
-import static notreepunching.integration.jei.JEIPluginHelper.GRIND_UID;
+import static notreepunching.integration.jei.JEIPluginHelper.BLAST_UID;
 
-public class GrindstoneRecipeCategory implements IRecipeCategory {
+public class BlastRecipeCategory implements IRecipeCategory{
 
     private String localizedName;
-    public static final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID,"textures/jei/grindstone.png");
+    static final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID,"textures/jei/blast_furnace.png");
     private final IDrawable background;
     private final IDrawable icon;
 
+    private final IDrawableAnimated animatedFlame;
     private final IDrawableAnimated animatedArrow;
+    private final IDrawableAnimated animatedCharcoal;
 
-    public GrindstoneRecipeCategory(IGuiHelper guiHelper){
-        background = guiHelper.createDrawable(LOC,0,0,74,43);
-        localizedName = NoTreePunching.proxy.localize("jei.category.grindstone_recipe");
-        icon = guiHelper.createDrawable(LOC,74,0,16,16);
+    public BlastRecipeCategory(IGuiHelper guiHelper){
+        background = guiHelper.createDrawable(LOC,0,0,112,50);
+        localizedName = NoTreePunching.proxy.localize("jei.category.forge_recipe");
+        icon = guiHelper.createDrawable(LOC,112,0,16,16);
 
-        IDrawableStatic staticArrow = guiHelper.createDrawable(LOC, 90, 0, 23, 16);
+        IDrawableStatic staticFlame = guiHelper.createDrawable(LOC, 128, 0, 14, 14);
+        animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
+
+        IDrawableStatic staticArrow = guiHelper.createDrawable(LOC, 152, 0, 16, 23);
         animatedArrow = guiHelper.createAnimatedDrawable(staticArrow, 200, IDrawableAnimated.StartDirection.LEFT, false);
+
+        IDrawableStatic staticCharcoal = guiHelper.createDrawable(LOC, 175, 0, 8, 48);
+        animatedCharcoal = guiHelper.createAnimatedDrawable(staticCharcoal, 500, IDrawableAnimated.StartDirection.TOP, true);
 
     }
 
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper, @Nonnull IIngredients ingredients) {
-        if(!(recipeWrapper instanceof GrindstoneRecipeWrapper)) {
+        if(!(recipeWrapper instanceof BlastRecipeWrapper)) {
             return;
         }
 
         int index = 0;
-        /**
+        /*
          * Initialize the itemStack at slotIndex.
          *
          * @param slotIndex the slot index of this itemStack
@@ -52,15 +59,11 @@ public class GrindstoneRecipeCategory implements IRecipeCategory {
          * @param xPosition x position of the slot relative to the recipe background
          * @param yPosition y position of the slot relative to the recipe background
          */
-        recipeLayout.getItemStacks().init(index, true, 0, 26);
+        recipeLayout.getItemStacks().init(index, true, 38, 7);
         recipeLayout.getItemStacks().set(index, ingredients.getInputs(ItemStack.class).get(0));
 
         index++;
-        recipeLayout.getItemStacks().init(index, true, 0, 0);
-        recipeLayout.getItemStacks().set(index, ingredients.getInputs(ItemStack.class).get(1));
-
-        index++;
-        recipeLayout.getItemStacks().init(index, false, 56, 13);
+        recipeLayout.getItemStacks().init(index, false, 94, 16);
         recipeLayout.getItemStacks().set(index, ingredients.getOutputs(ItemStack.class).get(0));
 
     }
@@ -69,7 +72,7 @@ public class GrindstoneRecipeCategory implements IRecipeCategory {
     @Nonnull
     @Override
     public String getUid() {
-        return GRIND_UID;
+        return BLAST_UID;
     }
 
     @Nonnull
@@ -97,6 +100,8 @@ public class GrindstoneRecipeCategory implements IRecipeCategory {
 
     @Override
     public void drawExtras(Minecraft minecraft) {
-        animatedArrow.draw(minecraft, 26, 14);
+        animatedFlame.draw(minecraft, 39, 27);
+        animatedArrow.draw(minecraft, 64, 17);
+        animatedCharcoal.draw(minecraft, 25, 1);
     }
 }

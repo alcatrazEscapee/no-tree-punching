@@ -27,6 +27,9 @@ public class BlockGrindstone extends BlockWithTEInventory<TileEntityGrindstone>{
 
     BlockGrindstone(String name){
         super(name, Material.ROCK);
+
+        setHardness(2.5F);
+        setHarvestLevel("pickaxe",0);
     }
 
     @Override

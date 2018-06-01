@@ -39,6 +39,8 @@ public class BlockBlastFurnace extends BlockWithTE<TileEntityBlastFurnace> {
     BlockBlastFurnace(String name){
         super(name, Material.ROCK);
 
+        setHardness(4.0F);
+        setHarvestLevel("pickaxe",1);
         setDefaultState(this.blockState.getBaseState().withProperty(BURNING,false));
     }
 

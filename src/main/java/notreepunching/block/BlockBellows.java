@@ -30,6 +30,8 @@ public class BlockBellows extends BlockWithTE<TileEntityBellows> {
     BlockBellows(String name){
         super(name, Material.WOOD);
 
+        setHardness(2.0F);
+        setHarvestLevel("axe",0);
         setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
 

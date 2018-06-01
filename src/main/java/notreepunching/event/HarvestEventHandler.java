@@ -161,14 +161,6 @@ public class HarvestEventHandler {
                 }
             }
 
-            //Allows mattock to drop the normal block drop
-            if(heldItemStack.getItem() instanceof ItemMattock){
-                ItemMattock mattock = (ItemMattock) heldItemStack.getItem();
-                if(mattock.shouldBreakBlock(block)){
-                    return;
-                }
-            }
-
             //Allows Knifes to have special drops when breaking blocks
             if (heldItemStack.getItem() instanceof ItemKnife) {
                 ItemKnife knife = (ItemKnife) heldItemStack.getItem();
@@ -181,6 +173,14 @@ public class HarvestEventHandler {
                 }
                 if (knife.shouldDamageItem(block)) {
                     player.getHeldItemMainhand().damageItem(1, player);
+                }
+            }
+
+            //Allows mattock to drop the normal block drop
+            if(heldItemStack.getItem() instanceof ItemMattock){
+                ItemMattock mattock = (ItemMattock) heldItemStack.getItem();
+                if(mattock.shouldBreakBlock(block)){
+                    return;
                 }
             }
 
@@ -230,6 +230,9 @@ public class HarvestEventHandler {
             if(blockName.equals(name)){ event.setCanHarvest(true); }
         }
         System.out.println("CHECKING FOR INITIAL CHECK: "+event.canHarvest());
+        // Do a more advanced check to try and catch blocks that would have thier drops cleared later.
+        // The idea is to move the check from 193 to this line
+        // First check that setting the canHarvest to false properly affects block drops
     }
 
     @SubscribeEvent
