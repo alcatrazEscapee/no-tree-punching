@@ -17,7 +17,7 @@ import java.util.*;
 
 public class ForgeRecipeHandler {
 
-    private static List<ForgeRecipe> FORGE_RECIPES = new ArrayList<ForgeRecipe>();
+    private static List<ForgeRecipe> FORGE_RECIPES = new ArrayList<>();
     private static LinkedListMultimap<Boolean, ForgeRecipe> CT_ENTRY = LinkedListMultimap.create();
 
     public static void init(){

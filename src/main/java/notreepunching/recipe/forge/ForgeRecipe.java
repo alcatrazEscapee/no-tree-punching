@@ -37,6 +37,6 @@ public class ForgeRecipe {
 
     public int getTemp(){ return temperature; }
 
-    public int getCount(){ return count; }
+    public int getCount(){ return inputOre.equals("") ? inputStack.getCount() : count; }
 
 }

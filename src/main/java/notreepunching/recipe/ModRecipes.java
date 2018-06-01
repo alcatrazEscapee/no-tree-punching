@@ -14,6 +14,7 @@ import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
+import notreepunching.recipe.forge.BlastRecipeHandler;
 import notreepunching.recipe.grindstone.GrindstoneRecipe;
 import notreepunching.recipe.grindstone.GrindstoneRecipeHandler;
 import notreepunching.recipe.knife.KnifeRecipeHandler;
@@ -35,6 +36,7 @@ public class ModRecipes {
         KnifeRecipeHandler.init();
         ForgeRecipeHandler.init();
         GrindstoneRecipeHandler.init();
+        BlastRecipeHandler.init();
 
         initCraftingRecipes();
         initSmeltingRecipes();
@@ -45,6 +47,7 @@ public class ModRecipes {
         ForgeRecipeHandler.postInit();
         KnifeRecipeHandler.postInit();
         GrindstoneRecipeHandler.postInit();
+        BlastRecipeHandler.postInit();
 
         postInitSmeltingRecipes();
         postInitCraftingRecipes();

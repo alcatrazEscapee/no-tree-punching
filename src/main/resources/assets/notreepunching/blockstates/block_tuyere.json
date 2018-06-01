@@ -1,0 +1,52 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "minecraft:cube_all",
+		"textures": {
+			"all": "notreepunching:blocks/tuyere_stone",
+			"particle": "notreepunching:blocks/tuyere_stone"
+		}
+	},
+	"variants": {
+		"type": {
+			"stone": {},
+			"andesite": {
+				"textures": {
+					"all": "notreepunching:blocks/tuyere_andesite",
+					"particle": "notreepunching:blocks/tuyere_andesite"
+				}
+			},
+			"diorite": {
+				"textures": {
+					"all": "notreepunching:blocks/tuyere_diorite",
+					"particle": "notreepunching:blocks/tuyere_diorite"
+				}
+			},
+			"granite": {
+				"textures": {
+					"all": "notreepunching:blocks/tuyere_granite",
+					"particle": "notreepunching:blocks/tuyere_granite"
+				}
+			},
+			"limestone": {
+				"textures": {
+					"all": "notreepunching:blocks/tuyere_limestone",
+					"particle": "notreepunching:blocks/tuyere_limestone"
+				}
+			},
+			"marble": {
+				"textures": {
+					"all": "notreepunching:blocks/tuyere_marble",
+					"particle": "notreepunching:blocks/tuyere_marble"
+				}
+			},
+			"slate": {
+				"textures": {
+					"all": "notreepunching:blocks/tuyere_slate",
+					"particle": "notreepunching:blocks/tuyere_slate"
+				}
+			}
+		},
+		"inventory": [{}]
+	}
+}

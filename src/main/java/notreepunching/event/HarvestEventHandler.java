@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -228,6 +229,7 @@ public class HarvestEventHandler {
         for(String name : ModConfig.VanillaTweaks.BREAKABLE){
             if(blockName.equals(name)){ event.setCanHarvest(true); }
         }
+        System.out.println("CHECKING FOR INITIAL CHECK: "+event.canHarvest());
     }
 
     @SubscribeEvent

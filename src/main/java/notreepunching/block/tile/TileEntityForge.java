@@ -36,7 +36,7 @@ public class TileEntityForge extends TileEntitySidedInventory implements ITickab
     private int minTemperature;
     private int maxTemperature;
     private int airTicks;
-    private final int maxTemp;
+    private final int maxTemp = 1500;
 
     public boolean closed;
     private boolean burning;
@@ -66,7 +66,6 @@ public class TileEntityForge extends TileEntitySidedInventory implements ITickab
         temperature = 0;
         minTemperature = 800;
         maxTemperature = 0;
-        maxTemp = 1500;
 
         wrapper = new ItemHandlerWrapper(inventory,this);
         wrapper.addExtractSlot(OUT_SLOT);

@@ -36,6 +36,8 @@ public class ModBlocks {
     public static BlockBase blockBronze;
     public static BlockBase blockSteel;
 
+    public static BlockTuyere blockTuyere;
+
     public static void init(){
         looseRock = new BlockRock("loose_rock");
 
@@ -67,6 +69,7 @@ public class ModBlocks {
         blockCopper = new BlockBase("block_copper", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",1);
         blockTin = new BlockBase("block_tin", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",0);
 
+        blockTuyere = new BlockTuyere("block_tuyere");
     }
 
     public static void addBlockToRegistry(Block block, ItemBlock itemBlock, String name){

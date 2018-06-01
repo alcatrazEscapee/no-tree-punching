@@ -13,9 +13,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import notreepunching.block.tile.IHasTESR;
 import notreepunching.block.tile.TileEntityBellows;
-import notreepunching.client.tesr.TESRBellows;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -25,7 +23,7 @@ import java.util.Random;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class BlockBellows extends BlockWithTE<TileEntityBellows> implements IHasTESR<TileEntityBellows, TESRBellows> {
+public class BlockBellows extends BlockWithTE<TileEntityBellows> {
 
     private static final PropertyDirection FACING = BlockHorizontal.FACING;
 
@@ -44,10 +42,6 @@ public class BlockBellows extends BlockWithTE<TileEntityBellows> implements IHas
     @Override
     public TileEntityBellows createTileEntity(World world, IBlockState state) {
         return new TileEntityBellows(state.getValue(FACING));
-    }
-    @Override
-    public TESRBellows getTESR(){
-        return new TESRBellows();
     }
 
     @Override

@@ -2,40 +2,17 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "top": "notreepunching:blocks/alloy_furnace_top",
-      "front": "notreepunching:blocks/alloy_furnace_front",
-      "side": "notreepunching:blocks/alloy_furnace_side"
+      "top": "notreepunching:blocks/blast_furnace_top",
+      "front": "notreepunching:blocks/blast_furnace_side",
+      "side": "notreepunching:blocks/blast_furnace_side"
     },
     "model": "orientable"
   },
   "variants": {
-    "facing":
-    {
-      "north": {
-        "y": 0
-      },
-      "south": {
-        "y": 180
-      },
-      "east": {
-        "y": 90
-
-      },
-      "west": {
-        "y": 270
-
-      }
-    },
     "burning": {
       "true": {
-        "textures": {
-          "front": "notreepunching:blocks/alloy_furnace_front_lit"
-        }
       },
       "false":{
-        "textures": {
-          "front": "notreepunching:blocks/alloy_furnace_front"
-        }
       }
     },
     "inventory": [{}]

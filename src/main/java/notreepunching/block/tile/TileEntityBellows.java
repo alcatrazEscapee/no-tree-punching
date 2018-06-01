@@ -8,6 +8,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import notreepunching.block.IHasBellowsInput;
 import notreepunching.block.ModBlocks;
 import notreepunching.client.ModSounds;
 import notreepunching.network.ModNetwork;
@@ -24,7 +25,8 @@ public class TileEntityBellows extends TileEntity implements ITickable{
     private double step = stepSize;
     private int facing;
 
-    private TileEntityBellows(){
+    // This needs to be public
+    public TileEntityBellows(){
         super();
         power = false;
         height = 0.2;
@@ -33,6 +35,7 @@ public class TileEntityBellows extends TileEntity implements ITickable{
     public TileEntityBellows(EnumFacing facing){
         this();
         this.facing = facing.getHorizontalIndex();
+        this.markDirty();
     }
 
     public void update(){
@@ -86,14 +89,16 @@ public class TileEntityBellows extends TileEntity implements ITickable{
 
     private void updateForges(){
         if(!world.isRemote) {
-            BlockPos forgePos = getPos().offset(EnumFacing.getHorizontal(facing)).down();
+            BlockPos forgePos = getPos().offset(EnumFacing.getHorizontal(facing));
 
             IBlockState state = world.getBlockState(forgePos);
-            if (state.getBlock() != ModBlocks.forge) return;
+            if(state.getBlock() == ModBlocks.blockTuyere ||
+                    state.getBlock() == ModBlocks.blastFurnace) {
 
-            TileEntityForge te = ((TileEntityForge) world.getTileEntity(forgePos));
-            if (te != null) {
-                te.setAirTimer();
+                IHasBellowsInput te = ((IHasBellowsInput) world.getTileEntity(forgePos));
+                if (te != null) {
+                    te.setAirTimer();
+                }
             }
         }
     }

@@ -13,20 +13,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import notreepunching.NoTreePunching;
-import notreepunching.block.tile.IHasTESR;
 import notreepunching.block.tile.TileEntityGrindstone;
 import notreepunching.client.ModGuiHandler;
-import notreepunching.client.tesr.TESRGrindstone;
 import notreepunching.item.ModItems;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class BlockGrindstone extends BlockWithTEInventory<TileEntityGrindstone> implements IHasTESR<TileEntityGrindstone, TESRGrindstone>{
+public class BlockGrindstone extends BlockWithTEInventory<TileEntityGrindstone>{
 
     BlockGrindstone(String name){
         super(name, Material.ROCK);
@@ -44,9 +41,6 @@ public class BlockGrindstone extends BlockWithTEInventory<TileEntityGrindstone> 
     }
 
     @Override
-    public TESRGrindstone getTESR(){ return new TESRGrindstone(); }
-
-    @Override
     public boolean isOpaqueCube(IBlockState state)
     {
         return false;
@@ -58,7 +52,6 @@ public class BlockGrindstone extends BlockWithTEInventory<TileEntityGrindstone> 
         return false;
     }
     @Override
-    @Nonnull
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }

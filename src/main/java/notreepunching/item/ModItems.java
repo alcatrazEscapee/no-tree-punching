@@ -93,6 +93,7 @@ public class ModItems {
     public static ItemBase nuggetBronze;
     public static ItemBase nuggetSteel;
     public static ItemBase gearWood;
+    public static ItemTuyere tuyere;
 
     public static ItemBaseArmor helmetCopper;
     public static ItemBaseArmor helmetBronze;
@@ -127,6 +128,7 @@ public class ModItems {
 
         firestarter = new ItemFirestarter("firestarter");
         grindWheel = new ItemGrindWheel("grind_wheel");
+        tuyere = new ItemTuyere("tuyere");
 
         ingotBronze = new ItemBase("ingot_bronze");
         ingotTin = new ItemBase("ingot_tin");
