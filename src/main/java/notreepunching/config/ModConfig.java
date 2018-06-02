@@ -85,6 +85,12 @@ public class ModConfig {
         @Comment({"Amount of dust generated per ore in the grindstone"})
         public static int DUST_PER_ORE = 1;
 
+        @Comment({"Time (in ticks) that the Blast Furnace takes to cook"})
+        public static int BLAST_FURNACE_TIME = 600;
+
+        @Comment({"Time (in ticks) that one piece of charcoal lasts in the Blast Furnace"})
+        public static int BLAST_FURNACE_FUEL_TIME = 800;
+
     }
 
     public static World world;

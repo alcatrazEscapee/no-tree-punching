@@ -30,7 +30,7 @@ public class BlastRecipeCategory implements IRecipeCategory{
 
     public BlastRecipeCategory(IGuiHelper guiHelper){
         background = guiHelper.createDrawable(LOC,0,0,112,50);
-        localizedName = NoTreePunching.proxy.localize("jei.category.forge_recipe");
+        localizedName = NoTreePunching.proxy.localize("jei.category.blast_furnace_recipe");
         icon = guiHelper.createDrawable(LOC,112,0,16,16);
 
         IDrawableStatic staticFlame = guiHelper.createDrawable(LOC, 128, 0, 14, 14);

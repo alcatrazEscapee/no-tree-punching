@@ -87,7 +87,11 @@ public class BlockGrindstone extends BlockWithTEInventory<TileEntityGrindstone>{
 
             // Only start grinding if there is a wheel, you clicked on it, and its not already grinding
             if(te.getHasWheel() && side == EnumFacing.UP && te.getRotation() == 0){
-                te.startGrinding();
+                if(!te.startGrinding()){
+                    if(!player.isSneaking()){
+                        player.openGui(NoTreePunching.instance, ModGuiHandler.GRINDSTONE, world, pos.getX(), pos.getY(), pos.getZ());
+                    }
+                }
             }else{
                 if(!player.isSneaking()){
                     player.openGui(NoTreePunching.instance, ModGuiHandler.GRINDSTONE, world, pos.getX(), pos.getY(), pos.getZ());

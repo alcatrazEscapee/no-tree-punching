@@ -5,10 +5,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.items.CapabilityItemHandler;
 import notreepunching.block.tile.inventory.ItemHandlerWrapper;
+import notreepunching.client.ModSounds;
 import notreepunching.item.ModItems;
 import notreepunching.network.*;
 import notreepunching.recipe.grindstone.GrindstoneRecipe;
@@ -67,29 +69,31 @@ public class TileEntityGrindstone extends TileEntitySidedInventory implements IT
         this.markDirty();
     }
 
-    public void startGrinding() {
+    public boolean startGrinding() {
         if (!world.isRemote) {
-            if(rotation >= 1) return;
+            if(rotation >= 1) return false;
 
             ItemStack input = inventory.getStackInSlot(INPUT_SLOT);
             ItemStack output = inventory.getStackInSlot(OUTPUT_SLOT);
 
             GrindstoneRecipe recipe = GrindstoneRecipeHandler.getRecipe(input, false);
             if(recipe != null){
-                if(!ItemUtil.canMergeStack(output,recipe.getOutput())) return;
+                if(!ItemUtil.canMergeStack(output,recipe.getOutput())) return false;
 
                 // check if grind wheel is powerful enough
                 ItemStack wheel = inventory.getStackInSlot(WHEEL_SLOT);
-                if(wheel.getItem() != ModItems.grindWheel) return;
+                if(wheel.getItem() != ModItems.grindWheel) return false;
 
                 // Begin grinding;
                 inventory.setStackInSlot(INPUT_SLOT, ItemUtil.consumeItem(input, 1));
                 currentRecipe = recipe;
                 rotation = 3;
                 ModNetwork.network.sendToAllAround(new PacketUpdateGrindstone(this), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
+                world.playSound(null, pos, ModSounds.grindstone, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                return true;
             }
-
         }
+        return false;
     }
     private void finishGrinding(){
         if(!world.isRemote){
@@ -103,7 +107,7 @@ public class TileEntityGrindstone extends TileEntitySidedInventory implements IT
         }
     }
 
-    public void updateWheel(){
+    private void updateWheel(){
         if(!world.isRemote){
             ItemStack stack = inventory.getStackInSlot(WHEEL_SLOT);
             hasWheel = stack.getItem() == ModItems.grindWheel;

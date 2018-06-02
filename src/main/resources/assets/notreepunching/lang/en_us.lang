@@ -143,11 +143,13 @@ jei.category.knife_recipe=Knife Cutting
 jei.category.firepit_recipe=Firepit
 jei.category.forge_recipe=Charcoal Forge
 jei.category.grindstone_recipe=Grindstone
+jei.category.blast_furnace_recipe=Blast Furnace
 
 # Sound Subtitles
 
 notreepunching.subtitle.knapping=Stone taps
 notreepunching.subtitle.bellows=Bellows wheeze
+notreepunching.subtitle.grindstone=Grindstone turns
 
 
 

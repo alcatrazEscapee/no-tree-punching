@@ -15,7 +15,6 @@ import notreepunching.block.ModBlocks;
 import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
 import notreepunching.recipe.forge.BlastRecipeHandler;
-import notreepunching.recipe.grindstone.GrindstoneRecipe;
 import notreepunching.recipe.grindstone.GrindstoneRecipeHandler;
 import notreepunching.recipe.knife.KnifeRecipeHandler;
 import notreepunching.recipe.firepit.FirepitRecipeHandler;

@@ -15,12 +15,16 @@ public class ModSounds {
     public static SoundEvent bellowsOut;
     @ObjectHolder("bellows_in")
     public static SoundEvent bellowsIn;
+    @ObjectHolder("grindstone")
+    public static SoundEvent grindstone;
 
     public static void init(){
         flintKnapping = registerSound("knapping");
 
         bellowsOut = registerSound("bellows_out");
         bellowsIn = registerSound("bellows_in");
+
+        grindstone = registerSound("grindstone");
     }
 
     private static SoundEvent registerSound(String name){

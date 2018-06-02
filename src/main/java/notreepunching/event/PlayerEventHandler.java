@@ -12,11 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -28,8 +24,6 @@ import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
 import notreepunching.util.MiscUtil;
-
-import javax.annotation.Nullable;
 
 import static notreepunching.block.BlockCharcoalPile.LAYERS;
 
@@ -101,6 +95,7 @@ public class PlayerEventHandler {
                             player.setHeldItem(event.getHand(), ItemUtil.consumeItem(stack));
                         }
                         world.playSound(null, pos.offset(facing), SoundEvents.BLOCK_GRAVEL_PLACE, SoundCategory.BLOCKS, 1.0F, 0.5F);
+                        event.setCanceled(true);
                     }
 
                 }
@@ -132,5 +127,4 @@ public class PlayerEventHandler {
             }
         }
     }
-
 }

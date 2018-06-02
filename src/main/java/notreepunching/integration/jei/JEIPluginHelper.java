@@ -84,6 +84,7 @@ public class JEIPluginHelper implements IModPlugin {
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.charcoalPile));
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.forge));
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.woodPile));
+        blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.blockTuyere));
 
         // Knife / Cutting Recipes
         registry.handleRecipes(KnifeRecipe.class, KnifeRecipeWrapper::new, KNIFE_UID);
@@ -109,7 +110,7 @@ public class JEIPluginHelper implements IModPlugin {
         // Blast Furnace Recipes
         registry.handleRecipes(ForgeRecipe.class, BlastRecipeWrapper::new, BLAST_UID);
         registry.addRecipes(BlastRecipeHandler.getAll(), BLAST_UID);
-        registry.addRecipeClickArea(GuiBlastFurnace.class, 94,34,119,52, BLAST_UID);
+        registry.addRecipeClickArea(GuiBlastFurnace.class, 94,34,26,19, BLAST_UID);
         registry.addRecipeCatalyst(new ItemStack(ModBlocks.blastFurnace), BLAST_UID);
 
     }

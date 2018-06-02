@@ -1,5 +1,6 @@
 package notreepunching.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -40,6 +41,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 @ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @SuppressWarnings("deprecation")
 public class BlockForge extends BlockWithTEInventory<TileEntityForge> {
 
@@ -112,7 +114,6 @@ public class BlockForge extends BlockWithTEInventory<TileEntityForge> {
         return true;
     }
 
-    @Nonnull
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Items.COAL;
@@ -144,7 +145,6 @@ public class BlockForge extends BlockWithTEInventory<TileEntityForge> {
     }
 
     @Override
-    @Nonnull
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(Items.COAL, 1, 1);
     }
@@ -199,14 +199,12 @@ public class BlockForge extends BlockWithTEInventory<TileEntityForge> {
 
     // *************** APPEARANCE AND BLOCK STATE METHODS ********************** //
 
-    @Nonnull
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return PILE_AABB[state.getValue(LAYERS)];
     }
     public boolean isTopSolid(IBlockState state) {
         return state.getValue(LAYERS) == 8;
     }
-    @Nonnull
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
@@ -222,14 +220,12 @@ public class BlockForge extends BlockWithTEInventory<TileEntityForge> {
     public boolean isFullCube(IBlockState state) {
         return state.getValue(LAYERS) == 8 && !state.getValue(BURNING);
     }
-    @Nonnull
     public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(LAYERS, meta % 8 + 1).withProperty(BURNING,meta>7);
     }
     public int getMetaFromState(IBlockState state) {
         return state.getValue(LAYERS) + (state.getValue(BURNING) ? 7 : -1);
     }
-    @Nonnull
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, LAYERS, BURNING);
     }

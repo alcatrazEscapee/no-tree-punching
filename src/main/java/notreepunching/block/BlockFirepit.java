@@ -28,6 +28,7 @@ import net.minecraftforge.items.IItemHandler;
 import notreepunching.NoTreePunching;
 import notreepunching.block.tile.TileEntityFirepit;
 import notreepunching.client.ModGuiHandler;
+import notreepunching.client.ModTabs;
 import notreepunching.item.ItemFirestarter;
 import notreepunching.util.ItemUtil;
 
@@ -51,7 +52,7 @@ public class BlockFirepit extends BlockWithTEInventory<TileEntityFirepit> {
 
     @Override
     public void register(){
-        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name);
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, ModTabs.ITEMS_TAB);
     }
 
     @Override

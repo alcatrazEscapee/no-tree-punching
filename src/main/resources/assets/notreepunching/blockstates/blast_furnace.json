@@ -12,7 +12,8 @@
     "burning": {
       "true": {
         "textures": {
-          "side": "notreepunching:blocks/blast_furnace_side_lit"
+          "side": "notreepunching:blocks/blast_furnace_side_lit",
+          "front": "notreepunching:blocks/blast_furnace_side_lit"
         }
       },
       "false":{

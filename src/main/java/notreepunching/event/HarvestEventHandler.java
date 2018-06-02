@@ -229,10 +229,6 @@ public class HarvestEventHandler {
         for(String name : ModConfig.VanillaTweaks.BREAKABLE){
             if(blockName.equals(name)){ event.setCanHarvest(true); }
         }
-        System.out.println("CHECKING FOR INITIAL CHECK: "+event.canHarvest());
-        // Do a more advanced check to try and catch blocks that would have thier drops cleared later.
-        // The idea is to move the check from 193 to this line
-        // First check that setting the canHarvest to false properly affects block drops
     }
 
     @SubscribeEvent

@@ -1,6 +1,7 @@
 package notreepunching.block.tile;
 
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -14,15 +15,13 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import notreepunching.block.IHasBellowsInput;
 import notreepunching.block.ModBlocks;
 import notreepunching.block.tile.inventory.ItemHandlerWrapper;
+import notreepunching.config.ModConfig;
 import notreepunching.recipe.forge.BlastRecipeHandler;
 import notreepunching.recipe.forge.ForgeRecipe;
 import notreepunching.util.ItemUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import java.util.Random;
 
 import static notreepunching.block.BlockForge.BURNING;
 import static notreepunching.block.BlockForge.LAYERS;
@@ -35,9 +34,9 @@ public class TileEntityBlastFurnace extends TileEntitySidedInventory implements 
     private final byte OUTPUT_SLOT = 1;
 
     private int burnTicks;
-    private final int maxBurnTicks = 400; // This can never be zero
+    private final int maxBurnTicks = ModConfig.Balance.BLAST_FURNACE_FUEL_TIME; // This can never be zero
     private int cookTicks;
-    private int maxCookTicks = 400;
+    private int maxCookTicks = ModConfig.Balance.BLAST_FURNACE_TIME;
     private int temperature;
     private int minTemperature;
     private int maxTemperature;
@@ -67,7 +66,7 @@ public class TileEntityBlastFurnace extends TileEntitySidedInventory implements 
         burnTicks = 0;
         cookTicks = 0;
         temperature = 0;
-        minTemperature = 800;
+        minTemperature = 1050;
         maxTemperature = 0;
         counter = 0;
         airTicks = 0;
@@ -121,9 +120,14 @@ public class TileEntityBlastFurnace extends TileEntitySidedInventory implements 
             if(temperature < maxTemperature){
                 temperature += 2;
             }
+
+            if((temperature < minTemperature && cooking) ||
+                    (temperature > minTemperature && !cooking)){
+                updateCooking();
+            }
             // Update counter to check if still multiblock
             counter++;
-            if(counter == 20){
+            if(counter == 40){
                 counter = 0;
                 updateMultiblock();
             }
@@ -147,10 +151,14 @@ public class TileEntityBlastFurnace extends TileEntitySidedInventory implements 
     public void setAndUpdateSlots(int slot) {
         if(!world.isRemote) {
             this.markDirty();
-            System.out.println("GOT SLOT UPDATE");
             // do things to check slot things
             updateCooking();
         }
+    }
+
+    public void light(){
+        this.burning = true;
+        this.burnTicks = 0;
     }
 
     public void setAirTimer(){
@@ -161,19 +169,15 @@ public class TileEntityBlastFurnace extends TileEntitySidedInventory implements 
         charcoal = 0;
         for(int i = 1; i <= 3; i++){
 
-            boolean flag = true;
             for(EnumFacing facing : EnumFacing.HORIZONTALS){
                 IBlockState state = world.getBlockState(pos.up(i).offset(facing));
-                if(state.getBlock() != Blocks.STONEBRICK){
-                    flag = false;
-                    break;
+                if(!state.isNormalCube() || state.getMaterial() != Material.ROCK){
+                    return;
                 }
             }
-            if(flag){
-                IBlockState state = world.getBlockState(pos.up(i));
-                if(state.getBlock() == ModBlocks.charcoalPile){
-                    charcoal += state.getValue(LAYERS);
-                }
+            IBlockState state = world.getBlockState(pos.up(i));
+            if(state.getBlock() == ModBlocks.charcoalPile){
+                charcoal += state.getValue(LAYERS);
             }
         }
         closed = charcoal != 0;
@@ -193,6 +197,7 @@ public class TileEntityBlastFurnace extends TileEntitySidedInventory implements 
             // Check output can merge
             if (!ItemUtil.canMergeStack(outStack, recipe.getOutput())) return;
             cooking = true;
+            minTemperature = recipe.getTemp();
         }
     }
 
