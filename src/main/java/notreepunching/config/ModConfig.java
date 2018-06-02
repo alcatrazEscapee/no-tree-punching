@@ -114,7 +114,7 @@ public class ModConfig {
 
         @Comment({"Frequency of loose rocks appearing in the world"})
         @Config.RangeInt(min = 1, max = 100)
-        public static int LOOSE_ROCKS_FREQUENCY = 100;
+        public static int LOOSE_ROCKS_FREQUENCY = 6;
     }
 
     @SubscribeEvent
