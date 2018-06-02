@@ -27,7 +27,7 @@ public class ModConfig {
         public static boolean WOOD_RECIPE_DISABLE = true;
 
         @Comment({"Disable gold tool recipes"})
-        public static boolean GOLD_TOOLS_DISABLE = true;
+        public static boolean GOLD_TOOLS_DISABLE = false;
 
         @Comment({"List of blocks that always will drop items and will mine at a regular speed.",
                 "Use the format modid:registry_name"})

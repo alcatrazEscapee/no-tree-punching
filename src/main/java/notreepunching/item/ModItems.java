@@ -105,6 +105,10 @@ public class ModItems {
     public static ItemBaseArmor bootsBronze;
     public static ItemBaseArmor bootsSteel;
 
+    public static ItemKnife goldKnife;
+    public static ItemMattock goldMattock;
+    public static ItemSaw goldSaw;
+
     private static Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", ModConfig.Balance.FLINT_MINING_LEVEL,45,2.5F,0.5F,0);
     private static Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", ModConfig.Balance.COPPER_MINING_LEVEL,220,4F,1.5F,6);
     private static Item.ToolMaterial toolMaterialBronze = EnumHelper.addToolMaterial("NTP_BRONZE", ModConfig.Balance.BRONZE_MINING_LEVEL,400,8F,2.5F,8);
@@ -200,6 +204,11 @@ public class ModItems {
         leggingsSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.LEGS, "steel_leggings");
         bootsSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.FEET, "steel_boots");
 
+        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
+            goldKnife = new ItemKnife(Item.ToolMaterial.GOLD,"gold_knife");
+            goldMattock = new ItemMattock(Item.ToolMaterial.GOLD, "gold_mattock");
+            goldSaw = new ItemSaw(Item.ToolMaterial.GOLD, "gold_saw");
+        }
 
     }
 
@@ -257,9 +266,11 @@ public class ModItems {
         OreDictionary.registerOre("string", new ItemStack(Items.STRING));
         OreDictionary.registerOre("string", new ItemStack(ModItems.grassString));
 
-        OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.andesiteCobble));
-        OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.graniteCobble));
-        OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.dioriteCobble));
+        if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS) {
+            OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.andesiteCobble));
+            OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.graniteCobble));
+            OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.dioriteCobble));
+        }
         if(replaceQuarkStones) {
             OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.marbleCobble));
             OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.limestoneCobble));

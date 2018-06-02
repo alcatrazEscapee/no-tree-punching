@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.NoTreePunching;
 import notreepunching.config.ModConfig;
 import notreepunching.item.*;
+import notreepunching.recipe.knife.KnifeRecipeHandler;
 
 public class HarvestEventHandler {
 
@@ -167,8 +168,9 @@ public class HarvestEventHandler {
                 if (knife.shouldBreakBlock(block)) {
                     if(block instanceof BlockDoublePlant || block instanceof BlockTallGrass){
                         if(Math.random()< ModConfig.Balance.GRASS_FIBER_CHANCE){
-                            event.getDrops().add(new ItemStack(ModItems.grassFiber,1,0));
+                            event.getDrops().add(KnifeRecipeHandler.getRandomGrassDrop());
                         }
+
                     }
                 }
                 if (knife.shouldDamageItem(block)) {

@@ -13,11 +13,14 @@ import notreepunching.util.ItemUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class KnifeRecipeHandler{
 
     private static List<KnifeRecipe> CUTTING_RECIPES = new ArrayList<KnifeRecipe>();
     private static LinkedListMultimap<Boolean, KnifeRecipe> CT_ENTRY = LinkedListMultimap.create();
+
+    private static List<ItemStack> GRASS_DROPS = new ArrayList<>();
 
     public static void init(){
         addCuttingRecipe(new ItemStack(ModItems.rockStone, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.flintShard));
@@ -41,6 +44,8 @@ public class KnifeRecipeHandler{
         for(int i = 0; i<6; i++){
             addCuttingRecipe(new ItemStack(i<4 ? Blocks.LEAVES : Blocks.LEAVES2,6,i%4),new ItemStack(Blocks.SAPLING,1,i),new ItemStack(ModItems.grassFiber,2));
         }
+
+        GRASS_DROPS.add(new ItemStack(ModItems.grassFiber));
 
     }
 
@@ -70,6 +75,11 @@ public class KnifeRecipeHandler{
     public static List<KnifeRecipe> getAll(){
         return CUTTING_RECIPES;
     }
+    public static ItemStack getRandomGrassDrop(){
+        Random rand = new Random();
+        int random = rand.nextInt(GRASS_DROPS.size());
+        return GRASS_DROPS.get(random).copy();
+    }
 
     private static void addCuttingRecipe(ItemStack inputStack, ItemStack... outputs){
         CUTTING_RECIPES.add(new KnifeRecipe(inputStack,outputs));
@@ -85,4 +95,5 @@ public class KnifeRecipeHandler{
     public static void addEntry(KnifeRecipe recipe, boolean type){
         CT_ENTRY.put(type, recipe);
     }
+    public static void addGrassDrop(ItemStack stack) { GRASS_DROPS.add(stack); }
 }

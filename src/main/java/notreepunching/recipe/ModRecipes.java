@@ -114,12 +114,23 @@ public class ModRecipes {
         registerShaped(new ItemStack(Items.STICK,8), "AP", 'P', "logWood", 'A', "toolSaw");
 
         // Cobblestone recipes
+        if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS){
+            registerShaped(new ItemStack(ModBlocks.andesiteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone),1);
+            registerShaped(new ItemStack(ModBlocks.dioriteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone),2);
+            registerShaped(new ItemStack(ModBlocks.graniteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone),3);
+        }
         if(NoTreePunching.replaceQuarkStones){
             registerShaped(new ItemStack(ModBlocks.marbleCobble),"SS","SS",'S',new ItemStack(ModItems.rockStone,1,4));
             registerShaped(new ItemStack(ModBlocks.limestoneCobble),"SS","SS",'S',new ItemStack(ModItems.rockStone,1,5));
         }
         if(NoTreePunching.replaceRusticStone){
             registerShaped(new ItemStack(ModBlocks.slateCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone,1,6));
+        }
+
+        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
+            registerShaped(new ItemStack(ModItems.goldMattock),"III","IS "," S ",'I',"ingotGold",'S',"stickWood");
+            registerShaped(new ItemStack(ModItems.goldSaw)," SI","SI ","S  ",'I',"ingotGold",'S',"stickWood");
+            registerShaped(new ItemStack(ModItems.goldKnife),"I","S",'I',"ingotGold",'S',"stickWood");
         }
 
         // Cooler recipes
