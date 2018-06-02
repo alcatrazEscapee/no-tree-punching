@@ -9,6 +9,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
+import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
 import notreepunching.util.MiscUtil;
@@ -28,9 +29,11 @@ public class ForgeRecipeHandler {
         FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STAINED_GLASS,1, EnumDyeColor.RED.getMetadata()), new ItemStack(Blocks.SAND, 1,1), 300));
 
         FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE,1,0), new ItemStack(Blocks.COBBLESTONE), 500));
-        FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE,1,1), new ItemStack(ModBlocks.graniteCobble), 500));
-        FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE,1,3), new ItemStack(ModBlocks.dioriteCobble), 500));
-        FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE,1,5), new ItemStack(ModBlocks.andesiteCobble), 500));
+        if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS) {
+            FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE, 1, 1), new ItemStack(ModBlocks.graniteCobble), 500));
+            FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE, 1, 3), new ItemStack(ModBlocks.dioriteCobble), 500));
+            FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE, 1, 5), new ItemStack(ModBlocks.andesiteCobble), 500));
+        }
 
         if(NoTreePunching.replaceQuarkStones){
             FORGE_RECIPES.add(new ForgeRecipe(ItemUtil.getSafeItem("quark:marble"), new ItemStack(ModBlocks.marbleCobble), 500));
