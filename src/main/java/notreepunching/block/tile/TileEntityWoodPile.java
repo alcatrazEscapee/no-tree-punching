@@ -67,6 +67,11 @@ public class TileEntityWoodPile extends TileEntitySidedInventory implements ITic
         world.setBlockToAir(pos);
     }
 
+    @Override
+    public int getSlotLimit(int slot) {
+        return 4;
+    }
+
     public static boolean isItemValid(ItemStack stack) {
         if(!stack.isEmpty()){
             return MiscUtil.doesStackMatchOre(stack, "logWood");

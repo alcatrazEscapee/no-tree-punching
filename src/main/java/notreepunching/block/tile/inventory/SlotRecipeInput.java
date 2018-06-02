@@ -28,4 +28,9 @@ public class SlotRecipeInput extends SlotItemHandler {
     public boolean isItemValid(@Nonnull ItemStack stack) {
         return f.apply(stack);
     }
+
+    @Override
+    public int getSlotStackLimit() {
+        return te.getSlotLimit(getSlotIndex());
+    }
 }
