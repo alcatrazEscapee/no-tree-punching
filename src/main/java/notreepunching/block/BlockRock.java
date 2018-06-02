@@ -31,7 +31,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @SuppressWarnings("deprecation")
 public class BlockRock extends BlockBase {
 
-    public static final IProperty<EnumMineralType> TYPE = PropertyEnum.create("type",EnumMineralType.class);
+    public static final IProperty<EnumMineralType> TYPE = PropertyEnum.create("type",EnumMineralType.class, EnumMineralType.values());
 
     BlockRock(String name) {
         super(name, Material.ROCK);

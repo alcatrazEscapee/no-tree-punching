@@ -28,7 +28,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @SuppressWarnings("deprecation")
 public class BlockTuyere extends BlockWithTE<TileEntityTuyere> {
 
-    private static final IProperty<BlockRock.EnumMineralType> TYPE = PropertyEnum.create("type",BlockRock.EnumMineralType.class);
+    private static final IProperty<BlockRock.EnumMineralType> TYPE = PropertyEnum.create("type",BlockRock.EnumMineralType.class, BlockRock.EnumMineralType.values());
 
     BlockTuyere(String name){
         super(name, Material.ROCK);
