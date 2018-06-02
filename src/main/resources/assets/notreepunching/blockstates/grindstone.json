@@ -1,0 +1,21 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "notreepunching:grindstone",
+		"textures": {
+			"side": "notreepunching:blocks/grindstone_side",
+			"base": "notreepunching:blocks/grindstone_base",
+			"top": "notreepunching:blocks/grindstone_top",
+			"stone": "notreepunching:blocks/grindstone_stone",
+			"handle": "minecraft:blocks/planks_oak",
+			"particle": "notreepunching:blocks/grindstone_base"
+		}
+	},
+	"variants": {
+		"normal": [{}],
+		"inventory": [{
+			"model": "notreepunching:grindstone_inventory",
+			"transform": "forge:default-block"
+		}]
+	}
+}

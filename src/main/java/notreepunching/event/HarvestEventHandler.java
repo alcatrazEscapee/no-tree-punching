@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -160,14 +161,6 @@ public class HarvestEventHandler {
                 }
             }
 
-            //Allows mattock to drop the normal block drop
-            if(heldItemStack.getItem() instanceof ItemMattock){
-                ItemMattock mattock = (ItemMattock) heldItemStack.getItem();
-                if(mattock.shouldBreakBlock(block)){
-                    return;
-                }
-            }
-
             //Allows Knifes to have special drops when breaking blocks
             if (heldItemStack.getItem() instanceof ItemKnife) {
                 ItemKnife knife = (ItemKnife) heldItemStack.getItem();
@@ -180,6 +173,14 @@ public class HarvestEventHandler {
                 }
                 if (knife.shouldDamageItem(block)) {
                     player.getHeldItemMainhand().damageItem(1, player);
+                }
+            }
+
+            //Allows mattock to drop the normal block drop
+            if(heldItemStack.getItem() instanceof ItemMattock){
+                ItemMattock mattock = (ItemMattock) heldItemStack.getItem();
+                if(mattock.shouldBreakBlock(block)){
+                    return;
                 }
             }
 

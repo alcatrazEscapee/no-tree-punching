@@ -26,25 +26,24 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import notreepunching.NoTreePunching;
-import notreepunching.block.BlockWithTileEntity;
-import notreepunching.block.ModBlocks;
 import notreepunching.block.tile.TileEntityFirepit;
-import notreepunching.client.NTPGuiHandler;
+import notreepunching.client.ModGuiHandler;
+import notreepunching.client.ModTabs;
 import notreepunching.item.ItemFirestarter;
 import notreepunching.util.ItemUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
+@SuppressWarnings("deprecation")
+public class BlockFirepit extends BlockWithTEInventory<TileEntityFirepit> {
 
     public static final IProperty<Boolean> BURNING = PropertyBool.create("burning");
 
-    public BlockFirepit(String name) {
+    BlockFirepit(String name) {
         super(name, Material.WOOD);
 
         setTickRandomly(true);
@@ -53,7 +52,7 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
 
     @Override
     public void register(){
-        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, true);
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, ModTabs.ITEMS_TAB);
     }
 
     @Override
@@ -91,29 +90,10 @@ public class BlockFirepit extends BlockWithTileEntity<TileEntityFirepit> {
             }
             // Open the Firepit GUI
             if (!player.isSneaking()) {
-                player.openGui(NoTreePunching.instance, NTPGuiHandler.FIREPIT, world, pos.getX(), pos.getY(), pos.getZ());
+                player.openGui(NoTreePunching.instance, ModGuiHandler.FIREPIT, world, pos.getX(), pos.getY(), pos.getZ());
             }
         }
         return true;
-    }
-
-    @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        TileEntityFirepit tile = (TileEntityFirepit) world.getTileEntity(pos);
-
-        if(tile != null) {
-            IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
-            if(itemHandler != null) {
-                for (int i = 0; i < itemHandler.getSlots(); i++) {
-                    ItemStack stack = itemHandler.getStackInSlot(i);
-                    if (!stack.isEmpty()) {
-                        EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-                        world.spawnEntity(item);
-                    }
-                }
-            }
-        }
-        super.breakBlock(world, pos, state);
     }
 
     @Override

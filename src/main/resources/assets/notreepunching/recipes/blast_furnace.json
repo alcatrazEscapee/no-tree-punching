@@ -1,0 +1,21 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"III",
+		"IFI",
+		"III"
+	],
+	"key": {
+		"I": {
+			"type": "forge:ore_dict",
+			"ore": "ingotIron"
+		},
+		"F": {
+			"item": "minecraft:furnace"
+		}
+	},
+	"result": {
+		"item": "notreepunching:blast_furnace",
+		"data": 0
+	}
+}

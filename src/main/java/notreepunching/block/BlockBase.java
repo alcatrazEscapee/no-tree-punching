@@ -1,18 +1,23 @@
 package notreepunching.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import notreepunching.NoTreePunching;
+import notreepunching.client.ModTabs;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class BlockBase extends Block implements IHasItemBlockModel {
 
     public String name;
 
-    public BlockBase(String name, Material material){
+    BlockBase(String name, Material material){
         super(material);
 
         this.name = name;
@@ -20,7 +25,7 @@ public class BlockBase extends Block implements IHasItemBlockModel {
     }
 
     public void register(){
-        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, true);
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, ModTabs.ITEMS_TAB);
     }
     public void addModelToRegistry(){
         NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
@@ -39,6 +44,11 @@ public class BlockBase extends Block implements IHasItemBlockModel {
     @Override
     public BlockBase setSoundType(SoundType soundType){
         super.setSoundType(soundType);
+        return this;
+    }
+
+    public BlockBase setHarvestType(String toolClass, int level) {
+        super.setHarvestLevel(toolClass, level);
         return this;
     }
 }

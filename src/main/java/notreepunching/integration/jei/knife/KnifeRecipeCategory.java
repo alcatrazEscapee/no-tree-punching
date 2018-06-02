@@ -9,21 +9,21 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import notreepunching.NoTreePunching;
+import notreepunching.integration.jei.JEIPluginHelper;
 
 import javax.annotation.Nonnull;
 
 public class KnifeRecipeCategory implements IRecipeCategory {
 
-    public static final String UID = "notreepunching.knife";
     private String localizedName;
     private final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID,"textures/jei/knife.png");
     private final IDrawable background;
     private final IDrawable icon;
 
     public KnifeRecipeCategory(IGuiHelper guiHelper){
-        background = guiHelper.createDrawable(LOC,0,0,164,32);
-        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.knife_recipe");
-        icon = guiHelper.createDrawable(LOC,164,0,16,16);
+        background = guiHelper.createDrawable(LOC,0,0,135,18);
+        localizedName = NoTreePunching.proxy.localize("jei.category.knife_recipe");
+        icon = guiHelper.createDrawable(LOC,135,0,16,16);
 
     }
 
@@ -42,15 +42,15 @@ public class KnifeRecipeCategory implements IRecipeCategory {
          * @param xPosition x position of the slot relative to the recipe background
          * @param yPosition y position of the slot relative to the recipe background
          */
-        recipeLayout.getItemStacks().init(index, true, 14, 8);
+        recipeLayout.getItemStacks().init(index, true, 0, 0);
         recipeLayout.getItemStacks().set(index, ingredients.getInputs(ItemStack.class).get(0));
 
         index++;
-        recipeLayout.getItemStacks().init(index, true, 73, 8);
+        recipeLayout.getItemStacks().init(index, true, 59, 0);
         recipeLayout.getItemStacks().set(index, ingredients.getInputs(ItemStack.class).get(1));
 
         index++;
-        recipeLayout.getItemStacks().init(index, false, 131, 8);
+        recipeLayout.getItemStacks().init(index, false, 117, 0);
         recipeLayout.getItemStacks().set(index, ingredients.getOutputs(ItemStack.class).get(0));
     }
 
@@ -58,7 +58,7 @@ public class KnifeRecipeCategory implements IRecipeCategory {
     @Nonnull
     @Override
     public String getUid() {
-        return UID;
+        return JEIPluginHelper.KNIFE_UID;
     }
 
     @Nonnull

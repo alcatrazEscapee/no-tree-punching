@@ -1,5 +1,6 @@
 package notreepunching.item;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,14 +14,17 @@ import net.minecraftforge.common.util.FakePlayer;
 import notreepunching.NoTreePunching;
 import notreepunching.block.BlockRock;
 import notreepunching.block.ModBlocks;
+import notreepunching.client.ModTabs;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static notreepunching.block.BlockRock.TYPE;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ItemRock extends ItemBase {
 
-    public ItemRock(String name){
+    ItemRock(String name){
         super(name);
 
         this.setMaxDamage(0);
@@ -29,7 +33,7 @@ public class ItemRock extends ItemBase {
 
     @Override
     public void register(){
-        ModItems.addItemToRegistry(this,name,true);
+        ModItems.addItemToRegistry(this,name, ModTabs.ITEMS_TAB);
         for(int i=0;i<7;i++) {
             if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
             if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
@@ -39,7 +43,6 @@ public class ItemRock extends ItemBase {
     }
 
     @Override
-    @Nonnull
     public String getUnlocalizedName(ItemStack stack)
     {
         return super.getUnlocalizedName() + "_" + getStoneName(stack);
@@ -55,7 +58,7 @@ public class ItemRock extends ItemBase {
         }
     }
 
-    public String getStoneName(ItemStack stack){
+    private String getStoneName(ItemStack stack){
         return getStoneName(stack.getMetadata());
     }
     private String getStoneName(int meta){
@@ -79,7 +82,6 @@ public class ItemRock extends ItemBase {
         }
     }
 
-    @Nonnull
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(player != null && !(player instanceof FakePlayer)){
             if(!worldIn.isRemote){

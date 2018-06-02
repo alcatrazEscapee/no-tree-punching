@@ -37,16 +37,6 @@ public class GuiWoodPile extends GuiContainer {
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
-
-        // Draw the fire / burn time indicator
-        /*int burnTime = this.tile.getScaledBurnTicks();
-        int cookTime = this.tile.getScaledCookTime();
-        if(burnTime>0){
-            drawTexturedModalRect(x+81,y+54-burnTime,176,13-burnTime,14,burnTime);
-        }
-        if(cookTime>0){
-            drawTexturedModalRect(x+77,y+24,190,0,cookTime,16);
-        }*/
     }
 
     @Override

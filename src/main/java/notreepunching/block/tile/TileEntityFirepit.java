@@ -1,5 +1,6 @@
 package notreepunching.block.tile;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,7 +19,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import static notreepunching.block.BlockFirepit.BURNING;
 
-public class TileEntityFirepit extends TileEntityInventory implements ITickable, IHasFields {
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+public class TileEntityFirepit extends TileEntitySidedInventory implements ITickable, IHasFields {
 
     private int burnTicks;
     private int maxBurnTicks;
@@ -101,10 +104,6 @@ public class TileEntityFirepit extends TileEntityInventory implements ITickable,
         return TileEntityFurnace.getItemBurnTime(is) > 0 && TileEntityFurnace.getItemBurnTime(is) <= ModConfig.Balance.FUEL_MAX;
     }
 
-    public static boolean isItemValidInput(ItemStack is){
-        return FirepitRecipeHandler.isRecipe(is);
-    }
-
     public int getField(int id) {
         if (id == BURN_FIELD_ID) return burnTicks;
         if (id == MAX_BURN_FIELD_ID) return maxBurnTicks;
@@ -154,7 +153,6 @@ public class TileEntityFirepit extends TileEntityInventory implements ITickable,
     // ******************** Tile Entity / NBT Methods **************** //
 
     @Override
-    @Nonnull
     protected NBTTagCompound writeNBT(NBTTagCompound compound) {
         compound.setTag("inventory", inventory.serializeNBT());
         compound.setInteger("burn_ticks",burnTicks);
@@ -172,7 +170,6 @@ public class TileEntityFirepit extends TileEntityInventory implements ITickable,
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
     {
         return (oldState.getBlock() != newState.getBlock());

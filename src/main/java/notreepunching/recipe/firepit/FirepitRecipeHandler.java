@@ -16,6 +16,8 @@ public class FirepitRecipeHandler {
     private static List<FirepitRecipe> FIREPIT_RECIPES = new ArrayList<FirepitRecipe>();
     private static LinkedListMultimap<Boolean, FirepitRecipe> CT_ENTRY = LinkedListMultimap.create();
 
+    public static void init(){}
+
     public static void postInit(){
         Map<ItemStack, ItemStack> map = FurnaceRecipes.instance().getSmeltingList();
 

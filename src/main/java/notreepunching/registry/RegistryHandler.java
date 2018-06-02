@@ -1,10 +1,8 @@
 package notreepunching.registry;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.audio.Sound;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -13,9 +11,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
 import notreepunching.block.tile.IHasTileEntity;
-import notreepunching.block.tile.TileEntityFirepit;
-import notreepunching.block.tile.TileEntityForge;
-import notreepunching.client.sound.ModSounds;
+import notreepunching.client.ModSounds;
 import notreepunching.item.ModItems;
 import notreepunching.recipe.ModRecipes;
 

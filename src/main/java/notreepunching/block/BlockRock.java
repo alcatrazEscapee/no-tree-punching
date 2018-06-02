@@ -1,5 +1,6 @@
 package notreepunching.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -9,7 +10,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemMultiTexture;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
@@ -23,12 +24,16 @@ import notreepunching.item.ModItems;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
 public class BlockRock extends BlockBase {
 
     public static final IProperty<EnumMineralType> TYPE = PropertyEnum.create("type",EnumMineralType.class);
 
-    public BlockRock(String name) {
+    BlockRock(String name) {
         super(name, Material.ROCK);
 
         setHardness(0.15F);
@@ -38,20 +43,18 @@ public class BlockRock extends BlockBase {
 
     @Override
     public void register(){
-        ModBlocks.addBlockToRegistry(this, new ItemMultiTexture(this, this ,this::getStoneName), name, false);
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, null);
     }
     @Override
     public void addModelToRegistry(){
     }
 
     @Override
-    @Deprecated
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    @Deprecated
     public boolean isFullCube(IBlockState state) {
         return false;
     }
@@ -139,15 +142,11 @@ public class BlockRock extends BlockBase {
                 return "unknown stone name - this is a bug";
         }
     }
-    public String getStoneName(int meta){
-        return getStoneName(new ItemStack(this,1,meta));
-    }
 
     @Override
-    @Nonnull
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[] {TYPE});
+        return new BlockStateContainer(this, TYPE);
     }
 
     public enum EnumMineralType implements IStringSerializable {
@@ -170,14 +169,27 @@ public class BlockRock extends BlockBase {
             return this.name;
         }
 
-        public static EnumMineralType byMetadata(int meta)
-        {
-            if (meta < 0 || meta >= META_LOOKUP.length)
-            {
+        public static EnumMineralType byMetadata(int meta) {
+            if (meta < 0 || meta >= META_LOOKUP.length) {
                 meta = 0;
             }
-
             return META_LOOKUP[meta];
+        }
+        public static EnumMineralType byState(IBlockState state) {
+            if(state.getBlock() == ModBlocks.graniteCobble){
+                return GRANITE;
+            }else if(state.getBlock() == ModBlocks.dioriteCobble){
+                return DIORITE;
+            }else if(state.getBlock() == ModBlocks.andesiteCobble){
+                return ANDESITE;
+            }else if(state.getBlock() == ModBlocks.marbleCobble){
+                return MARBLE;
+            }else if(state.getBlock() == ModBlocks.limestoneCobble){
+                return LIMESTONE;
+            }else if(state.getBlock() == ModBlocks.slateCobble){
+                return SLATE;
+            }
+            return STONE;
         }
 
         public String getName()
@@ -189,14 +201,12 @@ public class BlockRock extends BlockBase {
         private final String name;
         private static final EnumMineralType[] META_LOOKUP = new EnumMineralType[values().length];
 
-        private EnumMineralType(int i_meta, String i_name)
-        {
+        EnumMineralType(int i_meta, String i_name) {
             this.meta = i_meta;
             this.name = i_name;
         }
 
-        static
-        {
+        static {
             for (EnumMineralType colour : values()) {
                 META_LOOKUP[colour.getMetadata()] = colour;
             }

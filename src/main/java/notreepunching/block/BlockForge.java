@@ -1,5 +1,6 @@
 package notreepunching.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -8,7 +9,8 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -16,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -26,13 +29,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import notreepunching.NoTreePunching;
-import notreepunching.block.BlockWithTileEntity;
-import notreepunching.block.ModBlocks;
 import notreepunching.block.tile.TileEntityForge;
-import notreepunching.client.NTPGuiHandler;
+import notreepunching.client.ModGuiHandler;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
 
@@ -41,7 +40,10 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
-public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("deprecation")
+public class BlockForge extends BlockWithTEInventory<TileEntityForge> {
 
     public static final PropertyInteger LAYERS = PropertyInteger.create("type",1,8);
     public static final PropertyBool BURNING = PropertyBool.create("burning");
@@ -56,7 +58,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
             new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D),
             new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
 
-    public BlockForge(String name){
+    BlockForge(String name){
         super(name, Material.GROUND);
 
         setSoundType(SoundType.GROUND);
@@ -68,7 +70,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
 
     @Override
     public void register(){
-        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, false);
+        ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name);
     }
 
     @Override
@@ -94,6 +96,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
             }
             if(stack.getItem() == Items.FLINT_AND_STEEL || stack.getItem() == ModItems.firestarter){
                 world.setBlockState(pos,state.withProperty(BURNING, !state.getValue(BURNING)));
+                lightNearbyForges(world, pos);
                 stack.damageItem(1, player);
                 world.playSound(null,pos, SoundEvents.ITEM_FLINTANDSTEEL_USE,SoundCategory.PLAYERS,1.0F,1.0F);
 
@@ -105,13 +108,12 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
                 return true;
             }
             if (!player.isSneaking()) {
-                player.openGui(NoTreePunching.instance, NTPGuiHandler.FORGE, world, pos.getX(), pos.getY(), pos.getZ());
+                player.openGui(NoTreePunching.instance, ModGuiHandler.FORGE, world, pos.getX(), pos.getY(), pos.getZ());
             }
         }
         return true;
     }
 
-    @Nonnull
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Items.COAL;
@@ -128,7 +130,7 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (!worldIn.isRemote) {
-            // Breaks rock if the block under it breaks.
+            // Breaks block if the block under it breaks.
             IBlockState stateUnder = worldIn.getBlockState(pos.down());
             if(!stateUnder.isNormalCube()){
                 this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -143,47 +145,42 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
     }
 
     @Override
-    @Nonnull
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(Items.COAL, 1, 1);
     }
 
-    @Override
-    @ParametersAreNonnullByDefault
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        TileEntityForge tile = getTileEntity(world, pos);
-        IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
-        if(itemHandler!=null) {
-            for (int i = 0; i < itemHandler.getSlots(); i++) {
-                ItemStack stack = itemHandler.getStackInSlot(i);
-                if (!stack.isEmpty()) {
-                    EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-                    world.spawnEntity(item);
+    public static boolean updateSideBlocks(World world, BlockPos pos) {
+        if (!world.isRemote){
+            IBlockState state;
+            for(EnumFacing face : EnumFacing.HORIZONTALS){
+                state = world.getBlockState(pos.offset(face));
+                if (!isValidSideBlock(state)) {
+                    return false;
                 }
             }
         }
-        super.breakBlock(world, pos, state);
+        return true;
     }
-    public static boolean updateSideBlocks(World world, BlockPos pos) {
-        if (!world.isRemote){
-            IBlockState state = world.getBlockState(pos.north());
-            if (!state.getBlock().isNormalCube(state, world, pos) || !state.getBlock().getMaterial(state).equals(Material.ROCK)) {
-                return false;
+    private static boolean isValidSideBlock(IBlockState state){
+        return (state.isNormalCube() && !state.getMaterial().getCanBurn()) || state.getBlock() == ModBlocks.forge || state.getBlock() == ModBlocks.charcoalPile;
+    }
+    public static void lightNearbyForges(World world, BlockPos pos){
+        for(EnumFacing face : EnumFacing.HORIZONTALS){
+            BlockPos pos1 = pos.offset(face);
+            IBlockState state = world.getBlockState(pos1);
+            if(state.getBlock() == ModBlocks.forge){
+                if(!state.getValue(BURNING) && updateSideBlocks(world, pos1)){
+                    world.setBlockState(pos1, ModBlocks.forge.getDefaultState().withProperty(LAYERS, state.getValue(LAYERS)));
+                    lightNearbyForges(world, pos1);
+                }
             }
-            state = world.getBlockState(pos.east());
-            if (!state.getBlock().isNormalCube(state, world, pos) || !state.getBlock().getMaterial(state).equals(Material.ROCK)) {
-                return false;
-            }
-            state = world.getBlockState(pos.west());
-            if (!state.getBlock().isNormalCube(state, world, pos) || !state.getBlock().getMaterial(state).equals(Material.ROCK)) {
-                return false;
-            }
-            state = world.getBlockState(pos.south());
-            if (!state.getBlock().isNormalCube(state, world, pos) || !state.getBlock().getMaterial(state).equals(Material.ROCK)) {
-                return false;
+            else if(state.getBlock() == ModBlocks.charcoalPile){
+                if(updateSideBlocks(world, pos1)) {
+                    world.setBlockState(pos1, ModBlocks.forge.getDefaultState().withProperty(LAYERS, state.getValue(LAYERS)));
+                    lightNearbyForges(world, pos1);
+                }
             }
         }
-        return true;
     }
 
 
@@ -202,19 +199,17 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
 
     // *************** APPEARANCE AND BLOCK STATE METHODS ********************** //
 
-    @Nonnull
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return PILE_AABB[state.getValue(LAYERS)];
     }
     public boolean isTopSolid(IBlockState state) {
         return state.getValue(LAYERS) == 8;
     }
-    @Nonnull
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         int i = blockState.getValue(LAYERS) - 1;
         AxisAlignedBB axisalignedbb = blockState.getBoundingBox(worldIn, pos);
         return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.maxX, (double)((float)i * 0.125F), axisalignedbb.maxZ);
@@ -225,14 +220,12 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
     public boolean isFullCube(IBlockState state) {
         return state.getValue(LAYERS) == 8 && !state.getValue(BURNING);
     }
-    @Nonnull
     public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(LAYERS, meta % 8 + 1).withProperty(BURNING,meta>7);
     }
     public int getMetaFromState(IBlockState state) {
         return state.getValue(LAYERS) + (state.getValue(BURNING) ? 7 : -1);
     }
-    @Nonnull
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, LAYERS, BURNING);
     }
@@ -251,6 +244,15 @@ public class BlockForge extends BlockWithTileEntity<TileEntityForge> {
     @Override
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
         return state.getValue(BURNING) ? 15 : 0;
+    }
+    @Override
+    public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
+        IBlockState state = worldIn.getBlockState(pos);
+        if (!entityIn.isImmuneToFire() && entityIn instanceof EntityLivingBase && state.getValue(BURNING)) {
+            entityIn.attackEntityFrom(DamageSource.IN_FIRE, 2.0F);
+        }
+
+        super.onEntityWalk(worldIn, pos, entityIn);
     }
 
 

@@ -14,7 +14,7 @@
 		},
 		"F": {
 			"type": "forge:ore_dict",
-			"ore": "materialString"
+			"ore": "string"
         }
 	},
 	"result": {

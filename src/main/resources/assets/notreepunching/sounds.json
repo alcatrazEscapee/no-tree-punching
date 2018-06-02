@@ -26,5 +26,12 @@
       "notreepunching:bellows/in_2",
       "notreepunching:bellows/in_3"
     ]
+  },
+  "grindstone": {
+    "category": "block",
+    "subtitle": "notreepunching.subtitle.grindstone",
+    "sounds": [
+      "notreepunching:grindstone/1"
+    ]
   }
 }

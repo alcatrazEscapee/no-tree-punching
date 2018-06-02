@@ -5,14 +5,19 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import notreepunching.block.ModBlocks;
+import notreepunching.block.tile.inventory.ItemHandlerWrapper;
 import notreepunching.recipe.forge.ForgeRecipe;
 import notreepunching.recipe.forge.ForgeRecipeHandler;
 import notreepunching.util.ItemUtil;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
@@ -21,7 +26,7 @@ import static notreepunching.block.BlockForge.LAYERS;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TileEntityForge extends TileEntityInventory implements ITickable, IHasFields {
+public class TileEntityForge extends TileEntitySidedInventory implements ITickable, IHasFields {
 
     private int burnTicks;
     private final int maxBurnTicks = 1600; // This can never be zero
@@ -31,7 +36,7 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     private int minTemperature;
     private int maxTemperature;
     private int airTicks;
-    private final int maxTemp;
+    private final int maxTemp = 1500;
 
     public boolean closed;
     private boolean burning;
@@ -47,6 +52,8 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     private final byte COOK_ID = 2;
     private final byte MAX_COOK_ID = 3;
 
+    private final ItemHandlerWrapper wrapper;
+
 
     public TileEntityForge(){
         super(2);
@@ -59,7 +66,10 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
         temperature = 0;
         minTemperature = 800;
         maxTemperature = 0;
-        maxTemp = 1500;
+
+        wrapper = new ItemHandlerWrapper(inventory,this);
+        wrapper.addExtractSlot(OUT_SLOT);
+        wrapper.addInsertSlot(IN_SLOT);
     }
 
     public void update(){
@@ -76,19 +86,23 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
                     int layers = state.getValue(LAYERS);
                     if(layers == 1){
                         // Set the block to air and drop contents
-                        world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                        if(consumeFuelFromNearby(world, pos, layers)) {
+                            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                        }
                         return;
                     }else{
                         // Remove topmost layer
-                        world.setBlockState(pos,state.withProperty(LAYERS,layers - 1));
+                        if(consumeFuelFromNearby(world, pos, layers)) {
+                            world.setBlockState(pos, state.withProperty(LAYERS, layers - 1));
+                        }
                     }
                     state = world.getBlockState(pos);
                     // Attempt to burn out
                     Random rand = new Random();
                     if((closed && layers == 2) || // Always burn out on last layer when closed
-                            (closed && rand.nextFloat() < 0.25 && layers <= 4) || // 25% Chance to burn out when closed, layer  4>3>2
+                            (closed && rand.nextFloat() < 0.25 && layers <= 3) || // 25% Chance to burn out when closed, layer  3>2
                             (!closed && rand.nextFloat() < 0.25 && layers <= 2)){ // 25% Chance to burn out when open, layer 2>1
-                        // Always burn out at 1 when closed
+
                         world.setBlockState(pos, state.withProperty(BURNING, false));
                         burning = false;
                     }
@@ -119,6 +133,7 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
             }
             if(temperature < maxTemperature){
                 temperature ++;
+                if(temperature <= 1000 && airTicks >= 1){ temperature++; }
             }
 
 
@@ -167,7 +182,7 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
             ItemStack inStack = inventory.getStackInSlot(IN_SLOT);
             ItemStack outStack = inventory.getStackInSlot(OUT_SLOT);
 
-            inventory.setStackInSlot(IN_SLOT, ItemUtil.consumeItem(inStack, 1));
+            inventory.setStackInSlot(IN_SLOT, ItemUtil.consumeItem(inStack, recipe.getCount()));
 
             inventory.setStackInSlot(OUT_SLOT, ItemUtil.mergeStacks(outStack, recipe.getOutput()));
             this.markDirty();
@@ -177,6 +192,39 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
         return (oldState.getBlock() != newState.getBlock());
+    }
+
+    private boolean consumeFuelFromNearby(World world, BlockPos pos, int current){
+        BlockPos currentPos = pos;
+        int next;
+        for(int i = -2; i <= 2; i++){
+            for(int j = -2; j <= 2; j++){
+                IBlockState state = world.getBlockState(pos.add(i,0,j));
+                if(state.getBlock() == ModBlocks.forge){
+                    next = state.getValue(LAYERS);
+                    if(next > current || next == 8){
+                        current = next;
+                        currentPos = pos.add(i,0,j);
+                    }
+                }
+            }
+        }
+        if(currentPos == pos){
+            return true;
+        }else{
+            world.setBlockState(currentPos, ModBlocks.forge.getDefaultState().withProperty(BURNING, world.getBlockState(pos).getValue(BURNING)).withProperty(LAYERS, current - 1));
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isItemValid(int slot, ItemStack stack) {
+        switch(slot){
+            case IN_SLOT:
+                return ForgeRecipeHandler.isIngredient(stack);
+            default:
+                return false;
+        }
     }
 
     // ************* FIELD METHODS ************* //
@@ -262,5 +310,19 @@ public class TileEntityForge extends TileEntityInventory implements ITickable, I
         minTemperature = compound.getInteger("min_temperature");
         closed = compound.getBoolean("closed");
         airTicks = compound.getInteger("air_ticks");
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+        if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing == EnumFacing.UP){
+            return (T) wrapper;
+        }
+        return super.getCapability(capability, facing);
+    }
+
+    @Override
+    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+        return (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing == EnumFacing.UP) || super.hasCapability(capability, facing);
     }
 }

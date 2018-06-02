@@ -1,14 +1,20 @@
 package notreepunching.item;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import notreepunching.NoTreePunching;
+import notreepunching.client.ModTabs;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ItemSaw extends ItemAxe {
 
     public String name;
 
-    public ItemSaw(ToolMaterial material, String name){
+    ItemSaw(ToolMaterial material, String name){
         super(material,material.getAttackDamage(),-3.0F);
 
         this.name = name;
@@ -20,7 +26,7 @@ public class ItemSaw extends ItemAxe {
     }
 
     public void register(){
-        ModItems.addItemToRegistry(this,name,true);
+        ModItems.addItemToRegistry(this,name, ModTabs.TOOLS_TAB);
         NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 

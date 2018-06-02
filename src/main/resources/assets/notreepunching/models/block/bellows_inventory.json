@@ -17,11 +17,11 @@
 					"texture": "#all"
 				},
 				"west": {
-					"uv": [0, 0, 16, 2],
+					"uv": [0, 0, 2, 16],
 					"texture": "#all"
 				},
 				"east": {
-					"uv": [0, 0, 16, 2],
+					"uv": [0, 0, 2, 16],
 					"texture": "#all"
 				},
 				"down": {

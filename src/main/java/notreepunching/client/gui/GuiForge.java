@@ -53,7 +53,7 @@ public class GuiForge extends GuiContainer {
             drawTexturedModalRect(x+80, y+75-fuel,223,16-fuel,16,fuel);
         }
         if(cookTime > 0){
-            drawTexturedModalRect(x+77,y+24,200,0,cookTime, 16);
+            drawTexturedModalRect(x+77,y+23,200,0,cookTime, 16);
         }
 
     }

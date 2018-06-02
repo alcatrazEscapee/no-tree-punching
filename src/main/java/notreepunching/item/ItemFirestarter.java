@@ -1,7 +1,7 @@
 package notreepunching.item;
 
-
 import com.google.common.collect.Sets;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,16 +21,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
+import notreepunching.client.ModTabs;
 import notreepunching.config.ModConfig;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ItemFirestarter extends ItemTool {
 
     public String name;
 
-    public ItemFirestarter(String name){
+    ItemFirestarter(String name){
         super(ToolMaterial.WOOD, Sets.newHashSet());
 
         this.name = name;
@@ -41,7 +45,7 @@ public class ItemFirestarter extends ItemTool {
     }
 
     public void register(){
-        ModItems.addItemToRegistry(this,name,true);
+        ModItems.addItemToRegistry(this,name, ModTabs.TOOLS_TAB);
         NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
 
@@ -95,9 +99,9 @@ public class ItemFirestarter extends ItemTool {
                 if(!worldIn.isRemote){
 
                     List<EntityItem> list = worldIn.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.up(), pos.up().add(1, 1, 1)));
-                    List<EntityItem> toUse = new ArrayList<EntityItem>();
+                    List<EntityItem> toUse = new ArrayList<>();
 
-                    NonNullList<ItemStack> oreList=null;
+                    NonNullList<ItemStack> oreList;
 
                     int sticks = 3;
                     int logs = 1;

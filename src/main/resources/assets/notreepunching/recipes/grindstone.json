@@ -1,0 +1,25 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"SSS",
+		"CGC"
+	],
+	"key": {
+		"G": {
+			"type": "forge:ore_dict",
+			"ore": "gearWood"
+		},
+		"C": {
+			"type": "forge:ore_dict",
+			"ore": "cobblestone"
+		},
+		"S": {
+			"type": "forge:ore_dict",
+			"ore": "stone"
+		}
+	},
+	"result": {
+		"item": "notreepunching:grindstone",
+		"data": 0
+	}
+}

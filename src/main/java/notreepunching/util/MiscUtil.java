@@ -1,7 +1,7 @@
 package notreepunching.util;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
@@ -37,16 +37,18 @@ public class MiscUtil {
         return false;
     }
 
-    // Gets the opposite of EnumHand
-    public static EnumHand getOtherHand(EnumHand hand){
-        return hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
+    // This both checks if an ore dictionary entry exists, and it it has at least one itemstack
+    public static boolean doesOreHaveStack(String ore){
+        if(!OreDictionary.doesOreNameExist(ore)) return false;
+        NonNullList<ItemStack> stacks = OreDictionary.getOres(ore);
+        return !stacks.isEmpty();
     }
 
     // Gets the temperature for different metals (ore dictionary name)
     // This is roughly based on actual melting temperature (in C)
     // Actual melting temperature (via google) is in comment
     public static int getMetalForgeTemperature(String name){
-        switch(name){
+        switch(name.toLowerCase()){
             case "tin":
                 return 300; // 231.9
             case "lead":

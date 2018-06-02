@@ -11,7 +11,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import notreepunching.block.IHasItemBlockModel;
 import notreepunching.block.tile.TileEntityBellows;
+import notreepunching.block.tile.TileEntityGrindstone;
 import notreepunching.client.tesr.TESRBellows;
+import notreepunching.client.tesr.TESRGrindstone;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +26,9 @@ public class ClientRegistryHandler {
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
 
-        // This has to be here, otherwise the ItemStack picks up 'tile.air' for some reason
         for(Block block : RegistryHandler.BLOCK_REGISTRY){
+            // ItemBlock Render models
+            // This has to be here, otherwise the ItemStack picks up 'tile.air' for some reason
             if(block instanceof IHasItemBlockModel){
                 ((IHasItemBlockModel) block).addModelToRegistry();
             }
@@ -36,10 +39,10 @@ public class ClientRegistryHandler {
             ModelLoader.setCustomModelResourceLocation(entry.getKey().getItem(), entry.getKey().getItemDamage(), entry.getValue());
         }
 
+        // Register TESRs
+
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBellows.class, new TESRBellows());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGrindstone.class, new TESRGrindstone());
 
-        //ModItems.registerItemModels();
-        //ModBlocks.registerItemBlockModels();
     }
-
 }

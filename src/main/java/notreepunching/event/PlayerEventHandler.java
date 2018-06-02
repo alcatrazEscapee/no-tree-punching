@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.block.BlockCharcoalPile;
 import notreepunching.block.ModBlocks;
 import notreepunching.block.tile.TileEntityWoodPile;
-import notreepunching.client.sound.ModSounds;
+import notreepunching.client.ModSounds;
 import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
@@ -74,7 +74,7 @@ public class PlayerEventHandler {
                 }
             }
         }
-        // Creating a forge by placing charcoal
+        // Creating a charcoal pile by placing charcoal
         else if(stack.getItem() == Items.COAL && stack.getMetadata() == 1){
 
 
@@ -95,6 +95,7 @@ public class PlayerEventHandler {
                             player.setHeldItem(event.getHand(), ItemUtil.consumeItem(stack));
                         }
                         world.playSound(null, pos.offset(facing), SoundEvents.BLOCK_GRAVEL_PLACE, SoundCategory.BLOCKS, 1.0F, 0.5F);
+                        event.setCanceled(true);
                     }
 
                 }
@@ -109,7 +110,7 @@ public class PlayerEventHandler {
                         player.isSneaking()) {
 
                     if(!world.isRemote) {
-                        world.setBlockState(pos.offset(facing), ModBlocks.woodPile.getDefaultState());
+                        world.setBlockState(pos.offset(facing), ModBlocks.woodPile.getStateForPlacement(world, pos, facing, 0, 0, 0, 0, player));
 
                         TileEntity te = world.getTileEntity(pos.offset(facing));
                         if(te instanceof TileEntityWoodPile){
@@ -126,5 +127,4 @@ public class PlayerEventHandler {
             }
         }
     }
-
 }

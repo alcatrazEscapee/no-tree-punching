@@ -5,13 +5,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
-import notreepunching.block.tile.TileEntityFirepit;
 import notreepunching.block.tile.TileEntityWoodPile;
-import notreepunching.util.MiscUtil;
+import notreepunching.block.tile.inventory.SlotRecipeInput;
 
 import javax.annotation.Nonnull;
 
@@ -20,12 +17,13 @@ public class ContainerWoodPile extends Container {
     private TileEntityWoodPile tile;
 
     public ContainerWoodPile(InventoryPlayer playerInv, TileEntityWoodPile woodPile) {
-        IItemHandler inventory = woodPile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
-        // Firepit Slots
-        addSlotToContainer(new SlotWoodPile(inventory, 0, 71, 23, woodPile));
-        addSlotToContainer(new SlotWoodPile(inventory, 1, 89, 23, woodPile));
-        addSlotToContainer(new SlotWoodPile(inventory, 2, 71, 41, woodPile));
-        addSlotToContainer(new SlotWoodPile(inventory, 3, 89, 41, woodPile));
+        IItemHandler inventory = woodPile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+
+        // Container Slots
+        addSlotToContainer(new SlotRecipeInput(inventory, 0, 71, 23, woodPile, TileEntityWoodPile::isItemValid));
+        addSlotToContainer(new SlotRecipeInput(inventory, 1, 89, 23, woodPile, TileEntityWoodPile::isItemValid));
+        addSlotToContainer(new SlotRecipeInput(inventory, 2, 71, 41, woodPile, TileEntityWoodPile::isItemValid));
+        addSlotToContainer(new SlotRecipeInput(inventory, 3, 89, 41, woodPile, TileEntityWoodPile::isItemValid));
 
         tile = woodPile;
 
@@ -71,7 +69,7 @@ public class ContainerWoodPile extends Container {
                 // Don't transfer anything
                 return ItemStack.EMPTY;
             }
-            tile.setAndUpdateSlots();
+            tile.setAndUpdateSlots(index);
         }
         // Transfer into the container
         else {
@@ -91,34 +89,5 @@ public class ContainerWoodPile extends Container {
         }
         slot.onTake(player, itemstack1);
         return itemstack;
-    }
-
-    // ***************** Slot Classes ******************** //
-
-    class SlotWoodPile extends SlotItemHandler{
-
-        private TileEntityWoodPile tile;
-
-        private SlotWoodPile(IItemHandler inventory, int idx, int x, int y, final TileEntityWoodPile tile){
-            super(inventory, idx,x,y);
-            this.tile = tile;
-        }
-
-        @Override
-        public void onSlotChanged() {
-            tile.markDirty();
-        }
-
-        @Override
-        public boolean isItemValid(@Nonnull ItemStack stack) {
-            if(!stack.isEmpty()){
-                return MiscUtil.doesStackMatchOre(stack, "logWood");
-            }
-            return true;
-        }
-        @Override
-        public int getSlotStackLimit() {
-            return 4;
-        }
     }
 }

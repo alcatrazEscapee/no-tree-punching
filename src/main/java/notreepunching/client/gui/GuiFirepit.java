@@ -45,7 +45,7 @@ public class GuiFirepit extends GuiContainer {
             drawTexturedModalRect(x+81,y+54-burnTime,176,13-burnTime,14,burnTime);
         }
         if(cookTime>0){
-            drawTexturedModalRect(x+77,y+24,190,0,cookTime,16);
+            drawTexturedModalRect(x+77,y+23,190,0,cookTime,16);
         }
     }
 

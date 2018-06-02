@@ -41,6 +41,9 @@ public class ModConfig {
         @Comment({"Disable Furnace ore smelting recipes, forcing the use of the forge"})
         public static boolean DISABLE_SMELTING_ORE = true;
 
+        @Comment({"Alternate recipes for various blocks and items using NTP materials (generally slightly harder)"})
+        public static boolean COOLER_RECIPES = true;
+
     }
 
     public static Balance balance;
@@ -79,6 +82,15 @@ public class ModConfig {
         @Comment({"Mining level for steel tools"})
         public static int STEEL_MINING_LEVEL = 3;
 
+        @Comment({"Amount of dust generated per ore in the grindstone"})
+        public static int DUST_PER_ORE = 1;
+
+        @Comment({"Time (in ticks) that the Blast Furnace takes to cook"})
+        public static int BLAST_FURNACE_TIME = 600;
+
+        @Comment({"Time (in ticks) that one piece of charcoal lasts in the Blast Furnace"})
+        public static int BLAST_FURNACE_FUEL_TIME = 800;
+
     }
 
     public static World world;
@@ -92,6 +104,10 @@ public class ModConfig {
 
         @Comment({"Generate Loose rocks on the surface"})
         public static boolean LOOSE_ROCKS = true;
+
+        @Comment({"Frequency of loose rocks appearing in the world"})
+        @Config.RangeInt(min = 1, max = 100)
+        public static int LOOSE_ROCKS_FREQUENCY = 100;
     }
 
     @SubscribeEvent

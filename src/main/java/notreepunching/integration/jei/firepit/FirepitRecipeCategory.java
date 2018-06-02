@@ -15,9 +15,10 @@ import notreepunching.NoTreePunching;
 
 import javax.annotation.Nonnull;
 
+import static notreepunching.integration.jei.JEIPluginHelper.FIREPIT_UID;
+
 public class FirepitRecipeCategory implements IRecipeCategory {
 
-    public static final String UID = "notreepunching.firepit";
     private String localizedName;
     private final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID, "textures/jei/firepit.png");
     private final IDrawable background;
@@ -28,7 +29,7 @@ public class FirepitRecipeCategory implements IRecipeCategory {
 
     public FirepitRecipeCategory(IGuiHelper guiHelper){
         background = guiHelper.createDrawable(LOC,0,0,74,54);
-        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.firepit_recipe");
+        localizedName = NoTreePunching.proxy.localize("jei.category.firepit_recipe");
         icon = guiHelper.createDrawable(LOC,111,0,16,16);
 
         IDrawableStatic staticArrow = guiHelper.createDrawable(LOC, 88, 0, 16, 23);
@@ -67,7 +68,7 @@ public class FirepitRecipeCategory implements IRecipeCategory {
     @Nonnull
     @Override
     public String getUid() {
-        return UID;
+        return FIREPIT_UID;
     }
 
     @Nonnull
@@ -95,7 +96,7 @@ public class FirepitRecipeCategory implements IRecipeCategory {
 
     @Override
     public void drawExtras(Minecraft minecraft) {
-        animatedArrow.draw(minecraft, 26, 2);
+        animatedArrow.draw(minecraft, 26, 1);
         animatedFlame.draw(minecraft, 30, 20);
     }
 }

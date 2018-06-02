@@ -9,8 +9,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.block.ModBlocks;
+import notreepunching.client.gui.GuiBlastFurnace;
 import notreepunching.client.gui.GuiFirepit;
 import notreepunching.client.gui.GuiForge;
+import notreepunching.client.gui.GuiGrindstone;
+import notreepunching.integration.jei.blast.BlastRecipeCategory;
+import notreepunching.integration.jei.blast.BlastRecipeWrapper;
+import notreepunching.integration.jei.grindstone.GrindstoneRecipeCategory;
+import notreepunching.integration.jei.grindstone.GrindstoneRecipeWrapper;
 import notreepunching.item.ModItems;
 import notreepunching.integration.jei.firepit.FirepitRecipeCategory;
 import notreepunching.integration.jei.firepit.FirepitRecipeWrapper;
@@ -18,6 +24,9 @@ import notreepunching.integration.jei.forge.ForgeRecipeCategory;
 import notreepunching.integration.jei.forge.ForgeRecipeWrapper;
 import notreepunching.integration.jei.knife.KnifeRecipeCategory;
 import notreepunching.integration.jei.knife.KnifeRecipeWrapper;
+import notreepunching.recipe.forge.BlastRecipeHandler;
+import notreepunching.recipe.grindstone.GrindstoneRecipe;
+import notreepunching.recipe.grindstone.GrindstoneRecipeHandler;
 import notreepunching.recipe.knife.KnifeRecipe;
 import notreepunching.recipe.knife.KnifeRecipeHandler;
 import notreepunching.recipe.firepit.FirepitRecipe;
@@ -25,17 +34,27 @@ import notreepunching.recipe.firepit.FirepitRecipeHandler;
 import notreepunching.recipe.forge.ForgeRecipe;
 import notreepunching.recipe.forge.ForgeRecipeHandler;
 
+import static notreepunching.NoTreePunching.MODID;
+
 @mezz.jei.api.JEIPlugin
 public class JEIPluginHelper implements IModPlugin {
 
     public static IGuiHelper helper;
+
+    public static final String KNIFE_UID = MODID+".knife";
+    public static final String FIREPIT_UID = MODID+".firepit";
+    public static final String FORGE_UID = MODID+".forge";
+    public static final String GRIND_UID = MODID+".grindstone";
+    public static final String BLAST_UID = MODID+".blast_furnace";
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
         registry.addRecipeCategories(
                 new KnifeRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
                 new FirepitRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
-                new ForgeRecipeCategory(registry.getJeiHelpers().getGuiHelper())
+                new ForgeRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
+                new GrindstoneRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
+                new BlastRecipeCategory(registry.getJeiHelpers().getGuiHelper())
         );
     }
 
@@ -65,22 +84,34 @@ public class JEIPluginHelper implements IModPlugin {
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.charcoalPile));
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.forge));
         blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.woodPile));
-        // TODO: add the tuyere block as a blacklisted ingredient
+        blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.blockTuyere));
 
         // Knife / Cutting Recipes
-        registry.handleRecipes(KnifeRecipe.class, KnifeRecipeWrapper::new, KnifeRecipeCategory.UID);
-        registry.addRecipes(KnifeRecipeHandler.getAll(), KnifeRecipeCategory.UID);
+        registry.handleRecipes(KnifeRecipe.class, KnifeRecipeWrapper::new, KNIFE_UID);
+        registry.addRecipes(KnifeRecipeHandler.getAll(), KNIFE_UID);
 
         // Firepit Recipes
-        registry.handleRecipes(FirepitRecipe.class, FirepitRecipeWrapper::new, FirepitRecipeCategory.UID);
-        registry.addRecipes(FirepitRecipeHandler.getAll(), FirepitRecipeCategory.UID);
-        registry.addRecipeClickArea(GuiFirepit.class, 75, 22, 26, 19, FirepitRecipeCategory.UID);
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.firepit), FirepitRecipeCategory.UID);
+        registry.handleRecipes(FirepitRecipe.class, FirepitRecipeWrapper::new, FIREPIT_UID);
+        registry.addRecipes(FirepitRecipeHandler.getAll(), FIREPIT_UID);
+        registry.addRecipeClickArea(GuiFirepit.class, 75, 22, 26, 19, FIREPIT_UID);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.firepit), FIREPIT_UID);
 
         // Forge Recipes
-        registry.handleRecipes(ForgeRecipe.class, ForgeRecipeWrapper::new, ForgeRecipeCategory.UID);
-        registry.addRecipes(ForgeRecipeHandler.getAll(), ForgeRecipeCategory.UID);
-        registry.addRecipeClickArea(GuiForge.class, 75, 22, 26, 19, ForgeRecipeCategory.UID);
+        registry.handleRecipes(ForgeRecipe.class, ForgeRecipeWrapper::new, FORGE_UID);
+        registry.addRecipes(ForgeRecipeHandler.getAll(), FORGE_UID);
+        registry.addRecipeClickArea(GuiForge.class, 75, 22, 26, 19, FORGE_UID);
+
+        // Grindstone Recipes
+        registry.handleRecipes(GrindstoneRecipe.class, GrindstoneRecipeWrapper::new, GRIND_UID);
+        registry.addRecipes(GrindstoneRecipeHandler.getAll(), GRIND_UID);
+        registry.addRecipeClickArea(GuiGrindstone.class, 75, 29, 26, 19, GRIND_UID);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.grindstone), GRIND_UID);
+
+        // Blast Furnace Recipes
+        registry.handleRecipes(ForgeRecipe.class, BlastRecipeWrapper::new, BLAST_UID);
+        registry.addRecipes(BlastRecipeHandler.getAll(), BLAST_UID);
+        registry.addRecipeClickArea(GuiBlastFurnace.class, 94,34,26,19, BLAST_UID);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.blastFurnace), BLAST_UID);
 
     }
 

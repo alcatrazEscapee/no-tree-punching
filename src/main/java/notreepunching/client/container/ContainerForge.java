@@ -4,12 +4,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
 import notreepunching.block.tile.TileEntityForge;
-import notreepunching.client.container.ContainerBase;
+import notreepunching.block.tile.inventory.SlotOutput;
+import notreepunching.block.tile.inventory.SlotRecipeInput;
 import notreepunching.recipe.forge.ForgeRecipeHandler;
 
 import javax.annotation.Nonnull;
@@ -22,10 +21,10 @@ public class ContainerForge extends ContainerBase<TileEntityForge> {
 
     @Override
     protected void addContainerSlots(TileEntityForge tile) {
-        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
-        addSlotToContainer(new SlotForgeInput(inventory, 0,52,23, tile));
-        addSlotToContainer(new SlotForgeOutput(inventory, 1,108,23, tile));
+        addSlotToContainer(new SlotRecipeInput(inventory, 0,52,23, tile, ForgeRecipeHandler::isIngredient));
+        addSlotToContainer(new SlotOutput(inventory, 1,108,23, tile));
     }
 
     // index is the id of the slot shift-clicked
@@ -74,46 +73,5 @@ public class ContainerForge extends ContainerBase<TileEntityForge> {
         }
         slot.onTake(player, itemstack1);
         return itemstack;
-    }
-
-    // ***************** Slot Classes ******************** //
-
-    class SlotForgeInput extends SlotItemHandler{
-        private TileEntityForge te;
-
-        private SlotForgeInput(IItemHandler inventory, int idx, int x, int y, final TileEntityForge te){
-            super(inventory, idx,x,y);
-            this.te = te;
-        }
-
-        @Override
-        public void onSlotChanged() {
-            te.markDirty();
-            //te.resetCookTimer();
-        }
-
-        @Override
-        public boolean isItemValid(@Nonnull ItemStack stack) {
-            return ForgeRecipeHandler.isIngredient(stack);
-        }
-    }
-
-    class SlotForgeOutput extends SlotItemHandler{
-        private TileEntityForge te;
-
-        private SlotForgeOutput(IItemHandler inventory, int idx, int x, int y, final TileEntityForge te){
-            super(inventory, idx,x,y);
-            this.te = te;
-        }
-
-        @Override
-        public void onSlotChanged() {
-            te.markDirty();
-        }
-
-        @Override
-        public boolean isItemValid(@Nonnull ItemStack stack) {
-            return false;
-        }
     }
 }

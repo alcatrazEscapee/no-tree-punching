@@ -13,7 +13,7 @@ import notreepunching.util.ItemUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KnifeRecipeHandler {
+public class KnifeRecipeHandler{
 
     private static List<KnifeRecipe> CUTTING_RECIPES = new ArrayList<KnifeRecipe>();
     private static LinkedListMultimap<Boolean, KnifeRecipe> CT_ENTRY = LinkedListMultimap.create();
@@ -39,6 +39,7 @@ public class KnifeRecipeHandler {
         addCuttingRecipe(Blocks.MELON_BLOCK,new ItemStack(Items.MELON,9));
         addCuttingRecipe(Items.MELON,new ItemStack(Items.MELON_SEEDS,1),new ItemStack(ModItems.grassFiber));
         addCuttingRecipe(Blocks.PUMPKIN,new ItemStack(Items.PUMPKIN_SEEDS,4),new ItemStack(ModItems.grassFiber,2));
+        addCuttingRecipe(Blocks.VINE, new ItemStack(ModItems.grassFiber,3));
 
         for(int i = 0; i<6; i++){
             addCuttingRecipe(new ItemStack(i<4 ? Blocks.LEAVES : Blocks.LEAVES2,6,i%4),new ItemStack(Blocks.SAPLING,1,i),new ItemStack(ModItems.grassFiber,2));
@@ -56,7 +57,7 @@ public class KnifeRecipeHandler {
         });
     }
 
-    public static boolean isRecipe(ItemStack stack){
+    public static boolean isIngredient(ItemStack stack){
         return getRecipe(stack)!=null;
     }
 

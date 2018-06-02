@@ -15,9 +15,10 @@ import notreepunching.NoTreePunching;
 
 import javax.annotation.Nonnull;
 
+import static notreepunching.integration.jei.JEIPluginHelper.FORGE_UID;
+
 public class ForgeRecipeCategory implements IRecipeCategory {
 
-    public static final String UID = "notreepunching.forge";
     private String localizedName;
     public static final ResourceLocation LOC = new ResourceLocation(NoTreePunching.MODID,"textures/jei/forge.png");
     private final IDrawable background;
@@ -28,7 +29,7 @@ public class ForgeRecipeCategory implements IRecipeCategory {
 
     public ForgeRecipeCategory(IGuiHelper guiHelper){
         background = guiHelper.createDrawable(LOC,0,0,128,54);
-        localizedName = NoTreePunching.proxy.localize("notreepunching.jei.category.forge_recipe");
+        localizedName = NoTreePunching.proxy.localize("jei.category.forge_recipe");
         icon = guiHelper.createDrawable(LOC,128,0,16,16);
 
         IDrawableStatic staticFlame = guiHelper.createDrawable(LOC, 144, 0, 14, 14);
@@ -61,19 +62,13 @@ public class ForgeRecipeCategory implements IRecipeCategory {
         recipeLayout.getItemStacks().init(index, false, 83, 0);
         recipeLayout.getItemStacks().set(index, ingredients.getOutputs(ItemStack.class).get(0));
 
-        //temperature = ((ForgeRecipeWrapper) recipeWrapper).getTemperature() / 50;
-        //temperature = ingredients.getInputs(int.class).get(0).get(0);
-
-        //System.out.println("INIT THE RECIPE: "+ingredients.getOutputs(ItemStack.class).get(0)+" | T="+temperature);
-        //drawableTemperature = guiHelper.createDrawable(LOC, 181,30-temperature,10,temperature);
-
     }
 
 
     @Nonnull
     @Override
     public String getUid() {
-        return UID;
+        return FORGE_UID;
     }
 
     @Nonnull
@@ -102,8 +97,6 @@ public class ForgeRecipeCategory implements IRecipeCategory {
     @Override
     public void drawExtras(Minecraft minecraft) {
         animatedFlame.draw(minecraft, 56, 20);
-        animatedArrow.draw(minecraft, 53, 2);
-        //System.out.println("DRAWING THE FKING THING!!!"+temperature);
-        //drawableTemperature.draw(minecraft, 0, 33 - temperature);
+        animatedArrow.draw(minecraft, 53, 1);
     }
 }

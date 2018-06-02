@@ -4,32 +4,35 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import notreepunching.block.tile.IHasTileEntity;
 import notreepunching.block.tile.TileEntityBellows;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 @MethodsReturnNonnullByDefault
-public class BlockBellows extends BlockWithTileEntity<TileEntityBellows> implements IHasTileEntity<TileEntityBellows> {
+@ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
+public class BlockBellows extends BlockWithTE<TileEntityBellows> {
 
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
+    private static final PropertyDirection FACING = BlockHorizontal.FACING;
 
-    public BlockBellows(String name){
+    BlockBellows(String name){
         super(name, Material.WOOD);
 
+        setHardness(2.0F);
+        setHarvestLevel("axe",0);
         setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
 
@@ -63,7 +66,7 @@ public class BlockBellows extends BlockWithTileEntity<TileEntityBellows> impleme
 
         TileEntityBellows te = (TileEntityBellows) world.getTileEntity(pos);
         if (te != null){
-            te.updatePower(world.isBlockPowered(pos));
+            te.setPower(world.isBlockPowered(pos));
         }
     }
 
@@ -79,13 +82,11 @@ public class BlockBellows extends BlockWithTileEntity<TileEntityBellows> impleme
         return false;
     }
     @Override
-    @Nonnull
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
     }
@@ -100,9 +101,10 @@ public class BlockBellows extends BlockWithTileEntity<TileEntityBellows> impleme
         return new BlockStateContainer(this, FACING);
     }
 
-    @SuppressWarnings("deprecation")
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
-    {
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+        if(placer.isSneaking()){
+            return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
+        }
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 }

@@ -1,0 +1,22 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"II",
+		"T ",
+		"T "
+	],
+	"key": {
+		"T": {
+			"type": "forge:ore_dict",
+			"ore": "stickWood"
+		},
+		"I": {
+			"type": "forge:ore_dict",
+			"ore": "ingotBronze"
+		}
+	},
+	"result": {
+		"item": "notreepunching:bronze_hoe",
+		"data": 0
+	}
+}
