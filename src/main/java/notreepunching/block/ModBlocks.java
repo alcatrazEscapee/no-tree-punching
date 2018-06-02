@@ -47,11 +47,11 @@ public class ModBlocks {
             dioriteCobble = new BlockBase("diorite_cobblestone", Material.ROCK).setHardness(2.0F);
         }
         if(NoTreePunching.replaceQuarkStones){
-            marbleCobble = new BlockBase("marble", Material.ROCK).setHardness(2.0F);
-            limestoneCobble = new BlockBase("limestone", Material.ROCK).setHardness(2.0F);
+            marbleCobble = new BlockBase("marble_cobblestone", Material.ROCK).setHardness(2.0F);
+            limestoneCobble = new BlockBase("limestone_cobblestone", Material.ROCK).setHardness(2.0F);
         }
         if(NoTreePunching.replaceRusticStone){
-            slateCobble = new BlockBase("slate", Material.ROCK).setHardness(2.0F);
+            slateCobble = new BlockBase("slate_cobblestone", Material.ROCK).setHardness(2.0F);
         }
 
         firepit = new BlockFirepit("firepit");
