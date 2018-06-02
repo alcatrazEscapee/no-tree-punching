@@ -67,6 +67,8 @@ public class MiscUtil {
                 return 1400; // 1455.0
             case "iron":
                 return 1500; // 1538.0
+            case "bronze":
+                return 950; // This one is made up for balance :)
             default:
                 return 1500;
         }
