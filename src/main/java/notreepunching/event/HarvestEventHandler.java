@@ -242,7 +242,7 @@ public class HarvestEventHandler {
                 return;
             }
             // Always allow creative mode
-            if (player.capabilities.isCreativeMode) {
+            if (player.isCreative()) {
                 return;
             }
             ItemStack heldItemStack = player.getHeldItemMainhand();

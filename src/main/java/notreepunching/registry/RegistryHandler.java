@@ -3,6 +3,7 @@ package notreepunching.registry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -43,7 +44,7 @@ public class RegistryHandler {
         for(Block block : BLOCK_REGISTRY){
             event.getRegistry().register(block);
             if(block instanceof IHasTileEntity){
-                GameRegistry.registerTileEntity(((IHasTileEntity<?>)block).getTileEntityClass(), NoTreePunching.MODID+"_"+block.getUnlocalizedName());
+                GameRegistry.registerTileEntity(((IHasTileEntity<?>)block).getTileEntityClass(), new ResourceLocation(NoTreePunching.MODID,block.getUnlocalizedName()));
             }
         }
     }

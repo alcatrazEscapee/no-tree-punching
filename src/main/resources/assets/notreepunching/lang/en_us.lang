@@ -19,15 +19,12 @@ item.grass_string.name=Plant String
 item.flint_shard.name=Flint Shard
 
 item.iron_knife.name=Iron Knife
-item.gold_knife.name=Gold Knife
 item.diamond_knife.name=Diamond Knife
 
 item.iron_mattock.name=Iron Mattock
-item.gold_mattock.name=Gold Mattock
 item.diamond_mattock.name=Diamond Mattock
 
 item.iron_saw.name=Iron Saw
-item.gold_saw.name=Gold Saw
 item.diamond_saw.name=Diamond Saw
 
 item.stone_knife.name=Crude Knife
@@ -138,6 +135,8 @@ jei.description.saw=Saws are multipurpose cutting instruments. They can function
 jei.description.firepit=To build a firepit, throw one log, one plant string, and three sticks on the ground. Then right click and hold a firestarter on that block. The items will be consumed and a firepit will be created. You can relight a firepit by clicking on it with a firestarter. You can extinguish a firepit by breaking it or clicking on it with a piece of sand.
 jei.description.forge=To create a charcoal forge, place charcoal on the ground by right clicking. The higher the pile, the better. Surround the charcoal pile with four stone type blocks, then light it with either a flint and steel or a fire starter.
 jei.description.wood_pile=Wood piles can be created by shift right clicking any log. They function as small storage containers that only store logs. In addition, these log piles can be turned into charcoal. By placing log piles on the ground, and completely covering them on all sides with other log piles or full, non flammable blocks, and then lighting it on fire, they become a charcoal pit, and will eventually turn into charcoal.
+jei.description.tuyere=A Tuyere is a small pipe used to funnel air into a charcoal forge. Right click with it on a piece of cobblestone, and it will become a Tuyere block. When a bellows is facing the tuyere, it will pump air into the block, which will heat up adjacent charcoal forges.
+jei.description.blast_furnace=The blast furnace is a multiblock structure. Above the blast furnace, in a '+' shape, place stone type blocks, with a charcoal pile in the middle. The more charcoal, the hotter the blast furnace will get. Light the blast furnace with a flint and steel. The blast furnace will also heat up if a bellows is facing into it.
 
 jei.category.knife_recipe=Knife Cutting
 jei.category.firepit_recipe=Firepit

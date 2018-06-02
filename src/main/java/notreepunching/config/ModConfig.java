@@ -26,7 +26,11 @@ public class ModConfig {
         @Comment({"Disable Log -> Planks and Planks -> Sticks recipe. Forces use of the crude axe + saw"})
         public static boolean WOOD_RECIPE_DISABLE = true;
 
-        @Comment({"List of blocks that always will drop items and will mine at a regular speed."})
+        @Comment({"Disable gold tool recipes"})
+        public static boolean GOLD_TOOLS_DISABLE = true;
+
+        @Comment({"List of blocks that always will drop items and will mine at a regular speed.",
+                "Use the format modid:registry_name"})
         public static String[] BREAKABLE = new String[] {"notreepunching:loose_rock","minecraft:leaves","minecraft:gravel"};
 
         @Comment({"Stone Blocks (Stone, Andesite, Granite, Diorite) break into small rocks when mined, must be crafted back into cobblestone"})
@@ -38,7 +42,7 @@ public class ModConfig {
         @Comment({"Rustic Stone (Slate) breaks into small rocks when mined, must be crafted back into cobblestone"})
         public static boolean RUSTIC_STONE_REPLACE = true;
 
-        @Comment({"Disable Furnace ore smelting recipes, forcing the use of the forge"})
+        @Comment({"Disable Furnace ore smelting recipes, forcing the use of the forge. If false, it will add furnace recipes for NTP metals"})
         public static boolean DISABLE_SMELTING_ORE = true;
 
         @Comment({"Alternate recipes for various blocks and items using NTP materials (generally slightly harder)"})
@@ -49,12 +53,15 @@ public class ModConfig {
     public static Balance balance;
     public static class Balance {
         @Comment({"Chance for a sucessful flint knapping"})
+        @Config.RangeDouble(min = 0.0, max = 1.0)
         public static double FLINT_CHANCE = 0.6D;
 
-        @Comment({"Chance for the firestarter to set a fire. Set to 0 to disable"})
+        @Comment({"Chance for the firestarter to set a fire. Set to 0 to disable firestarter starting fires"})
+        @Config.RangeDouble(min = 0.0, max = 1.0)
         public static double FIRE_CHANCE = 0.5D;
 
         @Comment({"Chance for tall grass to drop plant fibers"})
+        @Config.RangeDouble(min = 0.0, max = 1.0)
         public static double GRASS_FIBER_CHANCE = 0.7D;
 
         @Comment({"Time (in ticks) for the charcoal pit to run (1000 ticks = 1 in game hour)"})
@@ -63,23 +70,23 @@ public class ModConfig {
         @Comment({"Multiplier for how long fuel lasts in a firepit vs a furnace"})
         public static int FUEL_MULT = 10;
 
-        @Comment({"How long (in ticks) food takes to cook in the firepit. (Default Value)"})
-        @net.minecraftforge.common.config.Config.Name("COOK_TIME")
+        @Comment({"How long (in ticks) food takes to cook in the firepit."})
+        @Config.Name("COOK_TIME")
         public static int COOK_MULT = 400;
 
         @Comment({"Maximum burn time (in ticks) for fuel that is allowed in the firepit (Coal = 1600, Log = 300)"})
         public static int FUEL_MAX = 800;
 
-        @Comment({"Mining level for flint tools"})
-        public static int FLINT_MINING_LEVEL = 1;
+        @Comment({"Mining level for flint tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
+        public static int FLINT_MINING_LEVEL = 0;
 
-        @Comment({"Mining level for copper tools"})
+        @Comment({"Mining level for copper tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
         public static int COPPER_MINING_LEVEL = 1;
 
-        @Comment({"Mining level for bronze tools"})
+        @Comment({"Mining level for bronze tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
         public static int BRONZE_MINING_LEVEL = 2;
 
-        @Comment({"Mining level for steel tools"})
+        @Comment({"Mining level for steel tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
         public static int STEEL_MINING_LEVEL = 3;
 
         @Comment({"Amount of dust generated per ore in the grindstone"})

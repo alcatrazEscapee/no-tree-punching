@@ -32,7 +32,6 @@ public class ModItems {
 
     public static ItemKnife stoneKnife;
     public static ItemKnife ironKnife;
-    public static ItemKnife goldKnife;
     public static ItemKnife diamondKnife;
     public static ItemKnife copperKnife;
     public static ItemKnife bronzeKnife;
@@ -40,13 +39,11 @@ public class ModItems {
 
     public static ItemSaw ironSaw;
     public static ItemSaw diamondSaw;
-    public static ItemSaw goldSaw;
     public static ItemSaw copperSaw;
     public static ItemSaw bronzeSaw;
     public static ItemSaw steelSaw;
 
     public static ItemMattock ironMattock;
-    public static ItemMattock goldMattock;
     public static ItemMattock diamondMattock;
     public static ItemMattock copperMattock;
     public static ItemMattock bronzeMattock;
@@ -156,10 +153,6 @@ public class ModItems {
         ironMattock = new ItemMattock(Item.ToolMaterial.IRON,"iron_mattock");
         ironSaw = new ItemSaw(Item.ToolMaterial.IRON,"iron_saw");
 
-        goldKnife = new ItemKnife(Item.ToolMaterial.GOLD, "gold_knife");
-        goldMattock = new ItemMattock(Item.ToolMaterial.GOLD,"gold_mattock");
-        goldSaw = new ItemSaw(Item.ToolMaterial.GOLD,"gold_saw");
-
         diamondKnife = new ItemKnife(Item.ToolMaterial.DIAMOND,"diamond_knife");
         diamondMattock = new ItemMattock(Item.ToolMaterial.DIAMOND,"diamond_mattock");
         diamondSaw = new ItemSaw(Item.ToolMaterial.DIAMOND,"diamond_saw");
@@ -228,7 +221,6 @@ public class ModItems {
         List<ItemStack> array = new ArrayList<>();
         array.add(new ItemStack(stoneKnife));
         array.add(new ItemStack(ironKnife));
-        array.add(new ItemStack(goldKnife));
         array.add(new ItemStack(diamondKnife));
         array.add(new ItemStack(copperKnife));
         array.add(new ItemStack(bronzeKnife));
@@ -238,7 +230,6 @@ public class ModItems {
     public static List<ItemStack> listAllMattocks(){
         List<ItemStack> array = new ArrayList<>();
         array.add(new ItemStack(ironMattock));
-        array.add(new ItemStack(goldMattock));
         array.add(new ItemStack(diamondMattock));
         array.add(new ItemStack(copperMattock));
         array.add(new ItemStack(bronzeMattock));
@@ -249,7 +240,6 @@ public class ModItems {
     public static List<ItemStack> listAllSaws(){
         List<ItemStack> array = new ArrayList<>();
         array.add(new ItemStack(ironSaw));
-        array.add(new ItemStack(goldSaw));
         array.add(new ItemStack(diamondSaw));
         array.add(new ItemStack(copperSaw));
         array.add(new ItemStack(bronzeSaw));
@@ -260,7 +250,6 @@ public class ModItems {
     public static void initOreDict(){
         OreDictionary.registerOre("toolSaw", new ItemStack(diamondSaw,1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("toolSaw", new ItemStack(ironSaw,1, OreDictionary.WILDCARD_VALUE));
-        OreDictionary.registerOre("toolSaw", new ItemStack(goldSaw,1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("toolSaw",new ItemStack(copperSaw,1,OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("toolSaw",new ItemStack(bronzeSaw,1,OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("toolSaw",new ItemStack(steelSaw,1,OreDictionary.WILDCARD_VALUE));

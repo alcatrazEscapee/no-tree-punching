@@ -6,16 +6,16 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import notreepunching.NoTreePunching;
 import notreepunching.registry.RegistryHandler;
 
-@ObjectHolder(NoTreePunching.MODID)
+//@ObjectHolder(NoTreePunching.MODID)
 public class ModSounds {
 
-    @ObjectHolder("knapping")
+    //@ObjectHolder("knapping")
     public static SoundEvent flintKnapping;
-    @ObjectHolder("bellows_out")
+    //@ObjectHolder("bellows_out")
     public static SoundEvent bellowsOut;
-    @ObjectHolder("bellows_in")
+    //@ObjectHolder("bellows_in")
     public static SoundEvent bellowsIn;
-    @ObjectHolder("grindstone")
+    //@ObjectHolder("grindstone")
     public static SoundEvent grindstone;
 
     public static void init(){

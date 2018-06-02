@@ -187,6 +187,20 @@ public class ModRecipes {
             modRegistry.remove(new ResourceLocation("minecraft:stone_axe"));
         }
 
+        // Gold Tools
+        if(ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE) {
+            modRegistry.remove(new ResourceLocation("minecraft:golden_pickaxe"));
+            modRegistry.remove(new ResourceLocation("minecraft:golden_shovel"));
+            modRegistry.remove(new ResourceLocation("minecraft:golden_hoe"));
+            modRegistry.remove(new ResourceLocation("minecraft:golden_sword"));
+            modRegistry.remove(new ResourceLocation("minecraft:golden_axe"));
+
+            modRegistry.remove(new ResourceLocation("minecraft:golden_helmet"));
+            modRegistry.remove(new ResourceLocation("minecraft:golden_chestplate"));
+            modRegistry.remove(new ResourceLocation("minecraft:golden_leggings"));
+            modRegistry.remove(new ResourceLocation("minecraft:golden_boots"));
+        }
+
         if(ModConfig.VanillaTweaks.WOOD_RECIPE_DISABLE) {
             modRegistry.remove(new ResourceLocation("minecraft:oak_planks"));
             modRegistry.remove(new ResourceLocation("minecraft:spruce_planks"));
