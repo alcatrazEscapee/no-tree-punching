@@ -58,7 +58,9 @@ public class NoTreePunching {
 
         // Register World Generation
         MinecraftForge.EVENT_BUS.register(new WorldGenDeco());
-        GameRegistry.registerWorldGenerator(new WorldGenOres(), 3);
+        if(ModConfig.MODULE_METALWORKING) {
+            GameRegistry.registerWorldGenerator(new WorldGenOres(), 3);
+        }
 
         // Register GUI Handler
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());

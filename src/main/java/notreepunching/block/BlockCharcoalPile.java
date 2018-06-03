@@ -22,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
 
@@ -82,13 +83,15 @@ public class BlockCharcoalPile extends BlockBase {
                     return true;
                 }
             }
-            if(stack.getItem() == Items.FLINT_AND_STEEL || stack.getItem() == ModItems.firestarter){
-                if(BlockForge.updateSideBlocks(world, pos)) {
-                    world.setBlockState(pos, ModBlocks.forge.getDefaultState().withProperty(LAYERS, state.getValue(LAYERS)));
-                    BlockForge.lightNearbyForges(world, pos);
-                }
+            if(ModConfig.MODULE_METALWORKING) {
+                if (stack.getItem() == Items.FLINT_AND_STEEL || stack.getItem() == ModItems.firestarter) {
+                    if (BlockForge.updateSideBlocks(world, pos)) {
+                        world.setBlockState(pos, ModBlocks.forge.getDefaultState().withProperty(LAYERS, state.getValue(LAYERS)));
+                        BlockForge.lightNearbyForges(world, pos);
+                    }
 
-                return true;
+                    return true;
+                }
             }
             return false;
         }

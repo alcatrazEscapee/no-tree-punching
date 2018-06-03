@@ -39,7 +39,13 @@ public class ModBlocks {
     public static BlockTuyere blockTuyere;
 
     public static void init(){
+
+        // NTP Core
         looseRock = new BlockRock("loose_rock");
+        firepit = new BlockFirepit("firepit");
+        woodPile = new BlockWoodPile("wood_pile");
+        charcoalPile = new BlockCharcoalPile("charcoal_pile");
+        grindstone = new BlockGrindstone("grindstone");
 
         if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS) {
             andesiteCobble = new BlockBase("andesite_cobblestone", Material.ROCK).setHardness(2.0F);
@@ -54,22 +60,21 @@ public class ModBlocks {
             slateCobble = new BlockBase("slate_cobblestone", Material.ROCK).setHardness(2.0F);
         }
 
-        firepit = new BlockFirepit("firepit");
-        charcoalPile = new BlockCharcoalPile("charcoal_pile");
-        forge = new BlockForge("forge");
-        woodPile = new BlockWoodPile("wood_pile");
-        bellows = new BlockBellows("bellows");
-        grindstone = new BlockGrindstone("grindstone");
-        blastFurnace = new BlockBlastFurnace("blast_furnace");
+        // NTP Metalworks
+        if(ModConfig.MODULE_METALWORKING) {
+            forge = new BlockForge("forge");
+            bellows = new BlockBellows("bellows");
+            blastFurnace = new BlockBlastFurnace("blast_furnace");
 
-        oreCopper = new BlockBase("ore_copper", Material.ROCK).setHardness(2.5F).setHarvestType("pickaxe",0);
-        oreTin = new BlockBase("ore_tin", Material.ROCK).setHardness(2.5F).setHarvestType("pickaxe",0);
-        blockBronze = new BlockBase("block_bronze", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",2);
-        blockSteel = new BlockBase("block_steel", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",3);
-        blockCopper = new BlockBase("block_copper", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",1);
-        blockTin = new BlockBase("block_tin", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe",0);
+            oreCopper = new BlockBase("ore_copper", Material.ROCK).setHardness(2.5F).setHarvestType("pickaxe", 0);
+            oreTin = new BlockBase("ore_tin", Material.ROCK).setHardness(2.5F).setHarvestType("pickaxe", 0);
+            blockBronze = new BlockBase("block_bronze", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe", 2);
+            blockSteel = new BlockBase("block_steel", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe", 3);
+            blockCopper = new BlockBase("block_copper", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe", 1);
+            blockTin = new BlockBase("block_tin", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe", 0);
 
-        blockTuyere = new BlockTuyere("block_tuyere");
+            blockTuyere = new BlockTuyere("block_tuyere");
+        }
     }
 
     public static void addBlockToRegistry(Block block, ItemBlock itemBlock, String name){

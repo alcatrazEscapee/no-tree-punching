@@ -122,6 +122,8 @@ public class ModItems {
             "NTP_STEEL", NoTreePunching.MODID+":steel", 50, new int[]{3,6,8,3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 4.0F);
 
     public static void init(){
+
+        // NTP Core
         rockStone = new ItemRock("rock");
         grassFiber = new ItemBase("grass_fiber");
         grassString = new ItemBase("grass_string");
@@ -129,22 +131,7 @@ public class ModItems {
 
         firestarter = new ItemFirestarter("firestarter");
         grindWheel = new ItemGrindWheel("grind_wheel");
-        tuyere = new ItemTuyere("tuyere");
-
-        ingotBronze = new ItemBase("ingot_bronze");
-        ingotTin = new ItemBase("ingot_tin");
-        ingotCopper = new ItemBase("ingot_copper");
-        ingotSteel = new ItemBase("ingot_steel");
-        dustBronze = new ItemBase("dust_bronze");
-        dustCopper = new ItemBase("dust_copper");
-        dustTin = new ItemBase("dust_tin");
-        dustIron = new ItemBase("dust_iron");
-        dustSteel = new ItemBase("dust_steel");
         gearWood = new ItemBase("gear_wood");
-        nuggetBronze = new ItemBase("nugget_bronze");
-        nuggetSteel = new ItemBase("nugget_steel");
-        nuggetTin = new ItemBase("nugget_tin");
-        nuggetCopper = new ItemBase("nugget_copper");
 
         // TOOLS
         stoneKnife = new ItemKnife(toolMaterialFlint,"stone_knife");
@@ -161,53 +148,72 @@ public class ModItems {
         diamondMattock = new ItemMattock(Item.ToolMaterial.DIAMOND,"diamond_mattock");
         diamondSaw = new ItemSaw(Item.ToolMaterial.DIAMOND,"diamond_saw");
 
-        copperKnife = new ItemKnife(toolMaterialCopper,"copper_knife");
-        copperSaw = new ItemSaw(toolMaterialCopper,"copper_saw");
-        copperMattock = new ItemMattock(toolMaterialCopper,"copper_mattock");
-        copperPick = new ItemBasePick(toolMaterialCopper, "copper_pick");
-        copperAxe = new ItemBaseAxe(toolMaterialCopper, "copper_axe");
-        copperHoe = new ItemBaseHoe(toolMaterialCopper, "copper_hoe");
-        copperShovel = new ItemBaseShovel(toolMaterialCopper, "copper_shovel");
-        copperSword = new ItemBaseSword(toolMaterialCopper, "copper_sword");
-
-        bronzeKnife = new ItemKnife(toolMaterialBronze,"bronze_knife");
-        bronzeSaw = new ItemSaw(toolMaterialBronze, "bronze_saw");
-        bronzeMattock = new ItemMattock(toolMaterialBronze, "bronze_mattock");
-        bronzePick = new ItemBasePick(toolMaterialBronze, "bronze_pick");
-        bronzeAxe = new ItemBaseAxe(toolMaterialBronze, "bronze_axe");
-        bronzeHoe = new ItemBaseHoe(toolMaterialBronze, "bronze_hoe");
-        bronzeShovel = new ItemBaseShovel(toolMaterialBronze, "bronze_shovel");
-        bronzeSword = new ItemBaseSword(toolMaterialBronze, "bronze_sword");
-
-        steelKnife = new ItemKnife(toolMaterialSteel, "steel_knife");
-        steelSaw = new ItemSaw(toolMaterialSteel, "steel_saw");
-        steelMattock = new ItemMattock(toolMaterialSteel, "steel_mattock");
-        steelPick = new ItemBasePick(toolMaterialSteel, "steel_pick");
-        steelAxe = new ItemBaseAxe(toolMaterialSteel, "steel_axe");
-        steelHoe = new ItemBaseHoe(toolMaterialSteel, "steel_hoe");
-        steelShovel = new ItemBaseShovel(toolMaterialSteel, "steel_shovel");
-        steelSword = new ItemBaseSword(toolMaterialSteel, "steel_sword");
-
-        // ARMOR
-        helmetCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.HEAD, "copper_helmet");
-        chestplateCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.CHEST, "copper_chestplate");
-        leggingsCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.LEGS, "copper_leggings");
-        bootsCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.FEET, "copper_boots");
-
-        helmetBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.HEAD, "bronze_helmet");
-        chestplateBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.CHEST, "bronze_chestplate");
-        leggingsBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.LEGS, "bronze_leggings");
-        bootsBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.FEET, "bronze_boots");
-
-        helmetSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.HEAD, "steel_helmet");
-        chestplateSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.CHEST, "steel_chestplate");
-        leggingsSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.LEGS, "steel_leggings");
-        bootsSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.FEET, "steel_boots");
-
         if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
             goldKnife = new ItemKnife(Item.ToolMaterial.GOLD,"gold_knife");
             goldMattock = new ItemMattock(Item.ToolMaterial.GOLD, "gold_mattock");
             goldSaw = new ItemSaw(Item.ToolMaterial.GOLD, "gold_saw");
+        }
+
+
+        if(ModConfig.MODULE_METALWORKING) {
+            tuyere = new ItemTuyere("tuyere");
+
+            ingotBronze = new ItemBase("ingot_bronze");
+            ingotTin = new ItemBase("ingot_tin");
+            ingotCopper = new ItemBase("ingot_copper");
+            ingotSteel = new ItemBase("ingot_steel");
+            dustBronze = new ItemBase("dust_bronze");
+            dustCopper = new ItemBase("dust_copper");
+            dustTin = new ItemBase("dust_tin");
+            dustIron = new ItemBase("dust_iron");
+            dustSteel = new ItemBase("dust_steel");
+            nuggetBronze = new ItemBase("nugget_bronze");
+            nuggetSteel = new ItemBase("nugget_steel");
+            nuggetTin = new ItemBase("nugget_tin");
+            nuggetCopper = new ItemBase("nugget_copper");
+
+            copperKnife = new ItemKnife(toolMaterialCopper, "copper_knife");
+            copperSaw = new ItemSaw(toolMaterialCopper, "copper_saw");
+            copperMattock = new ItemMattock(toolMaterialCopper, "copper_mattock");
+            copperPick = new ItemBasePick(toolMaterialCopper, "copper_pick");
+            copperAxe = new ItemBaseAxe(toolMaterialCopper, "copper_axe");
+            copperHoe = new ItemBaseHoe(toolMaterialCopper, "copper_hoe");
+            copperShovel = new ItemBaseShovel(toolMaterialCopper, "copper_shovel");
+            copperSword = new ItemBaseSword(toolMaterialCopper, "copper_sword");
+
+            bronzeKnife = new ItemKnife(toolMaterialBronze, "bronze_knife");
+            bronzeSaw = new ItemSaw(toolMaterialBronze, "bronze_saw");
+            bronzeMattock = new ItemMattock(toolMaterialBronze, "bronze_mattock");
+            bronzePick = new ItemBasePick(toolMaterialBronze, "bronze_pick");
+            bronzeAxe = new ItemBaseAxe(toolMaterialBronze, "bronze_axe");
+            bronzeHoe = new ItemBaseHoe(toolMaterialBronze, "bronze_hoe");
+            bronzeShovel = new ItemBaseShovel(toolMaterialBronze, "bronze_shovel");
+            bronzeSword = new ItemBaseSword(toolMaterialBronze, "bronze_sword");
+
+            steelKnife = new ItemKnife(toolMaterialSteel, "steel_knife");
+            steelSaw = new ItemSaw(toolMaterialSteel, "steel_saw");
+            steelMattock = new ItemMattock(toolMaterialSteel, "steel_mattock");
+            steelPick = new ItemBasePick(toolMaterialSteel, "steel_pick");
+            steelAxe = new ItemBaseAxe(toolMaterialSteel, "steel_axe");
+            steelHoe = new ItemBaseHoe(toolMaterialSteel, "steel_hoe");
+            steelShovel = new ItemBaseShovel(toolMaterialSteel, "steel_shovel");
+            steelSword = new ItemBaseSword(toolMaterialSteel, "steel_sword");
+
+            // ARMOR
+            helmetCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.HEAD, "copper_helmet");
+            chestplateCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.CHEST, "copper_chestplate");
+            leggingsCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.LEGS, "copper_leggings");
+            bootsCopper = new ItemBaseArmor(armorMaterialCopper, EntityEquipmentSlot.FEET, "copper_boots");
+
+            helmetBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.HEAD, "bronze_helmet");
+            chestplateBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.CHEST, "bronze_chestplate");
+            leggingsBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.LEGS, "bronze_leggings");
+            bootsBronze = new ItemBaseArmor(armorMaterialBronze, EntityEquipmentSlot.FEET, "bronze_boots");
+
+            helmetSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.HEAD, "steel_helmet");
+            chestplateSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.CHEST, "steel_chestplate");
+            leggingsSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.LEGS, "steel_leggings");
+            bootsSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.FEET, "steel_boots");
         }
 
     }
@@ -231,18 +237,28 @@ public class ModItems {
         array.add(new ItemStack(stoneKnife));
         array.add(new ItemStack(ironKnife));
         array.add(new ItemStack(diamondKnife));
-        array.add(new ItemStack(copperKnife));
-        array.add(new ItemStack(bronzeKnife));
-        array.add(new ItemStack(steelKnife));
+        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
+            array.add(new ItemStack(goldKnife));
+        }
+        if(ModConfig.MODULE_METALWORKING) {
+            array.add(new ItemStack(copperKnife));
+            array.add(new ItemStack(bronzeKnife));
+            array.add(new ItemStack(steelKnife));
+        }
         return array;
     }
     public static List<ItemStack> listAllMattocks(){
         List<ItemStack> array = new ArrayList<>();
         array.add(new ItemStack(ironMattock));
         array.add(new ItemStack(diamondMattock));
-        array.add(new ItemStack(copperMattock));
-        array.add(new ItemStack(bronzeMattock));
-        array.add(new ItemStack(steelMattock));
+        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
+            array.add(new ItemStack(goldMattock));
+        }
+        if(ModConfig.MODULE_METALWORKING) {
+            array.add(new ItemStack(copperMattock));
+            array.add(new ItemStack(bronzeMattock));
+            array.add(new ItemStack(steelMattock));
+        }
         return array;
     }
 
@@ -250,19 +266,49 @@ public class ModItems {
         List<ItemStack> array = new ArrayList<>();
         array.add(new ItemStack(ironSaw));
         array.add(new ItemStack(diamondSaw));
-        array.add(new ItemStack(copperSaw));
-        array.add(new ItemStack(bronzeSaw));
-        array.add(new ItemStack(steelSaw));
+        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
+            array.add(new ItemStack(goldSaw));
+        }
+        if(ModConfig.MODULE_METALWORKING) {
+            array.add(new ItemStack(copperSaw));
+            array.add(new ItemStack(bronzeSaw));
+            array.add(new ItemStack(steelSaw));
+        }
         return array;
     }
 
     public static void initOreDict(){
         OreDictionary.registerOre("toolSaw", new ItemStack(diamondSaw,1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("toolSaw", new ItemStack(ironSaw,1, OreDictionary.WILDCARD_VALUE));
-        OreDictionary.registerOre("toolSaw",new ItemStack(copperSaw,1,OreDictionary.WILDCARD_VALUE));
-        OreDictionary.registerOre("toolSaw",new ItemStack(bronzeSaw,1,OreDictionary.WILDCARD_VALUE));
-        OreDictionary.registerOre("toolSaw",new ItemStack(steelSaw,1,OreDictionary.WILDCARD_VALUE));
+        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
+            OreDictionary.registerOre("toolSaw", new ItemStack(goldSaw,1, OreDictionary.WILDCARD_VALUE));
+        }
+        if(ModConfig.MODULE_METALWORKING) {
+            OreDictionary.registerOre("toolSaw", new ItemStack(copperSaw, 1, OreDictionary.WILDCARD_VALUE));
+            OreDictionary.registerOre("toolSaw", new ItemStack(bronzeSaw, 1, OreDictionary.WILDCARD_VALUE));
+            OreDictionary.registerOre("toolSaw", new ItemStack(steelSaw, 1, OreDictionary.WILDCARD_VALUE));
 
+            OreDictionary.registerOre("ingotCopper", new ItemStack(ingotCopper));
+            OreDictionary.registerOre("ingotTin", new ItemStack(ingotTin));
+            OreDictionary.registerOre("ingotBronze", new ItemStack(ingotBronze));
+            OreDictionary.registerOre("ingotSteel", new ItemStack(ingotSteel));
+            OreDictionary.registerOre("dustIron", new ItemStack(dustIron));
+            OreDictionary.registerOre("dustCopper", new ItemStack(dustCopper));
+            OreDictionary.registerOre("dustTin", new ItemStack(dustTin));
+            OreDictionary.registerOre("dustBronze", new ItemStack(dustBronze));
+            OreDictionary.registerOre("dustSteel", new ItemStack(dustSteel));
+            OreDictionary.registerOre("nuggetBronze", new ItemStack(nuggetBronze));
+            OreDictionary.registerOre("nuggetCopper", new ItemStack(nuggetCopper));
+            OreDictionary.registerOre("nuggetSteel", new ItemStack(nuggetSteel));
+            OreDictionary.registerOre("nuggetTin", new ItemStack(nuggetTin));
+
+            OreDictionary.registerOre("oreCopper", new ItemStack(ModBlocks.oreCopper));
+            OreDictionary.registerOre("oreTin", new ItemStack(ModBlocks.oreTin));
+            OreDictionary.registerOre("blockTin", new ItemStack(ModBlocks.blockTin));
+            OreDictionary.registerOre("blockCopper", new ItemStack(ModBlocks.blockCopper));
+            OreDictionary.registerOre("blockBronze", new ItemStack(ModBlocks.blockBronze));
+            OreDictionary.registerOre("blockSteel", new ItemStack(ModBlocks.blockSteel));
+        }
         OreDictionary.registerOre("string", new ItemStack(Items.STRING));
         OreDictionary.registerOre("string", new ItemStack(ModItems.grassString));
 
@@ -278,27 +324,6 @@ public class ModItems {
         if(replaceRusticStone) {
             OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.slateCobble));
         }
-
-        OreDictionary.registerOre("ingotCopper", new ItemStack(ingotCopper));
-        OreDictionary.registerOre("ingotTin", new ItemStack(ingotTin));
-        OreDictionary.registerOre("ingotBronze", new ItemStack(ingotBronze));
-        OreDictionary.registerOre("ingotSteel", new ItemStack(ingotSteel));
-        OreDictionary.registerOre("dustIron", new ItemStack(dustIron));
-        OreDictionary.registerOre("dustCopper", new ItemStack(dustCopper));
-        OreDictionary.registerOre("dustTin", new ItemStack(dustTin));
-        OreDictionary.registerOre("dustBronze", new ItemStack(dustBronze));
-        OreDictionary.registerOre("dustSteel", new ItemStack(dustSteel));
-        OreDictionary.registerOre("nuggetBronze", new ItemStack(nuggetBronze));
-        OreDictionary.registerOre("nuggetCopper", new ItemStack(nuggetCopper));
-        OreDictionary.registerOre("nuggetSteel", new ItemStack(nuggetSteel));
-        OreDictionary.registerOre("nuggetTin", new ItemStack(nuggetTin));
-
-        OreDictionary.registerOre("oreCopper", new ItemStack(ModBlocks.oreCopper));
-        OreDictionary.registerOre("oreTin", new ItemStack(ModBlocks.oreTin));
-        OreDictionary.registerOre("blockTin", new ItemStack(ModBlocks.blockTin));
-        OreDictionary.registerOre("blockCopper", new ItemStack(ModBlocks.blockCopper));
-        OreDictionary.registerOre("blockBronze", new ItemStack(ModBlocks.blockBronze));
-        OreDictionary.registerOre("blockSteel", new ItemStack(ModBlocks.blockSteel));
 
         OreDictionary.registerOre("gearWood", new ItemStack(gearWood));
     }
