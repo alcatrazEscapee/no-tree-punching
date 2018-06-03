@@ -15,6 +15,12 @@ import static notreepunching.NoTreePunching.MODID;
 @Config(modid= MODID)
 public class ModConfig {
 
+    @Comment({"Enable Metalworking module (Copper, tin, bronze, steel, forge, blast furnace, bellows, tuyere)"})
+    public static boolean MODULE_METALWORKING = true;
+
+    @Comment({"Enable Pottery Module (Clay tools, clay vessels, ceramics)"})
+    public static boolean MODULE_POTTERY = true;
+
     public static VanillaTweaks tweaks;
     public static class VanillaTweaks {
 
@@ -115,6 +121,16 @@ public class ModConfig {
         @Comment({"Frequency of loose rocks appearing in the world"})
         @Config.RangeInt(min = 1, max = 100)
         public static int LOOSE_ROCKS_FREQUENCY = 6;
+    }
+
+    public static Metalworking metalworking;
+    public static class Metalworking{
+
+    }
+
+    public static Metalworking pottery;
+    public static class Pottery{
+
     }
 
     @SubscribeEvent

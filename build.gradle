@@ -61,6 +61,7 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     replace 'GRADLE:VERSION', "${mod_version}"
+    replace 'GRADLE:FORGE_VERSION', "${forge_version}"
 }
 
 dependencies {

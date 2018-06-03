@@ -115,9 +115,9 @@ public class ModRecipes {
 
         // Cobblestone recipes
         if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS){
-            registerShaped(new ItemStack(ModBlocks.andesiteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone),1);
-            registerShaped(new ItemStack(ModBlocks.dioriteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone),2);
-            registerShaped(new ItemStack(ModBlocks.graniteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone),3);
+            registerShaped(new ItemStack(ModBlocks.andesiteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone,1,1));
+            registerShaped(new ItemStack(ModBlocks.dioriteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone,1,2));
+            registerShaped(new ItemStack(ModBlocks.graniteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone,1,3));
         }
         if(NoTreePunching.replaceQuarkStones){
             registerShaped(new ItemStack(ModBlocks.marbleCobble),"SS","SS",'S',new ItemStack(ModItems.rockStone,1,4));

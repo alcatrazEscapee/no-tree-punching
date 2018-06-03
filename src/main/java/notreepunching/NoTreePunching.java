@@ -23,12 +23,19 @@ import notreepunching.world.WorldGenDeco;
 import notreepunching.world.WorldGenOres;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = NoTreePunching.MODID, version = NoTreePunching.VERSION, dependencies = "after:quark;after:rustic;after:biomeoplenty")
+@Mod(modid = NoTreePunching.MODID, version = NoTreePunching.VERSION, dependencies = NoTreePunching.DEPENDENCIES)
 public class NoTreePunching {
 
     public static final String MODID = "notreepunching";
-    public static final String VERSION = "GRADLE:VERSION";
     public static final String actualName = "NoTreePunching";
+
+    private static final String FORGE_VERSION = "GRADLE:FORGE_VERSION";
+    private static final String FORGE_VERSION_MAX = "15.0.0.0";
+    private static final String FORGE_REQUIRED = "required-after:forge@["+FORGE_VERSION+","+FORGE_VERSION_MAX+");";
+
+    // Versioning / Dependencies
+    static final String VERSION = "GRADLE:VERSION";
+    static final String DEPENDENCIES = FORGE_REQUIRED+"after:quark;after:rustic;after:biomeoplenty;";
 
     public static boolean replaceQuarkStones;
     public static boolean replaceRusticStone;
