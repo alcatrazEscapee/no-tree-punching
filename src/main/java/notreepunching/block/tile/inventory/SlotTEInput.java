@@ -7,22 +7,27 @@ import notreepunching.block.tile.TileEntitySidedInventory;
 
 import javax.annotation.Nonnull;
 
-public class SlotOutput extends SlotItemHandler {
+public class SlotTEInput extends SlotItemHandler {
 
     private final TileEntitySidedInventory te;
 
-    public SlotOutput(IItemHandler inventory, int idx, int x, int y, TileEntitySidedInventory te){
+    public SlotTEInput(@Nonnull IItemHandler inventory, int idx, int x, int y, @Nonnull TileEntitySidedInventory te){
         super(inventory, idx,x,y);
         this.te = te;
     }
 
     @Override
     public void onSlotChanged() {
-        te.setAndUpdateSlots(slotNumber);
+        te.setAndUpdateSlots(getSlotIndex());
     }
 
     @Override
     public boolean isItemValid(@Nonnull ItemStack stack) {
-        return false;
+        return true;
+    }
+
+    @Override
+    public int getSlotStackLimit() {
+        return te.getSlotLimit(getSlotIndex());
     }
 }

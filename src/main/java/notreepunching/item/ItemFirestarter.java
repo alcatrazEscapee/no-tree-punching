@@ -35,7 +35,7 @@ public class ItemFirestarter extends ItemTool {
     public String name;
 
     ItemFirestarter(String name){
-        super(ToolMaterial.WOOD, Sets.newHashSet());
+        super(ToolMaterial.STONE, Sets.newHashSet());
 
         this.name = name;
         register();

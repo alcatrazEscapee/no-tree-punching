@@ -77,6 +77,7 @@ public class JEIPluginHelper implements IModPlugin {
         registry.addIngredientInfo(ModItems.listAllMattocks(),ItemStack.class,"jei.description.mattock");
         registry.addIngredientInfo(ModItems.listAllKnives(),ItemStack.class,"jei.description.knife");
         registry.addIngredientInfo(ModItems.listAllSaws(),ItemStack.class,"jei.description.saw");
+        registry.addIngredientInfo(ModItems.clayTool, ItemStack.class, "jei.description.clay_tool");
 
         registry.addIngredientInfo(new ItemStack(ModBlocks.firepit),ItemStack.class,"jei.description.firepit");
         registry.addIngredientInfo(OreDictionary.getOres("logWood"),ItemStack.class,"jei.description.wood_pile");

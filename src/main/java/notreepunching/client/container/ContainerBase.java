@@ -12,10 +12,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import notreepunching.block.tile.IHasFields;
+import notreepunching.block.tile.TileEntitySidedInventory;
 
 import javax.annotation.Nonnull;
 
-public abstract class ContainerBase<TE extends IHasFields> extends Container {
+public abstract class ContainerBase<TE extends TileEntity> extends Container {
 
     private int [] cachedFields;
 
@@ -50,26 +51,28 @@ public abstract class ContainerBase<TE extends IHasFields> extends Container {
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
-
-        boolean allFieldsHaveChanged = false;
-        boolean fieldHasChanged [] = new boolean[tile.getFieldCount()];
-        if (cachedFields == null) {
-            cachedFields = new int[tile.getFieldCount()];
-            allFieldsHaveChanged = true;
-        }
-        for (int i = 0; i < cachedFields.length; ++i) {
-            if (allFieldsHaveChanged || cachedFields[i] != tile.getField(i)) {
-                cachedFields[i] = tile.getField(i);
-                fieldHasChanged[i] = true;
+        if(tile instanceof IHasFields) {
+            IHasFields te = (IHasFields) tile;
+            boolean allFieldsHaveChanged = false;
+            boolean fieldHasChanged[] = new boolean[te.getFieldCount()];
+            if (cachedFields == null) {
+                cachedFields = new int[te.getFieldCount()];
+                allFieldsHaveChanged = true;
             }
-        }
+            for (int i = 0; i < cachedFields.length; ++i) {
+                if (allFieldsHaveChanged || cachedFields[i] != te.getField(i)) {
+                    cachedFields[i] = te.getField(i);
+                    fieldHasChanged[i] = true;
+                }
+            }
 
-        // go through the list of listeners (players using this container) and update them if necessary
-        for (IContainerListener listener : this.listeners) {
-            for (int fieldID = 0; fieldID < tile.getFieldCount(); ++fieldID) {
-                if (fieldHasChanged[fieldID]) {
-                    // Note that although sendWindowProperty takes 2 ints on a server these are truncated to shorts
-                    listener.sendWindowProperty(this, fieldID, cachedFields[fieldID]);
+            // go through the list of listeners (players using this container) and update them if necessary
+            for (IContainerListener listener : this.listeners) {
+                for (int fieldID = 0; fieldID < te.getFieldCount(); ++fieldID) {
+                    if (fieldHasChanged[fieldID]) {
+                        // Note that although sendWindowProperty takes 2 ints on a server these are truncated to shorts
+                        listener.sendWindowProperty(this, fieldID, cachedFields[fieldID]);
+                    }
                 }
             }
         }
@@ -80,7 +83,9 @@ public abstract class ContainerBase<TE extends IHasFields> extends Container {
     @SideOnly(Side.CLIENT)
     @Override
     public void updateProgressBar(int id, int data) {
-        tile.setField(id, data);
+        if(tile instanceof IHasFields) {
+            ((IHasFields)tile).setField(id, data);
+        }
     }
 
 }

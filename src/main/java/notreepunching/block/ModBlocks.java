@@ -38,6 +38,9 @@ public class ModBlocks {
 
     public static BlockTuyere blockTuyere;
 
+    public static BlockWorkedClay workedClay;
+    public static BlockLargeVessel largeVessel;
+
     public static void init(){
 
         // NTP Core
@@ -74,6 +77,11 @@ public class ModBlocks {
             blockTin = new BlockBase("block_tin", Material.IRON).setHardness(4.0F).setHarvestType("pickaxe", 0);
 
             blockTuyere = new BlockTuyere("block_tuyere");
+        }
+
+        if(ModConfig.MODULE_POTTERY){
+            workedClay = new BlockWorkedClay("worked_clay");
+            largeVessel = new BlockLargeVessel("large_vessel");
         }
     }
 

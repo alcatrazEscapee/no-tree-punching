@@ -1,41 +1,34 @@
 package notreepunching.client.container;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import notreepunching.block.tile.TileEntityWoodPile;
-import notreepunching.block.tile.inventory.SlotRecipeInput;
+import notreepunching.block.tile.inventory.SlotTERecipeInput;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-public class ContainerWoodPile extends Container {
-
-    private TileEntityWoodPile tile;
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+public class ContainerWoodPile extends ContainerBase<TileEntityWoodPile> {
 
     public ContainerWoodPile(InventoryPlayer playerInv, TileEntityWoodPile woodPile) {
-        IItemHandler inventory = woodPile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        super(playerInv, woodPile);
+    }
 
-        // Container Slots
-        addSlotToContainer(new SlotRecipeInput(inventory, 0, 71, 23, woodPile, TileEntityWoodPile::isItemValid));
-        addSlotToContainer(new SlotRecipeInput(inventory, 1, 89, 23, woodPile, TileEntityWoodPile::isItemValid));
-        addSlotToContainer(new SlotRecipeInput(inventory, 2, 71, 41, woodPile, TileEntityWoodPile::isItemValid));
-        addSlotToContainer(new SlotRecipeInput(inventory, 3, 89, 41, woodPile, TileEntityWoodPile::isItemValid));
-
-        tile = woodPile;
-
-        // Add Player Inventory Slots
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 9; j++) {
-                addSlotToContainer(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-            }
-        }
-
-        for (int k = 0; k < 9; k++) {
-            addSlotToContainer(new Slot(playerInv, k, 8 + k * 18, 142));
+    @Override
+    protected void addContainerSlots(TileEntityWoodPile tile) {
+        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        if(inventory != null) {
+            addSlotToContainer(new SlotTERecipeInput(inventory, 0, 71, 23, tile, TileEntityWoodPile::isItemValid));
+            addSlotToContainer(new SlotTERecipeInput(inventory, 1, 89, 23, tile, TileEntityWoodPile::isItemValid));
+            addSlotToContainer(new SlotTERecipeInput(inventory, 2, 71, 41, tile, TileEntityWoodPile::isItemValid));
+            addSlotToContainer(new SlotTERecipeInput(inventory, 3, 89, 41, tile, TileEntityWoodPile::isItemValid));
         }
     }
 

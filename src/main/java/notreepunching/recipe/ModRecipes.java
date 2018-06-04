@@ -174,7 +174,7 @@ public class ModRecipes {
             registerShapeless(new ItemStack(ModItems.nuggetTin,9),new ItemStack(ModItems.ingotTin));
             registerShapeless(new ItemStack(ModItems.ingotTin,9),new ItemStack(ModBlocks.blockTin));
 
-            registerShaped(new ItemStack(ModItems.bronzeAxe)," II"," SI","S ",'I',"ingotBronze",'S',"stickWood");
+            registerShaped(new ItemStack(ModItems.bronzeAxe),"II","SI","S ",'I',"ingotBronze",'S',"stickWood");
             registerShaped(new ItemStack(ModItems.bootsBronze),"I I","I I",'I',"ingotBronze");
             registerShaped(new ItemStack(ModItems.chestplateBronze),"I I","III","III",'I',"ingotBronze");
             registerShaped(new ItemStack(ModItems.helmetBronze),"III","I I",'I',"ingotBronze");
@@ -187,7 +187,7 @@ public class ModRecipes {
             registerShaped(new ItemStack(ModItems.bronzeShovel),"I","S","S",'S',"stickWood",'I',"ingotBronze");
             registerShaped(new ItemStack(ModItems.bronzeSword),"I","I","S",'S',"stickWood",'I',"ingotBronze");
 
-            registerShaped(new ItemStack(ModItems.copperAxe)," II"," SI","S ",'I',"ingotCopper",'S',"stickWood");
+            registerShaped(new ItemStack(ModItems.copperAxe),"II","SI","S ",'I',"ingotCopper",'S',"stickWood");
             registerShaped(new ItemStack(ModItems.bootsCopper),"I I","I I",'I',"ingotCopper");
             registerShaped(new ItemStack(ModItems.chestplateCopper),"I I","III","III",'I',"ingotCopper");
             registerShaped(new ItemStack(ModItems.helmetCopper),"III","I I",'I',"ingotCopper");
@@ -200,7 +200,7 @@ public class ModRecipes {
             registerShaped(new ItemStack(ModItems.copperShovel),"I","S","S",'S',"stickWood",'I',"ingotCopper");
             registerShaped(new ItemStack(ModItems.copperSword),"I","I","S",'S',"stickWood",'I',"ingotCopper");
 
-            registerShaped(new ItemStack(ModItems.steelAxe)," II"," SI","S ",'I',"ingotSteel",'S',"stickWood");
+            registerShaped(new ItemStack(ModItems.steelAxe),"II","SI","S ",'I',"ingotSteel",'S',"stickWood");
             registerShaped(new ItemStack(ModItems.bootsSteel),"I I","I I",'I',"ingotSteel");
             registerShaped(new ItemStack(ModItems.chestplateSteel),"I I","III","III",'I',"ingotSteel");
             registerShaped(new ItemStack(ModItems.helmetSteel),"III","I I",'I',"ingotSteel");
@@ -218,6 +218,10 @@ public class ModRecipes {
 
             registerShaped(new ItemStack(ModBlocks.blastFurnace),"III","IFI","III",'I',"ingotIron",'F',new ItemStack(Blocks.FURNACE));
             registerShaped(new ItemStack(ModBlocks.bellows), "WWW","LLL","IGI",'W',"plankWood",'L',"leather",'I',"ingotBronze",'G',"gearWood");
+        }
+
+        if(ModConfig.MODULE_POTTERY){
+            registerShaped(new ItemStack(ModItems.clayTool), " PS"," SS","S  ",'S',"stickWood",'P',"plankWood");
         }
 
     }

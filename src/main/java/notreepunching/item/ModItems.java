@@ -109,6 +109,9 @@ public class ModItems {
     public static ItemMattock goldMattock;
     public static ItemSaw goldSaw;
 
+    public static ItemClayTool clayTool;
+    public static ItemSmallVessel smallVessel;
+
     private static Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", ModConfig.Balance.FLINT_MINING_LEVEL,45,2.5F,0.5F,0);
     private static Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", ModConfig.Balance.COPPER_MINING_LEVEL,220,4F,1.5F,6);
     private static Item.ToolMaterial toolMaterialBronze = EnumHelper.addToolMaterial("NTP_BRONZE", ModConfig.Balance.BRONZE_MINING_LEVEL,400,8F,2.5F,8);
@@ -214,6 +217,11 @@ public class ModItems {
             chestplateSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.CHEST, "steel_chestplate");
             leggingsSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.LEGS, "steel_leggings");
             bootsSteel = new ItemBaseArmor(armorMaterialSteel, EntityEquipmentSlot.FEET, "steel_boots");
+        }
+
+        if(ModConfig.MODULE_POTTERY){
+            clayTool = new ItemClayTool("clay_tool");
+            smallVessel = new ItemSmallVessel("small_vessel");
         }
 
     }

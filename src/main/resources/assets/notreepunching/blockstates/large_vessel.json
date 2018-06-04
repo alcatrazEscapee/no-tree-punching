@@ -1,0 +1,16 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "notreepunching:large_vessel",
+		"textures": {
+			"all": "notreepunching:blocks/pottery",
+			"particle": "notreepunching:blocks/pottery"
+		}
+	},
+	"variants": {
+		"normal": [{}],
+		"inventory": [{
+			"transform": "forge:default-block"
+		}]
+	}
+}

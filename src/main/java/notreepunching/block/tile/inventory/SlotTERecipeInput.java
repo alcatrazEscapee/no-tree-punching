@@ -8,12 +8,12 @@ import notreepunching.block.tile.TileEntitySidedInventory;
 import javax.annotation.Nonnull;
 import java.util.function.Function;
 
-public class SlotRecipeInput extends SlotItemHandler {
+public class SlotTERecipeInput extends SlotItemHandler {
 
     private final TileEntitySidedInventory te;
     private final Function<ItemStack, Boolean> f;
 
-    public SlotRecipeInput(IItemHandler inventory, int idx, int x, int y, TileEntitySidedInventory te, Function<ItemStack, Boolean> f){
+    public SlotTERecipeInput(@Nonnull IItemHandler inventory, int idx, int x, int y, @Nonnull TileEntitySidedInventory te, @Nonnull Function<ItemStack, Boolean> f){
         super(inventory, idx,x,y);
         this.te = te;
         this.f = f;

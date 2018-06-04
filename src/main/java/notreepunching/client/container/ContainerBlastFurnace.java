@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import notreepunching.block.tile.TileEntityBlastFurnace;
-import notreepunching.block.tile.inventory.SlotOutput;
-import notreepunching.block.tile.inventory.SlotRecipeInput;
+import notreepunching.block.tile.inventory.SlotTEOutput;
+import notreepunching.block.tile.inventory.SlotTERecipeInput;
 import notreepunching.recipe.forge.BlastRecipeHandler;
 
 import javax.annotation.Nonnull;
@@ -23,8 +23,8 @@ public class ContainerBlastFurnace extends ContainerBase<TileEntityBlastFurnace>
     protected void addContainerSlots(TileEntityBlastFurnace tile) {
         IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
-        addSlotToContainer(new SlotRecipeInput(inventory, 0,71,26, tile, BlastRecipeHandler::isIngredient));
-        addSlotToContainer(new SlotOutput(inventory, 1,127,35, tile));
+        addSlotToContainer(new SlotTERecipeInput(inventory, 0,71,26, tile, BlastRecipeHandler::isIngredient));
+        addSlotToContainer(new SlotTEOutput(inventory, 1,127,35, tile));
     }
 
     @Override

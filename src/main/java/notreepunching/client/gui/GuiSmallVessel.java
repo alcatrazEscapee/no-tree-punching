@@ -7,15 +7,15 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
-import notreepunching.block.tile.TileEntityWoodPile;
+import notreepunching.item.ModItems;
 
-public class GuiWoodPile extends GuiContainer {
+public class GuiSmallVessel extends GuiContainer {
 
     private InventoryPlayer playerInv;
 
     private static final ResourceLocation BG_TEXTURE = new ResourceLocation(NoTreePunching.MODID, "textures/gui/wood_pile.png");
 
-    public GuiWoodPile(Container container, InventoryPlayer playerInv) {
+    public GuiSmallVessel(Container container, InventoryPlayer playerInv) {
         super(container);
         this.playerInv = playerInv;
     }
@@ -39,7 +39,7 @@ public class GuiWoodPile extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = NoTreePunching.proxy.localize(ModBlocks.woodPile.getUnlocalizedName() + ".name");
+        String name = NoTreePunching.proxy.localize(ModItems.smallVessel.getUnlocalizedName() + ".name");
         fontRenderer.drawString(name, xSize / 2 - fontRenderer.getStringWidth(name) / 2, 6, 0x404040);
         fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 8, ySize - 94, 0x404040);
     }
