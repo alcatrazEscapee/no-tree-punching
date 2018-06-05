@@ -47,7 +47,7 @@ public class BlockWorkedClay extends BlockBase {
 
         setSoundType(SoundType.GROUND);
         setHarvestLevel("shovel",0);
-        setHardness(0.8F);
+        setHardness(0.4F);
         this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, EnumClayType.UNWORKED));
     }
 

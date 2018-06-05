@@ -23,7 +23,7 @@ public class ContainerLargeVessel extends ContainerBase<TileEntityLargeVessel> {
         if(inventory != null) {
             for(int x = 0; x < 3; x++){
                 for(int y = 0; y < 3; y++){
-                    addSlotToContainer(new SlotTEInput(inventory, x+3*y,62+18*x,14+18*y,tile));
+                    addSlotToContainer(new SlotTEInput(inventory, x+3*y,62+18*x,20+18*y,tile));
                 }
             }
         }

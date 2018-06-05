@@ -27,6 +27,7 @@ public class BlockLargeVessel extends BlockWithTEInventory<TileEntityLargeVessel
     BlockLargeVessel(String name){
         super(name, Material.GROUND);
 
+        setHarvestLevel("pickaxe",0);
         setHardness(1.0F);
     }
 

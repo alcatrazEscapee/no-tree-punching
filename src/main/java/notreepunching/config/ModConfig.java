@@ -128,12 +128,17 @@ public class ModConfig {
 
     public static Metalworking metalworking;
     public static class Metalworking{
-
+        // Config options to do with metalworking module
     }
 
     public static Metalworking pottery;
     public static class Pottery{
+        // Config options to do with pottery module
+    }
 
+    public static Stoneworks stoneworks;
+    public static class Stoneworks{
+        // Config options to do with stoneworks module
     }
 
     @SubscribeEvent

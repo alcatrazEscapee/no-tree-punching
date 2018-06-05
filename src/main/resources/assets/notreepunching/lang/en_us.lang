@@ -125,10 +125,10 @@ tile.block_bronze.name=Bronze Block
 tile.block_steel.name=Steel Block
 tile.block_tin.name=Tin Block
 
-tile.unworked_clay.unworked.name=Worked Clay
-tile.unworked_clay.large_vessel.name=Clay Large Vessel
-tile.unworked_clay.small_vessel.name=Clay Small Vessel
-tile.unworked_clay.small_pot.name=Clay Small Pot
+tile.worked_clay.unworked.name=Worked Clay
+tile.worked_clay.large_vessel.name=Clay Large Vessel
+tile.worked_clay.small_vessel.name=Clay Small Vessel
+tile.worked_clay.small_pot.name=Clay Small Pot
 
 #JEI
 
