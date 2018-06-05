@@ -32,6 +32,7 @@ public class ItemStackInventoryWrapper implements ICapabilityProvider {
 
     @Nullable
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing enumFacing) {
         if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
             return (T) inventory;
