@@ -33,9 +33,11 @@ public class ModRecipes {
     public static void init(){
         FirepitRecipeHandler.init();
         KnifeRecipeHandler.init();
-        ForgeRecipeHandler.init();
         GrindstoneRecipeHandler.init();
-        BlastRecipeHandler.init();
+        if(ModConfig.MODULE_METALWORKING) {
+            ForgeRecipeHandler.init();
+            BlastRecipeHandler.init();
+        }
 
         initCraftingRecipes();
         initSmeltingRecipes();
@@ -43,10 +45,12 @@ public class ModRecipes {
 
     public static void postInit(){
         FirepitRecipeHandler.postInit();
-        ForgeRecipeHandler.postInit();
         KnifeRecipeHandler.postInit();
         GrindstoneRecipeHandler.postInit();
-        BlastRecipeHandler.postInit();
+        if(ModConfig.MODULE_METALWORKING) {
+            BlastRecipeHandler.postInit();
+            ForgeRecipeHandler.postInit();
+        }
 
         postInitSmeltingRecipes();
         postInitCraftingRecipes();
@@ -61,7 +65,7 @@ public class ModRecipes {
             RecipeUtil.addSmelting(ModBlocks.graniteCobble,new ItemStack(Blocks.STONE,1,1));
         }
 
-        if(!ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE){
+        if(!ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE && ModConfig.MODULE_METALWORKING){
             RecipeUtil.addSmelting(ModBlocks.oreCopper,new ItemStack(ModItems.ingotCopper));
             RecipeUtil.addSmelting(ModBlocks.oreTin,new ItemStack(ModItems.ingotTin));
 
@@ -83,7 +87,7 @@ public class ModRecipes {
             RecipeUtil.addSmelting(ModBlocks.slateCobble,ItemUtil.getSafeItem("rustic:slate",0,1));
         }
 
-        if(ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE) {
+        if(ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE && ModConfig.MODULE_METALWORKING) {
             Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
             Iterator<ItemStack> iterator = recipes.keySet().iterator();
             while (iterator.hasNext()) {
@@ -94,8 +98,15 @@ public class ModRecipes {
                 }
                 else if(ItemUtil.areStacksEqual(stack1, new ItemStack(Items.COAL, 1, 1))){
                     iterator.remove();
+                }else if(ItemUtil.areStacksEqual(stack1, new ItemStack(Items.BRICK)) && ModConfig.MODULE_POTTERY){
+                    iterator.remove();
                 }
             }
+        }
+
+        // This needs to be here so it doesn't get removed
+        if(ModConfig.MODULE_POTTERY){
+            RecipeUtil.addSmelting(ModItems.clayBrick, new ItemStack(Items.BRICK));
         }
     }
 
@@ -134,15 +145,93 @@ public class ModRecipes {
         }
 
         // Cooler recipes
-        if(ModConfig.VanillaTweaks.COOLER_RECIPES){
-            registerShaped(new ItemStack(Blocks.LEVER), "RGS",'S',"stickWood",'G',"gearWood",'R',"cobblestone");
-            registerShaped(new ItemStack(Blocks.STONE_BUTTON),"GS",'G',"gearWood",'S',"stone");
-            registerShaped(new ItemStack(Blocks.WOODEN_BUTTON), "GS",'G',"gearWood",'S',"plankWood");
-            registerShaped(new ItemStack(Blocks.WOODEN_PRESSURE_PLATE), "SGS",'G',"gearWood",'S',"plankWood");
-            registerShaped(new ItemStack(Blocks.STONE_PRESSURE_PLATE), "SGS",'G',"gearWood",'S',"cobblestone");
+        if(ModConfig.VanillaTweaks.COOLER_RECIPES) {
+            registerShaped(new ItemStack(Blocks.LEVER), "RGS", 'S', "stickWood", 'G', "gearWood", 'R', "cobblestone");
+            registerShaped(new ItemStack(Blocks.STONE_BUTTON), "GS", 'G', "gearWood", 'S', "stone");
+            registerShaped(new ItemStack(Blocks.WOODEN_BUTTON), "GS", 'G', "gearWood", 'S', "plankWood");
+            registerShaped(new ItemStack(Blocks.WOODEN_PRESSURE_PLATE), "SGS", 'G', "gearWood", 'S', "plankWood");
+            registerShaped(new ItemStack(Blocks.STONE_PRESSURE_PLATE), "SGS", 'G', "gearWood", 'S', "cobblestone");
 
-            registerShapeless(new ItemStack(Items.FLINT_AND_STEEL), new ItemStack(Items.FLINT), "ingotSteel");
-            registerShaped(new ItemStack(Blocks.ANVIL), "BBB"," I ","III",'B',"blockSteel",'I',"ingotSteel");
+            if (ModConfig.MODULE_METALWORKING) {
+                registerShapeless(new ItemStack(Items.FLINT_AND_STEEL), new ItemStack(Items.FLINT), "ingotSteel");
+                registerShaped(new ItemStack(Blocks.ANVIL), "BBB", " I ", "III", 'B', "blockSteel", 'I', "ingotSteel");
+            }
+
+        }
+
+        // Metalworking recipes
+        if(ModConfig.MODULE_METALWORKING){
+
+            registerShaped(new ItemStack(ModItems.ingotSteel),"CCC","CCC","CCC",'C',"nuggetSteel");
+            registerShaped(new ItemStack(ModBlocks.blockSteel),"CCC","CCC","CCC",'C',"ingotSteel");
+            registerShapeless(new ItemStack(ModItems.nuggetSteel,9),new ItemStack(ModItems.ingotSteel));
+            registerShapeless(new ItemStack(ModItems.ingotSteel,9),new ItemStack(ModBlocks.blockSteel));
+
+            registerShaped(new ItemStack(ModItems.ingotBronze),"CCC","CCC","CCC",'C',"nuggetBronze");
+            registerShaped(new ItemStack(ModBlocks.blockBronze),"CCC","CCC","CCC",'C',"ingotBronze");
+            registerShapeless(new ItemStack(ModItems.nuggetBronze,9),new ItemStack(ModItems.ingotBronze));
+            registerShapeless(new ItemStack(ModItems.ingotBronze,9),new ItemStack(ModBlocks.blockBronze));
+
+            registerShaped(new ItemStack(ModItems.ingotCopper),"CCC","CCC","CCC",'C',"nuggetCopper");
+            registerShaped(new ItemStack(ModBlocks.blockCopper),"CCC","CCC","CCC",'C',"ingotCopper");
+            registerShapeless(new ItemStack(ModItems.nuggetCopper,9),new ItemStack(ModItems.ingotCopper));
+            registerShapeless(new ItemStack(ModItems.ingotCopper,9),new ItemStack(ModBlocks.blockCopper));
+
+            registerShaped(new ItemStack(ModItems.ingotTin),"CCC","CCC","CCC",'C',"nuggetTin");
+            registerShaped(new ItemStack(ModBlocks.blockTin),"CCC","CCC","CCC",'C',"ingotTin");
+            registerShapeless(new ItemStack(ModItems.nuggetTin,9),new ItemStack(ModItems.ingotTin));
+            registerShapeless(new ItemStack(ModItems.ingotTin,9),new ItemStack(ModBlocks.blockTin));
+
+            registerShaped(new ItemStack(ModItems.bronzeAxe),"II","SI","S ",'I',"ingotBronze",'S',"stickWood");
+            registerShaped(new ItemStack(ModItems.bootsBronze),"I I","I I",'I',"ingotBronze");
+            registerShaped(new ItemStack(ModItems.chestplateBronze),"I I","III","III",'I',"ingotBronze");
+            registerShaped(new ItemStack(ModItems.helmetBronze),"III","I I",'I',"ingotBronze");
+            registerShaped(new ItemStack(ModItems.bronzeHoe),"II","S ","S ",'S',"stickWood",'I',"ingotBronze");
+            registerShaped(new ItemStack(ModItems.bronzeKnife),"I","S",'I',"ingotBronze",'S',"stickWood");
+            registerShaped(new ItemStack(ModItems.leggingsBronze),"III","I I","I I",'I',"ingotBronze");
+            registerShaped(new ItemStack(ModItems.bronzeMattock),"III","IS "," S ",'S',"stickWood",'I',"ingotBronze");
+            registerShaped(new ItemStack(ModItems.bronzePick),"III"," S "," S ",'S',"stickWood",'I',"ingotBronze");
+            registerShaped(new ItemStack(ModItems.bronzeSaw), "  S"," SI","SI ",'S',"stickWood",'I',"ingotBronze");
+            registerShaped(new ItemStack(ModItems.bronzeShovel),"I","S","S",'S',"stickWood",'I',"ingotBronze");
+            registerShaped(new ItemStack(ModItems.bronzeSword),"I","I","S",'S',"stickWood",'I',"ingotBronze");
+
+            registerShaped(new ItemStack(ModItems.copperAxe),"II","SI","S ",'I',"ingotCopper",'S',"stickWood");
+            registerShaped(new ItemStack(ModItems.bootsCopper),"I I","I I",'I',"ingotCopper");
+            registerShaped(new ItemStack(ModItems.chestplateCopper),"I I","III","III",'I',"ingotCopper");
+            registerShaped(new ItemStack(ModItems.helmetCopper),"III","I I",'I',"ingotCopper");
+            registerShaped(new ItemStack(ModItems.copperHoe),"II","S ","S ",'S',"stickWood",'I',"ingotCopper");
+            registerShaped(new ItemStack(ModItems.copperKnife),"I","S",'I',"ingotCopper",'S',"stickWood");
+            registerShaped(new ItemStack(ModItems.leggingsCopper),"III","I I","I I",'I',"ingotCopper");
+            registerShaped(new ItemStack(ModItems.copperMattock),"III","IS "," S ",'S',"stickWood",'I',"ingotCopper");
+            registerShaped(new ItemStack(ModItems.copperPick),"III"," S "," S ",'S',"stickWood",'I',"ingotCopper");
+            registerShaped(new ItemStack(ModItems.copperSaw), "  S"," SI","SI ",'S',"stickWood",'I',"ingotCopper");
+            registerShaped(new ItemStack(ModItems.copperShovel),"I","S","S",'S',"stickWood",'I',"ingotCopper");
+            registerShaped(new ItemStack(ModItems.copperSword),"I","I","S",'S',"stickWood",'I',"ingotCopper");
+
+            registerShaped(new ItemStack(ModItems.steelAxe),"II","SI","S ",'I',"ingotSteel",'S',"stickWood");
+            registerShaped(new ItemStack(ModItems.bootsSteel),"I I","I I",'I',"ingotSteel");
+            registerShaped(new ItemStack(ModItems.chestplateSteel),"I I","III","III",'I',"ingotSteel");
+            registerShaped(new ItemStack(ModItems.helmetSteel),"III","I I",'I',"ingotSteel");
+            registerShaped(new ItemStack(ModItems.steelHoe),"II","S ","S ",'S',"stickWood",'I',"ingotSteel");
+            registerShaped(new ItemStack(ModItems.steelKnife),"I","S",'I',"ingotSteel",'S',"stickWood");
+            registerShaped(new ItemStack(ModItems.leggingsSteel),"III","I I","I I",'I',"ingotSteel");
+            registerShaped(new ItemStack(ModItems.steelMattock),"III","IS "," S ",'S',"stickWood",'I',"ingotSteel");
+            registerShaped(new ItemStack(ModItems.steelPick),"III"," S "," S ",'S',"stickWood",'I',"ingotSteel");
+            registerShaped(new ItemStack(ModItems.steelSaw), "  S"," SI","SI ",'S',"stickWood",'I',"ingotSteel");
+            registerShaped(new ItemStack(ModItems.steelShovel),"I","S","S",'S',"stickWood",'I',"ingotSteel");
+            registerShaped(new ItemStack(ModItems.steelSword),"I","I","S",'S',"stickWood",'I',"ingotSteel");
+
+            registerShaped(new ItemStack(ModItems.tuyere),"  S","SS ",'S',"ingotCopper");
+            registerShaped(new ItemStack(ModItems.tuyere),"  S","SS ",'S',"ingotBronze");
+
+            registerShaped(new ItemStack(ModBlocks.blastFurnace),"III","IFI","III",'I',"ingotIron",'F',new ItemStack(Blocks.FURNACE));
+            registerShaped(new ItemStack(ModBlocks.bellows), "WWW","LLL","IGI",'W',"plankWood",'L',"leather",'I',"ingotBronze",'G',"gearWood");
+        }
+
+        if(ModConfig.MODULE_POTTERY){
+            registerShaped(new ItemStack(ModItems.clayTool), " PS"," SS","S  ",'S',"stickWood",'P',"plankWood");
+
+            registerShapeless(new ItemStack(ModItems.clayBrick),new ItemStack(ModItems.clayTool,1,magic), new ItemStack(Items.CLAY_BALL));
         }
 
     }
@@ -256,8 +345,10 @@ public class ModRecipes {
             modRegistry.remove(new ResourceLocation("minecraft:wooden_pressure_plate"));
             modRegistry.remove(new ResourceLocation("minecraft:stone_pressure_plate"));
 
-            modRegistry.remove(new ResourceLocation("minecraft:flint_and_steel"));
-            modRegistry.remove(new ResourceLocation("minecraft:anvil"));
+            if(ModConfig.MODULE_METALWORKING) {
+                modRegistry.remove(new ResourceLocation("minecraft:flint_and_steel"));
+                modRegistry.remove(new ResourceLocation("minecraft:anvil"));
+            }
         }
     }
 }

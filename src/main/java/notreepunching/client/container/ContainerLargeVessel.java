@@ -6,28 +6,28 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import notreepunching.block.tile.TileEntityFirepit;
-import notreepunching.block.tile.inventory.SlotTEOutput;
-import notreepunching.block.tile.inventory.SlotTERecipeInput;
-import notreepunching.recipe.firepit.FirepitRecipeHandler;
+import notreepunching.block.tile.TileEntityLargeVessel;
+import notreepunching.block.tile.inventory.SlotTEInput;
 
 import javax.annotation.Nonnull;
 
-public class ContainerFirepit extends ContainerBase<TileEntityFirepit> {
+public class ContainerLargeVessel extends ContainerBase<TileEntityLargeVessel> {
 
-    public ContainerFirepit(InventoryPlayer playerInv, TileEntityFirepit firepit) {
-        super(playerInv, firepit);
+    public ContainerLargeVessel(InventoryPlayer playerInv, TileEntityLargeVessel te){
+        super(playerInv, te);
     }
 
     @Override
-    protected void addContainerSlots(TileEntityFirepit tile) {
+    protected void addContainerSlots(TileEntityLargeVessel tile) {
         IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-
-        addSlotToContainer(new SlotTERecipeInput(inventory, 0,80,59, tile, TileEntityFirepit::isItemValidFuel)); // Fuel slot
-        addSlotToContainer(new SlotTERecipeInput(inventory, 1,52,23, tile, FirepitRecipeHandler::isRecipe)); // Input slot
-        addSlotToContainer(new SlotTEOutput(inventory, 2,108,23, tile));
+        if(inventory != null) {
+            for(int x = 0; x < 3; x++){
+                for(int y = 0; y < 3; y++){
+                    addSlotToContainer(new SlotTEInput(inventory, x+3*y,62+18*x,20+18*y,tile));
+                }
+            }
+        }
     }
-
     // index is the id of the slot shift-clicked
     @Override
     @Nonnull
@@ -52,20 +52,12 @@ public class ContainerFirepit extends ContainerBase<TileEntityFirepit> {
                 // Don't transfer anything
                 return ItemStack.EMPTY;
             }
+            tile.setAndUpdateSlots(index);
         }
         // Transfer into the container
         else {
-            // Try fuel slot first (most specific)
-            if(this.inventorySlots.get(0).isItemValid(itemstack)){
-                if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
-                    return ItemStack.EMPTY;
-                }
-            }else{
-                // Try input slot next (least specific)
-                if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
-                    return ItemStack.EMPTY;
-                }
-                // don't try to merge into the output slot
+            if (!this.mergeItemStack(itemstack1, 0, 9, false)) {
+                return ItemStack.EMPTY;
             }
         }
 
@@ -81,4 +73,5 @@ public class ContainerFirepit extends ContainerBase<TileEntityFirepit> {
         slot.onTake(player, itemstack1);
         return itemstack;
     }
+
 }

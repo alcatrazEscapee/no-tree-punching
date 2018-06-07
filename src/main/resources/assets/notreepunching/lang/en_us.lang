@@ -36,6 +36,8 @@ item.crude_hoe.name=Crude Hoe
 item.firestarter.name=Fire Starter
 item.grind_wheel.name=Grinding Wheel
 item.tuyere.name=Tuyere
+item.small_vessel.name=Small Ceramic Vessel
+item.clay_tool.name=Clay Tool
 
 item.dust_bronze.name=Bronze Dust
 item.dust_tin.name=Tin Dust
@@ -45,12 +47,13 @@ item.dust_copper.name=Copper Dust
 item.ingot_bronze.name=Bronze Ingot
 item.ingot_tin.name=Tin Ingot
 item.gear_wood.name=Wooden Gear
+item.clay_brick.name=Clay Brick
 item.ingot_steel.name=Steel Ingot
 item.dust_steel.name=Steel Dust
 item.nugget_tin.name=Tin Nugget
 item.nugget_copper.name=Copper Nugget
-item.steel_nugget.name=Steel Nugget
-item.bronze_nugget.name=Bronze Nugget
+item.nugget_steel.name=Steel Nugget
+item.nugget_bronze.name=Bronze Nugget
 
 item.copper_knife.name=Copper Knife
 item.copper_mattock.name=Copper Mattock
@@ -99,6 +102,7 @@ tile.wood_pile.name=Log Pile
 tile.bellows.name=Bellows
 tile.grindstone.name=Grindstone
 tile.blast_furnace.name=Blast Furnace
+tile.large_vessel.name=Large Ceramic Vessel
 
 tile.andesite_cobblestone.name=Andesite Cobblestone
 tile.diorite_cobblestone.name=Diorite Cobblestone
@@ -122,6 +126,11 @@ tile.block_bronze.name=Bronze Block
 tile.block_steel.name=Steel Block
 tile.block_tin.name=Tin Block
 
+tile.worked_clay.unworked.name=Worked Clay
+tile.worked_clay.large_vessel.name=Clay Large Vessel
+tile.worked_clay.small_vessel.name=Clay Small Vessel
+tile.worked_clay.small_pot.name=Clay Small Pot
+
 #JEI
 
 jei.description.rock=Rocks are found lying on the ground. Breaking them can give you small rocks, with a small chance of giving you an small iron ore piece.
@@ -137,6 +146,7 @@ jei.description.forge=To create a charcoal forge, place charcoal on the ground b
 jei.description.wood_pile=Wood piles can be created by shift right clicking any log. They function as small storage containers that only store logs. In addition, these log piles can be turned into charcoal. By placing log piles on the ground, and completely covering them on all sides with other log piles or full, non flammable blocks, and then lighting it on fire, they become a charcoal pit, and will eventually turn into charcoal.
 jei.description.tuyere=A Tuyere is a small pipe used to funnel air into a charcoal forge. Right click with it on a piece of cobblestone, and it will become a Tuyere block. When a bellows is facing the tuyere, it will pump air into the block, which will heat up adjacent charcoal forges.
 jei.description.blast_furnace=The blast furnace is a multiblock structure. Above the blast furnace, in a '+' shape, place stone type blocks, with a charcoal pile in the middle. The more charcoal, the hotter the blast furnace will get. Light the blast furnace with a flint and steel. The blast furnace will also heat up if a bellows is facing into it.
+jei.description.clay_tool=The clay tool is used to shape blocks of clay into pottery. Right click on a block of clay to shape it into pottery. As you work, the clay will shape into smaller and smaller pieces, until nothing is left.
 
 jei.category.knife_recipe=Knife Cutting
 jei.category.firepit_recipe=Firepit

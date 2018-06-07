@@ -26,10 +26,11 @@ public class GrindstoneRecipeHandler {
     private static LinkedListMultimap<Boolean, GrindstoneRecipe> CT_ENTRY = LinkedListMultimap.create();
 
     public static void init(){
-        GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(ModItems.dustTin), "oreTin", ModConfig.Balance.DUST_PER_ORE));
-        GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(ModItems.dustCopper), "oreCopper", ModConfig.Balance.DUST_PER_ORE));
-        GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(ModItems.dustIron), "oreIron", ModConfig.Balance.DUST_PER_ORE));
-
+        if(ModConfig.MODULE_METALWORKING) {
+            GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(ModItems.dustTin), "oreTin", ModConfig.Balance.DUST_PER_ORE));
+            GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(ModItems.dustCopper), "oreCopper", ModConfig.Balance.DUST_PER_ORE));
+            GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(ModItems.dustIron), "oreIron", ModConfig.Balance.DUST_PER_ORE));
+        }
         // Dyes from plants and other things
         GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(Items.DYE,2, EnumDyeColor.RED.getDyeDamage()), new ItemStack(Blocks.RED_FLOWER, 1, BlockFlower.EnumFlowerType.POPPY.getMeta())));
         GRINDSTONE_RECIPES.add(new GrindstoneRecipe(new ItemStack(Items.DYE,2, EnumDyeColor.RED.getDyeDamage()), new ItemStack(Blocks.RED_FLOWER,1, BlockFlower.EnumFlowerType.RED_TULIP.getMeta())));

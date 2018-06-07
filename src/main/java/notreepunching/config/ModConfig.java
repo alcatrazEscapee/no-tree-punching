@@ -6,19 +6,22 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.Comment;
+import notreepunching.NoTreePunching;
 
 import javax.annotation.Nonnull;
 
 import static notreepunching.NoTreePunching.MODID;
 
 @Mod.EventBusSubscriber
-@Config(modid= MODID)
+@Config(modid=MODID)
 public class ModConfig {
 
     @Comment({"Enable Metalworking module (Copper, tin, bronze, steel, forge, blast furnace, bellows, tuyere)"})
+    @Config.RequiresMcRestart
     public static boolean MODULE_METALWORKING = true;
 
     @Comment({"Enable Pottery Module (Clay tools, clay vessels, ceramics)"})
+    @Config.RequiresMcRestart
     public static boolean MODULE_POTTERY = true;
 
     public static VanillaTweaks tweaks;
@@ -125,12 +128,17 @@ public class ModConfig {
 
     public static Metalworking metalworking;
     public static class Metalworking{
-
+        // Config options to do with metalworking module
     }
 
     public static Metalworking pottery;
     public static class Pottery{
+        // Config options to do with pottery module
+    }
 
+    public static Stoneworks stoneworks;
+    public static class Stoneworks{
+        // Config options to do with stoneworks module
     }
 
     @SubscribeEvent

@@ -17,11 +17,13 @@ public class ModGuiHandler implements IGuiHandler {
     public static final byte WOODPILE = 2;
     public static final byte GRINDSTONE = 3;
     public static final byte BLAST_FURNACE = 4;
+    public static final byte LARGE_VESSEL = 5;
+    public static final byte SMALL_VESSEL = 6;
 
     @Override
     public Container getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         TileEntity te = world.getTileEntity(new BlockPos(x,y,z));
-        if(te == null) return null;
+        if(te == null && ID != SMALL_VESSEL) return null;
         switch (ID) {
             case FIREPIT:
                 return new ContainerFirepit(player.inventory, (TileEntityFirepit) te);
@@ -33,6 +35,10 @@ public class ModGuiHandler implements IGuiHandler {
                 return new ContainerGrindstone(player.inventory, (TileEntityGrindstone) te);
             case BLAST_FURNACE:
                 return new ContainerBlastFurnace(player.inventory, (TileEntityBlastFurnace) te);
+            case LARGE_VESSEL:
+                return new ContainerLargeVessel(player.inventory, (TileEntityLargeVessel) te);
+            case SMALL_VESSEL:
+                return new ContainerSmallVessel(player.inventory, player.getHeldItemMainhand());
             default:
                 return null;
         }
@@ -41,18 +47,23 @@ public class ModGuiHandler implements IGuiHandler {
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         TileEntity te = world.getTileEntity(new BlockPos(x,y,z));
-        if(te == null) return null;
+        Container container = getServerGuiElement(ID, player, world, x,y,z);
+        if(te == null && ID != SMALL_VESSEL) return null;
         switch (ID) {
             case FIREPIT:
-                return new GuiFirepit(getServerGuiElement(ID, player, world, x, y, z), player.inventory, (TileEntityFirepit) te);
+                return new GuiFirepit(container, player.inventory, (TileEntityFirepit) te);
             case FORGE:
-                return new GuiForge(getServerGuiElement(ID, player, world, x,y,z), player.inventory, (TileEntityForge) te);
+                return new GuiForge(container, player.inventory, (TileEntityForge) te);
             case WOODPILE:
-                return new GuiWoodPile(getServerGuiElement(ID, player, world, x,y,z), player.inventory, (TileEntityWoodPile) te);
+                return new GuiWoodPile(container, player.inventory);
             case GRINDSTONE:
-                return new GuiGrindstone(getServerGuiElement(ID, player, world, x,y,z), player.inventory, (TileEntityGrindstone) te);
+                return new GuiGrindstone(container, player.inventory, (TileEntityGrindstone) te);
             case BLAST_FURNACE:
-                return new GuiBlastFurnace(getServerGuiElement(ID, player, world, x,y,z), player.inventory, (TileEntityBlastFurnace) te);
+                return new GuiBlastFurnace(container, player.inventory, (TileEntityBlastFurnace) te);
+            case LARGE_VESSEL:
+                return new GuiLargeVessel(container, player.inventory);
+            case SMALL_VESSEL:
+                return new GuiSmallVessel(container, player.inventory);
             default:
                 return null;
         }

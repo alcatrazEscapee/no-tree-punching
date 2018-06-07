@@ -23,7 +23,11 @@ public class ForgeRecipeHandler {
 
     public static void init(){
         FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Items.NETHERBRICK), new ItemStack(Blocks.NETHERRACK),400));
-        FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Items.BRICK), new ItemStack(Items.CLAY_BALL),400));
+        if(ModConfig.MODULE_POTTERY){
+            FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Items.BRICK), new ItemStack(ModItems.clayBrick), 400));
+        }else {
+            FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Items.BRICK), new ItemStack(Items.CLAY_BALL), 400));
+        }
 
         FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.GLASS), new ItemStack(Blocks.SAND,1,0), 300));
         FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STAINED_GLASS,1, EnumDyeColor.RED.getMetadata()), new ItemStack(Blocks.SAND, 1,1), 300));

@@ -1,6 +1,8 @@
 ![No Tree Punching Banner Image](https://github.com/alcatrazEscapee/no-tree-punching/blob/master/img/icon/banner.png)
 
-This is a minecraft mod meant to add a little more believability to your first few minutes of minecraft play. It also adds the extra challenge that when you break a block with the wrong tool, it takes much longer to mine, and won't drop anything. Two new tools, Knives and Mattocks are added to help deal with this requirement.
+This is a minecraft mod meant to add a little more believability to your first few minutes of minecraft play. It also adds the extra challenge that when you break a block with the wrong tool, it takes much longer to mine, and won't drop anything. Two new tools, Knives and Mattocks are added to help deal with this requirement. A lot of features are heavily inspired by the original TerraFirmaCraft for 1.7.10
+
+![No Tree Punching Splash Image](https://github.com/alcatrazEscapee/no-tree-punching/blob/master/img/icon/splash.png)
 
 Documentation for how to begin a new world can be found in JEI, under the information tab. All recipes and mechanics should be mentioned there.
 

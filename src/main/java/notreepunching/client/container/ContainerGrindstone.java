@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import notreepunching.block.tile.TileEntityGrindstone;
-import notreepunching.block.tile.inventory.SlotOutput;
-import notreepunching.block.tile.inventory.SlotRecipeInput;
+import notreepunching.block.tile.inventory.SlotTEOutput;
+import notreepunching.block.tile.inventory.SlotTERecipeInput;
 import notreepunching.recipe.grindstone.GrindstoneRecipeHandler;
 
 import javax.annotation.Nonnull;
@@ -23,9 +23,9 @@ public class ContainerGrindstone extends ContainerBase<TileEntityGrindstone> {
     protected void addContainerSlots(TileEntityGrindstone tile) {
         IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
-        addSlotToContainer(new SlotRecipeInput(inventory, 0,52,44, tile, GrindstoneRecipeHandler::isIngredient));
-        addSlotToContainer(new SlotOutput(inventory, 1,108,31, tile));
-        addSlotToContainer(new SlotRecipeInput(inventory, 2,52,18, tile, TileEntityGrindstone::isWheel));
+        addSlotToContainer(new SlotTERecipeInput(inventory, 0,52,44, tile, GrindstoneRecipeHandler::isIngredient));
+        addSlotToContainer(new SlotTEOutput(inventory, 1,108,31, tile));
+        addSlotToContainer(new SlotTERecipeInput(inventory, 2,52,18, tile, TileEntityGrindstone::isWheel));
     }
 
     // index is the id of the slot shift-clicked
