@@ -47,6 +47,7 @@ item.dust_copper.name=Copper Dust
 item.ingot_bronze.name=Bronze Ingot
 item.ingot_tin.name=Tin Ingot
 item.gear_wood.name=Wooden Gear
+item.clay_brick.name=Clay Brick
 item.ingot_steel.name=Steel Ingot
 item.dust_steel.name=Steel Dust
 item.nugget_tin.name=Tin Nugget

@@ -45,7 +45,10 @@ public class ItemClayTool extends ItemTool {
     @Override
     public ItemStack getContainerItem(ItemStack stack){
         ItemStack copy = stack.copy();
-        copy.setItemDamage(copy.getItemDamage()+1);
+        copy.setItemDamage(copy.getItemDamage()+2);
+        if(copy.getItemDamage() == copy.getMaxDamage()){
+            copy = ItemStack.EMPTY;
+        }
         return copy;
     }
 
