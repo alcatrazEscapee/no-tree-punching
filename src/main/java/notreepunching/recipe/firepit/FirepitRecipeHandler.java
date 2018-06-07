@@ -26,6 +26,7 @@ public class FirepitRecipeHandler {
             FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModBlocks.workedClay,1,1),new ItemStack(ModBlocks.largeVessel)));
             FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModBlocks.workedClay,1,2),new ItemStack(ModItems.smallVessel)));
             FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModBlocks.workedClay,1,3),new ItemStack(Items.FLOWER_POT)));
+            FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModItems.clayBrick), new ItemStack(Items.BRICK)));
         }
 
     }

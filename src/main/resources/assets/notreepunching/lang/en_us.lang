@@ -51,8 +51,8 @@ item.ingot_steel.name=Steel Ingot
 item.dust_steel.name=Steel Dust
 item.nugget_tin.name=Tin Nugget
 item.nugget_copper.name=Copper Nugget
-item.steel_nugget.name=Steel Nugget
-item.bronze_nugget.name=Bronze Nugget
+item.nugget_steel.name=Steel Nugget
+item.nugget_bronze.name=Bronze Nugget
 
 item.copper_knife.name=Copper Knife
 item.copper_mattock.name=Copper Mattock

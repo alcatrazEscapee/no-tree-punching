@@ -33,12 +33,20 @@ public class ItemClayTool extends ItemTool {
         register();
 
         setMaxStackSize(1);
-        setMaxDamage(30);
+        setMaxDamage(60);
+        setContainerItem(this);
     }
 
     public void register(){
         ModItems.addItemToRegistry(this,name, ModTabs.TOOLS_TAB);
         NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
+    }
+
+    @Override
+    public ItemStack getContainerItem(ItemStack stack){
+        ItemStack copy = stack.copy();
+        copy.setItemDamage(copy.getItemDamage()+1);
+        return copy;
     }
 
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {

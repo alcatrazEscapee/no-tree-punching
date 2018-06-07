@@ -98,8 +98,15 @@ public class ModRecipes {
                 }
                 else if(ItemUtil.areStacksEqual(stack1, new ItemStack(Items.COAL, 1, 1))){
                     iterator.remove();
+                }else if(ItemUtil.areStacksEqual(stack1, new ItemStack(Items.BRICK)) && ModConfig.MODULE_POTTERY){
+                    iterator.remove();
                 }
             }
+        }
+
+        // This needs to be here so it doesn't get removed
+        if(ModConfig.MODULE_POTTERY){
+            RecipeUtil.addSmelting(ModItems.clayBrick, new ItemStack(Items.BRICK));
         }
     }
 
@@ -149,6 +156,7 @@ public class ModRecipes {
                 registerShapeless(new ItemStack(Items.FLINT_AND_STEEL), new ItemStack(Items.FLINT), "ingotSteel");
                 registerShaped(new ItemStack(Blocks.ANVIL), "BBB", " I ", "III", 'B', "blockSteel", 'I', "ingotSteel");
             }
+
         }
 
         // Metalworking recipes
@@ -222,6 +230,8 @@ public class ModRecipes {
 
         if(ModConfig.MODULE_POTTERY){
             registerShaped(new ItemStack(ModItems.clayTool), " PS"," SS","S  ",'S',"stickWood",'P',"plankWood");
+
+            registerShapeless(new ItemStack(ModItems.clayBrick),new ItemStack(ModItems.clayTool,1,magic), new ItemStack(Items.CLAY_BALL));
         }
 
     }

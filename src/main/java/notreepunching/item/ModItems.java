@@ -111,6 +111,7 @@ public class ModItems {
 
     public static ItemClayTool clayTool;
     public static ItemSmallVessel smallVessel;
+    public static ItemBase clayBrick;
 
     private static Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", ModConfig.Balance.FLINT_MINING_LEVEL,45,2.5F,0.5F,0);
     private static Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", ModConfig.Balance.COPPER_MINING_LEVEL,220,4F,1.5F,6);
@@ -222,6 +223,7 @@ public class ModItems {
         if(ModConfig.MODULE_POTTERY){
             clayTool = new ItemClayTool("clay_tool");
             smallVessel = new ItemSmallVessel("small_vessel");
+            clayBrick = new ItemBase("clay_brick");
         }
 
     }
