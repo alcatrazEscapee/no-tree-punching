@@ -39,6 +39,9 @@ item.tuyere.name=Tuyere
 item.small_vessel.name=Small Ceramic Vessel
 item.clay_tool.name=Clay Tool
 
+item.clay_bucket.name=Ceramic Bucket
+item.clay_bucket.filled.name=%s Ceramic Bucket
+
 item.dust_bronze.name=Bronze Dust
 item.dust_tin.name=Tin Dust
 item.ingot_copper.name=Copper Ingot
@@ -129,7 +132,8 @@ tile.block_tin.name=Tin Block
 tile.worked_clay.unworked.name=Worked Clay
 tile.worked_clay.large_vessel.name=Clay Large Vessel
 tile.worked_clay.small_vessel.name=Clay Small Vessel
-tile.worked_clay.small_pot.name=Clay Small Pot
+tile.worked_clay.small_pot.name=Clay Pot
+tile.worked_clay.bucket.name=Clay Bucket
 
 #JEI
 

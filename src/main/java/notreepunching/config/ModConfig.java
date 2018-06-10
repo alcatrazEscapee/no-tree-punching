@@ -6,7 +6,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.Comment;
-import notreepunching.NoTreePunching;
 
 import javax.annotation.Nonnull;
 
@@ -16,6 +15,8 @@ import static notreepunching.NoTreePunching.MODID;
 @Config(modid=MODID)
 public class ModConfig {
 
+    //TODO Reorganize config
+
     @Comment({"Enable Metalworking module (Copper, tin, bronze, steel, forge, blast furnace, bellows, tuyere)"})
     @Config.RequiresMcRestart
     public static boolean MODULE_METALWORKING = true;
@@ -23,6 +24,10 @@ public class ModConfig {
     @Comment({"Enable Pottery Module (Clay tools, clay vessels, ceramics)"})
     @Config.RequiresMcRestart
     public static boolean MODULE_POTTERY = true;
+
+    @Comment({"Enable Stoneworks Module (Cobblestone variants, bricks, mortar, work blades)"})
+    @Config.RequiresMcRestart
+    public static boolean MODULE_STONEWORKS = true;
 
     public static VanillaTweaks tweaks;
     public static class VanillaTweaks {
@@ -34,9 +39,6 @@ public class ModConfig {
 
         @Comment({"Disable Log -> Planks and Planks -> Sticks recipe. Forces use of the crude axe + saw"})
         public static boolean WOOD_RECIPE_DISABLE = true;
-
-        @Comment({"Disable gold tool recipes"})
-        public static boolean GOLD_TOOLS_DISABLE = false;
 
         @Comment({"List of blocks that always will drop items and will mine at a regular speed.",
                 "Use the format modid:registry_name"})
@@ -134,6 +136,9 @@ public class ModConfig {
     public static Metalworking pottery;
     public static class Pottery{
         // Config options to do with pottery module
+
+        @Comment({"Fluids allowed in the clay bucket"})
+        public static String[] CLAY_BUCKET_FLUIDS = {"water", "milk"};
     }
 
     public static Stoneworks stoneworks;

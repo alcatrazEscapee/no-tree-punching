@@ -1,8 +1,6 @@
 package notreepunching.proxy;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
@@ -23,6 +21,7 @@ public class ServerProxy implements IProxy {
     public void addModelToRegistry(ItemStack stack, ResourceLocation location, String variant){
     }
 
+    @SuppressWarnings("deprecation")
     public String localize(String unlocalized, Object... args) {
         return I18n.translateToLocalFormatted(unlocalized, args);
     }

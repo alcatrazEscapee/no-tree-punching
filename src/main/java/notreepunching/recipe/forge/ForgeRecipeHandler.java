@@ -33,18 +33,17 @@ public class ForgeRecipeHandler {
         FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STAINED_GLASS,1, EnumDyeColor.RED.getMetadata()), new ItemStack(Blocks.SAND, 1,1), 300));
 
         FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE,1,0), new ItemStack(Blocks.COBBLESTONE), 500));
-        if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS) {
+        if(ModConfig.MODULE_STONEWORKS) {
             FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE, 1, 1), new ItemStack(ModBlocks.graniteCobble), 500));
             FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE, 1, 3), new ItemStack(ModBlocks.dioriteCobble), 500));
             FORGE_RECIPES.add(new ForgeRecipe(new ItemStack(Blocks.STONE, 1, 5), new ItemStack(ModBlocks.andesiteCobble), 500));
-        }
-
-        if(NoTreePunching.replaceQuarkStones){
-            FORGE_RECIPES.add(new ForgeRecipe(ItemUtil.getSafeItem("quark:marble"), new ItemStack(ModBlocks.marbleCobble), 500));
-            FORGE_RECIPES.add(new ForgeRecipe(ItemUtil.getSafeItem("quark:limestone"), new ItemStack(ModBlocks.limestoneCobble), 500));
-        }
-        if(NoTreePunching.replaceRusticStone){
-            FORGE_RECIPES.add(new ForgeRecipe(ItemUtil.getSafeItem("rustic:slate"), new ItemStack(ModBlocks.slateCobble), 500));
+            if (NoTreePunching.hasQuark) {
+                FORGE_RECIPES.add(new ForgeRecipe(ItemUtil.getSafeItem("quark:marble"), new ItemStack(ModBlocks.marbleCobble), 500));
+                FORGE_RECIPES.add(new ForgeRecipe(ItemUtil.getSafeItem("quark:limestone"), new ItemStack(ModBlocks.limestoneCobble), 500));
+            }
+            if (NoTreePunching.hasRustic) {
+                FORGE_RECIPES.add(new ForgeRecipe(ItemUtil.getSafeItem("rustic:slate"), new ItemStack(ModBlocks.slateCobble), 500));
+            }
         }
 
     }
