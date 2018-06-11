@@ -226,6 +226,8 @@ public class ModRecipes {
 
             registerShaped(new ItemStack(ModBlocks.blastFurnace),"III","IFI","III",'I',"ingotIron",'F',new ItemStack(Blocks.FURNACE));
             registerShaped(new ItemStack(ModBlocks.bellows), "WWW","LLL","IGI",'W',"plankWood",'L',"leather",'I',"ingotBronze",'G',"gearWood");
+
+            registerShapeless(new ItemStack(ModItems.dustBronze,3), new ItemStack(ModItems.dustCopper), new ItemStack(ModItems.dustCopper), new ItemStack(ModItems.dustTin));
         }
 
         if(ModConfig.MODULE_POTTERY){
