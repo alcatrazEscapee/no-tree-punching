@@ -35,8 +35,8 @@ public class ItemRock extends ItemBase {
     public void register(){
         ModItems.addItemToRegistry(this,name, ModTabs.ITEMS_TAB);
         for(int i=0;i<7;i++) {
-            if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
-            if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
+            if(!NoTreePunching.hasQuark && (i == 4 || i == 5)) { continue; }
+            if(!NoTreePunching.hasRustic && (i == 6)) { continue; }
             NoTreePunching.proxy.addModelToRegistry(new ItemStack(this,1,i),
                     new ResourceLocation(NoTreePunching.MODID,name + "_" +  this.getStoneName(i)),"inventory");
         }
@@ -52,8 +52,8 @@ public class ItemRock extends ItemBase {
         if (getCreativeTab() != tab) return;
         //super.getSubItems(tab, items);
         for (int i = 0; i < 7; ++i) {
-            if(!NoTreePunching.replaceQuarkStones && (i == 4 || i == 5)) { continue; }
-            if(!NoTreePunching.replaceRusticStone && (i == 6)) { continue; }
+            if(!NoTreePunching.hasQuark && (i == 4 || i == 5)) { continue; }
+            if(!NoTreePunching.hasRustic && (i == 6)) { continue; }
             items.add(new ItemStack(this, 1, i));
         }
     }

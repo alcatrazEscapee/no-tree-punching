@@ -37,8 +37,8 @@ public class NoTreePunching {
     static final String VERSION = "GRADLE:VERSION";
     static final String DEPENDENCIES = FORGE_REQUIRED+"after:quark;after:rustic;after:biomeoplenty;";
 
-    public static boolean replaceQuarkStones;
-    public static boolean replaceRusticStone;
+    public static boolean hasQuark;
+    public static boolean hasRustic;
 
     @SidedProxy(clientSide = MODID+".proxy.ClientProxy", serverSide = MODID+".proxy.ServerProxy")
     public static IProxy proxy;
@@ -53,8 +53,8 @@ public class NoTreePunching {
         logger = event.getModLog();
         logger.info("Pre-init started");
 
-        replaceQuarkStones = Loader.isModLoaded("quark") && ModConfig.VanillaTweaks.QUARK_STONE_REPLACE;
-        replaceRusticStone = Loader.isModLoaded("rustic") && ModConfig.VanillaTweaks.RUSTIC_STONE_REPLACE;
+        hasQuark = Loader.isModLoaded("quark");
+        hasRustic = Loader.isModLoaded("rustic");
 
         // Register World Generation
         MinecraftForge.EVENT_BUS.register(new WorldGenDeco());

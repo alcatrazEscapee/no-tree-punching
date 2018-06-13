@@ -36,9 +36,10 @@ public class BlockWorkedClay extends BlockBase {
 
     public static final IProperty<EnumClayType> TYPE = PropertyEnum.create("type",EnumClayType.class, EnumClayType.values());
     private static final AxisAlignedBB[] AABB = new AxisAlignedBB[]{
-            new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.875D, 0.9375D),
+            new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.9375D, 0.9375D),
             new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 0.875D, 0.875D),
             new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 0.625D, 0.75D),
+            new AxisAlignedBB(0.3125D, 0.0D, 0.3125D, 0.6875D, 0.625D, 0.6875D),
             new AxisAlignedBB(0.3125D, 0.0D, 0.3125D, 0.6875D, 0.375D, 0.6875D)
     };
 
@@ -142,7 +143,8 @@ public class BlockWorkedClay extends BlockBase {
         UNWORKED(0,"unworked"),
         LARGE_VESSEL(1,"large_vessel"),
         SMALL_VESSEL(2,"small_vessel"),
-        SMALL_POT(3,"small_pot");
+        BUCKET(3,"bucket"),
+        SMALL_POT(4,"small_pot");
 
         private final int meta;
         private final String name;
@@ -165,7 +167,7 @@ public class BlockWorkedClay extends BlockBase {
             return EnumClayType.values()[meta];
         }
         public EnumClayType getNext(){
-            int next = this.meta == 3 ? 0 : this.meta + 1;
+            int next = this.meta == EnumClayType.values().length-1 ? 0 : this.meta + 1;
             return EnumClayType.values()[next];
         }
     }

@@ -1,12 +1,12 @@
 package notreepunching.recipe.firepit;
 
 import com.google.common.collect.LinkedListMultimap;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.oredict.OreDictionary;
+import notreepunching.block.BlockWorkedClay;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
@@ -23,9 +23,10 @@ public class FirepitRecipeHandler {
 
     public static void init(){
         if(ModConfig.MODULE_POTTERY){
-            FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModBlocks.workedClay,1,1),new ItemStack(ModBlocks.largeVessel)));
-            FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModBlocks.workedClay,1,2),new ItemStack(ModItems.smallVessel)));
-            FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModBlocks.workedClay,1,3),new ItemStack(Items.FLOWER_POT)));
+            FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModBlocks.workedClay,1, BlockWorkedClay.EnumClayType.LARGE_VESSEL.getMeta()),new ItemStack(ModBlocks.largeVessel)));
+            FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModBlocks.workedClay,1, BlockWorkedClay.EnumClayType.SMALL_VESSEL.getMeta()),new ItemStack(ModItems.smallVessel)));
+            FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModBlocks.workedClay,1, BlockWorkedClay.EnumClayType.BUCKET.getMeta()),new ItemStack(ModItems.clayBucket)));
+            FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModBlocks.workedClay,1, BlockWorkedClay.EnumClayType.SMALL_POT.getMeta()),new ItemStack(Items.FLOWER_POT)));
             FIREPIT_RECIPES.add(new FirepitRecipe(new ItemStack(ModItems.clayBrick), new ItemStack(Items.BRICK)));
         }
 

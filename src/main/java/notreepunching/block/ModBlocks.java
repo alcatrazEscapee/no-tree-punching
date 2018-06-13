@@ -50,20 +50,21 @@ public class ModBlocks {
         charcoalPile = new BlockCharcoalPile("charcoal_pile");
         grindstone = new BlockGrindstone("grindstone");
 
-        if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS) {
+        if(ModConfig.MODULE_STONEWORKS) {
             andesiteCobble = new BlockBase("andesite_cobblestone", Material.ROCK).setHardness(2.0F);
             graniteCobble = new BlockBase("granite_cobblestone", Material.ROCK).setHardness(2.0F);
             dioriteCobble = new BlockBase("diorite_cobblestone", Material.ROCK).setHardness(2.0F);
-        }
-        if(NoTreePunching.replaceQuarkStones){
-            marbleCobble = new BlockBase("marble_cobblestone", Material.ROCK).setHardness(2.0F);
-            limestoneCobble = new BlockBase("limestone_cobblestone", Material.ROCK).setHardness(2.0F);
-        }
-        if(NoTreePunching.replaceRusticStone){
-            slateCobble = new BlockBase("slate_cobblestone", Material.ROCK).setHardness(2.0F);
+            if (NoTreePunching.hasQuark) {
+                marbleCobble = new BlockBase("marble_cobblestone", Material.ROCK).setHardness(2.0F);
+                limestoneCobble = new BlockBase("limestone_cobblestone", Material.ROCK).setHardness(2.0F);
+            }
+            if (NoTreePunching.hasRustic) {
+                slateCobble = new BlockBase("slate_cobblestone", Material.ROCK).setHardness(2.0F);
+            }
+            // Brick Blocks
+            // Smooth Variants
         }
 
-        // NTP Metalworks
         if(ModConfig.MODULE_METALWORKING) {
             forge = new BlockForge("forge");
             bellows = new BlockBellows("bellows");

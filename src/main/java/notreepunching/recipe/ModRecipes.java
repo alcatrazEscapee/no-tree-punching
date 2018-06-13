@@ -59,10 +59,18 @@ public class ModRecipes {
     // *************************** SMELTING ************************ //
 
     private static void initSmeltingRecipes(){
-        if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS){
+        if(ModConfig.MODULE_STONEWORKS){
             RecipeUtil.addSmelting(ModBlocks.andesiteCobble,new ItemStack(Blocks.STONE,1,5));
             RecipeUtil.addSmelting(ModBlocks.dioriteCobble,new ItemStack(Blocks.STONE,1,3));
             RecipeUtil.addSmelting(ModBlocks.graniteCobble,new ItemStack(Blocks.STONE,1,1));
+
+            if(NoTreePunching.hasQuark){
+                RecipeUtil.addSmelting(ModBlocks.marbleCobble, ItemUtil.getSafeItem("quark:marble",0,1));
+                RecipeUtil.addSmelting(ModBlocks.limestoneCobble,ItemUtil.getSafeItem("quark:limestone",0,1));
+            }
+            if(NoTreePunching.hasRustic){
+                RecipeUtil.addSmelting(ModBlocks.slateCobble,ItemUtil.getSafeItem("rustic:slate",0,1));
+            }
         }
 
         if(!ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE && ModConfig.MODULE_METALWORKING){
@@ -79,26 +87,20 @@ public class ModRecipes {
 
     private static void postInitSmeltingRecipes(){
 
-        if(NoTreePunching.replaceQuarkStones){
-            RecipeUtil.addSmelting(ModBlocks.marbleCobble, ItemUtil.getSafeItem("quark:marble",0,1));
-            RecipeUtil.addSmelting(ModBlocks.limestoneCobble,ItemUtil.getSafeItem("quark:limestone",0,1));
-        }
-        if(NoTreePunching.replaceRusticStone){
-            RecipeUtil.addSmelting(ModBlocks.slateCobble,ItemUtil.getSafeItem("rustic:slate",0,1));
-        }
-
-        Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
-        Iterator<ItemStack> iterator = recipes.keySet().iterator();
-        while (iterator.hasNext()) {
-            ItemStack inStack = iterator.next();
-            ItemStack outStack = recipes.get(inStack);
-            if(MiscUtil.doesStackMatchOrePrefix(outStack,"ingot") && ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE){
-                iterator.remove();
-            }
-            else if(ItemUtil.areStacksEqual(outStack, new ItemStack(Items.COAL, 1, 1))){
-                iterator.remove();
-            }else if(ItemUtil.areStacksEqual(outStack, new ItemStack(Items.BRICK)) && ModConfig.MODULE_POTTERY){
-                iterator.remove();
+        if(ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE && ModConfig.MODULE_METALWORKING) {
+            Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
+            Iterator<ItemStack> iterator = recipes.keySet().iterator();
+            while (iterator.hasNext()) {
+                ItemStack stack1 = iterator.next();
+                ItemStack stack = recipes.get(stack1);
+                if(MiscUtil.doesStackMatchOrePrefix(stack,"ingot")){
+                    iterator.remove();
+                }
+                else if(ItemUtil.areStacksEqual(stack1, new ItemStack(Items.COAL, 1, 1))){
+                    iterator.remove();
+                }else if(ItemUtil.areStacksEqual(stack1, new ItemStack(Items.BRICK)) && ModConfig.MODULE_POTTERY){
+                    iterator.remove();
+                }
             }
         }
 
@@ -123,24 +125,22 @@ public class ModRecipes {
         registerShaped(new ItemStack(Items.STICK,8), "AP", 'P', "logWood", 'A', "toolSaw");
 
         // Cobblestone recipes
-        if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS){
-            registerShaped(new ItemStack(ModBlocks.andesiteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone,1,1));
-            registerShaped(new ItemStack(ModBlocks.dioriteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone,1,2));
-            registerShaped(new ItemStack(ModBlocks.graniteCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone,1,3));
+        if(ModConfig.MODULE_STONEWORKS) {
+            registerShaped(new ItemStack(ModBlocks.andesiteCobble), "SS", "SS", 'S', new ItemStack(ModItems.rockStone, 1, 1));
+            registerShaped(new ItemStack(ModBlocks.dioriteCobble), "SS", "SS", 'S', new ItemStack(ModItems.rockStone, 1, 2));
+            registerShaped(new ItemStack(ModBlocks.graniteCobble), "SS", "SS", 'S', new ItemStack(ModItems.rockStone, 1, 3));
+            if (NoTreePunching.hasQuark) {
+                registerShaped(new ItemStack(ModBlocks.marbleCobble), "SS", "SS", 'S', new ItemStack(ModItems.rockStone, 1, 4));
+                registerShaped(new ItemStack(ModBlocks.limestoneCobble), "SS", "SS", 'S', new ItemStack(ModItems.rockStone, 1, 5));
+            }
+            if (NoTreePunching.hasRustic) {
+                registerShaped(new ItemStack(ModBlocks.slateCobble), "SS", "SS", 'S', new ItemStack(ModItems.rockStone, 1, 6));
+            }
         }
-        if(NoTreePunching.replaceQuarkStones){
-            registerShaped(new ItemStack(ModBlocks.marbleCobble),"SS","SS",'S',new ItemStack(ModItems.rockStone,1,4));
-            registerShaped(new ItemStack(ModBlocks.limestoneCobble),"SS","SS",'S',new ItemStack(ModItems.rockStone,1,5));
-        }
-        if(NoTreePunching.replaceRusticStone){
-            registerShaped(new ItemStack(ModBlocks.slateCobble),"SS","SS",'S', new ItemStack(ModItems.rockStone,1,6));
-        }
-
-        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
-            registerShaped(new ItemStack(ModItems.goldMattock),"III","IS "," S ",'I',"ingotGold",'S',"stickWood");
-            registerShaped(new ItemStack(ModItems.goldSaw)," SI","SI ","S  ",'I',"ingotGold",'S',"stickWood");
-            registerShaped(new ItemStack(ModItems.goldKnife),"I","S",'I',"ingotGold",'S',"stickWood");
-        }
+        // TODO: Make these JSON recipes
+        registerShaped(new ItemStack(ModItems.goldMattock),"III","IS "," S ",'I',"ingotGold",'S',"stickWood");
+        registerShaped(new ItemStack(ModItems.goldSaw)," SI","SI ","S  ",'I',"ingotGold",'S',"stickWood");
+        registerShaped(new ItemStack(ModItems.goldKnife),"I","S",'I',"ingotGold",'S',"stickWood");
 
         // Cooler recipes
         if(ModConfig.VanillaTweaks.COOLER_RECIPES) {
@@ -285,20 +285,6 @@ public class ModRecipes {
             modRegistry.remove(new ResourceLocation("minecraft:stone_hoe"));
             modRegistry.remove(new ResourceLocation("minecraft:stone_sword"));
             modRegistry.remove(new ResourceLocation("minecraft:stone_axe"));
-        }
-
-        // Gold Tools
-        if(ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE) {
-            modRegistry.remove(new ResourceLocation("minecraft:golden_pickaxe"));
-            modRegistry.remove(new ResourceLocation("minecraft:golden_shovel"));
-            modRegistry.remove(new ResourceLocation("minecraft:golden_hoe"));
-            modRegistry.remove(new ResourceLocation("minecraft:golden_sword"));
-            modRegistry.remove(new ResourceLocation("minecraft:golden_axe"));
-
-            modRegistry.remove(new ResourceLocation("minecraft:golden_helmet"));
-            modRegistry.remove(new ResourceLocation("minecraft:golden_chestplate"));
-            modRegistry.remove(new ResourceLocation("minecraft:golden_leggings"));
-            modRegistry.remove(new ResourceLocation("minecraft:golden_boots"));
         }
 
         if(ModConfig.VanillaTweaks.WOOD_RECIPE_DISABLE) {

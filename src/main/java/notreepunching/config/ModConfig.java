@@ -6,7 +6,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.Comment;
-import notreepunching.NoTreePunching;
 
 import javax.annotation.Nonnull;
 
@@ -16,6 +15,8 @@ import static notreepunching.NoTreePunching.MODID;
 @Config(modid=MODID)
 public class ModConfig {
 
+    //TODO Reorganize config
+
     @Comment({"Enable Metalworking module (Copper, tin, bronze, steel, forge, blast furnace, bellows, tuyere)"})
     @Config.RequiresMcRestart
     public static boolean MODULE_METALWORKING = true;
@@ -24,32 +25,25 @@ public class ModConfig {
     @Config.RequiresMcRestart
     public static boolean MODULE_POTTERY = true;
 
+    @Comment({"Enable Stoneworks Module (Cobblestone variants, bricks, mortar, work blades)"})
+    @Config.RequiresMcRestart
+    public static boolean MODULE_STONEWORKS = true;
+
     public static VanillaTweaks tweaks;
     public static class VanillaTweaks {
 
         @Comment({"Disable wooden tool recipes"})
         public static boolean WOOD_TOOLS_DISABLE = true;
+
         @Comment({"Disable stone tool recipes"})
         public static boolean STONE_TOOLS_DISABLE = true;
 
         @Comment({"Disable Log -> Planks and Planks -> Sticks recipe. Forces use of the crude axe + saw"})
         public static boolean WOOD_RECIPE_DISABLE = true;
 
-        @Comment({"Disable gold tool recipes"})
-        public static boolean GOLD_TOOLS_DISABLE = false;
-
         @Comment({"List of blocks that always will drop items and will mine at a regular speed.",
                 "Use the format modid:registry_name"})
         public static String[] BREAKABLE = new String[] {"notreepunching:loose_rock","minecraft:leaves","minecraft:gravel"};
-
-        @Comment({"Stone Blocks (Stone, Andesite, Granite, Diorite) break into small rocks when mined, must be crafted back into cobblestone"})
-        public static boolean STONE_DROPS_ROCKS = true;
-
-        @Comment({"Quark Stone Blocks (Marble, Limestone) break into small rocks when mined, must be crafted back into cobblestone"})
-        public static boolean QUARK_STONE_REPLACE = true;
-
-        @Comment({"Rustic Stone (Slate) breaks into small rocks when mined, must be crafted back into cobblestone"})
-        public static boolean RUSTIC_STONE_REPLACE = true;
 
         @Comment({"Disable Furnace ore smelting recipes, forcing the use of the forge. If false, it will add furnace recipes for NTP metals"})
         public static boolean DISABLE_SMELTING_ORE = true;
@@ -89,23 +83,8 @@ public class ModConfig {
         @Comment({"Mining level for flint tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
         public static int FLINT_MINING_LEVEL = 0;
 
-        @Comment({"Mining level for copper tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
-        public static int COPPER_MINING_LEVEL = 1;
-
-        @Comment({"Mining level for bronze tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
-        public static int BRONZE_MINING_LEVEL = 2;
-
-        @Comment({"Mining level for steel tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
-        public static int STEEL_MINING_LEVEL = 3;
-
         @Comment({"Amount of dust generated per ore in the grindstone"})
         public static int DUST_PER_ORE = 1;
-
-        @Comment({"Time (in ticks) that the Blast Furnace takes to cook"})
-        public static int BLAST_FURNACE_TIME = 600;
-
-        @Comment({"Time (in ticks) that one piece of charcoal lasts in the Blast Furnace"})
-        public static int BLAST_FURNACE_FUEL_TIME = 800;
 
     }
 
@@ -129,11 +108,32 @@ public class ModConfig {
     public static Metalworking metalworking;
     public static class Metalworking{
         // Config options to do with metalworking module
+
+        @Comment({"Time (in ticks) that the Blast Furnace takes to cook"})
+        public static int BLAST_FURNACE_TIME = 600;
+
+        @Comment({"Time (in ticks) that one piece of charcoal lasts in the Blast Furnace"})
+        public static int BLAST_FURNACE_FUEL_TIME = 800;
+
+        @Comment({"Mining level for tin tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
+        public static int MINING_LEVEL_TIN = 0;
+
+        @Comment({"Mining level for copper tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
+        public static int MINING_LEVEL_COPPER = 1;
+
+        @Comment({"Mining level for bronze tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
+        public static int MINING_LEVEL_BRONZE = 2;
+
+        @Comment({"Mining level for steel tools", "0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond"})
+        public static int MINING_LEVEL_STEEL = 3;
     }
 
-    public static Metalworking pottery;
+    public static Pottery pottery;
     public static class Pottery{
         // Config options to do with pottery module
+
+        @Comment({"Fluids allowed in the clay bucket"})
+        public static String[] CLAY_BUCKET_FLUIDS = {"water"};
     }
 
     public static Stoneworks stoneworks;

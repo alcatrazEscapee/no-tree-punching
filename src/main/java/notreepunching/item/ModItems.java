@@ -1,14 +1,17 @@
 package notreepunching.item;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
+import notreepunching.block.BlockWorkedClay;
 import notreepunching.block.ModBlocks;
 import notreepunching.client.ModTabs;
 import notreepunching.config.ModConfig;
@@ -17,9 +20,6 @@ import notreepunching.registry.RegistryHandler;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static notreepunching.NoTreePunching.replaceQuarkStones;
-import static notreepunching.NoTreePunching.replaceRusticStone;
 
 public class ModItems {
 
@@ -112,12 +112,16 @@ public class ModItems {
     public static ItemClayTool clayTool;
     public static ItemSmallVessel smallVessel;
     public static ItemBase clayBrick;
+    public static ItemClayBucket clayBucket;
 
     private static Item.ToolMaterial toolMaterialFlint = EnumHelper.addToolMaterial("NTP_FLINT", ModConfig.Balance.FLINT_MINING_LEVEL,45,2.5F,0.5F,0);
-    private static Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", ModConfig.Balance.COPPER_MINING_LEVEL,220,4F,1.5F,6);
-    private static Item.ToolMaterial toolMaterialBronze = EnumHelper.addToolMaterial("NTP_BRONZE", ModConfig.Balance.BRONZE_MINING_LEVEL,400,8F,2.5F,8);
-    private static Item.ToolMaterial toolMaterialSteel = EnumHelper.addToolMaterial("NTP_STEEL", ModConfig.Balance.STEEL_MINING_LEVEL,1600,11F,3.0F,10);
+    private static Item.ToolMaterial toolMaterialTin = EnumHelper.addToolMaterial("NTP_TIN", ModConfig.Metalworking.MINING_LEVEL_TIN, 120, 3F, 1.0F, 2);
+    private static Item.ToolMaterial toolMaterialCopper = EnumHelper.addToolMaterial("NTP_COPPER", ModConfig.Metalworking.MINING_LEVEL_COPPER,220,4F,1.5F,6);
+    private static Item.ToolMaterial toolMaterialBronze = EnumHelper.addToolMaterial("NTP_BRONZE", ModConfig.Metalworking.MINING_LEVEL_BRONZE,400,8F,2.5F,8);
+    private static Item.ToolMaterial toolMaterialSteel = EnumHelper.addToolMaterial("NTP_STEEL", ModConfig.Metalworking.MINING_LEVEL_STEEL,1600,11F,3.0F,10);
 
+    private static ItemArmor.ArmorMaterial armorMaterialTin = EnumHelper.addArmorMaterial(
+            "NTP_TIN", NoTreePunching.MODID+":tin",3, new int[]{1,2,3,1}, 4, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
     private static ItemArmor.ArmorMaterial armorMaterialCopper = EnumHelper.addArmorMaterial(
             "NTP_COPPER", NoTreePunching.MODID+":copper", 7, new int[]{1,3,4,1}, 6, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
     private static ItemArmor.ArmorMaterial armorMaterialBronze = EnumHelper.addArmorMaterial(
@@ -152,12 +156,9 @@ public class ModItems {
         diamondMattock = new ItemMattock(Item.ToolMaterial.DIAMOND,"diamond_mattock");
         diamondSaw = new ItemSaw(Item.ToolMaterial.DIAMOND,"diamond_saw");
 
-        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
-            goldKnife = new ItemKnife(Item.ToolMaterial.GOLD,"gold_knife");
-            goldMattock = new ItemMattock(Item.ToolMaterial.GOLD, "gold_mattock");
-            goldSaw = new ItemSaw(Item.ToolMaterial.GOLD, "gold_saw");
-        }
-
+        goldKnife = new ItemKnife(Item.ToolMaterial.GOLD,"gold_knife");
+        goldMattock = new ItemMattock(Item.ToolMaterial.GOLD, "gold_mattock");
+        goldSaw = new ItemSaw(Item.ToolMaterial.GOLD, "gold_saw");
 
         if(ModConfig.MODULE_METALWORKING) {
             tuyere = new ItemTuyere("tuyere");
@@ -224,6 +225,7 @@ public class ModItems {
             clayTool = new ItemClayTool("clay_tool");
             smallVessel = new ItemSmallVessel("small_vessel");
             clayBrick = new ItemBase("clay_brick");
+            clayBucket = new ItemClayBucket("clay_bucket");
         }
 
     }
@@ -247,9 +249,7 @@ public class ModItems {
         array.add(new ItemStack(stoneKnife));
         array.add(new ItemStack(ironKnife));
         array.add(new ItemStack(diamondKnife));
-        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
-            array.add(new ItemStack(goldKnife));
-        }
+        array.add(new ItemStack(goldKnife));
         if(ModConfig.MODULE_METALWORKING) {
             array.add(new ItemStack(copperKnife));
             array.add(new ItemStack(bronzeKnife));
@@ -261,9 +261,7 @@ public class ModItems {
         List<ItemStack> array = new ArrayList<>();
         array.add(new ItemStack(ironMattock));
         array.add(new ItemStack(diamondMattock));
-        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
-            array.add(new ItemStack(goldMattock));
-        }
+        array.add(new ItemStack(goldMattock));
         if(ModConfig.MODULE_METALWORKING) {
             array.add(new ItemStack(copperMattock));
             array.add(new ItemStack(bronzeMattock));
@@ -276,9 +274,7 @@ public class ModItems {
         List<ItemStack> array = new ArrayList<>();
         array.add(new ItemStack(ironSaw));
         array.add(new ItemStack(diamondSaw));
-        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
-            array.add(new ItemStack(goldSaw));
-        }
+        array.add(new ItemStack(goldSaw));
         if(ModConfig.MODULE_METALWORKING) {
             array.add(new ItemStack(copperSaw));
             array.add(new ItemStack(bronzeSaw));
@@ -290,9 +286,7 @@ public class ModItems {
     public static void initOreDict(){
         OreDictionary.registerOre("toolSaw", new ItemStack(diamondSaw,1, OreDictionary.WILDCARD_VALUE));
         OreDictionary.registerOre("toolSaw", new ItemStack(ironSaw,1, OreDictionary.WILDCARD_VALUE));
-        if(!ModConfig.VanillaTweaks.GOLD_TOOLS_DISABLE){
-            OreDictionary.registerOre("toolSaw", new ItemStack(goldSaw,1, OreDictionary.WILDCARD_VALUE));
-        }
+        OreDictionary.registerOre("toolSaw", new ItemStack(goldSaw,1, OreDictionary.WILDCARD_VALUE));
         if(ModConfig.MODULE_METALWORKING) {
             OreDictionary.registerOre("toolSaw", new ItemStack(copperSaw, 1, OreDictionary.WILDCARD_VALUE));
             OreDictionary.registerOre("toolSaw", new ItemStack(bronzeSaw, 1, OreDictionary.WILDCARD_VALUE));
@@ -322,17 +316,17 @@ public class ModItems {
         OreDictionary.registerOre("string", new ItemStack(Items.STRING));
         OreDictionary.registerOre("string", new ItemStack(ModItems.grassString));
 
-        if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS) {
+        if(ModConfig.MODULE_STONEWORKS) {
             OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.andesiteCobble));
             OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.graniteCobble));
             OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.dioriteCobble));
-        }
-        if(replaceQuarkStones) {
-            OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.marbleCobble));
-            OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.limestoneCobble));
-        }
-        if(replaceRusticStone) {
-            OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.slateCobble));
+            if (NoTreePunching.hasQuark) {
+                OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.marbleCobble));
+                OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.limestoneCobble));
+            }
+            if (NoTreePunching.hasRustic) {
+                OreDictionary.registerOre("cobblestone", new ItemStack(ModBlocks.slateCobble));
+            }
         }
 
         OreDictionary.registerOre("gearWood", new ItemStack(gearWood));

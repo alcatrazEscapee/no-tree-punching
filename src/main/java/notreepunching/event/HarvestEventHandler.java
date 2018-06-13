@@ -126,39 +126,39 @@ public class HarvestEventHandler {
             }
 
             // Stone and its Variants drop the respective rock
-            if(ModConfig.VanillaTweaks.STONE_DROPS_ROCKS) {
-                if(block == Blocks.STONE) {
-                    int meta = block.getMetaFromState(event.getState());
+            if(ModConfig.MODULE_STONEWORKS) {
+                int meta;
+                if (block == Blocks.STONE) {
+                    meta = block.getMetaFromState(event.getState());
                     if (meta == 0) { // Stone
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,0));
+                        event.getDrops().add(new ItemStack(ModItems.rockStone, 3, 0));
                     } else if (meta == 1) { // Granite
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,3));
+                        event.getDrops().add(new ItemStack(ModItems.rockStone, 3, 3));
                     } else if (meta == 3) { // Diorite
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,2));
+                        event.getDrops().add(new ItemStack(ModItems.rockStone, 3, 2));
                     } else if (meta == 5) { // Andesite
                         event.getDrops().clear();
-                        event.getDrops().add(new ItemStack(ModItems.rockStone,3,1));
+                        event.getDrops().add(new ItemStack(ModItems.rockStone, 3, 1));
                     }
                 }
-            }
-            if(NoTreePunching.replaceQuarkStones){
-                int meta = block.getMetaFromState(event.getState());
-                if(block.getRegistryName().toString().equals("quark:marble") && meta == 0){
-                    event.getDrops().clear();
-                    event.getDrops().add(new ItemStack(ModItems.rockStone,3,4));
+                if (NoTreePunching.hasQuark) {
+                    meta = block.getMetaFromState(event.getState());
+                    if (block.getRegistryName().toString().equals("quark:marble") && meta == 0) {
+                        event.getDrops().clear();
+                        event.getDrops().add(new ItemStack(ModItems.rockStone, 3, 4));
+                    } else if (block.getRegistryName().toString().equals("quark:limestone") && meta == 0) {
+                        event.getDrops().clear();
+                        event.getDrops().add(new ItemStack(ModItems.rockStone, 3, 5));
+                    }
                 }
-                else if(block.getRegistryName().toString().equals("quark:limestone") && meta == 0){
-                    event.getDrops().clear();
-                    event.getDrops().add(new ItemStack(ModItems.rockStone,3,5));
-                }
-            }
-            if(NoTreePunching.replaceRusticStone){
-                if(block.getRegistryName().toString().equals("rustic:slate")){
-                    event.getDrops().clear();
-                    event.getDrops().add(new ItemStack(ModItems.rockStone,3,6));
+                if (NoTreePunching.hasRustic) {
+                    if (block.getRegistryName().toString().equals("rustic:slate")) {
+                        event.getDrops().clear();
+                        event.getDrops().add(new ItemStack(ModItems.rockStone, 3, 6));
+                    }
                 }
             }
 

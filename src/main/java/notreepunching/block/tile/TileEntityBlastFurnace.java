@@ -34,9 +34,9 @@ public class TileEntityBlastFurnace extends TileEntitySidedInventory implements 
     private final byte OUTPUT_SLOT = 1;
 
     private int burnTicks;
-    private final int maxBurnTicks = ModConfig.Balance.BLAST_FURNACE_FUEL_TIME; // This can never be zero
+    private final int maxBurnTicks = ModConfig.Metalworking.BLAST_FURNACE_FUEL_TIME; // This can never be zero
     private int cookTicks;
-    private int maxCookTicks = ModConfig.Balance.BLAST_FURNACE_TIME;
+    private int maxCookTicks = ModConfig.Metalworking.BLAST_FURNACE_TIME;
     private int temperature;
     private int minTemperature;
     private int maxTemperature;
