@@ -84,7 +84,7 @@ public class JEIPluginHelper implements IModPlugin {
         registry.addIngredientInfo(new ItemStack(ModBlocks.firepit),ItemStack.class,"jei.description.firepit");
         registry.addIngredientInfo(OreDictionary.getOres("logWood"),ItemStack.class,"jei.description.wood_pile");
         if(ModConfig.MODULE_METALWORKING) {
-            registry.addIngredientInfo(new ItemStack(Items.COAL, 1, 1), ItemStack.class, "jei.description.forge");
+            registry.addIngredientInfo(new ItemStack(Items.COAL, 1, 1), ItemStack.class, "jei.description.forge","jei.description.wood_pile");
             registry.addIngredientInfo(new ItemStack(ModItems.tuyere), ItemStack.class, "jei.description.tuyere");
             registry.addIngredientInfo(new ItemStack(ModBlocks.blastFurnace), ItemStack.class, "jei.description.blast_furnace");
         }
