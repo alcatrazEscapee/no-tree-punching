@@ -58,6 +58,10 @@ item.nugget_copper.name=Copper Nugget
 item.nugget_steel.name=Steel Nugget
 item.nugget_bronze.name=Bronze Nugget
 
+item.gold_knife.name=Gold Knife
+item.gold_mattock.name=Gold Mattock
+item.gold_saw.name=Gold Saw
+
 item.copper_knife.name=Copper Knife
 item.copper_mattock.name=Copper Mattock
 item.copper_saw.name=Copper Saw
