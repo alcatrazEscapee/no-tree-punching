@@ -87,20 +87,18 @@ public class ModRecipes {
             RecipeUtil.addSmelting(ModBlocks.slateCobble,ItemUtil.getSafeItem("rustic:slate",0,1));
         }
 
-        if(ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE && ModConfig.MODULE_METALWORKING) {
-            Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
-            Iterator<ItemStack> iterator = recipes.keySet().iterator();
-            while (iterator.hasNext()) {
-                ItemStack stack1 = iterator.next();
-                ItemStack stack = recipes.get(stack1);
-                if(MiscUtil.doesStackMatchOrePrefix(stack,"ingot")){
-                    iterator.remove();
-                }
-                else if(ItemUtil.areStacksEqual(stack1, new ItemStack(Items.COAL, 1, 1))){
-                    iterator.remove();
-                }else if(ItemUtil.areStacksEqual(stack1, new ItemStack(Items.BRICK)) && ModConfig.MODULE_POTTERY){
-                    iterator.remove();
-                }
+        Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
+        Iterator<ItemStack> iterator = recipes.keySet().iterator();
+        while (iterator.hasNext()) {
+            ItemStack inStack = iterator.next();
+            ItemStack outStack = recipes.get(inStack);
+            if(MiscUtil.doesStackMatchOrePrefix(outStack,"ingot") && ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE){
+                iterator.remove();
+            }
+            else if(ItemUtil.areStacksEqual(outStack, new ItemStack(Items.COAL, 1, 1))){
+                iterator.remove();
+            }else if(ItemUtil.areStacksEqual(outStack, new ItemStack(Items.BRICK)) && ModConfig.MODULE_POTTERY){
+                iterator.remove();
             }
         }
 
