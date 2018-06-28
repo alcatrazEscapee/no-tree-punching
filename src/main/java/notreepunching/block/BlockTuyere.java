@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -10,13 +18,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import notreepunching.block.tile.TileEntityForge;
 import notreepunching.block.tile.TileEntityTuyere;
 import notreepunching.item.ModItems;
 
@@ -54,28 +60,26 @@ public class BlockTuyere extends BlockWithTE<TileEntityTuyere> {
         drops.add(new ItemStack(ModItems.tuyere));
 
     }
+
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(ModItems.tuyere);
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         BlockRock.EnumMineralType mineral = BlockRock.EnumMineralType.byMetadata(meta);
         return this.getDefaultState().withProperty(TYPE,mineral);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         BlockRock.EnumMineralType type = state.getValue(TYPE);
         return type.getMetadata();
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
-    {
+    protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, TYPE);
     }
 

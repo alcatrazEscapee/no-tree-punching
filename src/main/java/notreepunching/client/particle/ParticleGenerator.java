@@ -1,12 +1,20 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.client.particle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import static notreepunching.block.BlockCharcoalPile.LAYERS;
-
 import java.util.Random;
+
+import static notreepunching.block.BlockCharcoalPile.LAYERS;
 
 public class ParticleGenerator {
 

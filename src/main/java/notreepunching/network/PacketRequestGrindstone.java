@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.network;
 
 import io.netty.buffer.ByteBuf;
@@ -18,9 +26,11 @@ public class PacketRequestGrindstone implements IMessage {
         this.pos = pos;
         this.dimension = dimension;
     }
+
     public PacketRequestGrindstone(TileEntityGrindstone te) {
         this(te.getPos(), te.getWorld().provider.getDimension());
     }
+
     // Needs to be here for forge
     public PacketRequestGrindstone() { }
 

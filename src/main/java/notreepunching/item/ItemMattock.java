@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.item;
 
 import com.google.common.collect.Sets;
@@ -64,7 +72,7 @@ public class ItemMattock extends ItemAxe {
                 }
 
                 if (block == Blocks.DIRT) {
-                    switch ((BlockDirt.DirtType) iblockstate.getValue(BlockDirt.VARIANT)) {
+                    switch (iblockstate.getValue(BlockDirt.VARIANT)) {
                         case DIRT:
                             this.setBlock(itemstack, player, worldIn, pos, Blocks.FARMLAND.getDefaultState());
                             return EnumActionResult.SUCCESS;
@@ -79,12 +87,10 @@ public class ItemMattock extends ItemAxe {
         }
     }
 
-    private void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, IBlockState state)
-    {
+    private void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, IBlockState state) {
         worldIn.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-        if (!worldIn.isRemote)
-        {
+        if (!worldIn.isRemote) {
             worldIn.setBlockState(pos, state, 11);
             stack.damageItem(1, player);
         }

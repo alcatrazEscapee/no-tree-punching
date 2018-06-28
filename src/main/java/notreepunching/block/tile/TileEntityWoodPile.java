@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block.tile;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -16,9 +24,8 @@ import notreepunching.util.MiscUtil;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static notreepunching.block.BlockWoodPile.ONFIRE;
-
 import static notreepunching.block.BlockCharcoalPile.LAYERS;
+import static notreepunching.block.BlockWoodPile.ONFIRE;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -169,8 +176,7 @@ public class TileEntityWoodPile extends TileEntitySidedInventory implements ITic
     }
 
     @Override
-    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
-    {
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
         return (oldState.getBlock() != newState.getBlock());
     }
 

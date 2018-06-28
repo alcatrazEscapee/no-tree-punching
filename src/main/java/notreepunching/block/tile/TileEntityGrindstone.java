@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block.tile;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -12,7 +20,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import notreepunching.block.tile.inventory.ItemHandlerWrapper;
 import notreepunching.client.ModSounds;
 import notreepunching.item.ModItems;
-import notreepunching.network.*;
+import notreepunching.network.ModNetwork;
+import notreepunching.network.PacketRequestGrindstone;
+import notreepunching.network.PacketUpdateGrindstone;
 import notreepunching.recipe.grindstone.GrindstoneRecipe;
 import notreepunching.recipe.grindstone.GrindstoneRecipeHandler;
 import notreepunching.util.ItemUtil;
@@ -61,6 +71,7 @@ public class TileEntityGrindstone extends TileEntitySidedInventory implements IT
     public boolean isItemValid(int slot, ItemStack stack) {
         return slot == WHEEL_SLOT ? isWheel(stack) : super.isItemValid(slot, stack);
     }
+
     public static boolean isWheel(ItemStack stack){ return stack.getItem() == ModItems.grindWheel; }
 
     @Override
@@ -95,6 +106,7 @@ public class TileEntityGrindstone extends TileEntitySidedInventory implements IT
         }
         return false;
     }
+
     private void finishGrinding(){
         if(!world.isRemote){
             ItemStack outStack = inventory.getStackInSlot(OUTPUT_SLOT);
@@ -117,6 +129,7 @@ public class TileEntityGrindstone extends TileEntitySidedInventory implements IT
             ModNetwork.network.sendToAllAround(new PacketUpdateGrindstone(this), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
         }
     }
+
     public void insertWheel(ItemStack stack){
         if(inventory.getStackInSlot(WHEEL_SLOT).isEmpty()) {
             inventory.setStackInSlot(WHEEL_SLOT, stack);
@@ -124,8 +137,11 @@ public class TileEntityGrindstone extends TileEntitySidedInventory implements IT
     }
 
     public int getRotation(){ return rotation; }
+
     public void setRotation(int rotation){ this.rotation = rotation; }
+
     public boolean getHasWheel(){ return hasWheel; }
+
     public void setHasWheel(boolean hasWheel){ this.hasWheel = hasWheel; }
 
     @Override
@@ -154,10 +170,12 @@ public class TileEntityGrindstone extends TileEntitySidedInventory implements IT
     public int getField(int id) {
         return rotation;
     }
+
     @Override
     public void setField(int id, int value) {
         rotation = (short) value;
     }
+
     @Override
     public int getFieldCount() {
         return 1;

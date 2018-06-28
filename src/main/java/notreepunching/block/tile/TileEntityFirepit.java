@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block.tile;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -14,7 +22,6 @@ import notreepunching.recipe.firepit.FirepitRecipe;
 import notreepunching.recipe.firepit.FirepitRecipeHandler;
 import notreepunching.util.ItemUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import static notreepunching.block.BlockFirepit.BURNING;
@@ -114,13 +121,16 @@ public class TileEntityFirepit extends TileEntitySidedInventory implements ITick
         return 0;
     }
 
-    public void setField(int id, int value)
-    {
-        if (id == BURN_FIELD_ID) { burnTicks = (short) value; }
-        else if (id == MAX_BURN_FIELD_ID) { maxBurnTicks = (short) value; }
-        else if (id == COOK_FIELD_ID) { cookTimer = (short) value; }
-        else if (id == MAX_COOK_FIELD_ID) { maxCookTimer = (short) value; }
-        else {
+    public void setField(int id, int value) {
+        if (id == BURN_FIELD_ID) {
+            burnTicks = (short) value;
+        } else if (id == MAX_BURN_FIELD_ID) {
+            maxBurnTicks = (short) value;
+        } else if (id == COOK_FIELD_ID) {
+            cookTimer = (short) value;
+        } else if (id == MAX_COOK_FIELD_ID) {
+            maxCookTimer = (short) value;
+        } else {
             System.err.println("Invalid field ID in TileEntityFirepit.setField:" + id);
         }
     }
@@ -136,6 +146,7 @@ public class TileEntityFirepit extends TileEntitySidedInventory implements ITick
         }
         return 0;
     }
+
     public int getScaledCookTime(){
         if(maxCookTimer != 0 && cookTimer != 0){
             float f1 = cookTimer/ (float) maxCookTimer;
@@ -170,8 +181,7 @@ public class TileEntityFirepit extends TileEntitySidedInventory implements ITick
     }
 
     @Override
-    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
-    {
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
         return (oldState.getBlock() != newState.getBlock());
     }
 

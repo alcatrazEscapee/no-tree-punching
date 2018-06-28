@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -15,7 +23,10 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
@@ -31,7 +42,6 @@ import notreepunching.item.ModItems;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import java.util.Random;
 
 @ParametersAreNonnullByDefault
@@ -51,6 +61,7 @@ public class BlockWoodPile extends BlockWithTE<TileEntityWoodPile> {
         setHarvestLevel("axe",0);
         this.setDefaultState(this.getDefaultState().withProperty(AXIS, false).withProperty(ONFIRE, false));
     }
+
     @Override
     public void register(){
         ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name);
@@ -155,8 +166,7 @@ public class BlockWoodPile extends BlockWithTE<TileEntityWoodPile> {
         }
     }
 
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
-    {
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         if(placer.getHorizontalFacing().getAxis() == EnumFacing.Axis.Z) {return this.getDefaultState().withProperty(AXIS, true); }
         return this.getDefaultState();
     }
@@ -164,9 +174,11 @@ public class BlockWoodPile extends BlockWithTE<TileEntityWoodPile> {
     public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(AXIS, meta == 0).withProperty(ONFIRE, meta >= 2);
     }
+
     public int getMetaFromState(IBlockState state) {
         return (state.getValue(AXIS) ? 0 : 1) + (state.getValue(ONFIRE) ? 2 : 0);
     }
+
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, AXIS, ONFIRE);
     }

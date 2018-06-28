@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -117,26 +125,23 @@ public class BlockWorkedClay extends BlockBase {
         }
     }
 
+    private static String getClayType(ItemStack stack) {
+        return EnumClayType.byMeta(stack.getMetadata()).toString();
+    }
+
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(TYPE, EnumClayType.byMeta(meta));
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return state.getValue(TYPE).getMeta();
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
-    {
+    protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, TYPE);
-    }
-
-    public static String getClayType(ItemStack stack){
-        return EnumClayType.byMeta(stack.getMetadata()).toString();
     }
 
     public enum EnumClayType implements IStringSerializable {
@@ -155,17 +160,20 @@ public class BlockWorkedClay extends BlockBase {
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return this.name;
         }
+
         @Nonnull
         @Override
         public String getName() { return this.name; }
+
         public int getMeta(){ return this.meta; }
+
         public static EnumClayType byMeta(int meta){
             return EnumClayType.values()[meta];
         }
+
         public EnumClayType getNext(){
             int next = this.meta == EnumClayType.values().length-1 ? 0 : this.meta + 1;
             return EnumClayType.values()[next];

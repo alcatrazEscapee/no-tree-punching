@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.integration.jei;
 
 import mezz.jei.api.IGuiHelper;
@@ -16,24 +24,24 @@ import notreepunching.client.gui.GuiGrindstone;
 import notreepunching.config.ModConfig;
 import notreepunching.integration.jei.blast.BlastRecipeCategory;
 import notreepunching.integration.jei.blast.BlastRecipeWrapper;
-import notreepunching.integration.jei.grindstone.GrindstoneRecipeCategory;
-import notreepunching.integration.jei.grindstone.GrindstoneRecipeWrapper;
-import notreepunching.item.ModItems;
 import notreepunching.integration.jei.firepit.FirepitRecipeCategory;
 import notreepunching.integration.jei.firepit.FirepitRecipeWrapper;
 import notreepunching.integration.jei.forge.ForgeRecipeCategory;
 import notreepunching.integration.jei.forge.ForgeRecipeWrapper;
+import notreepunching.integration.jei.grindstone.GrindstoneRecipeCategory;
+import notreepunching.integration.jei.grindstone.GrindstoneRecipeWrapper;
 import notreepunching.integration.jei.knife.KnifeRecipeCategory;
 import notreepunching.integration.jei.knife.KnifeRecipeWrapper;
+import notreepunching.item.ModItems;
+import notreepunching.recipe.firepit.FirepitRecipe;
+import notreepunching.recipe.firepit.FirepitRecipeHandler;
 import notreepunching.recipe.forge.BlastRecipeHandler;
+import notreepunching.recipe.forge.ForgeRecipe;
+import notreepunching.recipe.forge.ForgeRecipeHandler;
 import notreepunching.recipe.grindstone.GrindstoneRecipe;
 import notreepunching.recipe.grindstone.GrindstoneRecipeHandler;
 import notreepunching.recipe.knife.KnifeRecipe;
 import notreepunching.recipe.knife.KnifeRecipeHandler;
-import notreepunching.recipe.firepit.FirepitRecipe;
-import notreepunching.recipe.firepit.FirepitRecipeHandler;
-import notreepunching.recipe.forge.ForgeRecipe;
-import notreepunching.recipe.forge.ForgeRecipeHandler;
 
 import static notreepunching.NoTreePunching.MODID;
 

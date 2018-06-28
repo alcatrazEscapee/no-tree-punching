@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -45,6 +53,7 @@ public class BlockRock extends BlockBase {
     public void register(){
         ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, null);
     }
+
     @Override
     public void addModelToRegistry(){
     }
@@ -93,8 +102,7 @@ public class BlockRock extends BlockBase {
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
-    {
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         if (!worldIn.isRemote) {
             // Breaks rock if the block under it breaks.
             IBlockState stateUnder = worldIn.getBlockState(pos.down());
@@ -108,15 +116,13 @@ public class BlockRock extends BlockBase {
     // ************* Block State Methods ************** //
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         EnumMineralType mineral = EnumMineralType.byMetadata(meta);
         return this.getDefaultState().withProperty(TYPE,mineral);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         EnumMineralType type = state.getValue(TYPE);
         return type.getMetadata();
     }
@@ -144,8 +150,7 @@ public class BlockRock extends BlockBase {
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
-    {
+    protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, TYPE);
     }
 
@@ -158,14 +163,12 @@ public class BlockRock extends BlockBase {
         LIMESTONE(5, "limestone"),
         SLATE(6, "slate");
 
-        public int getMetadata()
-        {
+        public int getMetadata() {
             return this.meta;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return this.name;
         }
 
@@ -175,6 +178,7 @@ public class BlockRock extends BlockBase {
             }
             return META_LOOKUP[meta];
         }
+
         public static EnumMineralType byState(IBlockState state) {
             if(state.getBlock() == ModBlocks.graniteCobble){
                 return GRANITE;
@@ -192,8 +196,7 @@ public class BlockRock extends BlockBase {
             return STONE;
         }
 
-        public String getName()
-        {
+        public String getName() {
             return this.name;
         }
 

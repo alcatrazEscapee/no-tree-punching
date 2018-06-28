@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.recipe;
 
 import net.minecraft.init.Blocks;
@@ -14,11 +22,11 @@ import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
 import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
+import notreepunching.recipe.firepit.FirepitRecipeHandler;
 import notreepunching.recipe.forge.BlastRecipeHandler;
+import notreepunching.recipe.forge.ForgeRecipeHandler;
 import notreepunching.recipe.grindstone.GrindstoneRecipeHandler;
 import notreepunching.recipe.knife.KnifeRecipeHandler;
-import notreepunching.recipe.firepit.FirepitRecipeHandler;
-import notreepunching.recipe.forge.ForgeRecipeHandler;
 import notreepunching.util.ItemUtil;
 import notreepunching.util.MiscUtil;
 import notreepunching.util.RecipeUtil;
@@ -94,8 +102,7 @@ public class ModRecipes {
             ItemStack stack = recipes.get(stack1);
             if(MiscUtil.doesStackMatchOrePrefix(stack,"ingot") && ModConfig.VanillaTweaks.DISABLE_SMELTING_ORE){
                 iterator.remove();
-            }
-            else if(ItemUtil.areStacksEqual(stack, new ItemStack(Items.COAL, 1, 1))){
+            } else if (ItemUtil.areStacksEqual(stack, new ItemStack(Items.COAL, 1, 1))) {
                 iterator.remove();
             }else if(ItemUtil.areStacksEqual(stack, new ItemStack(Items.BRICK)) && ModConfig.MODULE_POTTERY){
                 iterator.remove();
@@ -113,7 +120,7 @@ public class ModRecipes {
     private static void initCraftingRecipes(){
 
         // Planks + sticks from crude axe + saw items
-        for(int i=0; i<6;i++) {
+        for (int i = 0; i < 6; i++) {
             registerShaped(new ItemStack(Blocks.PLANKS, 2, i), "A","P",'P',new ItemStack(i<4 ? Blocks.LOG : Blocks.LOG2, 1, i%4), 'A', new ItemStack(ModItems.crudeHatchet,1,magic));
             registerShaped(new ItemStack(Blocks.PLANKS,4,i), "A","P",'P',new ItemStack(i<4 ? Blocks.LOG : Blocks.LOG2,1,i%4), 'A', "toolSaw");
         }
@@ -248,7 +255,7 @@ public class ModRecipes {
             registerShaped(ItemUtil.getSafeItem("traverse:fir_planks",4), "A","P",'P',ItemUtil.getSafeItem("traverse:fir_log"), 'A', "toolSaw");
         }
         if(Loader.isModLoaded("biomesoplenty")){
-            for(int i = 0;i<16;i++){
+            for (int i = 0; i < 16; i++) {
                 // I'm proud of these two lines :)
                 String logName = "biomesoplenty:log_"+i/4;
                 registerShaped(ItemUtil.getSafeItem("biomesoplenty:planks_0",i,2),"A","P",'P',ItemUtil.getSafeItem(logName,4+i%4,1),'A', new ItemStack(ModItems.crudeHatchet,1,magic));
@@ -260,6 +267,7 @@ public class ModRecipes {
     private static void registerShaped(ItemStack output, Object... inputs) {
         RecipeUtil.addShapedOreRecipe(output, inputs);
     }
+
     private static void registerShapeless(ItemStack output, Object... inputs) {
         RecipeUtil.addShapelessOreRecipe(output, inputs);
     }

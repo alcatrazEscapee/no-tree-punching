@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.network;
 
 import io.netty.buffer.ByteBuf;
@@ -6,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import notreepunching.block.tile.TileEntityBellows;
 import notreepunching.block.tile.TileEntityGrindstone;
 
 public class PacketUpdateGrindstone implements IMessage {
@@ -18,11 +25,13 @@ public class PacketUpdateGrindstone implements IMessage {
     public PacketUpdateGrindstone(TileEntityGrindstone te){
         this(te.getPos(), te.getRotation(), te.getHasWheel());
     }
+
     public PacketUpdateGrindstone(BlockPos pos, int rotation, boolean hasWheel){
         this.hasWheel = hasWheel;
         this.pos = pos;
         this.rotation = rotation;
     }
+
     // Needed for forge to call this class
     public PacketUpdateGrindstone(){}
 

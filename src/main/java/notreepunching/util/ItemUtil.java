@@ -1,11 +1,17 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.util;
 
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-
-import javax.annotation.Nonnull;
 
 @MethodsReturnNonnullByDefault
 public class ItemUtil {
@@ -15,6 +21,7 @@ public class ItemUtil {
     public static ItemStack consumeItem(ItemStack stack){
         return consumeItem(stack, 1);
     }
+
     public static ItemStack consumeItem(ItemStack stack, int amount){
         if(stack.getCount()> amount){
             stack.shrink(amount);
@@ -25,6 +32,7 @@ public class ItemUtil {
 
     // This will attempt to damage an item, and return the remaining stack
     public static ItemStack damageItem(ItemStack stack){ return damageItem(stack, 1); }
+
     public static ItemStack damageItem(ItemStack stack, int amount){
         if(stack.isItemStackDamageable()) {
             if (stack.getItemDamage() + 1 == stack.getMaxDamage()) {
@@ -39,9 +47,11 @@ public class ItemUtil {
     public static ItemStack getSafeItem(String name){
         return getSafeItem(name, 0, 1);
     }
+
     public static ItemStack getSafeItem(String name, int count){
         return getSafeItem(name, 0, count);
     }
+
     public static ItemStack getSafeItem(String name, int meta, int count){
         Item item = Item.getByNameOrId(name);
         return item == null ? ItemStack.EMPTY : new ItemStack(item, count, meta);

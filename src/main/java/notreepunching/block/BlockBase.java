@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -27,6 +35,7 @@ public class BlockBase extends Block implements IHasItemBlockModel {
     public void register(){
         ModBlocks.addBlockToRegistry(this, new ItemBlock(this), name, ModTabs.ITEMS_TAB);
     }
+
     public void addModelToRegistry(){
         NoTreePunching.proxy.addModelToRegistry(new ItemStack(this), this.getRegistryName(), "inventory");
     }
@@ -36,11 +45,13 @@ public class BlockBase extends Block implements IHasItemBlockModel {
         super.setHardness(hardness);
         return this;
     }
+
     @Override
     public BlockBase setResistance(float resistance){
         super.setResistance(resistance);
         return this;
     }
+
     @Override
     public BlockBase setSoundType(SoundType soundType){
         super.setSoundType(soundType);

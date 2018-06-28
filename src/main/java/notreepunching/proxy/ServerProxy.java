@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.proxy;
 
 import net.minecraft.item.ItemStack;
@@ -8,9 +16,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
-
-
-import java.util.Random;
 
 @Mod.EventBusSubscriber(Side.SERVER)
 public class ServerProxy implements IProxy {

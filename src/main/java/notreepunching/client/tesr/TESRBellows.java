@@ -1,11 +1,17 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.client.tesr;
 
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import notreepunching.NoTreePunching;
 import notreepunching.block.tile.TileEntityBellows;
@@ -41,8 +47,7 @@ public class TESRBellows extends TESRBase<TileEntityBellows> {
             drawMiddle(b, tileY);
             drawTop(b, tileY);
             t.draw();
-        }
-        finally {
+        } finally {
             GlStateManager.popMatrix();
         }
     }

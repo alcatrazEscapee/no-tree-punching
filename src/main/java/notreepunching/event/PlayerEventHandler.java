@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.event;
 
 import net.minecraft.block.material.Material;
@@ -44,8 +52,7 @@ public class PlayerEventHandler {
             if(mainStack.getItem() == Items.FLINT){
                 event.setCanceled(true);
                 return;
-            }
-            else if(mainStack.getItem() == Items.COAL && mainStack.getMetadata() == 1){
+            } else if (mainStack.getItem() == Items.COAL && mainStack.getMetadata() == 1) {
                 // Charcoal was placed with the main hand, so cancel the event
                 event.setCanceled(true);
                 return;
@@ -100,9 +107,7 @@ public class PlayerEventHandler {
 
                 }
             }
-        }
-
-        else if(MiscUtil.doesStackMatchOre(stack, "logWood")){
+        } else if (MiscUtil.doesStackMatchOre(stack, "logWood")) {
             EnumFacing facing = event.getFace();
             if (facing != null) {
                 if (world.getBlockState(pos.down().offset(facing)).isNormalCube()

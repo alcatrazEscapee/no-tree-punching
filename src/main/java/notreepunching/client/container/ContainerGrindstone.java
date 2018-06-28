@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.client.container;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,9 +31,11 @@ public class ContainerGrindstone extends ContainerBase<TileEntityGrindstone> {
     protected void addContainerSlots(TileEntityGrindstone tile) {
         IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
-        addSlotToContainer(new SlotTERecipeInput(inventory, 0,52,44, tile, GrindstoneRecipeHandler::isIngredient));
-        addSlotToContainer(new SlotTEOutput(inventory, 1,108,31, tile));
-        addSlotToContainer(new SlotTERecipeInput(inventory, 2,52,18, tile, TileEntityGrindstone::isWheel));
+        if (inventory != null) {
+            addSlotToContainer(new SlotTERecipeInput(inventory, 0, 52, 44, tile, GrindstoneRecipeHandler::isIngredient));
+            addSlotToContainer(new SlotTEOutput(inventory, 1, 108, 31, tile));
+            addSlotToContainer(new SlotTERecipeInput(inventory, 2, 52, 18, tile, TileEntityGrindstone::isWheel));
+        }
     }
 
     // index is the id of the slot shift-clicked
@@ -62,8 +72,7 @@ public class ContainerGrindstone extends ContainerBase<TileEntityGrindstone> {
                 if (!this.mergeItemStack(itemstack1, 2, 3, false)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else{ // Try input slot next
+            } else { // Try input slot next
                 if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }

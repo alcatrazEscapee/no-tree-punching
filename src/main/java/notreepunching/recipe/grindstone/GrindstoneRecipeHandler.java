@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.recipe.grindstone;
 
 import com.google.common.collect.LinkedListMultimap;
@@ -11,8 +19,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.config.ModConfig;
 import notreepunching.item.ModItems;
-import notreepunching.recipe.ModRecipes;
-import notreepunching.recipe.forge.ForgeRecipe;
 import notreepunching.util.ItemUtil;
 
 import javax.annotation.Nonnull;
@@ -22,7 +28,7 @@ import java.util.List;
 
 public class GrindstoneRecipeHandler {
 
-    private static List<GrindstoneRecipe> GRINDSTONE_RECIPES = new ArrayList<GrindstoneRecipe>();
+    private static List<GrindstoneRecipe> GRINDSTONE_RECIPES = new ArrayList<>();
     private static LinkedListMultimap<Boolean, GrindstoneRecipe> CT_ENTRY = LinkedListMultimap.create();
 
     public static void init(){
@@ -74,6 +80,7 @@ public class GrindstoneRecipeHandler {
     public static boolean isIngredient(ItemStack stack){
         return getRecipe(stack, true) != null;
     }
+
     @Nullable
     public static GrindstoneRecipe getRecipe(@Nonnull ItemStack stack, boolean skipCountCheck){
         for(GrindstoneRecipe recipe : GRINDSTONE_RECIPES) {
@@ -81,8 +88,7 @@ public class GrindstoneRecipeHandler {
                 if(ItemUtil.areStacksEqual(stack, recipe.getInput()) && (stack.getCount() >= 1 || skipCountCheck)){
                     return recipe;
                 }
-            }
-            else {
+            } else {
                 NonNullList<ItemStack> oreList = OreDictionary.getOres(recipe.getOreInput());
                 for (ItemStack oreStack : oreList) {
                     if (ItemUtil.areStacksEqual(stack, oreStack) && (stack.getCount() >= 1 || skipCountCheck)) {
@@ -97,6 +103,7 @@ public class GrindstoneRecipeHandler {
     public static List<GrindstoneRecipe> getAll(){
         return GRINDSTONE_RECIPES;
     }
+
     // Craft Tweaker
     public static void addEntry(GrindstoneRecipe recipe, boolean type){
         CT_ENTRY.put(type, recipe);

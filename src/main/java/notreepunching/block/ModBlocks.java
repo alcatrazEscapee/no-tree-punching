@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block;
 
 import net.minecraft.block.Block;
@@ -89,6 +97,7 @@ public class ModBlocks {
     public static void addBlockToRegistry(Block block, ItemBlock itemBlock, String name){
         addBlockToRegistry(block, itemBlock, name, null);
     }
+
     public static void addBlockToRegistry(Block block, ItemBlock itemBlock, String name, @Nullable ModTabs tab){
         block.setRegistryName(name);
         block.setUnlocalizedName(name);

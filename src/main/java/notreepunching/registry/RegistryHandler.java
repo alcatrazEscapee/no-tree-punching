@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.registry;
 
 import net.minecraft.block.Block;
@@ -22,9 +30,9 @@ import java.util.List;
 @Mod.EventBusSubscriber
 public class RegistryHandler {
 
-    public static final List<Item> ITEM_REGISTRY = new ArrayList<Item>();
-    public static final List<Block> BLOCK_REGISTRY = new ArrayList<Block>();
-    public static final List<SoundEvent> SOUND_REGISTRY = new ArrayList<SoundEvent>();
+    public static final List<Item> ITEM_REGISTRY = new ArrayList<>();
+    public static final List<Block> BLOCK_REGISTRY = new ArrayList<>();
+    public static final List<SoundEvent> SOUND_REGISTRY = new ArrayList<>();
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {

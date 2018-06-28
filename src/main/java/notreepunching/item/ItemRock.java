@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.item;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -34,7 +42,7 @@ public class ItemRock extends ItemBase {
     @Override
     public void register(){
         ModItems.addItemToRegistry(this,name, ModTabs.ITEMS_TAB);
-        for(int i=0;i<7;i++) {
+        for (int i = 0; i < 7; i++) {
             if(!NoTreePunching.hasQuark && (i == 4 || i == 5)) { continue; }
             if(!NoTreePunching.hasRustic && (i == 6)) { continue; }
             NoTreePunching.proxy.addModelToRegistry(new ItemStack(this,1,i),
@@ -43,10 +51,10 @@ public class ItemRock extends ItemBase {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack)
-    {
+    public String getUnlocalizedName(ItemStack stack) {
         return super.getUnlocalizedName() + "_" + getStoneName(stack);
     }
+
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
         if (getCreativeTab() != tab) return;
@@ -61,6 +69,7 @@ public class ItemRock extends ItemBase {
     private String getStoneName(ItemStack stack){
         return getStoneName(stack.getMetadata());
     }
+
     private String getStoneName(int meta){
         switch(meta){
             case 0:

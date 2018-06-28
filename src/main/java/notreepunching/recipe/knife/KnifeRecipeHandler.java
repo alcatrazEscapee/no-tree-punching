@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.recipe.knife;
 
 import com.google.common.collect.LinkedListMultimap;
@@ -7,7 +15,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import notreepunching.NoTreePunching;
 import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
 
@@ -17,7 +24,7 @@ import java.util.Random;
 
 public class KnifeRecipeHandler{
 
-    private static List<KnifeRecipe> CUTTING_RECIPES = new ArrayList<KnifeRecipe>();
+    private static List<KnifeRecipe> CUTTING_RECIPES = new ArrayList<>();
     private static LinkedListMultimap<Boolean, KnifeRecipe> CT_ENTRY = LinkedListMultimap.create();
 
     private static List<ItemStack> GRASS_DROPS = new ArrayList<>();
@@ -75,6 +82,7 @@ public class KnifeRecipeHandler{
     public static List<KnifeRecipe> getAll(){
         return CUTTING_RECIPES;
     }
+
     public static ItemStack getRandomGrassDrop(){
         Random rand = new Random();
         int random = rand.nextInt(GRASS_DROPS.size());
@@ -84,9 +92,11 @@ public class KnifeRecipeHandler{
     private static void addCuttingRecipe(ItemStack inputStack, ItemStack... outputs){
         CUTTING_RECIPES.add(new KnifeRecipe(inputStack,outputs));
     }
+
     private static void addCuttingRecipe(Item input, ItemStack... outputs){
         addCuttingRecipe(new ItemStack(input,1,0),outputs);
     }
+
     private static void addCuttingRecipe(Block input, ItemStack... outputs){
         addCuttingRecipe(new ItemStack(input,1,0),outputs);
     }
@@ -95,5 +105,6 @@ public class KnifeRecipeHandler{
     public static void addEntry(KnifeRecipe recipe, boolean type){
         CT_ENTRY.put(type, recipe);
     }
+
     public static void addGrassDrop(ItemStack stack) { GRASS_DROPS.add(stack); }
 }

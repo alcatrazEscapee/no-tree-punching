@@ -1,6 +1,13 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block.tile;
 
-import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -33,6 +40,7 @@ public class TileEntityBellows extends TileEntity implements ITickable{
         height = 0.2;
         step = 0;
     }
+
     public TileEntityBellows(EnumFacing facing){
         this();
         this.facing = facing.getHorizontalIndex();
@@ -81,11 +89,17 @@ public class TileEntityBellows extends TileEntity implements ITickable{
                     new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
         }
     }
+
     public void setStep(double step){ this.step = step; } // Called from PacketUpdateBellows on CLIENT
+
     public void setFacing(int facing){ this.facing = facing; } // Called from PacketUpdateBellows on CLIENT
+
     public void setHeight(double height){ this.height = height; } // Called from PacketUpdateBellows on CLIENT
+
     public double getHeight(){ return height; } // Called from TESRBellows
+
     public int getFacing(){ return facing; } // Called from TESRBellows
+
     public double getStep(){ return step; } // Called from PacketUpdateBellows on SERVER
 
     private void updateForges(){

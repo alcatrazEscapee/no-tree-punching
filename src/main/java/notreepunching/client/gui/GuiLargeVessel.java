@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -7,7 +15,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import notreepunching.NoTreePunching;
 import notreepunching.block.ModBlocks;
-import notreepunching.block.tile.TileEntityLargeVessel;
 
 public class GuiLargeVessel extends GuiContainer {
 
@@ -21,8 +28,7 @@ public class GuiLargeVessel extends GuiContainer {
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);

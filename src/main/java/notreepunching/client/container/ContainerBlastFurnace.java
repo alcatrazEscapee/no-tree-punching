@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.client.container;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,8 +31,10 @@ public class ContainerBlastFurnace extends ContainerBase<TileEntityBlastFurnace>
     protected void addContainerSlots(TileEntityBlastFurnace tile) {
         IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
-        addSlotToContainer(new SlotTERecipeInput(inventory, 0,71,26, tile, BlastRecipeHandler::isIngredient));
-        addSlotToContainer(new SlotTEOutput(inventory, 1,127,35, tile));
+        if (inventory != null) {
+            addSlotToContainer(new SlotTERecipeInput(inventory, 0, 71, 26, tile, BlastRecipeHandler::isIngredient));
+            addSlotToContainer(new SlotTEOutput(inventory, 1, 127, 35, tile));
+        }
     }
 
     @Override

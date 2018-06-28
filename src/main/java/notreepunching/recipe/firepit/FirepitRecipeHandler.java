@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.recipe.firepit;
 
 import com.google.common.collect.LinkedListMultimap;
@@ -18,7 +26,7 @@ import java.util.Map;
 
 public class FirepitRecipeHandler {
 
-    private static List<FirepitRecipe> FIREPIT_RECIPES = new ArrayList<FirepitRecipe>();
+    private static List<FirepitRecipe> FIREPIT_RECIPES = new ArrayList<>();
     private static LinkedListMultimap<Boolean, FirepitRecipe> CT_ENTRY = LinkedListMultimap.create();
 
     public static void init(){

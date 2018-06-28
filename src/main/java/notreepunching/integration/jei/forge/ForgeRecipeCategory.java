@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.integration.jei.forge;
 
 import mezz.jei.api.IGuiHelper;
@@ -47,14 +55,6 @@ public class ForgeRecipeCategory implements IRecipeCategory {
         }
 
         int index = 0;
-        /**
-         * Initialize the itemStack at slotIndex.
-         *
-         * @param slotIndex the slot index of this itemStack
-         * @param input     whether this slot is an input. Used for the recipe-fill feature.
-         * @param xPosition x position of the slot relative to the recipe background
-         * @param yPosition y position of the slot relative to the recipe background
-         */
         recipeLayout.getItemStacks().init(index, true, 27, 0);
         recipeLayout.getItemStacks().set(index, ingredients.getInputs(ItemStack.class).get(0));
 

@@ -1,18 +1,30 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.event;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoublePlant;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notreepunching.NoTreePunching;
 import notreepunching.config.ModConfig;
-import notreepunching.item.*;
+import notreepunching.item.ItemKnife;
+import notreepunching.item.ItemMattock;
+import notreepunching.item.ModItems;
 import notreepunching.recipe.knife.KnifeRecipeHandler;
 
 public class HarvestEventHandler {

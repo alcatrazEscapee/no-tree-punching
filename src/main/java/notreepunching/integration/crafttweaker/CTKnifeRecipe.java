@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.integration.crafttweaker;
 
 import crafttweaker.CraftTweakerAPI;
@@ -5,8 +13,6 @@ import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import net.minecraft.item.ItemStack;
-import notreepunching.recipe.forge.ForgeRecipe;
-import notreepunching.recipe.forge.ForgeRecipeHandler;
 import notreepunching.recipe.knife.KnifeRecipe;
 import notreepunching.recipe.knife.KnifeRecipeHandler;
 import stanhebben.zenscript.annotations.ZenClass;

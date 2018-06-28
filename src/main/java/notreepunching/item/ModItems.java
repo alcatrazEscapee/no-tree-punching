@@ -1,17 +1,22 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.item;
 
-import net.minecraft.block.SoundType;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import notreepunching.NoTreePunching;
-import notreepunching.block.BlockWorkedClay;
 import notreepunching.block.ModBlocks;
 import notreepunching.client.ModTabs;
 import notreepunching.config.ModConfig;
@@ -233,6 +238,7 @@ public class ModItems {
     public static void addItemToRegistry(Item item, String name){
         addItemToRegistry(item, name, null);
     }
+
     public static void addItemToRegistry(Item item, String name, @Nullable ModTabs tab){
         item.setUnlocalizedName(name);
         item.setRegistryName(name);
@@ -257,6 +263,7 @@ public class ModItems {
         }
         return array;
     }
+
     public static List<ItemStack> listAllMattocks(){
         List<ItemStack> array = new ArrayList<>();
         array.add(new ItemStack(ironMattock));

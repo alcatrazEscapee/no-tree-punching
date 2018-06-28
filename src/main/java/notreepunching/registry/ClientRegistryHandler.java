@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.registry;
 
 import net.minecraft.block.Block;
@@ -21,7 +29,7 @@ import java.util.Map;
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientRegistryHandler {
 
-    public static final Map<ItemStack, ModelResourceLocation> MODEL_REGISTRY = new HashMap<ItemStack, ModelResourceLocation>();
+    public static final Map<ItemStack, ModelResourceLocation> MODEL_REGISTRY = new HashMap<>();
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {

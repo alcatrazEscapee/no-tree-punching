@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -118,28 +126,30 @@ public class BlockForge extends BlockWithTEInventory<TileEntityForge> {
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Items.COAL;
     }
+
     @Override
     public int damageDropped(IBlockState state) {
         return 1;
     }
+
     public int quantityDropped(IBlockState state, int fortune, @Nonnull Random random) {
         return state.getValue(LAYERS);
     }
 
-    @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
-    {
-        if (!worldIn.isRemote) {
-            // Breaks block if the block under it breaks.
-            IBlockState stateUnder = worldIn.getBlockState(pos.down());
-            if(!stateUnder.isNormalCube()){
-                this.dropBlockAsItem(worldIn, pos, state, 0);
-                worldIn.setBlockToAir(pos);
-                return;
-            }
-            TileEntity te = worldIn.getTileEntity(pos);
-            if(te instanceof TileEntityForge) {
-                ((TileEntityForge) te).closed = updateSideBlocks(worldIn, pos);
+    public static void lightNearbyForges(World world, BlockPos pos) {
+        for (EnumFacing face : EnumFacing.HORIZONTALS) {
+            BlockPos pos1 = pos.offset(face);
+            IBlockState state = world.getBlockState(pos1);
+            if (state.getBlock() == ModBlocks.forge) {
+                if (!state.getValue(BURNING) && updateSideBlocks(world, pos1)) {
+                    world.setBlockState(pos1, ModBlocks.forge.getDefaultState().withProperty(LAYERS, state.getValue(LAYERS)));
+                    lightNearbyForges(world, pos1);
+                }
+            } else if (state.getBlock() == ModBlocks.charcoalPile) {
+                if (updateSideBlocks(world, pos1)) {
+                    world.setBlockState(pos1, ModBlocks.forge.getDefaultState().withProperty(LAYERS, state.getValue(LAYERS)));
+                    lightNearbyForges(world, pos1);
+                }
             }
         }
     }
@@ -161,24 +171,24 @@ public class BlockForge extends BlockWithTEInventory<TileEntityForge> {
         }
         return true;
     }
+
     private static boolean isValidSideBlock(IBlockState state){
         return (state.isNormalCube() && !state.getMaterial().getCanBurn()) || state.getBlock() == ModBlocks.forge || state.getBlock() == ModBlocks.charcoalPile;
     }
-    public static void lightNearbyForges(World world, BlockPos pos){
-        for(EnumFacing face : EnumFacing.HORIZONTALS){
-            BlockPos pos1 = pos.offset(face);
-            IBlockState state = world.getBlockState(pos1);
-            if(state.getBlock() == ModBlocks.forge){
-                if(!state.getValue(BURNING) && updateSideBlocks(world, pos1)){
-                    world.setBlockState(pos1, ModBlocks.forge.getDefaultState().withProperty(LAYERS, state.getValue(LAYERS)));
-                    lightNearbyForges(world, pos1);
-                }
+
+    @Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+        if (!worldIn.isRemote) {
+            // Breaks block if the block under it breaks.
+            IBlockState stateUnder = worldIn.getBlockState(pos.down());
+            if (!stateUnder.isNormalCube()) {
+                this.dropBlockAsItem(worldIn, pos, state, 0);
+                worldIn.setBlockToAir(pos);
+                return;
             }
-            else if(state.getBlock() == ModBlocks.charcoalPile){
-                if(updateSideBlocks(world, pos1)) {
-                    world.setBlockState(pos1, ModBlocks.forge.getDefaultState().withProperty(LAYERS, state.getValue(LAYERS)));
-                    lightNearbyForges(world, pos1);
-                }
+            TileEntity te = worldIn.getTileEntity(pos);
+            if (te instanceof TileEntityForge) {
+                ((TileEntityForge) te).closed = updateSideBlocks(worldIn, pos);
             }
         }
     }
@@ -202,30 +212,38 @@ public class BlockForge extends BlockWithTEInventory<TileEntityForge> {
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return PILE_AABB[state.getValue(LAYERS)];
     }
+
     public boolean isTopSolid(IBlockState state) {
         return state.getValue(LAYERS) == 8;
     }
+
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
+
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         int i = blockState.getValue(LAYERS) - 1;
         AxisAlignedBB axisalignedbb = blockState.getBoundingBox(worldIn, pos);
         return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.maxX, (double)((float)i * 0.125F), axisalignedbb.maxZ);
     }
+
     public boolean isOpaqueCube(IBlockState state) {
         return state.getValue(LAYERS) == 8  && !state.getValue(BURNING);
     }
+
     public boolean isFullCube(IBlockState state) {
         return state.getValue(LAYERS) == 8 && !state.getValue(BURNING);
     }
+
     public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(LAYERS, meta % 8 + 1).withProperty(BURNING,meta>7);
     }
+
     public int getMetaFromState(IBlockState state) {
         return state.getValue(LAYERS) + (state.getValue(BURNING) ? 7 : -1);
     }
+
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, LAYERS, BURNING);
     }
@@ -241,10 +259,12 @@ public class BlockForge extends BlockWithTEInventory<TileEntityForge> {
             }
         }
     }
+
     @Override
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
         return state.getValue(BURNING) ? 15 : 0;
     }
+
     @Override
     public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
         IBlockState state = worldIn.getBlockState(pos);

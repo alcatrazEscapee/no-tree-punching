@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.client.container;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -6,13 +14,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import notreepunching.block.tile.IHasFields;
-import notreepunching.block.tile.TileEntitySidedInventory;
 
 import javax.annotation.Nonnull;
 
@@ -43,6 +47,7 @@ public abstract class ContainerBase<TE extends TileEntity> extends Container {
             addSlotToContainer(new Slot(playerInv, k, 8 + k * 18, 142));
         }
     }
+
     @Override
     public boolean canInteractWith(@Nonnull EntityPlayer player) {
         return true;

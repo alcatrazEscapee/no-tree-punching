@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.client.container;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import notreepunching.block.tile.inventory.ItemHandlerInventoryItem;
+import net.minecraftforge.items.ItemStackHandler;
 import notreepunching.block.tile.inventory.SlotItemInput;
 
 import javax.annotation.Nonnull;
@@ -62,7 +70,7 @@ public class ContainerSmallVessel extends Container {
 
     @Override
     public void onContainerClosed(EntityPlayer player){
-        ItemHandlerInventoryItem inventory = (ItemHandlerInventoryItem) stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        ItemStackHandler inventory = (ItemStackHandler) stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         if(inventory != null) {
             NBTTagCompound compound = new NBTTagCompound();
             compound.setTag("inventory", inventory.serializeNBT());
@@ -76,8 +84,7 @@ public class ContainerSmallVessel extends Container {
     public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player){
         if(clickTypeIn == ClickType.SWAP && dragType == itemIndex){
             return ItemStack.EMPTY;
-        }
-        else{
+        } else {
             return super.slotClick(slotId, dragType, clickTypeIn, player);
         }
     }

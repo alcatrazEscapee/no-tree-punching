@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block.tile;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -243,8 +251,7 @@ public class TileEntityForge extends TileEntitySidedInventory implements ITickab
         return 0;
     }
 
-    public void setField(int id, int value)
-    {
+    public void setField(int id, int value) {
         switch(id){
             case BURN_ID:
                 burnTicks = (short) value;
@@ -272,6 +279,7 @@ public class TileEntityForge extends TileEntitySidedInventory implements ITickab
         }
         return 0;
     }
+
     public int getScaledTemp(){
         if(temperature != 0 && maxTemp != 0){
             float f1 = temperature/ (float) maxTemp;
@@ -279,6 +287,7 @@ public class TileEntityForge extends TileEntitySidedInventory implements ITickab
         }
         return 0;
     }
+
     public int getScaledCookTicks(){
         if(cookTicks != 0 && maxCookTicks != 0){
             float f1 = cookTicks/ (float) maxCookTicks;

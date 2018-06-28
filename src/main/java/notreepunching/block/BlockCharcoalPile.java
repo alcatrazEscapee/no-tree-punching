@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -122,14 +130,14 @@ public class BlockCharcoalPile extends BlockBase {
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Items.COAL;
     }
+
     @Override
     public int damageDropped(IBlockState state) {
         return 1;
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
-    {
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         if (!worldIn.isRemote) {
             // Try to drop the rock down
             IBlockState stateUnder = worldIn.getBlockState(pos.down());
@@ -165,30 +173,38 @@ public class BlockCharcoalPile extends BlockBase {
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return PILE_AABB[state.getValue(LAYERS)];
     }
+
     public boolean isTopSolid(IBlockState state) {
         return state.getValue(LAYERS) == 8;
     }
+
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
+
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         int i = blockState.getValue(LAYERS) - 1;
         AxisAlignedBB axisalignedbb = blockState.getBoundingBox(worldIn, pos);
         return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.maxX, (double)((float)i * 0.125F), axisalignedbb.maxZ);
     }
+
     public boolean isOpaqueCube(IBlockState state) {
         return state.getValue(LAYERS) == 8;
     }
+
     public boolean isFullCube(IBlockState state) {
         return state.getValue(LAYERS) == 8;
     }
+
     public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(LAYERS, meta + 1);
     }
+
     public int getMetaFromState(IBlockState state) {
         return state.getValue(LAYERS) - 1;
     }
+
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, LAYERS);
     }

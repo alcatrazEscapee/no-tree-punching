@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.client.container;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,9 +30,10 @@ public class ContainerForge extends ContainerBase<TileEntityForge> {
     @Override
     protected void addContainerSlots(TileEntityForge tile) {
         IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-
-        addSlotToContainer(new SlotTERecipeInput(inventory, 0,52,23, tile, ForgeRecipeHandler::isIngredient));
-        addSlotToContainer(new SlotTEOutput(inventory, 1,108,23, tile));
+        if (inventory != null) {
+            addSlotToContainer(new SlotTERecipeInput(inventory, 0, 52, 23, tile, ForgeRecipeHandler::isIngredient));
+            addSlotToContainer(new SlotTEOutput(inventory, 1, 108, 23, tile));
+        }
     }
 
     // index is the id of the slot shift-clicked

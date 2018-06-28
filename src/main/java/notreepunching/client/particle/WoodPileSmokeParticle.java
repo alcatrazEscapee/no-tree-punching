@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.client.particle;
 
 import net.minecraft.client.particle.Particle;
@@ -5,7 +13,7 @@ import net.minecraft.world.World;
 
 public class WoodPileSmokeParticle extends Particle {
 
-    public WoodPileSmokeParticle(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn){
+    WoodPileSmokeParticle(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 
         this.motionX = xSpeedIn;
@@ -24,8 +32,7 @@ public class WoodPileSmokeParticle extends Particle {
     }
 
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
         prevPosX = posX;
         prevPosY = posY;
         prevPosZ = posZ;

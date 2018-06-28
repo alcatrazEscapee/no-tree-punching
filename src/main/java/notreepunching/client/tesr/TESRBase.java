@@ -1,15 +1,22 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.client.tesr;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import org.apache.commons.lang3.ArrayUtils;
 
 abstract class TESRBase<TE extends TileEntity> extends TileEntitySpecialRenderer<TE> {
 
     // Use this to get vertices for a box from Min - Max point in 3D
     // Pass the string of the axies you want the box to render on ('xz') for no top / bottom, etc.
     // Pass 'xyz' for all vertices
-    protected double[][] getVerticesBySide(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, String axies){
+    double[][] getVerticesBySide(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, String axies) {
         double[][] ret = new double[][]{};
         if(axies.contains("x")) { ret = append(ret, getXVertices(minX,minY,minZ,maxX,maxY,maxZ)); }
         if(axies.contains("y")) { ret = append(ret, getYVertices(minX,minY,minZ,maxX,maxY,maxZ)); }
@@ -17,7 +24,8 @@ abstract class TESRBase<TE extends TileEntity> extends TileEntitySpecialRenderer
         return ret;
 
     }
-    protected double[][] getXVertices(double minX, double minY, double minZ, double maxX, double maxY, double maxZ){
+
+    private double[][] getXVertices(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
         return new double[][] {
                 {minX, minY, minZ, 0, 1}, // Main +X Side
                 {minX, minY, maxZ, 1, 1},
@@ -30,7 +38,8 @@ abstract class TESRBase<TE extends TileEntity> extends TileEntitySpecialRenderer
                 {maxX, maxY, maxZ, 0, 0}
         };
     }
-    protected double[][] getYVertices(double minX, double minY, double minZ, double maxX, double maxY, double maxZ){
+
+    private double[][] getYVertices(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
         return new double[][] {
                 {minX, maxY, minZ, 0, 1}, // Top
                 {minX, maxY, maxZ, 1, 1},
@@ -43,7 +52,8 @@ abstract class TESRBase<TE extends TileEntity> extends TileEntitySpecialRenderer
                 {maxX, minY, maxZ, 0, 0}
         };
     }
-    protected double[][] getZVertices(double minX, double minY, double minZ, double maxX, double maxY, double maxZ){
+
+    private double[][] getZVertices(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
         return new double[][] {
                 {maxX, minY, minZ, 0, 1}, // Main +Z Side
                 {minX, minY, minZ, 1, 1},

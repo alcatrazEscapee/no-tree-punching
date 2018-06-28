@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.recipe.forge;
 
 import com.google.common.collect.LinkedListMultimap;
@@ -14,7 +22,8 @@ import notreepunching.item.ModItems;
 import notreepunching.util.ItemUtil;
 import notreepunching.util.MiscUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ForgeRecipeHandler {
 
@@ -79,17 +88,18 @@ public class ForgeRecipeHandler {
     }
 
     public static ForgeRecipe getRecipe(ItemStack stack){ return getRecipe(stack, false); }
+
     public static boolean isIngredient(ItemStack stack){
         return getRecipe(stack, true) != null;
     }
+
     private static ForgeRecipe getRecipe(ItemStack stack, boolean skipCountCheck){
         for(ForgeRecipe recipe : FORGE_RECIPES) {
             if (recipe.getOre().equals("")) {
                 if(ItemUtil.areStacksEqual(stack, recipe.getStack()) && (stack.getCount() >= recipe.getCount() || skipCountCheck)){
                     return recipe;
                 }
-            }
-            else {
+            } else {
                 NonNullList<ItemStack> oreList = OreDictionary.getOres(recipe.getOre());
                 for (ItemStack oreStack : oreList) {
                     if (ItemUtil.areStacksEqual(stack, oreStack) && (stack.getCount() >= recipe.getCount() || skipCountCheck)) {

@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -30,7 +38,7 @@ import java.util.Random;
 @SuppressWarnings("deprecation")
 public class BlockBlastFurnace extends BlockWithTE<TileEntityBlastFurnace> {
 
-    public static final IProperty<Boolean> BURNING = PropertyBool.create("burning");
+    private static final IProperty<Boolean> BURNING = PropertyBool.create("burning");
 
     BlockBlastFurnace(String name){
         super(name, Material.ROCK);
@@ -66,6 +74,7 @@ public class BlockBlastFurnace extends BlockWithTE<TileEntityBlastFurnace> {
         }
         return true;
     }
+
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand){

@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.client.tesr;
 
 import net.minecraft.client.renderer.BufferBuilder;
@@ -37,8 +45,7 @@ public class TESRGrindstone extends TESRBase<TileEntityGrindstone> {
             drawStone(b);
             drawHandle(b);
             t.draw();
-        }
-        finally {
+        } finally {
             GlStateManager.popMatrix();
         }
 

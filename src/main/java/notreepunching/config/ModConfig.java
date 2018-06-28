@@ -1,11 +1,19 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.config;
 
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.Config.Comment;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.Config.Comment;
 
 import javax.annotation.Nonnull;
 
@@ -30,6 +38,7 @@ public class ModConfig {
     public static boolean MODULE_STONEWORKS = true;
 
     public static VanillaTweaks tweaks;
+
     public static class VanillaTweaks {
 
         @Comment({"Disable wooden tool recipes"})
@@ -54,6 +63,7 @@ public class ModConfig {
     }
 
     public static Balance balance;
+
     public static class Balance {
         @Comment({"Chance for a sucessful flint knapping"})
         @Config.RangeDouble(min = 0.0, max = 1.0)
@@ -89,6 +99,7 @@ public class ModConfig {
     }
 
     public static World world;
+
     public static class World{
 
         @Comment({"Generate Copper ore in the world"})
@@ -106,6 +117,7 @@ public class ModConfig {
     }
 
     public static Metalworking metalworking;
+
     public static class Metalworking{
         // Config options to do with metalworking module
 
@@ -129,6 +141,7 @@ public class ModConfig {
     }
 
     public static Pottery pottery;
+
     public static class Pottery{
         // Config options to do with pottery module
 
@@ -137,6 +150,7 @@ public class ModConfig {
     }
 
     public static Stoneworks stoneworks;
+
     public static class Stoneworks{
         // Config options to do with stoneworks module
     }

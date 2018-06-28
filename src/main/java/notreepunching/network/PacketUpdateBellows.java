@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.network;
 
 import io.netty.buffer.ByteBuf;
@@ -18,12 +26,14 @@ public class PacketUpdateBellows implements IMessage {
     public PacketUpdateBellows(TileEntityBellows te){
         this(te.getPos(), te.getFacing(), te.getStep(), te.getHeight());
     }
+
     public PacketUpdateBellows(BlockPos pos, int facing, double step, double height){
         this.step = step;
         this.height = height;
         this.pos = pos;
         this.facing = facing;
     }
+
     // Needed for forge to call this class
     public PacketUpdateBellows(){}
 

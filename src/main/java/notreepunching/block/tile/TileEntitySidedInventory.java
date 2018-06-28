@@ -1,3 +1,11 @@
+/*
+ *
+ *  Part of the No Tree Punching Mod by alcatrazEscapee
+ *  Work under Copyright. Licensed under the GPL-3.0.
+ *  See the project LICENSE.md for more information.
+ *
+ */
+
 package notreepunching.block.tile;
 
 import mcp.MethodsReturnNonnullByDefault;
@@ -30,9 +38,11 @@ public abstract class TileEntitySidedInventory extends TileEntity {
     public void setAndUpdateSlots(int slot){
         this.markDirty();
     }
+
     public int getSlotLimit(int slot){
         return 64;
     }
+
     public boolean isItemValid(int slot, ItemStack stack){ return true; }
 
     protected abstract NBTTagCompound writeNBT(NBTTagCompound c);
@@ -54,8 +64,7 @@ public abstract class TileEntitySidedInventory extends TileEntity {
 
     @Override
     @Nullable
-    public SPacketUpdateTileEntity getUpdatePacket()
-    {
+    public SPacketUpdateTileEntity getUpdatePacket() {
         NBTTagCompound updateTagDescribingTileEntityState = getUpdateTag();
         return new SPacketUpdateTileEntity(this.pos, 1, updateTagDescribingTileEntityState);
     }
@@ -70,8 +79,7 @@ public abstract class TileEntitySidedInventory extends TileEntity {
        Warning - although our getUpdatePacket() uses this method, vanilla also calls it directly, so don't remove it.
      */
     @Override
-    public NBTTagCompound getUpdateTag()
-    {
+    public NBTTagCompound getUpdateTag() {
         NBTTagCompound nbtTagCompound = new NBTTagCompound();
         writeToNBT(nbtTagCompound);
         return nbtTagCompound;
@@ -81,8 +89,7 @@ public abstract class TileEntitySidedInventory extends TileEntity {
      Warning - although our onDataPacket() uses this method, vanilla also calls it directly, so don't remove it.
    */
     @Override
-    public void handleUpdateTag(NBTTagCompound tag)
-    {
+    public void handleUpdateTag(NBTTagCompound tag) {
         this.readFromNBT(tag);
     }
 
