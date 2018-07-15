@@ -56,9 +56,8 @@ public class WorldGenDeco {
 
         Material atMat = stateAt.getMaterial();
 
-        if ((stateUp.getBlock().isReplaceable(world, new BlockPos(i, j + 1, k))) &&
-                (atMat == Material.GRASS || atMat == Material.ROCK || atMat == Material.SAND) &&
-                stateAt.isNormalCube()) {
+        if (stateUp.getBlock() == Blocks.AIR && stateAt.isNormalCube() &&
+                (atMat == Material.GRASS || atMat == Material.ROCK || atMat == Material.SAND)) {
             BlockRock.EnumMineralType type;
             if(downBl == Blocks.STONE){
                 switch(downBl.getMetaFromState(world.getBlockState(new BlockPos(i,j-5,k)))){
