@@ -77,6 +77,10 @@ public class HarvestEventHandler {
                 }else if(neededToolClass.equals("shovel") && toolClass.equals("pickaxe") && heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= 1) {
                     return;
                 }
+                // Tinkers Construct Mattock
+                else if ((neededToolClass.equals("shovel") && toolClass.equals("mattock")) || (neededToolClass.equals("axe") && toolClass.equals("mattock"))) {
+                    return;
+                }
             }
             // Always allow certian blocks to break at normal speed
             //Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
@@ -202,7 +206,6 @@ public class HarvestEventHandler {
             int neededHarvestLevel = block.getHarvestLevel(event.getState());
             String neededToolClass = block.getHarvestTool(event.getState());
 
-
             //heldItemStack != ItemStack.EMPTY && neededHarvestLevel >= 0
             if (neededToolClass != null) {
                 for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack)) {
@@ -213,6 +216,10 @@ public class HarvestEventHandler {
                     }
                     // Metal Pickaxes and above are allowed to function as shovels with no mining speed penalty + block drops.
                     else if(neededToolClass.equals("shovel") && toolClass.equals("pickaxe") && heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass, null, null) >= 1) {
+                        return;
+                    }
+                    // Tinkers Construct Mattock
+                    else if ((neededToolClass.equals("shovel") && toolClass.equals("mattock")) || (neededToolClass.equals("axe") && toolClass.equals("mattock"))) {
                         return;
                     }
                 }

@@ -12,20 +12,20 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.FakePlayer;
 import notreepunching.NoTreePunching;
 import notreepunching.block.BlockRock;
 import notreepunching.block.ModBlocks;
 import notreepunching.client.ModTabs;
+import notreepunching.util.ItemUtil;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static notreepunching.NoTreePunching.MODID;
 import static notreepunching.block.BlockRock.TYPE;
 
 @MethodsReturnNonnullByDefault
@@ -46,7 +46,7 @@ public class ItemRock extends ItemBase {
             if(!NoTreePunching.hasQuark && (i == 4 || i == 5)) { continue; }
             if(!NoTreePunching.hasRustic && (i == 6)) { continue; }
             NoTreePunching.proxy.addModelToRegistry(new ItemStack(this,1,i),
-                    new ResourceLocation(NoTreePunching.MODID,name + "_" +  this.getStoneName(i)),"inventory");
+                    new ResourceLocation(MODID, name + "_" + this.getStoneName(i)), "inventory");
         }
     }
 
@@ -92,33 +92,23 @@ public class ItemRock extends ItemBase {
     }
 
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if(player != null && !(player instanceof FakePlayer)){
-            if(!worldIn.isRemote){
-                // Check for block below
-                IBlockState stateUnder = worldIn.getBlockState(pos);
-                if(!stateUnder.getBlock().isNormalCube(stateUnder,worldIn,pos)){
-                    return EnumActionResult.FAIL;
-                }
-                // Check for air block above
-                IBlockState stateAt = worldIn.getBlockState(pos.up());
-                if(!stateAt.getBlock().equals(Blocks.AIR)){
-                    return EnumActionResult.FAIL;
-                }
-                // Place the rock in the world
+        // Try and place
+        System.out.println("Called onItemUse");
+        IBlockState stateUnder = worldIn.getBlockState(pos);
+        IBlockState stateAt = worldIn.getBlockState(pos.up());
+
+        if (stateUnder.isNormalCube() && stateAt.getBlock().isReplaceable(worldIn, pos.up())) {
+            if (!worldIn.isRemote) {
                 int meta = player.getHeldItem(hand).getMetadata();
                 ItemStack stack = player.getHeldItem(hand);
-                stack.shrink(1);
-                if(stack.getCount() == 0){
-                    stack = ItemStack.EMPTY;
-                }
-                player.setHeldItem(hand,stack);
-                // Player is null here otherwise sound is only played to other players see: https://mcforge.readthedocs.io/en/latest/effects/sounds/
+
+                player.setHeldItem(hand, ItemUtil.consumeItem(stack));
+
                 worldIn.playSound(null, pos, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 worldIn.setBlockState(pos.up(), ModBlocks.looseRock.getDefaultState().withProperty(TYPE, BlockRock.EnumMineralType.byMetadata(meta)));
-                return EnumActionResult.SUCCESS;
             }
+            return EnumActionResult.SUCCESS;
         }
-
         return EnumActionResult.PASS;
     }
 }
