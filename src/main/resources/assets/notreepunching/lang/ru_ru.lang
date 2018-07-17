@@ -1,0 +1,168 @@
+#Creative Tabs
+
+itemGroup.notreepunching.items=NTP: Блоки и предметы
+itemGroup.notreepunching.tools=NTP: Инструменты
+
+#Items
+
+item.rock_stone.name=Камушек
+item.rock_andesite.name=Андезитовый камушек
+item.rock_diorite.name=Диоритовый камушек
+item.rock_granite.name=Гранитный камушек
+item.rock_marble.name=Мраморный камушек
+item.rock_limestone.name=Известняковый камушек
+item.rock_slate.name=Сланцевый камушек
+
+item.grass_fiber.name=Растительное волокно
+item.grass_string.name=Растительная нить
+item.flint_shard.name=Осколок кремня
+
+item.iron_knife.name=Железный нож
+item.diamond_knife.name=Алмазный нож
+
+item.iron_mattock.name=Железная лопатомотыга
+item.diamond_mattock.name=Алмазная лопатомотыга
+
+item.iron_saw.name=Железная пила
+item.diamond_saw.name=Алмазная пила
+
+item.stone_knife.name=Кремневый нож
+item.crude_pick.name=Кремневая кирка
+item.crude_axe.name=Кремневый топор
+item.crude_shovel.name=Кремневая лопата
+item.crude_hoe.name=Кремневая мотыга
+
+item.firestarter.name=Зажигалка
+item.grind_wheel.name=Мельничный жёрнов
+item.tuyere.name=Фурма
+item.small_vessel.name=Маленькая керамическая ваза
+item.clay_tool.name=Резец по глине
+
+item.clay_bucket.name=Керамическое ведро
+item.clay_bucket.filled.name=Керамическое ведро (%s)
+
+item.dust_bronze.name=Бронзовая пыль
+item.dust_tin.name=Оловянная пыль
+item.ingot_copper.name=Медный слиток
+item.dust_iron.name=Железная пыль
+item.dust_copper.name=Медная пыль
+item.ingot_bronze.name=Бронзовый слиток
+item.ingot_tin.name=Оловянный слиток
+item.gear_wood.name=Деревянная шестерня
+item.clay_brick.name=Глиняный кирпич
+item.ingot_steel.name=Стальной слиток
+item.dust_steel.name=Стальная пыль
+item.nugget_tin.name=Кусочек олова
+item.nugget_copper.name=Кусочек меди
+item.nugget_steel.name=Кусочек стали
+item.nugget_bronze.name=Кусочек бронзы
+
+item.gold_knife.name=Золотой нож
+item.gold_mattock.name=Золотая лопатомотыга
+item.gold_saw.name=Золотая пила
+
+item.copper_knife.name=Медный нож
+item.copper_mattock.name=Медная лопатомотыга
+item.copper_saw.name=Медная пила
+item.copper_hoe.name=Медная мотыга
+item.copper_shovel.name=Медная лопата
+item.copper_sword.name=Медный меч
+item.copper_axe.name=Медный топор
+item.copper_pick.name=Медная кирка
+item.copper_helmet.name=Медный шлем
+item.copper_chestplate.name=Медная кираса
+item.copper_leggings.name=Медные штаны
+item.copper_boots.name=Медные ботинки
+
+item.bronze_knife.name=Бронзовый нож
+item.bronze_saw.name=Бронзовая пила
+item.bronze_mattock.name=Бронзовая лопатомотыга
+item.bronze_pick.name=Бронзовая кирка
+item.bronze_axe.name=Бронзовый топор
+item.bronze_hoe.name=Бронзовая мотыга
+item.bronze_shovel.name=Бронзовая лопата
+item.bronze_sword.name=Бронзовый меч
+item.bronze_helmet.name=Бронзовый шлем
+item.bronze_chestplate.name=Бронзовая кираса
+item.bronze_leggings.name=Бронзовые штаны
+item.bronze_boots.name=Бронзовые ботинки
+
+item.steel_knife.name=Стальной нож
+item.steel_saw.name=Стальная пила
+item.steel_mattock.name=Стальная лопатомотыга
+item.steel_pick.name=Стальная кирка
+item.steel_axe.name=Стальной топор
+item.steel_hoe.name=Стальная мотыга
+item.steel_shovel.name=Стальная лопата
+item.steel_sword.name=Стальной меч
+item.steel_helmet.name=Стальной шлем
+item.steel_chestplate.name=Стальная кираса
+item.steel_leggings.name=Стальные штаны
+item.steel_boots.name=Стальные ботинки
+
+#Blocks
+
+tile.firepit.name=Костёр
+tile.charcoal_pile.name=Кузница
+tile.wood_pile.name=Поленница
+tile.bellows.name=Кузнечные меха
+tile.grindstone.name=Мельница
+tile.blast_furnace.name=Доменная печь
+tile.large_vessel.name=Большая керамическая ваза
+
+tile.andesite_cobblestone.name=Андезитовый булыжник
+tile.diorite_cobblestone.name=Диоритовый булыжник
+tile.granite_cobblestone.name=Гранитный булыжник
+tile.marble_cobblestone.name=Мраморный булыжник
+tile.limestone_cobblestone.name=Известняковый булыжник
+tile.slate_cobblestone.name=Сланцевый булыжник
+
+tile.loose_rock.stone.name=Камушек
+tile.loose_rock.andesite.name=Андезитовый камушек
+tile.loose_rock.diorite.name=Диоритовый камушек
+tile.loose_rock.granite.name=Гранитный камушек
+tile.loose_rock.marble.name=Мраморный камушек
+tile.loose_rock.limestone.name=Известняковый камушек
+tile.loose_rock.slate.name=Сланцевый камушек
+
+tile.ore_tin.name=Оловянная руда
+tile.ore_copper.name=Медная руда
+tile.block_copper.name=Медный блок
+tile.block_bronze.name=Бронзовый блок
+tile.block_steel.name=Стальной блок
+tile.block_tin.name=Оловянный блок
+
+tile.worked_clay.unworked.name=Обработанная глина
+tile.worked_clay.large_vessel.name=Большая глиняная ваза
+tile.worked_clay.small_vessel.name=Маленькая глиняная ваза
+tile.worked_clay.small_pot.name=Глиняный горшок
+tile.worked_clay.bucket.name=Глиняное ведро
+
+#JEI
+
+jei.description.rock=Камни можно найти лежащими на земле. Их разрушение даёт вам мелкие камушки.
+jei.description.grass_fiber=Растительные волокна выпадают при  разрушении травы ножом. Их также можно получить разрезанием растительности у вас в руке ножом. Они используются для создания растительных нитей, которые нужны для крафта базовых инструментов.
+jei.description.stick=Палки выпадают из листвы. Использование любого ножа удваивает шанс получения палки.
+jei.description.flint_shard=Кремневые осколки можно получить, разламывая кремень о любую каменистую поверхность. Используйте кремень (по умолчанию ПКМ) на каменном блоке, и он может развалиться на два кремневых осколка. Впрочем, для этого может потребоваться несколько попыток.
+
+jei.description.knife=Ножи могут использоваться для разрезания некоторых материалов. Возьмите нож в одну руку, разрезаемый предмет в другую, и используйте (по умолчанию ПКМ). Данное действие потратит 3 единицы прочности ножа и даст новый предмет. Ножи также эффективны для разрушения растительности, например листвы.
+jei.description.mattock=Лопатомотыга - гибрид топора, лопаты и мотыги. Она может быть использована как топор с дополнительной возможностью разрушать большинство мягких блоков, которые добываются лопатой.
+jei.description.saw=Пила - многоцелевой режущий инструмент. Они могут работять как топор и также способны разрезать древесину на части при использовании в качестве ингредиента для крафта. В этом плане они эффективнее кремневого топора, поскольку дают 4 доски за блок древесины и 2 палки за доску.
+jei.description.firepit=Чтобы создать костёр, бросьте на землю один блок древесины, одну растительную нить и 3 палки. Потом используйте (по умолчанию ПКМ) и удерживайте зажигалку на этом блоке. Предметы будут потрачены, и появится костёр. Вы можете повторно разжечь костёр, использовав на нём зажигалку. Вы можете потушить костёр, сломав его или использовав на нём блок песка.
+jei.description.forge=Чтобы создать кузницу, положите древесный уголь на землю правой кнопкой мыши. Чем выше куча, тем лучше. Окружите кучу древесного угля четырьмя камнеподобными блоками, потом зажгите её зажигалкой или огнивом.
+jei.description.wood_pile=Для создания поленницы нажмите Shift+ПКМ любым блоком древесины. Поленница работает как маленькое хранилище только для древесины. Кроме того, поленница может быть превращена в древесный уголь. Если поставить поленницу на землю, окружить её со всех сторон другими поленницами или полными негорючими блоками, а затем поджечь, от она станет угольной ямой, и постепенно превратится в древесный уголь.
+jei.description.tuyere=Фурма - маленькая трубка, используемая для подачи воздуха в кузницу. Используйте её на блоке булыжника, и тот станет фурмой. Когда меха подключены к фурме, они закачивают воздух в блок, что разогревает прилегающую кузницу.
+jei.description.blast_furnace=Доменная печь - многоблочная структура. Поверх доменной печи разместите каменные блоки в форме плюса с кучей древесного угля посередине. Чем больше древесного угля, тем горячее будет печь. Зажгите доменную печь огнивом. Печть также будет нагреваться, если к ней подключить меха.
+jei.description.clay_tool=Резец по глине используется для превращения блоков глины в гончарные изделия. Используйте (по умолчанию ПКМ) его на блоке глины, чтобы придать форму нужного изделия. В процессе работы глина будет формоваться во всё меньшие по размеру предметы, пока полностью не исчезнет.
+
+jei.category.knife_recipe=Разрезание ножом
+jei.category.firepit_recipe=Костёр
+jei.category.forge_recipe=Кузница
+jei.category.grindstone_recipe=Мельница
+jei.category.blast_furnace_recipe=Доменная печь
+
+# Sound Subtitles
+
+notreepunching.subtitle.knapping=Дробление камня
+notreepunching.subtitle.bellows=Свист мехов
+notreepunching.subtitle.grindstone=Вращение мельничного жёрнова
