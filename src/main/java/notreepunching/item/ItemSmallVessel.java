@@ -45,22 +45,11 @@ public class ItemSmallVessel extends ItemBase {
             }
 
             if (!player.isSneaking()) {
-                System.out.println("Opening the gui peeps");
+                NoTreePunching.log.info("Opening Vessel GUI");
                 player.openGui(NoTreePunching.instance, ModGuiHandler.SMALL_VESSEL, world, 0, 0, 0);
             }
         }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
-    }
-
-    public static ItemStack setDefaultInventoryTag(ItemStack container) {
-        if (container.getTagCompound() == null) {
-            container.setTagCompound(new NBTTagCompound());
-        }
-        return container;
-    }
-
-    public static boolean needsTag(ItemStack container) {
-        return container.getTagCompound() == null;
     }
 
     @Nullable

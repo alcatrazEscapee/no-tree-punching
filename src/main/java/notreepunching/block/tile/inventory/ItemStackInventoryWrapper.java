@@ -15,28 +15,40 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import notreepunching.NoTreePunching;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ItemStackInventoryWrapper implements ICapabilityProvider {
+public class ItemStackInventoryWrapper extends ItemStackHandler implements ICapabilityProvider {
 
-    protected ItemStack stack;
-    private final ItemStackHandler inventory;
+    protected ItemStack container;
 
     public ItemStackInventoryWrapper(ItemStack stack, NBTTagCompound compound, int size){
-        super();
-        this.stack = stack;
+        super(size);
+        this.container = stack;
 
-        inventory = new ItemStackHandler(size);
-
-        readNBT(compound);
+        if (stack.hasTagCompound()) {
+            NoTreePunching.log.info("Call Trace Read 1");
+            readNBT(stack.getTagCompound());
+        } else {
+            NoTreePunching.log.info("Call Trace Read 2");
+            readNBT(compound);
+        }
     }
 
     private void readNBT(NBTTagCompound compound){
+        NoTreePunching.log.info("Reading NBT " + (compound == null ? "null" : compound.toString()));
         if(compound != null) {
-            inventory.deserializeNBT(compound.getCompoundTag("inventory"));
+            this.deserializeNBT(compound.getCompoundTag("inventory"));
         }
+    }
+
+    public void saveNBT(ItemStack stack) {
+        NBTTagCompound compound = new NBTTagCompound();
+        compound.setTag("inventory", this.serializeNBT());
+        stack.setTagCompound(compound);
+        NoTreePunching.log.info("Saving NBT " + compound.toString());
     }
 
     @Nullable
@@ -44,7 +56,7 @@ public class ItemStackInventoryWrapper implements ICapabilityProvider {
     @SuppressWarnings("unchecked")
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing enumFacing) {
         if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
-            return (T) inventory;
+            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(this);
         }
         return null;
     }

@@ -54,12 +54,12 @@ public class NoTreePunching {
     @Mod.Instance
     public static NoTreePunching instance;
 
-    private static Logger logger;
+    public static Logger log;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        logger = event.getModLog();
-        logger.info("Pre-init started");
+        log = event.getModLog();
+        log.info("Pre-init started");
 
         hasQuark = Loader.isModLoaded("quark");
         hasRustic = Loader.isModLoaded("rustic");
@@ -88,7 +88,7 @@ public class NoTreePunching {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
-        logger.info("Init started");
+        log.info("Init started");
 
         // Recipes init
         ModRecipes.init();
@@ -96,7 +96,7 @@ public class NoTreePunching {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        logger.info("Post-init started");
+        log.info("Post-init started");
 
         // Recipes Post init
         ModRecipes.postInit();
@@ -104,7 +104,7 @@ public class NoTreePunching {
         ModTabs.ITEMS_TAB.setTabItem(ModItems.rockStone);
         ModTabs.TOOLS_TAB.setTabItem(ModItems.crudePick);
 
-        logger.info("Finished Loading");
+        log.info("Finished Loading");
     }
 }
 

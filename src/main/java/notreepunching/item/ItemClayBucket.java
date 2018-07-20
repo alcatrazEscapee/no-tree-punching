@@ -115,6 +115,7 @@ public class ItemClayBucket extends UniversalBucket{
         // If the bucket is empty, try and fill it
         final RayTraceResult target = this.rayTrace(world, player, true);
 
+        //noinspection ConstantConditions
         if (target == null || target.typeOfHit != RayTraceResult.Type.BLOCK) {
             return new ActionResult<>(EnumActionResult.PASS, heldItem);
         }

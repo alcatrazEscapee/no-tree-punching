@@ -14,10 +14,10 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import notreepunching.NoTreePunching;
+import notreepunching.block.tile.inventory.ItemStackInventoryWrapper;
 import notreepunching.block.tile.inventory.SlotItemInput;
 
 import javax.annotation.Nonnull;
@@ -33,7 +33,7 @@ public class ContainerSmallVessel extends Container {
     public ContainerSmallVessel(InventoryPlayer playerInv, ItemStack stack){
         this.player = playerInv.player;
         this.stack = stack;
-        this.itemIndex = playerInv.currentItem;
+        this.itemIndex = playerInv.currentItem + 31;
 
         addContainerSlots(stack);
         addPlayerInventorySlots(playerInv);
@@ -70,22 +70,22 @@ public class ContainerSmallVessel extends Container {
 
     @Override
     public void onContainerClosed(EntityPlayer player){
-        ItemStackHandler inventory = (ItemStackHandler) stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-        if(inventory != null) {
-            NBTTagCompound compound = new NBTTagCompound();
-            compound.setTag("inventory", inventory.serializeNBT());
-            stack.setTagCompound(compound);
+        NoTreePunching.log.info("Call Trace 2");
+        IItemHandler cap = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        if (cap != null && cap instanceof ItemStackInventoryWrapper) {
+            ((ItemStackInventoryWrapper) cap).saveNBT(stack);
         }
         super.onContainerClosed(player);
     }
 
     @Override
     @Nonnull
-    public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player){
-        if(clickTypeIn == ClickType.SWAP && dragType == itemIndex){
+    public ItemStack slotClick(int slotID, int dragType, ClickType clickType, EntityPlayer player) {
+        NoTreePunching.log.info("Slot Click " + slotID + " | " + dragType + " | " + itemIndex + " | " + clickType);
+        if ((clickType == ClickType.QUICK_MOVE || clickType == ClickType.PICKUP || clickType == ClickType.SWAP) && slotID == itemIndex) {
             return ItemStack.EMPTY;
         } else {
-            return super.slotClick(slotId, dragType, clickTypeIn, player);
+            return super.slotClick(slotID, dragType, clickType, player);
         }
     }
 
@@ -97,7 +97,11 @@ public class ContainerSmallVessel extends Container {
 
         ItemStack itemstack;
 
-        if(slot == null || !slot.getHasStack()) { return ItemStack.EMPTY; }
+        if (slot == null || !slot.getHasStack())
+            return ItemStack.EMPTY;
+
+        if (index == itemIndex)
+            return ItemStack.EMPTY;
 
         ItemStack itemstack1 = slot.getStack();
         itemstack = itemstack1.copy();
@@ -116,10 +120,8 @@ public class ContainerSmallVessel extends Container {
         }
         // Transfer into the container
         else {
-            if(index != itemIndex) {
-                if (!this.mergeItemStack(itemstack1, 0, 4, false)) {
-                    return ItemStack.EMPTY;
-                }
+            if (!this.mergeItemStack(itemstack1, 0, 4, false)) {
+                return ItemStack.EMPTY;
             }
         }
 
