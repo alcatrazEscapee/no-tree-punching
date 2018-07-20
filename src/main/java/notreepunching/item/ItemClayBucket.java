@@ -11,6 +11,7 @@ package notreepunching.item;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
@@ -73,18 +74,6 @@ public class ItemClayBucket extends UniversalBucket{
     @SuppressWarnings("deprecation")
     @Override
     public String getItemStackDisplayName(final ItemStack stack) {
-        /*final FluidStack fluidStack = getFluid(stack);
-        final String unlocalisedName = this.getUnlocalizedNameInefficiently(stack);
-
-        // If the bucket is empty, translate the unlocalised name directly
-        if (fluidStack == null) {
-            return NoTreePunching.proxy.localize(unlocalisedName + ".name");
-        }
-        return NoTreePunching.proxy.localize(unlocalisedName + "." + fluidStack.getFluid().getName() + ".name");
-
-        // If there's a fluid-specific translation, use it
-        //final String fluidUnlocalisedName = unlocalisedName + ".filled." + fluidStack.getFluid().getName() + ".name";
-        //return NoTreePunching.proxy.localize(fluidUnlocalisedName);*/
 
         final FluidStack fluidStack = getFluid(stack);
         final String unlocalisedName = this.getUnlocalizedNameInefficiently(stack);
@@ -169,5 +158,13 @@ public class ItemClayBucket extends UniversalBucket{
                 return false;
             }
         };
+    }
+
+    public int getMaxItemUseDuration(ItemStack stack) {
+        return 32;
+    }
+
+    public EnumAction getItemUseAction(ItemStack stack) {
+        return EnumAction.DRINK;
     }
 }
