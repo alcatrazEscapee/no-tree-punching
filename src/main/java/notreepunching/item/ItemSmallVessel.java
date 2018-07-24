@@ -45,7 +45,6 @@ public class ItemSmallVessel extends ItemBase {
             }
 
             if (!player.isSneaking()) {
-                NoTreePunching.log.info("Opening Vessel GUI");
                 player.openGui(NoTreePunching.instance, ModGuiHandler.SMALL_VESSEL, world, 0, 0, 0);
             }
         }

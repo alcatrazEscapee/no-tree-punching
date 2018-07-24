@@ -16,7 +16,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import notreepunching.NoTreePunching;
 import notreepunching.block.tile.inventory.ItemStackInventoryWrapper;
 import notreepunching.block.tile.inventory.SlotItemInput;
 
@@ -70,7 +69,6 @@ public class ContainerSmallVessel extends Container {
 
     @Override
     public void onContainerClosed(EntityPlayer player){
-        NoTreePunching.log.info("Call Trace 2");
         IItemHandler cap = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         if (cap != null && cap instanceof ItemStackInventoryWrapper) {
             ((ItemStackInventoryWrapper) cap).saveNBT(stack);
@@ -81,7 +79,6 @@ public class ContainerSmallVessel extends Container {
     @Override
     @Nonnull
     public ItemStack slotClick(int slotID, int dragType, ClickType clickType, EntityPlayer player) {
-        NoTreePunching.log.info("Slot Click " + slotID + " | " + dragType + " | " + itemIndex + " | " + clickType);
         if ((clickType == ClickType.QUICK_MOVE || clickType == ClickType.PICKUP || clickType == ClickType.SWAP) && slotID == itemIndex) {
             return ItemStack.EMPTY;
         } else {

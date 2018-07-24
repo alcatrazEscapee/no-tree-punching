@@ -100,6 +100,7 @@ public class NoTreePunching {
 
         // Recipes Post init
         ModRecipes.postInit();
+        HarvestEventHandler.postInit();
 
         ModTabs.ITEMS_TAB.setTabItem(ModItems.rockStone);
         ModTabs.TOOLS_TAB.setTabItem(ModItems.crudePick);

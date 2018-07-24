@@ -16,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -27,7 +28,33 @@ import notreepunching.item.ItemMattock;
 import notreepunching.item.ModItems;
 import notreepunching.recipe.knife.KnifeRecipeHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HarvestEventHandler {
+
+    private static List<ResourceLocation> BREAKABLE;
+
+    public static void postInit() {
+        BREAKABLE = new ArrayList<>();
+        for (String s : ModConfig.VanillaTweaks.BREAKABLE) {
+            int colon = s.indexOf(':');
+            if (colon == -1) {
+                NoTreePunching.log.warn("Invalid entry in '" + s + "' in BREAKABLE");
+                continue;
+            }
+            BREAKABLE.add(new ResourceLocation(s.substring(0, colon), s.substring(colon + 1, s.length())));
+        }
+    }
+
+    /* Is this really needed?
+    @SubscribeEvent
+    public void harvestBlockInitialCheck(PlayerEvent.HarvestCheck event){
+        Block block = event.getTargetBlock().getBlock();
+        if(block.getRegistryName() == null) return;
+        if(isWhitelisted(block.getRegistryName()))
+            event.setCanHarvest(true);
+    }*/
 
     // Controls the slow mining speed of blocks that aren't the right tool
     @SubscribeEvent
@@ -84,12 +111,8 @@ public class HarvestEventHandler {
             }
             // Always allow certian blocks to break at normal speed
             //Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
-            for(String name : ModConfig.VanillaTweaks.BREAKABLE){
-                if(block.getRegistryName() == null) continue;
-                if (block.getRegistryName().toString().equals(name)) {
-                    return;
-                }
-            }
+            if (isWhitelisted(block.getRegistryName()))
+                return;
 
             switch (neededToolClass) {
                 case "axe":
@@ -225,12 +248,8 @@ public class HarvestEventHandler {
                 }
 
                 //Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
-                String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
-                for(String name : ModConfig.VanillaTweaks.BREAKABLE) {
-                    if(name.equals(blockName)) {
-                        return;
-                    }
-                }
+                if (isWhitelisted(block.getRegistryName()))
+                    return;
                 /*while (itr.hasNext()) {
                     if (blockName.equals(itr.next())) {
                         return;
@@ -239,16 +258,6 @@ public class HarvestEventHandler {
 
                 event.getDrops().clear();
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void harvestBlockInitialCheck(PlayerEvent.HarvestCheck event){
-        Block block = event.getTargetBlock().getBlock();
-        if(block.getRegistryName() == null) return;
-        String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
-        for(String name : ModConfig.VanillaTweaks.BREAKABLE){
-            if(blockName.equals(name)){ event.setCanHarvest(true); }
         }
     }
 
@@ -271,13 +280,25 @@ public class HarvestEventHandler {
                 if(toolClass.equals("axe")){ return; }
             }
             //Iterator itr = Arrays.asList(Config.VanillaTweaks.BREAKABLE).iterator();
-            String blockName=block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath();
-            for(String name : ModConfig.VanillaTweaks.BREAKABLE){
-                if(blockName.equals(name)){ return; }
-            }
+            if (isWhitelisted(block.getRegistryName()))
+                return;
             // Else, cancel the event and do a manual break, not triggering the IC2 breaking
             event.setCanceled(true);
             event.getWorld().setBlockState(event.getPos(),Blocks.AIR.getDefaultState());
         }
+    }
+
+    private boolean isWhitelisted(ResourceLocation blockName) {
+        for (ResourceLocation r : BREAKABLE) {
+            if (r.equals(blockName))
+                return true;
+            if (r.getResourceDomain().equals("*") && r.getResourcePath().equals(blockName.getResourcePath()))
+                return true;
+            if (r.getResourcePath().equals("*") && r.getResourceDomain().equals(blockName.getResourceDomain()))
+                return true;
+            if (r.toString().equals("*:*"))
+                return true;
+        }
+        return false;
     }
 }

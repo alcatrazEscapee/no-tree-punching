@@ -15,7 +15,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import notreepunching.NoTreePunching;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,16 +28,13 @@ public class ItemStackInventoryWrapper extends ItemStackHandler implements ICapa
         this.container = stack;
 
         if (stack.hasTagCompound()) {
-            NoTreePunching.log.info("Call Trace Read 1");
             readNBT(stack.getTagCompound());
         } else {
-            NoTreePunching.log.info("Call Trace Read 2");
             readNBT(compound);
         }
     }
 
     private void readNBT(NBTTagCompound compound){
-        NoTreePunching.log.info("Reading NBT " + (compound == null ? "null" : compound.toString()));
         if(compound != null) {
             this.deserializeNBT(compound.getCompoundTag("inventory"));
         }
@@ -48,7 +44,6 @@ public class ItemStackInventoryWrapper extends ItemStackHandler implements ICapa
         NBTTagCompound compound = new NBTTagCompound();
         compound.setTag("inventory", this.serializeNBT());
         stack.setTagCompound(compound);
-        NoTreePunching.log.info("Saving NBT " + compound.toString());
     }
 
     @Nullable
