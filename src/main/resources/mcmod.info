@@ -9,7 +9,7 @@
   "updateUrl": "",
   "authorList": ["AlcatrazEscapee"],
   "credits": "",
-  "logoFile": "",
+  "logoFile": "assets/icon.png",
   "screenshots": [],
   "dependencies": []
 }

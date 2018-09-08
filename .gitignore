@@ -22,10 +22,10 @@
 hs_err_pid*
 
 # Folders to ignore from project file
-build
-run
-.gradle
+build/
+run/
+old/
+.gradle/
 .idea/
-eclipse/
-README.txt
 out/
+libs/

@@ -9,46 +9,44 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 /*
- *
  *  Part of the No Tree Punching Mod by alcatrazEscapee
  *  Work under Copyright. Licensed under the GPL-3.0.
  *  See the project LICENSE.md for more information.
- *
  */
 
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 repositories {
-    maven {
+    //maven {
         // location of the maven that hosts JEI files
-        name = "Progwml6 maven"
-        url = "http://dvs1.progwml6.com/files/maven"
-    }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name = "ModMaven"
-        url = "modmaven.k-4u.nl"
-    }
-    maven { // CraftTweaker
-        name 'jared maven'
-        url "http://maven.blamejared.com/"
-    }
+    //    name = "Progwml6 maven"
+    //    url = "http://dvs1.progwml6.com/files/maven"
+    //}
+    //maven {
+    //    // location of a maven mirror for JEI files, as a fallback
+    //    name = "ModMaven"
+    //    url = "modmaven.k-4u.nl"
+    //}
+    //maven { // CraftTweaker
+    //    name 'jared maven'
+    //    url "http://maven.blamejared.com/"
+    //}
 }
 
 dependencies {
     // compile against the JEI API but do not include it at runtime
-    deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
+    //deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
     // at runtime, use the full JEI jar
-    runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+    //runtime "mezz.jei:jei_${mc_version}:${jei_version}"
     // CraftTweaker API
-    deobfProvided "CraftTweaker2:CraftTweaker2-API:4.1.8.5"
+    //deobfProvided "CraftTweaker2:CraftTweaker2-API:4.1.8.5"
     // At runtime, use the full jar
-    runtime "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
+    //runtime "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
 }
 
 
 version = "${mod_version}"
-group = "notreepunching" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "com.alcatrazescapee.notreepunching" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "notreepunching"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
@@ -65,7 +63,7 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20171003"
+    mappings = "snapshot_20180813"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     replace 'GRADLE:VERSION', "${mod_version}"
