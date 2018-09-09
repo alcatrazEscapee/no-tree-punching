@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# Python Helpers
+*.py
+
 # Log file
 *.log
 
@@ -29,3 +32,4 @@ old/
 .idea/
 out/
 libs/
+
