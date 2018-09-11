@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 
 import com.alcatrazescapee.alcatrazcore.item.ItemCore;
 import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
+import com.alcatrazescapee.alcatrazcore.util.OreDictionaryHelper;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockRock;
 import com.alcatrazescapee.notreepunching.util.Stone;
 
@@ -42,6 +43,9 @@ public class ItemRock extends ItemCore
         super();
         this.type = type;
         MAP.put(type, this);
+
+        OreDictionaryHelper.register(this, "rock");
+        OreDictionaryHelper.register(this, "rock", type.name());
     }
 
     @Nonnull
