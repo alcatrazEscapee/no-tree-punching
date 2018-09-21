@@ -13,11 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.items.ItemRock;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
-import com.alcatrazescapee.notreepunching.util.Metal;
-import com.alcatrazescapee.notreepunching.util.Stone;
+import com.alcatrazescapee.notreepunching.util.types.Stone;
+import com.alcatrazescapee.notreepunching.util.types.ToolType;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
@@ -41,18 +40,7 @@ public class ModTabs
         @Nonnull
         public ItemStack createIcon()
         {
-            return new ItemStack(ModItems.getTool(Metal.ToolType.MATTOCK, Metal.BRONZE));
-        }
-    };
-
-    public static final CreativeTabs TAB_BLOCKS = new CreativeTabs(MOD_ID + ".blocks")
-    {
-        @SideOnly(Side.CLIENT)
-        @Override
-        @Nonnull
-        public ItemStack createIcon()
-        {
-            return new ItemStack(ModBlocks.ORE_TIN);
+            return new ItemStack(ModItems.getFlintTool(ToolType.PICKAXE));
         }
     };
 }

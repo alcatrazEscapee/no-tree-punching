@@ -16,7 +16,7 @@ import net.minecraft.init.Blocks;
 
 import com.alcatrazescapee.alcatrazcore.block.BlockCore;
 import com.alcatrazescapee.alcatrazcore.util.OreDictionaryHelper;
-import com.alcatrazescapee.notreepunching.util.Stone;
+import com.alcatrazescapee.notreepunching.util.types.Stone;
 
 public class BlockCobble extends BlockCore
 {

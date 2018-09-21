@@ -29,7 +29,7 @@ import net.minecraft.world.World;
 
 import com.alcatrazescapee.alcatrazcore.block.BlockCore;
 import com.alcatrazescapee.notreepunching.common.items.ItemRock;
-import com.alcatrazescapee.notreepunching.util.Stone;
+import com.alcatrazescapee.notreepunching.util.types.Stone;
 
 @ParametersAreNonnullByDefault
 public class BlockRock extends BlockCore

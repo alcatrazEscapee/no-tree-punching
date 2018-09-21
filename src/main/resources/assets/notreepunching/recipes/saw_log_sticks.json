@@ -1,0 +1,20 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "SW"
+  ],
+  "key": {
+    "S": {
+      "type": "forge:ore_dict",
+      "ore": "toolSaw"
+    },
+    "W": {
+      "type": "forge:ore_dict",
+      "ore": "logWood"
+    }
+  },
+  "result": {
+    "item": "minecraft:stick",
+    "count": 8
+  }
+}

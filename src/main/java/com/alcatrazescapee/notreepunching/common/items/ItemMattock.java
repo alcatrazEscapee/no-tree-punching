@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -85,7 +86,7 @@ public class ItemMattock extends ItemToolCore
         if (!worldIn.isRemote)
         {
             worldIn.setBlockState(pos, state, 11);
-            stack.damageItem(1, player);
+            stack.attemptDamageItem(1, itemRand, (EntityPlayerMP) player);
         }
     }
 }

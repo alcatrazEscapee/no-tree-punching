@@ -29,7 +29,7 @@ import net.minecraft.world.World;
 
 import com.alcatrazescapee.alcatrazcore.block.BlockCore;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
-import com.alcatrazescapee.notreepunching.util.Pottery;
+import com.alcatrazescapee.notreepunching.util.types.Pottery;
 
 @ParametersAreNonnullByDefault
 public class BlockPottery extends BlockCore

@@ -18,13 +18,14 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
+import static com.alcatrazescapee.alcatrazcore.util.CoreHelpers.getNull;
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public class CapabilityPlayerItem
 {
     public static final ResourceLocation KEY = new ResourceLocation(MOD_ID, "player_item");
     @CapabilityInject(IPlayerItem.class)
-    public static Capability<IPlayerItem> HARVEST_TOOL_CAPABILITY = null;
+    public static final Capability<IPlayerItem> CAPABILITY = getNull();
 
     public static void preInit()
     {
@@ -51,7 +52,7 @@ public class CapabilityPlayerItem
         @SuppressWarnings("ConstantConditions")
         public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing)
         {
-            return capability == CapabilityPlayerItem.HARVEST_TOOL_CAPABILITY;
+            return capability == CapabilityPlayerItem.CAPABILITY;
         }
 
         @Nullable

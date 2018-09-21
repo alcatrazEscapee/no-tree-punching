@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 
 import com.alcatrazescapee.alcatrazcore.item.tool.ItemToolCore;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockPottery;
-import com.alcatrazescapee.notreepunching.util.Pottery;
+import com.alcatrazescapee.notreepunching.util.types.Pottery;
 
 @ParametersAreNonnullByDefault
 public class ItemClayTool extends ItemToolCore

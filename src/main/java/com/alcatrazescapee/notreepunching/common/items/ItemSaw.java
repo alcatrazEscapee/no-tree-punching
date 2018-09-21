@@ -26,7 +26,7 @@ public class ItemSaw extends ItemAxeCore
     public ItemStack getContainerItem(ItemStack stack)
     {
         ItemStack copy = stack.copy();
-        copy.setItemDamage(copy.getItemDamage() + 1);
+        copy.attemptDamageItem(1, itemRand, null);
         return copy;
     }
 }

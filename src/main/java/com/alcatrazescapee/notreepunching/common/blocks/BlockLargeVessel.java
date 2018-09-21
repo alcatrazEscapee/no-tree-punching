@@ -13,14 +13,18 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.alcatrazescapee.alcatrazcore.block.BlockTileCore;
+import com.alcatrazescapee.notreepunching.NoTreePunching;
+import com.alcatrazescapee.notreepunching.client.ModGuiHandler;
 import com.alcatrazescapee.notreepunching.common.tile.TileLargeVessel;
 
 @ParametersAreNonnullByDefault
@@ -30,7 +34,23 @@ public class BlockLargeVessel extends BlockTileCore
 
     public BlockLargeVessel()
     {
-        super(Material.ROCK);
+        super(Material.GROUND);
+
+        setHarvestLevel("pickaxe", 0);
+        setHardness(1.0F);
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    {
+        if (!worldIn.isRemote)
+        {
+            if (!playerIn.isSneaking())
+            {
+                playerIn.openGui(NoTreePunching.getInstance(), ModGuiHandler.LARGE_VESSEL, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            }
+        }
+        return true;
     }
 
     @Nullable

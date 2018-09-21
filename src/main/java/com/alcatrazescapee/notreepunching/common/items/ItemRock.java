@@ -25,7 +25,7 @@ import com.alcatrazescapee.alcatrazcore.item.ItemCore;
 import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.alcatrazcore.util.OreDictionaryHelper;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockRock;
-import com.alcatrazescapee.notreepunching.util.Stone;
+import com.alcatrazescapee.notreepunching.util.types.Stone;
 
 public class ItemRock extends ItemCore
 {
