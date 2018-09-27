@@ -30,7 +30,7 @@ import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
 
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
+import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
 public class WoodRecipeHandler
 {
@@ -71,7 +71,6 @@ public class WoodRecipeHandler
                         if (ModConfig.GENERAL.replaceLogRecipes)
                             r.remove(recipe.getRegistryName());
 
-                        // todo: test saw recipe for all log types
                         ResourceLocation loc = new ResourceLocation(MOD_ID, "saw_planks_" + ++logsFound);
                         r.register(new ShapedOreRecipe(loc, plank, "S", "W", 'S', "toolSaw", 'W', log).setRegistryName(loc));
                     }
@@ -93,7 +92,6 @@ public class WoodRecipeHandler
                     if (ModConfig.GENERAL.replaceLogRecipes)
                         r.remove(recipe.getRegistryName());
 
-                    // todo: test saw recipe for all log types
                     ResourceLocation loc = new ResourceLocation(MOD_ID, "saw_planks_" + ++logsFound);
                     r.register(new ShapedOreRecipe(loc, plank, "S", "W", 'S', "toolSaw", 'W', log).setRegistryName(loc));
                 }

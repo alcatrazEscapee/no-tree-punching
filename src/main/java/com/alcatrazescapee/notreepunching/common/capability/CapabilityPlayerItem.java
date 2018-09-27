@@ -19,7 +19,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import static com.alcatrazescapee.alcatrazcore.util.CoreHelpers.getNull;
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
+import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
 public class CapabilityPlayerItem
 {

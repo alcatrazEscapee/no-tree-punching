@@ -13,13 +13,14 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 import com.alcatrazescapee.alcatrazcore.inventory.container.ContainerTileInventory;
+import com.alcatrazescapee.alcatrazcore.inventory.slot.SlotOutput;
 import com.alcatrazescapee.alcatrazcore.inventory.slot.SlotTileCore;
-import com.alcatrazescapee.notreepunching.common.tile.TileLargeVessel;
+import com.alcatrazescapee.notreepunching.common.tile.TileFirePit;
 
 @ParametersAreNonnullByDefault
-public class ContainerLargeVessel extends ContainerTileInventory<TileLargeVessel>
+public class ContainerFirePit extends ContainerTileInventory<TileFirePit>
 {
-    public ContainerLargeVessel(InventoryPlayer playerInv, TileLargeVessel tile)
+    public ContainerFirePit(InventoryPlayer playerInv, TileFirePit tile)
     {
         super(playerInv, tile);
     }
@@ -27,16 +28,13 @@ public class ContainerLargeVessel extends ContainerTileInventory<TileLargeVessel
     @Override
     protected void addContainerSlots()
     {
-        IItemHandler cap = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-        if (cap != null)
+        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+
+        if (inventory != null)
         {
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    addSlotToContainer(new SlotTileCore(cap, i + 3 * j, 62 + i * 18, 20 + j * 18, tile));
-                }
-            }
+            addSlotToContainer(new SlotTileCore(inventory, 0, 80, 59, tile)); // Fuel slot
+            addSlotToContainer(new SlotTileCore(inventory, 1, 52, 23, tile)); // Input slot
+            addSlotToContainer(new SlotOutput(inventory, 2, 108, 23));
         }
     }
 }

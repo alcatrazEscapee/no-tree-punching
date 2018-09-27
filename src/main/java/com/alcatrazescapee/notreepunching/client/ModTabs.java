@@ -18,7 +18,7 @@ import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.util.types.Stone;
 import com.alcatrazescapee.notreepunching.util.types.ToolType;
 
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
+import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
 public class ModTabs
 {

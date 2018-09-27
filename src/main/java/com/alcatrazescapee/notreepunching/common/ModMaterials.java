@@ -11,7 +11,7 @@ import net.minecraftforge.common.util.EnumHelper;
 
 import com.alcatrazescapee.notreepunching.ModConfig;
 
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
+import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
 public class ModMaterials
 {

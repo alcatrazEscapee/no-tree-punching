@@ -12,18 +12,20 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.alcatrazescapee.alcatrazcore.util.OreDictionaryHelper;
 import com.alcatrazescapee.alcatrazcore.util.RegistryHelper;
+import com.alcatrazescapee.notreepunching.common.tile.TileFirePit;
 import com.alcatrazescapee.notreepunching.common.tile.TileLargeVessel;
 import com.alcatrazescapee.notreepunching.util.types.Pottery;
 import com.alcatrazescapee.notreepunching.util.types.Stone;
 
 import static com.alcatrazescapee.alcatrazcore.util.CoreHelpers.getNull;
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
+import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 import static com.alcatrazescapee.notreepunching.client.ModTabs.TAB_ITEMS;
 
 @GameRegistry.ObjectHolder(value = MOD_ID)
 public class ModBlocks
 {
     public static final Block CERAMIC_LARGE_VESSEL = getNull();
+    public static final Block FIRE_PIT = getNull();
 
     public static void preInit()
     {
@@ -48,8 +50,10 @@ public class ModBlocks
         }
 
         r.registerBlock(new BlockLargeVessel(), "ceramic_large_vessel", TAB_ITEMS);
+        r.registerBlock(new BlockFirePit(), null, "fire_pit");
 
         // Tile Entities
         r.registerTile(TileLargeVessel.class, "ceramic_large_vessel");
+        r.registerTile(TileFirePit.class, "fire_pit");
     }
 }

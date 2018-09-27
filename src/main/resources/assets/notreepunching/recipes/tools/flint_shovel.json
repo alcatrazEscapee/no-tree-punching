@@ -1,0 +1,25 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " II",
+    " GI",
+    "S  "
+  ],
+  "key": {
+    "I": {
+      "type": "forge:ore_dict",
+      "ore": "flintShard"
+    },
+    "S": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    },
+    "G": {
+      "type": "forge:ore_dict",
+      "ore": "string"
+    }
+  },
+  "result": {
+    "item": "notreepunching:shovel/flint"
+  }
+}

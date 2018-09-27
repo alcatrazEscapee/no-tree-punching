@@ -31,11 +31,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.alcatrazescapee.alcatrazcore.util.RegistryHelper;
 import com.alcatrazescapee.notreepunching.common.capability.CapabilityPlayerItem;
 import com.alcatrazescapee.notreepunching.common.capability.IPlayerItem;
+import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import com.alcatrazescapee.notreepunching.util.PlayerInteractionHandler;
 import com.alcatrazescapee.notreepunching.util.WoodRecipeHandler;
 
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
+import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
 @Mod.EventBusSubscriber(modid = MOD_ID)
 @SuppressWarnings("unused")
@@ -51,6 +52,7 @@ public class ModEventHandler
             IPlayerItem cap = player.getCapability(CapabilityPlayerItem.CAPABILITY, null);
             if (cap != null)
             {
+
                 cap.setStack(player.getHeldItemMainhand());
             }
         }
@@ -63,19 +65,11 @@ public class ModEventHandler
         EntityPlayer player = event.getEntityPlayer();
         if (player != null && !(player instanceof FakePlayer) && !player.isCreative() && ModConfig.GENERAL.enableBreakingChanges)
         {
+            // No need to check IPlayerItem because it won't of broken yet
+            ItemStack stack = player.getHeldItemMainhand();
             IBlockState state = event.getState();
-            IPlayerItem cap = player.getCapability(CapabilityPlayerItem.CAPABILITY, null);
-            ItemStack stack;
-            if (cap != null)
-            {
-                stack = cap.getStack();
-            }
-            else
-            {
-                stack = player.getHeldItemMainhand();
-            }
 
-            if (HarvestBlockHandler.isValidTool(stack, state))
+            if (HarvestBlockHandler.isValidTool(stack, player, state))
             {
                 String toolClass = state.getBlock().getHarvestTool(state);
                 event.setNewSpeed(event.getOriginalSpeed() * HarvestBlockHandler.getSpeedModifier(toolClass == null ? "" : toolClass));
@@ -102,7 +96,8 @@ public class ModEventHandler
                 stack = player.getHeldItemMainhand();
             }
 
-            if (HarvestBlockHandler.isValidTool(stack, state))
+            HarvestBlockHandler.addExtraDrops(event.getDrops(), state, player, stack);
+            if (!HarvestBlockHandler.isValidTool(stack, player, state))
             {
                 event.getDrops().clear();
             }
@@ -140,6 +135,7 @@ public class ModEventHandler
         WoodRecipeHandler.init(event);
 
         // Register cooler recipes!
+        ModRecipes.registerRecipes(event);
     }
 
     @SubscribeEvent
@@ -154,7 +150,6 @@ public class ModEventHandler
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event)
     {
-        NoTreePunching.getLog().info("Registering items...");
         RegistryHelper.get(MOD_ID).initItems(event);
     }
 

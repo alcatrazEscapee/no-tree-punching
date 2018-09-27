@@ -6,6 +6,8 @@
 
 package com.alcatrazescapee.notreepunching.common.container;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -14,6 +16,7 @@ import net.minecraftforge.items.SlotItemHandler;
 
 import com.alcatrazescapee.alcatrazcore.inventory.container.ContainerItemStack;
 
+@ParametersAreNonnullByDefault
 public class ContainerSmallVessel extends ContainerItemStack
 {
     public ContainerSmallVessel(InventoryPlayer playerInv, ItemStack stack)

@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
+import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
 @Config(modid = MOD_ID, category = "")
 @Mod.EventBusSubscriber(modid = MOD_ID)
@@ -40,7 +40,7 @@ public class ModConfig
         @Config.RangeDouble(min = 0, max = 1)
         public double flintKnappingChance = 0.6;
 
-        @Config.Comment("Chance for a sucessful flint knapping")
+        @Config.Comment("Chance for a successful flint knapping")
         @Config.RangeDouble(min = 0, max = 1)
         public double flintKnappingSuccessChance = 0.7;
 
@@ -62,11 +62,36 @@ public class ModConfig
         @Config.Comment("If false, this will disable all changes to breaking speed + block drops.")
         public boolean enableBreakingChanges = true;
 
-        @Config.Comment("If false, this will disable NTP worldgen (surface rocks).")
+        @Config.Comment("If false, this will disable NTP world gen (surface rocks).")
         public boolean looseRocksGeneration = true;
 
-        @Config.Comment("Frequence of loose rocks in the world")
+        @Config.Comment("Frequency of loose rocks in the world")
+        @Config.RangeInt(min = 1, max = 1000)
         public int looseRocksFrequency = 10;
+
+        @Config.Comment("Fire pit cook speed multiplier as compared to the furnace")
+        @Config.RangeInt(min = 1)
+        public int firePitCookSpeed = 2;
+
+        @Config.Comment("Fire pit fuel efficiency multiplier as compared to the furnace")
+        @Config.RangeInt(min = 1)
+        public int firePitFuelMultiplier = 5;
+
+        @Config.Comment("The maximum burn amount required for a fire pit fuel. (in ticks, coal = 1600)")
+        @Config.RangeInt(min = 20)
+        public int firePitFuelMaxAmount = 800;
+
+        @Config.Comment("The chance that a fire starter will start a fire")
+        @Config.RangeDouble(min = 0, max = 1)
+        public double fireStarterFireStartChance = 0.5;
+
+        @Config.Comment("The chance for leaves to drop sticks when broken")
+        @Config.RangeDouble(min = 0, max = 1)
+        public double leavesStickDropChance = 0.2;
+
+        @Config.Comment("The chance for tall grass to drop plant fiber when broken with a knife")
+        @Config.RangeDouble(min = 0, max = 1)
+        public double tallGrassDropPlantFiberChance = 0.4;
 
         private GeneralConfig() {}
     }

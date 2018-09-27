@@ -8,30 +8,5 @@
       "notreepunching:knapping/3",
       "notreepunching:knapping/4"
     ]
-  },
-  "bellows_out": {
-    "category": "block",
-    "subtitle": "notreepunching.subtitle.bellows",
-    "sounds": [
-      "notreepunching:bellows/out_1",
-      "notreepunching:bellows/out_2",
-      "notreepunching:bellows/out_3"
-    ]
-  },
-  "bellows_in": {
-    "category": "block",
-    "subtitle": "notreepunching.subtitle.bellows",
-    "sounds": [
-      "notreepunching:bellows/in_1",
-      "notreepunching:bellows/in_2",
-      "notreepunching:bellows/in_3"
-    ]
-  },
-  "grindstone": {
-    "category": "block",
-    "subtitle": "notreepunching.subtitle.grindstone",
-    "sounds": [
-      "notreepunching:grindstone/1"
-    ]
   }
 }

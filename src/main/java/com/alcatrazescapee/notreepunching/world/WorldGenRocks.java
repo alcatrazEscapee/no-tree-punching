@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
+import com.alcatrazescapee.notreepunching.NoTreePunching;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockRock;
 import com.alcatrazescapee.notreepunching.util.types.Stone;
 
@@ -34,7 +35,7 @@ public class WorldGenRocks implements IWorldGenerator
                 if (random.nextFloat() < 0.5)
                 {
                     Stone stone = Stone.getRandom(random);
-                    placeRock(world, CoreHelpers.getTopSolidBlock(world, new BlockPos(xCoord, 0, zCoord)).up(), stone);
+                    placeRock(world, CoreHelpers.getTopSolidBlock(world, new BlockPos(xCoord, 0, zCoord)), stone);
                 }
             }
         }
@@ -42,8 +43,14 @@ public class WorldGenRocks implements IWorldGenerator
 
     private void placeRock(World world, BlockPos pos, Stone stone)
     {
+        NoTreePunching.getLog().info("The next blocks {} {} {} {} {}"
+                , world.getBlockState(pos.down(2)).getBlock().getTranslationKey()
+                , world.getBlockState(pos.down()).getBlock().getTranslationKey()
+                , world.getBlockState(pos).getBlock().getTranslationKey()
+                , world.getBlockState(pos.up()).getBlock().getTranslationKey()
+                , world.getBlockState(pos.up(2)).getBlock().getTranslationKey());
         IBlockState state = world.getBlockState(pos);
-        if (!state.getMaterial().isLiquid() && state.getBlock().isReplaceable(world, pos) && !state.isOpaqueCube() && world.getBlockState(pos.down()).isOpaqueCube())
+        if (!state.getMaterial().isLiquid() && state.getBlock().isReplaceable(world, pos) && !state.isOpaqueCube() && world.getBlockState(pos.down()).isNormalCube())
             world.setBlockState(pos, BlockRock.get(stone).getDefaultState());
     }
 }

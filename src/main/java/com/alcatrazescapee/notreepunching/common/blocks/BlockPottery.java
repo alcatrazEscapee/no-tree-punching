@@ -77,7 +77,7 @@ public class BlockPottery extends BlockCore
             case BUCKET:
                 return new ItemStack(ModItems.CERAMIC_BUCKET);
             case SMALL_VESSEL:
-                return new ItemStack(ModItems.SMALL_VESSEL);
+                return new ItemStack(ModItems.CERAMIC_SMALL_VESSEL);
             default: // FLOWER POT
                 return new ItemStack(Blocks.FLOWER_POT);
         }
