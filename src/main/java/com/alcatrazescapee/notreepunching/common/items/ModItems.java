@@ -7,6 +7,7 @@
 package com.alcatrazescapee.notreepunching.common.items;
 
 import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -38,6 +39,7 @@ public class ModItems
 
     private static ImmutableMap<ToolType, Item> FLINT_TOOLS;
     private static ImmutableEnumTable<ToolType, Metal, Item> METAL_TOOLS;
+    private static ImmutableList<Item> KNIVES;
 
     public static Item getFlintTool(ToolType type)
     {

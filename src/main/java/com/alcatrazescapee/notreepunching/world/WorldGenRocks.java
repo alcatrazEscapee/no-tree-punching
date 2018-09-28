@@ -7,7 +7,10 @@
 package com.alcatrazescapee.notreepunching.world;
 
 import java.util.Random;
+import java.util.Set;
 
+import com.google.common.collect.Sets;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -17,12 +20,12 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
-import com.alcatrazescapee.notreepunching.NoTreePunching;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockRock;
 import com.alcatrazescapee.notreepunching.util.types.Stone;
 
 public class WorldGenRocks implements IWorldGenerator
 {
+    private static final Set<Material> MATERIALS = Sets.newHashSet(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.GOURD, Material.SNOW);
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
@@ -43,14 +46,10 @@ public class WorldGenRocks implements IWorldGenerator
 
     private void placeRock(World world, BlockPos pos, Stone stone)
     {
-        NoTreePunching.getLog().info("The next blocks {} {} {} {} {}"
-                , world.getBlockState(pos.down(2)).getBlock().getTranslationKey()
-                , world.getBlockState(pos.down()).getBlock().getTranslationKey()
-                , world.getBlockState(pos).getBlock().getTranslationKey()
-                , world.getBlockState(pos.up()).getBlock().getTranslationKey()
-                , world.getBlockState(pos.up(2)).getBlock().getTranslationKey());
         IBlockState state = world.getBlockState(pos);
-        if (!state.getMaterial().isLiquid() && state.getBlock().isReplaceable(world, pos) && !state.isOpaqueCube() && world.getBlockState(pos.down()).isNormalCube())
+        IBlockState stateDown = world.getBlockState(pos.down());
+        if (!state.getMaterial().isLiquid() && state.getBlock().isReplaceable(world, pos) && !state.isOpaqueCube() &&
+                stateDown.isNormalCube() && MATERIALS.contains(stateDown.getMaterial()))
             world.setBlockState(pos, BlockRock.get(stone).getDefaultState());
     }
 }

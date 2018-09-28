@@ -19,12 +19,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.alcatrazescapee.alcatrazcore.recipe.RecipeCore;
 import com.alcatrazescapee.alcatrazcore.tile.ITileFields;
 import com.alcatrazescapee.alcatrazcore.tile.TileInventory;
 import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
+import com.alcatrazescapee.notreepunching.common.recipe.FirePitRecipe;
 import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
 
 import static com.alcatrazescapee.notreepunching.common.blocks.BlockFirePit.LIT;
@@ -65,7 +65,7 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
                 ItemStack cookStack = inventory.getStackInSlot(1);
                 ItemStack outStack = inventory.getStackInSlot(2);
 
-                RecipeCore recipe = ModRecipes.FIRE_PIT.get(cookStack);
+                FirePitRecipe recipe = ModRecipes.FIRE_PIT.get(cookStack);
                 if (recipe != null)
                 {
                     ItemStack output = recipe.getOutput();
@@ -85,8 +85,8 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
                 }
                 else
                 {
-                    cookTimer -= 2;
-                    // Don't reset the max coo
+                    cookTimer -= 4;
+                    // Don't reset the max cool time
                     //maxCookTimer = 0;
                 }
 
@@ -164,7 +164,7 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
     {
-        return (oldState.getBlock() != newState.getBlock());
+        return oldState.getBlock() != newState.getBlock();
     }
 
     @Override

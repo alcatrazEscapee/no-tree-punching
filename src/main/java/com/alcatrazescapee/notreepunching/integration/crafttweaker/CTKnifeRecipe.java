@@ -6,71 +6,59 @@
 
 package com.alcatrazescapee.notreepunching.integration.crafttweaker;
 
+import net.minecraft.item.ItemStack;
+
+import com.alcatrazescapee.notreepunching.common.recipe.KnifeRecipe;
+import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
+import crafttweaker.CraftTweakerAPI;
+import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
+import crafttweaker.api.item.IItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenRegister
 @ZenClass("mods.notreepunching.Knife")
 public class CTKnifeRecipe
 {
-    // todo: ALL OF THIS!!!
-    /*@ZenMethod
+    @ZenMethod
     public static void add(IItemStack input, IItemStack output)
     {
         KnifeRecipe recipe = new KnifeRecipe(CraftTweakerPlugin.toStack(input), CraftTweakerPlugin.toStack(output));
-        CraftTweakerAPI.apply(new Add(recipe));
+        CraftTweakerAPI.apply(new IAction()
+        {
+            @Override
+            public void apply()
+            {
+                ModRecipes.KNIFE.add(recipe);
+            }
+
+            @Override
+            public String describe()
+            {
+                return "Adding knife recipe for " + recipe.getName();
+            }
+        });
     }
 
     @ZenMethod
     public static void remove(IItemStack input)
     {
+        // todo: make this better
         ItemStack stack = CraftTweakerPlugin.toStack(input);
-        CraftTweakerAPI.apply(new Remove(stack));
+        CraftTweakerAPI.apply(new IAction()
+        {
+            @Override
+            public void apply()
+            {
+                ModRecipes.KNIFE.remove(stack);
+            }
+
+            @Override
+            public String describe()
+            {
+                return "Removing knife recipe for " + stack.getDisplayName();
+            }
+        });
     }
-
-    private static class Add implements IAction
-    {
-        private final KnifeRecipe recipe;
-
-        public Add(KnifeRecipe recipe)
-        {
-            this.recipe = recipe;
-        }
-
-        @Override
-        public void apply()
-        {
-            ModRecipes.KNIFE.apply(recipe, true);
-        }
-
-        @Override
-        public String describe()
-        {
-            return "Adding Knife Recipe for " + recipe.getName();
-        }
-
-    }
-
-    private static class Remove implements IAction
-    {
-        private final ItemStack stack;
-
-        public Remove(ItemStack stack)
-        {
-            this.stack = stack;
-        }
-
-        @Override
-        public void apply()
-        {
-            KnifeRecipeManager.apply(new KnifeRecipe(stack, ItemStack.EMPTY), false);
-        }
-
-        @Override
-        public String describe()
-        {
-            return "Removing Knife Recipe for" + stack.getDisplayName();
-        }
-    }*/
-
 }

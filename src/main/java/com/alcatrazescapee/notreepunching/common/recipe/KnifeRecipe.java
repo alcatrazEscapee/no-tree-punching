@@ -7,16 +7,11 @@
 package com.alcatrazescapee.notreepunching.common.recipe;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
-import com.alcatrazescapee.alcatrazcore.recipe.RecipeMultiOutput;
-
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import com.alcatrazescapee.alcatrazcore.inventory.recipe.RecipeMultiOutput;
 
 public class KnifeRecipe extends RecipeMultiOutput
 {
-    public static final ResourceLocation ID = new ResourceLocation(MOD_ID, "recipe/knife");
-
     public KnifeRecipe(ItemStack inputStack, ItemStack... outputStacks)
     {
         super(inputStack, outputStacks);
@@ -25,11 +20,5 @@ public class KnifeRecipe extends RecipeMultiOutput
     public KnifeRecipe(String inputOre, int inputAmount, ItemStack... outputStacks)
     {
         super(inputOre, inputAmount, outputStacks);
-    }
-
-    @Override
-    public ResourceLocation getID()
-    {
-        return ID;
     }
 }

@@ -6,71 +6,71 @@
 
 package com.alcatrazescapee.notreepunching.integration.crafttweaker;
 
+import net.minecraft.item.ItemStack;
+
+import com.alcatrazescapee.notreepunching.common.recipe.FirePitRecipe;
+import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
+import crafttweaker.CraftTweakerAPI;
+import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
+import crafttweaker.api.item.IIngredient;
+import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenRegister
 @ZenClass("mods.notreepunching.Firepit")
 public class CTFirePitRecipe
 {
-    // todo: ALL OF THIS!!!
-    /*@ZenMethod
-    public static void add(IItemStack input, IItemStack output)
+    @ZenMethod
+    public static void add(IIngredient input, IItemStack output)
     {
-        FirePitRecipe recipe = new FirePitRecipe(CTPluginHelper.toStack(input),
-                CTPluginHelper.toStack(output));
-        CraftTweakerAPI.apply(new CTFirepitRecipe.Add(recipe));
+        FirePitRecipe recipe;
+        ItemStack outputStack = CraftTweakerPlugin.toStack(output);
+        if (input instanceof IOreDictEntry)
+        {
+            IOreDictEntry ore = (IOreDictEntry) input;
+            recipe = new FirePitRecipe(outputStack, ore.getName(), ore.getAmount());
+        }
+        else
+        {
+            recipe = new FirePitRecipe(outputStack, CraftTweakerPlugin.toStack(input));
+        }
+        CraftTweakerAPI.apply(new IAction()
+        {
+            @Override
+            public void apply()
+            {
+                ModRecipes.FIRE_PIT.add(recipe);
+            }
+
+            @Override
+            public String describe()
+            {
+                return "Adding Fire pit Recipe for " + recipe.getName();
+            }
+        });
     }
 
     @ZenMethod
-    public static void remove(IItemStack output)
+    public static void remove(IIngredient output)
     {
-        ItemStack stack = CTPluginHelper.toStack(output);
-        CraftTweakerAPI.apply(new CTFirepitRecipe.Remove(stack));
+        ItemStack stack = CraftTweakerPlugin.toStack(output);
+        // todo: make this more consistent IRecipeIngredient.test vs IRecipeIngredient.matches
+        CraftTweakerAPI.apply(new IAction()
+        {
+            @Override
+            public void apply()
+            {
+                ModRecipes.FIRE_PIT.remove(stack);
+            }
+
+            @Override
+            public String describe()
+            {
+                return null;
+            }
+        });
     }
-
-    private static class Add implements IAction
-    {
-        private final FirepitRecipe recipe;
-
-        public Add(FirepitRecipe recipe)
-        {
-            this.recipe = recipe;
-        }
-
-        @Override
-        public void apply()
-        {
-            FirepitRecipeHandler.addEntry(recipe, true);
-        }
-
-        @Override
-        public String describe()
-        {
-            return "Adding Firepit Recipe for " + recipe.getInput().getDisplayName();
-        }
-
-    }
-
-    private static class Remove implements IAction
-    {
-        private final ItemStack stack;
-
-        public Remove(ItemStack stack)
-        {
-            this.stack = stack;
-        }
-
-        @Override
-        public void apply()
-        {
-            FirepitRecipeHandler.addEntry(new FirepitRecipe(ItemStack.EMPTY, stack), false);
-        }
-
-        @Override
-        public String describe()
-        {
-            return "Removing Firepit Recipe for" + stack.getDisplayName();
-        }
-    }*/
 }

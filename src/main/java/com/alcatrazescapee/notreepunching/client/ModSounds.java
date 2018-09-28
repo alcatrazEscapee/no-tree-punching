@@ -18,17 +18,11 @@ import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 public class ModSounds
 {
     public static final SoundEvent KNAPPING = getNull();
-    public static final SoundEvent BELLOWS_OUT = getNull();
-    public static final SoundEvent BELLOWS_IN = getNull();
-    public static final SoundEvent GRINDSTONE = getNull();
 
     public static void preInit()
     {
         RegistryHelper r = RegistryHelper.get(MOD_ID);
 
         r.registerSound("knapping");
-        r.registerSound("bellows_out");
-        r.registerSound("bellows_in");
-        r.registerSound("grindstone");
     }
 }

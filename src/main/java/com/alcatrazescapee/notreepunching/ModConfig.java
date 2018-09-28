@@ -55,7 +55,7 @@ public class ModConfig
                 "If false, NTP will still add its own recipes, but it will not remove any other vanilla or modded recipes"})
         public boolean replaceLogRecipes = true;
 
-        @Config.Comment({"If true, NTP will replace certain vanilla recipes with ones that use some NTP items",
+        @Config.Comment({"If true, NTP will remove recipes for vanilla wooden + stone tools. It will also attempt to hide these items from the creative inventory.",
                 "If false, NTP will not add or remove any vanilla recipes"})
         public boolean replaceVanillaRecipes = true;
 

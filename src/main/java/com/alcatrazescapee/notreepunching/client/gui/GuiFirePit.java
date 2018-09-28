@@ -9,10 +9,13 @@ package com.alcatrazescapee.notreepunching.client.gui;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.alcatrazescapee.alcatrazcore.client.gui.GuiContainerTileCore;
 import com.alcatrazescapee.notreepunching.common.tile.TileFirePit;
 
+@SideOnly(Side.CLIENT)
 public class GuiFirePit extends GuiContainerTileCore<TileFirePit>
 {
     public GuiFirePit(TileFirePit tile, Container container, InventoryPlayer playerInv, ResourceLocation background, String titleKey)

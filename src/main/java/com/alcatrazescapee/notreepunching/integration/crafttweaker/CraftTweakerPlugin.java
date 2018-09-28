@@ -6,10 +6,9 @@
 
 package com.alcatrazescapee.notreepunching.integration.crafttweaker;
 
-import java.util.function.Consumer;
-
 import net.minecraft.item.ItemStack;
 
+import com.alcatrazescapee.notreepunching.common.items.ItemKnife;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
@@ -22,73 +21,39 @@ import stanhebben.zenscript.annotations.ZenMethod;
 @ZenClass("mods.notreepunching.NoTreePunching")
 public class CraftTweakerPlugin
 {
+    @ZenMethod
+    public static void addKnifeGrassDrop(IItemStack stack)
+    {
+        CraftTweakerAPI.apply(new IAction()
+        {
+            @Override
+            public void apply()
+            {
+                ItemKnife.addGrassDrop(CraftTweakerPlugin.toStack(stack));
+            }
+
+            @Override
+            public String describe()
+            {
+                return "Adding Knife grass drop for " + stack.getDisplayName();
+            }
+        });
+    }
+
     // Helper methods
-    public static ItemStack toStack(IItemStack iStack)
+    static ItemStack toStack(IItemStack iStack)
     {
         if (iStack == null)
             return ItemStack.EMPTY;
         return (ItemStack) iStack.getInternal();
     }
 
-    public static ItemStack toStack(IIngredient ingredient)
+    // Craft Tweaker Util Methods
+
+    static ItemStack toStack(IIngredient ingredient)
     {
         if (ingredient == null)
             return ItemStack.EMPTY;
         return (ItemStack) ingredient.getInternal();
-    }
-
-    // Craft Tweaker Util Methods
-
-    @ZenMethod
-    public static void addKnifeGrassDrop(IItemStack stack)
-    {
-        CraftTweakerAPI.apply(new Add(toStack(stack)));
-    }
-
-    private static class Add implements IAction
-    {
-        private final ItemStack stack;
-
-        public Add(ItemStack stack)
-        {
-            this.stack = stack;
-        }
-
-        @Override
-        public void apply()
-        {
-            //KnifeRecipeHandler.addGrassDrop(stack);
-        }
-
-        @Override
-        public String describe()
-        {
-            return "Adding Knife grass drop for " + stack.getDisplayName();
-        }
-
-    }
-
-    static class RecipeAction<T> implements IAction
-    {
-        private Consumer<T> applier;
-        private T recipe;
-
-        RecipeAction(T recipe, Consumer<T> applier)
-        {
-            this.recipe = recipe;
-            this.applier = applier;
-        }
-
-        @Override
-        public void apply()
-        {
-            applier.accept(recipe);
-        }
-
-        @Override
-        public String describe()
-        {
-            return null;
-        }
     }
 }

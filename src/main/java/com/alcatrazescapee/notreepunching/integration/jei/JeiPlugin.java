@@ -58,7 +58,7 @@ public class JeiPlugin implements IModPlugin
         // todo: check blacklist
         //blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.looseRock));
 
-        // Knife / Cutting Recipes
+        // Knife Recipes
         registry.handleRecipes(KnifeRecipe.class, KnifeRecipeCategory.Wrapper::new, KNIFE_UID);
         registry.addRecipes(ModRecipes.KNIFE.getAll(), KNIFE_UID);
 

@@ -7,16 +7,11 @@
 package com.alcatrazescapee.notreepunching.common.recipe;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
-import com.alcatrazescapee.alcatrazcore.recipe.RecipeCore;
-
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import com.alcatrazescapee.alcatrazcore.inventory.recipe.RecipeCore;
 
 public class FirePitRecipe extends RecipeCore
 {
-    public static final ResourceLocation ID = new ResourceLocation(MOD_ID, "recipe/fire_pit");
-
     public FirePitRecipe(ItemStack output, ItemStack inputStack)
     {
         super(output, inputStack);
@@ -25,11 +20,5 @@ public class FirePitRecipe extends RecipeCore
     public FirePitRecipe(ItemStack output, String inputOre, int inputAmount)
     {
         super(output, inputOre, inputAmount);
-    }
-
-    @Override
-    public ResourceLocation getID()
-    {
-        return ID;
     }
 }

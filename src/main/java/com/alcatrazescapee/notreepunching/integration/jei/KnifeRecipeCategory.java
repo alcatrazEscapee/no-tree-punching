@@ -6,6 +6,7 @@
 
 package com.alcatrazescapee.notreepunching.integration.jei;
 
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -14,12 +15,10 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.OreDictionary;
 
 import com.alcatrazescapee.notreepunching.ModConstants;
-import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.common.recipe.KnifeRecipe;
-import com.alcatrazescapee.notreepunching.util.types.Metal;
-import com.alcatrazescapee.notreepunching.util.types.ToolType;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -106,23 +105,18 @@ public class KnifeRecipeCategory implements IRecipeCategory<KnifeRecipeCategory.
             ImmutableList.Builder<List<ItemStack>> builder = ImmutableList.builder();
 
             // Add the main ingredient and knife items
-            builder.add(recipe.getInput());
-            builder.add(ImmutableList.of(new ItemStack(ModItems.getTool(ToolType.KNIFE, Metal.DIAMOND))));
+            builder.add(recipe.getInput().getStacks());
+            builder.add(OreDictionary.getOres("toolKnife"));
 
             // Set the input
             input = builder.build();
 
             // Reset builder and add output
             builder = ImmutableList.builder();
-            builder.add(recipe.getOutput());
+            builder.add(Arrays.asList(recipe.getOutput()));
 
             // Set the output
             output = builder.build();
-
-            /*input = new ArrayList<>();
-            input.add(recipe.getInput());
-            input.add(new ItemStack(ModItems.stoneKnife));
-            output = recipe.getSingleOutput();*/
         }
 
         @Override

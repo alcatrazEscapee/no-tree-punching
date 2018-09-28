@@ -21,8 +21,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryModifiable;
 
-import com.alcatrazescapee.alcatrazcore.recipe.RecipeManager;
+import com.alcatrazescapee.alcatrazcore.inventory.recipe.RecipeManager;
+import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockCobble;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockPottery;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
@@ -39,7 +41,8 @@ public class ModRecipes
 
     public static void init()
     {
-        // Smelting Recipes
+        /* SMELTING RECIPES */
+
         GameRegistry.addSmelting(BlockCobble.get(Stone.GRANITE), new ItemStack(Blocks.STONE, 1, BlockStone.EnumType.GRANITE.getMetadata()), 0.1f);
         GameRegistry.addSmelting(BlockCobble.get(Stone.DIORITE), new ItemStack(Blocks.STONE, 1, BlockStone.EnumType.DIORITE.getMetadata()), 0.1f);
         GameRegistry.addSmelting(BlockCobble.get(Stone.ANDESITE), new ItemStack(Blocks.STONE, 1, BlockStone.EnumType.ANDESITE.getMetadata()), 0.1f);
@@ -104,12 +107,35 @@ public class ModRecipes
         IForgeRegistry<IRecipe> r = event.getRegistry();
 
         register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, ""), new ItemStack(Items.DIAMOND_AXE), "XXY", 'X', "toolSaw", 'Y', "stickWood"));
+
+        if (ModConfig.GENERAL.replaceVanillaRecipes)
+        {
+            IForgeRegistryModifiable<IRecipe> r2 = (IForgeRegistryModifiable<IRecipe>) r;
+
+            remove(r2, "wooden_pickaxe");
+            remove(r2, "wooden_shovel");
+            remove(r2, "wooden_hoe");
+            remove(r2, "wooden_sword");
+            remove(r2, "wooden_axe");
+
+            remove(r2, "stone_pickaxe");
+            remove(r2, "stone_shovel");
+            remove(r2, "stone_hoe");
+            remove(r2, "stone_sword");
+            remove(r2, "stone_axe");
+        }
+
     }
 
     private static void register(IForgeRegistry<IRecipe> registry, IRecipe recipe)
     {
         recipe.setRegistryName(new ResourceLocation(recipe.getGroup()));
         registry.register(recipe);
+    }
+
+    private static void remove(IForgeRegistryModifiable<IRecipe> registry, String name)
+    {
+        registry.remove(new ResourceLocation("minecraft:" + name));
     }
 
 }

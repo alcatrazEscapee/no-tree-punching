@@ -17,10 +17,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 
-import com.alcatrazescapee.alcatrazcore.recipe.RecipeCore;
 import com.alcatrazescapee.notreepunching.ModConstants;
+import com.alcatrazescapee.notreepunching.common.recipe.FirePitRecipe;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
@@ -117,16 +116,12 @@ public class FirePitRecipeCategory implements IRecipeCategory<FirePitRecipeCateg
         private final List<List<ItemStack>> input;
         private final List<List<ItemStack>> output;
 
-        public Wrapper(RecipeCore recipe)
+        public Wrapper(FirePitRecipe recipe)
         {
             ImmutableList.Builder<List<ItemStack>> builder = ImmutableList.builder();
 
             // Add the ingredient
-            Object input = recipe.getInput();
-            if (input instanceof String)
-                builder.add(OreDictionary.getOres(((String) input)));
-            else
-                builder.add(ImmutableList.of((ItemStack) recipe.getInput()));
+            builder.add(recipe.getInput().getStacks());
 
             // Set the input
             this.input = builder.build();
