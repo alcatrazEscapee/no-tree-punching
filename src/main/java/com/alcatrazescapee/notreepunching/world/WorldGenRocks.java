@@ -37,19 +37,21 @@ public class WorldGenRocks implements IWorldGenerator
                 int zCoord = chunkZ * 16 + random.nextInt(16) + 8;
                 if (random.nextFloat() < 0.5)
                 {
-                    Stone stone = Stone.getRandom(random);
-                    placeRock(world, CoreHelpers.getTopSolidBlock(world, new BlockPos(xCoord, 0, zCoord)), stone);
+                    placeRock(world, CoreHelpers.getTopSolidBlock(world, new BlockPos(xCoord, 0, zCoord)), random);
                 }
             }
         }
     }
 
-    private void placeRock(World world, BlockPos pos, Stone stone)
+    private void placeRock(World world, BlockPos pos, Random random)
     {
         IBlockState state = world.getBlockState(pos);
         IBlockState stateDown = world.getBlockState(pos.down());
         if (!state.getMaterial().isLiquid() && state.getBlock().isReplaceable(world, pos) && !state.isOpaqueCube() &&
                 stateDown.isNormalCube() && MATERIALS.contains(stateDown.getMaterial()))
+        {
+            Stone stone = Stone.getFromMaterial(stateDown.getMaterial(), random);
             world.setBlockState(pos, BlockRock.get(stone).getDefaultState());
+        }
     }
 }

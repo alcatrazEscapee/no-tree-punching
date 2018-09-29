@@ -8,7 +8,7 @@
   "key": {
     "I": {
       "type": "forge:ore_dict",
-      "ore": "flintShard"
+      "ore": "shardFlint"
     },
     "S": {
       "type": "forge:ore_dict",

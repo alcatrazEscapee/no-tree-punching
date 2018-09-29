@@ -20,6 +20,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -28,6 +29,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.alcatrazescapee.alcatrazcore.block.BlockCore;
+import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.common.items.ItemRock;
 import com.alcatrazescapee.notreepunching.util.types.Stone;
 
@@ -45,7 +47,7 @@ public class BlockRock extends BlockCore
 
     public BlockRock(Stone type)
     {
-        super(Material.ROCK);
+        super(Material.GROUND);
         this.type = type;
         MAP.put(type, this);
 
@@ -114,17 +116,43 @@ public class BlockRock extends BlockCore
     }
 
     @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    {
+        ItemStack stack = getPickBlock(state, null, worldIn, pos, playerIn);
+        // todo: replace with alccore 0.2.3
+        if (!playerIn.addItemStackToInventory(stack))
+        {
+            CoreHelpers.dropItemInWorldExact(worldIn, playerIn.getPosition(), stack);
+        }
+
+        worldIn.setBlockToAir(pos);
+        return true;
+    }
+
+    @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
         drops.clear();
         drops.add(new ItemStack(ItemRock.get(type)));
-
     }
 
     @Override
     @Nonnull
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
+    public ItemStack getPickBlock(IBlockState state, @Nullable RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
     {
         return new ItemStack(ItemRock.get(type));
+    }
+
+    @Nullable
+    @Override
+    public String getHarvestTool(IBlockState state)
+    {
+        return null;
+    }
+
+    @Override
+    public int getHarvestLevel(IBlockState state)
+    {
+        return 0;
     }
 }

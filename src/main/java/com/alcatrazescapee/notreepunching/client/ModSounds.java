@@ -15,7 +15,7 @@ import static com.alcatrazescapee.alcatrazcore.util.CoreHelpers.getNull;
 import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
 @GameRegistry.ObjectHolder(MOD_ID)
-public class ModSounds
+public final class ModSounds
 {
     public static final SoundEvent KNAPPING = getNull();
 

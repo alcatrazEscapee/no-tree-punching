@@ -1,0 +1,17 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "RR",
+    "RR"
+  ],
+  "key": {
+    "R": {
+      "type": "forge:ore_dict",
+      "ore": "rockSandstone"
+    }
+  },
+  "result": {
+    "item": "minecraft:sandstone",
+    "count": 2
+  }
+}

@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -40,7 +41,7 @@ import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
 @Mod.EventBusSubscriber(modid = MOD_ID)
 @SuppressWarnings("unused")
-public class ModEventHandler
+public final class ModEventHandler
 {
     // Update the IPlayerItem capability so that the HarvestDropsEvent can get the correct tool
     @SubscribeEvent
@@ -52,7 +53,6 @@ public class ModEventHandler
             IPlayerItem cap = player.getCapability(CapabilityPlayerItem.CAPABILITY, null);
             if (cap != null)
             {
-
                 cap.setStack(player.getHeldItemMainhand());
             }
         }
@@ -60,7 +60,7 @@ public class ModEventHandler
 
     // Controls the slow mining speed of blocks that aren't the right tool
     @SubscribeEvent
-    public static void slowMining(PlayerEvent.BreakSpeed event)
+    public static void breakSpeed(PlayerEvent.BreakSpeed event)
     {
         EntityPlayer player = event.getEntityPlayer();
         if (player != null && !(player instanceof FakePlayer) && !player.isCreative() && ModConfig.GENERAL.enableBreakingChanges)
@@ -69,7 +69,7 @@ public class ModEventHandler
             ItemStack stack = player.getHeldItemMainhand();
             IBlockState state = event.getState();
 
-            if (HarvestBlockHandler.isValidTool(stack, player, state))
+            if (HarvestBlockHandler.isInvalidTool(stack, player, state))
             {
                 String toolClass = state.getBlock().getHarvestTool(state);
                 event.setNewSpeed(event.getOriginalSpeed() * HarvestBlockHandler.getSpeedModifier(toolClass == null ? "" : toolClass));
@@ -97,7 +97,7 @@ public class ModEventHandler
             }
 
             HarvestBlockHandler.addExtraDrops(event.getDrops(), state, player, stack);
-            if (!HarvestBlockHandler.isValidTool(stack, player, state))
+            if (HarvestBlockHandler.isInvalidTool(stack, player, state))
             {
                 event.getDrops().clear();
             }
@@ -115,6 +115,7 @@ public class ModEventHandler
             ItemStack mainStack = player.getHeldItem(EnumHand.MAIN_HAND);
             if (PlayerInteractionHandler.hasAction(event.getWorld(), event.getPos(), mainStack, event.getFace()))
             {
+                event.setCancellationResult(EnumActionResult.SUCCESS);
                 event.setCanceled(true);
                 return;
             }
@@ -124,6 +125,7 @@ public class ModEventHandler
         {
             if (PlayerInteractionHandler.performAction(event.getWorld(), event.getPos(), player, stack, event.getFace(), event.getHand()))
             {
+                event.setCancellationResult(EnumActionResult.SUCCESS);
                 event.setCanceled(true);
             }
         }
@@ -132,10 +134,8 @@ public class ModEventHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event)
     {
-        WoodRecipeHandler.init(event);
-
-        // Register cooler recipes!
         ModRecipes.registerRecipes(event);
+        WoodRecipeHandler.registerRecipes(event);
     }
 
     @SubscribeEvent

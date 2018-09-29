@@ -32,9 +32,9 @@ public class ContainerFirePit extends ContainerTileInventory<TileFirePit>
 
         if (inventory != null)
         {
-            addSlotToContainer(new SlotTileCore(inventory, 0, 80, 59, tile)); // Fuel slot
-            addSlotToContainer(new SlotTileCore(inventory, 1, 52, 23, tile)); // Input slot
-            addSlotToContainer(new SlotOutput(inventory, 2, 108, 23));
+            addSlotToContainer(new SlotTileCore(inventory, TileFirePit.FUEL_SLOT_ID, 80, 59, tile)); // Fuel slot
+            addSlotToContainer(new SlotTileCore(inventory, TileFirePit.INPUT_SLOT_ID, 52, 23, tile)); // Input slot
+            addSlotToContainer(new SlotOutput(inventory, TileFirePit.OUTPUT_SLOT_ID, 108, 23));
         }
     }
 }

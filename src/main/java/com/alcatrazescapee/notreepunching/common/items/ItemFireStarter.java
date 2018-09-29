@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -33,6 +34,7 @@ import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.client.particle.ParticleManager;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
+import com.alcatrazescapee.notreepunching.common.tile.TileFirePit;
 
 @ParametersAreNonnullByDefault
 public class ItemFireStarter extends ItemToolCore
@@ -40,6 +42,8 @@ public class ItemFireStarter extends ItemToolCore
     public ItemFireStarter()
     {
         super(ToolMaterial.WOOD, 0.5f, -2.5f);
+
+        setMaxDamage(10);
     }
 
     @Override
@@ -92,15 +96,20 @@ public class ItemFireStarter extends ItemToolCore
                     }
                     if (sticks <= 0 && logs <= 0 && thatch <= 0)
                     {
-                        // Commence Firepit making
+                        // Commence Fire pit making
                         worldIn.setBlockState(pos.up(), ModBlocks.FIRE_PIT.getDefaultState());
+                        TileFirePit te = CoreHelpers.getTE(worldIn, pos.up(), TileFirePit.class);
+                        if (te != null)
+                        {
+                            te.light(true);
+                        }
                         entities.forEach(Entity::setDead);
 
                     }
                     else
                     {
-                        // No firepit to make, try light a fire
-                        if (itemRand.nextFloat() < ModConfig.GENERAL.fireStarterFireStartChance)
+                        // No fire pit to make, try light a fire
+                        if (itemRand.nextFloat() < ModConfig.BALANCE.fireStarterFireStartChance)
                         {
                             worldIn.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
                         }
@@ -121,7 +130,13 @@ public class ItemFireStarter extends ItemToolCore
     @Override
     public int getMaxItemUseDuration(ItemStack stack)
     {
-        return 20;
+        return 30;
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack)
+    {
+        return false;
     }
 
     @SideOnly(Side.CLIENT)
@@ -136,8 +151,14 @@ public class ItemFireStarter extends ItemToolCore
             if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK)
             {
                 Vec3d v = result.hitVec;
-                ParticleManager.generateFireStarterParticle(world, new BlockPos(v));
+                ParticleManager.generateFireStarterParticle(world, v);
             }
         }
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
+    {
+        return false;
     }
 }

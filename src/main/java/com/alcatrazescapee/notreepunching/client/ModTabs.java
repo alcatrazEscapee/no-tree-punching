@@ -21,7 +21,7 @@ import com.alcatrazescapee.notreepunching.util.types.ToolType;
 import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
 @SideOnly(Side.CLIENT)
-public class ModTabs
+public final class ModTabs
 {
     public static final CreativeTabs TAB_ITEMS = new CreativeTabs(MOD_ID + ".items")
     {

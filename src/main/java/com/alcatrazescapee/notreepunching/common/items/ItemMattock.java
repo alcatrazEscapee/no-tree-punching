@@ -33,6 +33,8 @@ public class ItemMattock extends ItemToolCore
 
         addToolClass(ToolClass.AXE);
         addToolClass(ToolClass.SHOVEL);
+        // Cause why the heck not
+        setHarvestLevel("mattock", this.harvestLevel);
     }
 
     @Nonnull

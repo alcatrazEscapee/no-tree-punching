@@ -22,7 +22,7 @@ import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 import static com.alcatrazescapee.notreepunching.client.ModTabs.TAB_ITEMS;
 
 @GameRegistry.ObjectHolder(value = MOD_ID)
-public class ModBlocks
+public final class ModBlocks
 {
     public static final Block CERAMIC_LARGE_VESSEL = getNull();
     public static final Block FIRE_PIT = getNull();
@@ -35,7 +35,7 @@ public class ModBlocks
         // Stone Blocks
         for (Stone type : Stone.values())
         {
-            if (type != Stone.STONE)
+            if (type != Stone.STONE && type != Stone.SANDSTONE)
                 r.registerBlock(new BlockCobble(type), "cobblestone/" + type.name(), TAB_ITEMS);
 
             r.registerBlock(new BlockRock(type), null, "loose_rock/" + type.name());

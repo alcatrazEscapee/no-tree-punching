@@ -13,7 +13,7 @@ import com.alcatrazescapee.notreepunching.ModConfig;
 
 import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
-public class ModMaterials
+public final class ModMaterials
 {
     public static final Item.ToolMaterial TOOL_FLINT = EnumHelper.addToolMaterial(MOD_ID + ":flint", ModConfig.TOOLS.miningLevelFlint, 45, 2.5f, 0.5f, 0);
     public static final Item.ToolMaterial TOOL_TIN = EnumHelper.addToolMaterial(MOD_ID + ":tin", ModConfig.TOOLS.miningLevelTin, 120, 3f, 1.0f, 2);

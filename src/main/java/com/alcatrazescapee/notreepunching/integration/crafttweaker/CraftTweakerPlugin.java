@@ -6,9 +6,11 @@
 
 package com.alcatrazescapee.notreepunching.integration.crafttweaker;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.item.ItemStack;
 
-import com.alcatrazescapee.notreepunching.common.items.ItemKnife;
+import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
@@ -29,7 +31,7 @@ public class CraftTweakerPlugin
             @Override
             public void apply()
             {
-                ItemKnife.addGrassDrop(CraftTweakerPlugin.toStack(stack));
+                HarvestBlockHandler.addGrassDrop(CraftTweakerPlugin.toStack(stack));
             }
 
             @Override
@@ -41,19 +43,23 @@ public class CraftTweakerPlugin
     }
 
     // Helper methods
-    static ItemStack toStack(IItemStack iStack)
+    @Nonnull
+    static ItemStack toStack(IItemStack stack)
     {
-        if (iStack == null)
+        if (stack == null)
             return ItemStack.EMPTY;
-        return (ItemStack) iStack.getInternal();
+        Object obj = stack.getInternal();
+        return obj instanceof ItemStack ? (ItemStack) obj : ItemStack.EMPTY;
     }
 
     // Craft Tweaker Util Methods
 
+    @Nonnull
     static ItemStack toStack(IIngredient ingredient)
     {
-        if (ingredient == null)
+        if (!(ingredient instanceof IItemStack))
             return ItemStack.EMPTY;
-        return (ItemStack) ingredient.getInternal();
+        Object obj = ingredient.getInternal();
+        return obj instanceof ItemStack ? (ItemStack) obj : ItemStack.EMPTY;
     }
 }

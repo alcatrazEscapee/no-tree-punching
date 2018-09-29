@@ -30,6 +30,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -54,7 +55,7 @@ public class BlockFirePit extends BlockTileCore
         super(Material.WOOD);
 
         setTickRandomly(true);
-        setDefaultState(this.blockState.getBaseState().withProperty(LIT, true));
+        setDefaultState(this.blockState.getBaseState().withProperty(LIT, false));
     }
 
     @SideOnly(Side.CLIENT)
@@ -160,7 +161,8 @@ public class BlockFirePit extends BlockTileCore
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if (!world.isRemote)
+        TileFirePit te = CoreHelpers.getTE(world, pos, TileFirePit.class);
+        if (te != null)
         {
             ItemStack stack = player.getHeldItem(hand);
             // Special Interactions
@@ -169,20 +171,22 @@ public class BlockFirePit extends BlockTileCore
                 if (CoreHelpers.doesStackMatchOre(stack, "sand"))
                 {
                     // Extinguish
-                    world.setBlockState(pos, this.getDefaultState().withProperty(LIT, false));
-                    player.setHeldItem(hand, CoreHelpers.consumeItem(player, stack, 1));
+                    te.extinguish();
+                    if (!world.isRemote)
+                    {
+                        player.setHeldItem(hand, CoreHelpers.consumeItem(player, stack, 1));
+                    }
                     return true;
                 }
                 if (CoreHelpers.doesStackMatchOre(stack, "stickWood"))
                 {
                     // Burn the end of a stick into a torch
-                    ItemStack torchStack = new ItemStack(Blocks.TORCH, 2);
-                    if (!player.addItemStackToInventory(torchStack))
+                    if (!world.isRemote)
                     {
-                        CoreHelpers.dropItemInWorldExact(world, player.getPosition(), torchStack);
+                        CoreHelpers.giveItemToPlayer(world, player, new ItemStack(Blocks.TORCH, 2));
+                        player.setHeldItem(hand, CoreHelpers.consumeItem(player, stack, 1));
+                        world.playSound(null, player.getPosition(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 0.5F, 1.5F);
                     }
-                    player.setHeldItem(hand, CoreHelpers.consumeItem(player, stack, 1));
-                    world.playSound(null, player.getPosition(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 0.5F, 1.5F);
                     return true;
                 }
             }
@@ -191,12 +195,15 @@ public class BlockFirePit extends BlockTileCore
                 if (FireRegistry.isFireStarter(stack))
                 {
                     // Light an fire pit
-                    world.setBlockState(pos, this.getDefaultState().withProperty(LIT, true));
-                    stack.damageItem(1, player);
+                    te.light(false);
+                    if (!world.isRemote)
+                    {
+                        stack.damageItem(1, player);
+                    }
                     return true;
                 }
             }
-            if (!player.isSneaking())
+            if (!player.isSneaking() && !world.isRemote)
             {
                 player.openGui(NoTreePunching.getInstance(), ModGuiHandler.FIRE_PIT, world, pos.getX(), pos.getY(), pos.getZ());
             }
@@ -218,10 +225,25 @@ public class BlockFirePit extends BlockTileCore
     }
 
     @Override
+    public boolean isBurning(IBlockAccess world, BlockPos pos)
+    {
+        return world.getBlockState(pos).getValue(LIT);
+    }
+
+    // todo: more fire overrides?
+
+    @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
         drops.clear();
         drops.add(new ItemStack(Items.STICK, 2, 0));
+    }
+
+    @Override
+    @Nonnull
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
+    {
+        return ItemStack.EMPTY;
     }
 
     @Override

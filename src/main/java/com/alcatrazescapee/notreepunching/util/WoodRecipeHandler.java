@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -32,11 +33,12 @@ import com.alcatrazescapee.notreepunching.NoTreePunching;
 
 import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
-public class WoodRecipeHandler
+@ParametersAreNonnullByDefault
+public final class WoodRecipeHandler
 {
     private static final Map<ItemStack, ItemStack> MAP = new HashMap<>();
 
-    public static void init(RegistryEvent.Register<IRecipe> event)
+    public static void registerRecipes(RegistryEvent.Register<IRecipe> event)
     {
         IForgeRegistryModifiable<IRecipe> r = (IForgeRegistryModifiable<IRecipe>) event.getRegistry();
         Collection<IRecipe> recipes = r.getValuesCollection();

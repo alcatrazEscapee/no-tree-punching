@@ -19,11 +19,12 @@ import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.capability.CapabilityPlayerItem;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
+import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import com.alcatrazescapee.notreepunching.world.WorldGenRocks;
 
 @Mod(modid = ModConstants.MOD_ID, version = ModConstants.VERSION, dependencies = ModConstants.DEPENDENCIES, useMetadata = true)
-public class NoTreePunching
+public final class NoTreePunching
 {
     @Mod.Instance
     private static NoTreePunching instance;
@@ -59,6 +60,9 @@ public class NoTreePunching
     {
         // Register World Generation
         GameRegistry.registerWorldGenerator(new WorldGenRocks(), 3);
+
+        ModRecipes.init();
+        ModItems.init();
     }
 
     @Mod.EventHandler

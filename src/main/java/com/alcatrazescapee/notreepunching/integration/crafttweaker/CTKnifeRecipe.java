@@ -8,6 +8,7 @@ package com.alcatrazescapee.notreepunching.integration.crafttweaker;
 
 import net.minecraft.item.ItemStack;
 
+import com.alcatrazescapee.alcatrazcore.inventory.ingredient.IRecipeIngredient;
 import com.alcatrazescapee.notreepunching.common.recipe.KnifeRecipe;
 import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
 import crafttweaker.CraftTweakerAPI;
@@ -44,14 +45,13 @@ public class CTKnifeRecipe
     @ZenMethod
     public static void remove(IItemStack input)
     {
-        // todo: make this better
         ItemStack stack = CraftTweakerPlugin.toStack(input);
         CraftTweakerAPI.apply(new IAction()
         {
             @Override
             public void apply()
             {
-                ModRecipes.KNIFE.remove(stack);
+                ModRecipes.KNIFE.remove(IRecipeIngredient.of(stack));
             }
 
             @Override

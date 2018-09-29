@@ -11,22 +11,32 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockStone;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 
 public enum Stone
 {
-    STONE(true),
-    ANDESITE(true),
-    GRANITE(true),
-    DIORITE(true);
-
-    private static Stone[] values = values();
+    STONE,
+    ANDESITE,
+    GRANITE,
+    DIORITE,
+    SANDSTONE;
 
     @Nonnull
-    public static Stone getRandom(Random random)
+    public static Stone getFromMaterial(Material material, Random random)
     {
-        return values[random.nextInt(values.length)];
+        switch (random.nextInt(8))
+        {
+            case 0:
+                return ANDESITE;
+            case 1:
+                return DIORITE;
+            case 2:
+                return GRANITE;
+            default:
+                return material == Material.SAND ? SANDSTONE : STONE;
+        }
     }
 
     @Nullable
@@ -46,13 +56,10 @@ public enum Stone
                     return ANDESITE;
             }
         }
+        if (state.getBlock() == Blocks.SANDSTONE)
+        {
+            return SANDSTONE;
+        }
         return null;
-    }
-
-    public final boolean isEnabled;
-
-    Stone(boolean isEnabled)
-    {
-        this.isEnabled = isEnabled;
     }
 }

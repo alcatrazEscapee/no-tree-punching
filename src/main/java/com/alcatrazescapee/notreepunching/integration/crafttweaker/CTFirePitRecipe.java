@@ -8,6 +8,7 @@ package com.alcatrazescapee.notreepunching.integration.crafttweaker;
 
 import net.minecraft.item.ItemStack;
 
+import com.alcatrazescapee.alcatrazcore.inventory.ingredient.IRecipeIngredient;
 import com.alcatrazescapee.notreepunching.common.recipe.FirePitRecipe;
 import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
 import crafttweaker.CraftTweakerAPI;
@@ -54,16 +55,15 @@ public class CTFirePitRecipe
     }
 
     @ZenMethod
-    public static void remove(IIngredient output)
+    public static void remove(IItemStack output)
     {
         ItemStack stack = CraftTweakerPlugin.toStack(output);
-        // todo: make this more consistent IRecipeIngredient.test vs IRecipeIngredient.matches
         CraftTweakerAPI.apply(new IAction()
         {
             @Override
             public void apply()
             {
-                ModRecipes.FIRE_PIT.remove(stack);
+                ModRecipes.FIRE_PIT.remove(IRecipeIngredient.of(stack));
             }
 
             @Override

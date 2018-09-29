@@ -8,6 +8,7 @@ package com.alcatrazescapee.notreepunching.client.particle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,11 +26,11 @@ public class ParticleManager
                         0d, 0.008d, 0d));
     }
 
-    public static void generateFireStarterParticle(World world, BlockPos pos)
+    public static void generateFireStarterParticle(World world, Vec3d vec)
     {
         Minecraft.getMinecraft().effectRenderer.addEffect(
-                new ParticleFireStarter(world, pos.getX() + 0.5d + 0.05d * ModConstants.RNG.nextGaussian(),
-                        pos.getY() + 0.1d, pos.getZ() + 0.5d + 0.05d * ModConstants.RNG.nextGaussian(),
+                new ParticleFireStarter(world, vec.x + 0.05d * ModConstants.RNG.nextGaussian(),
+                        vec.y, vec.z + 0.05d * ModConstants.RNG.nextGaussian(),
                         0.01d * ModConstants.RNG.nextGaussian(), 0.03d, 0.01d * ModConstants.RNG.nextGaussian()));
     }
 }

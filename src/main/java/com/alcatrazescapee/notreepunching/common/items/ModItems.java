@@ -6,16 +6,18 @@
 
 package com.alcatrazescapee.notreepunching.common.items;
 
-import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 import com.alcatrazescapee.alcatrazcore.item.ItemCore;
 import com.alcatrazescapee.alcatrazcore.util.OreDictionaryHelper;
 import com.alcatrazescapee.alcatrazcore.util.RegistryHelper;
 import com.alcatrazescapee.alcatrazcore.util.collections.ImmutableEnumTable;
+import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.util.types.Metal;
 import com.alcatrazescapee.notreepunching.util.types.Stone;
 import com.alcatrazescapee.notreepunching.util.types.ToolType;
@@ -27,7 +29,7 @@ import static com.alcatrazescapee.notreepunching.client.ModTabs.TAB_TOOLS;
 import static com.alcatrazescapee.notreepunching.common.ModMaterials.TOOL_FLINT;
 
 @GameRegistry.ObjectHolder(value = MOD_ID)
-public class ModItems
+public final class ModItems
 {
     public static final Item FLINT_SHARD = getNull();
     public static final Item GRASS_FIBER = getNull();
@@ -39,7 +41,6 @@ public class ModItems
 
     private static ImmutableMap<ToolType, Item> FLINT_TOOLS;
     private static ImmutableEnumTable<ToolType, Metal, Item> METAL_TOOLS;
-    private static ImmutableList<Item> KNIVES;
 
     public static Item getFlintTool(ToolType type)
     {
@@ -49,11 +50,6 @@ public class ModItems
     public static Item getTool(ToolType type, Metal metal)
     {
         return METAL_TOOLS.get(type, metal);
-    }
-
-    public static ImmutableCollection<Item> getTools(ToolType type)
-    {
-        return METAL_TOOLS.row(type).values();
     }
 
     public static void preInit()
@@ -109,6 +105,30 @@ public class ModItems
 
             FLINT_TOOLS = flintTools.build();
             METAL_TOOLS = metalTools.build();
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public static void init()
+    {
+        // Vanilla ore dictionary additions
+        OreDictionary.registerOre("kindling", Items.PAPER);
+        OreDictionary.registerOre("kindling", Blocks.HAY_BLOCK);
+
+        // Remove wood + stone tools from creative tabs
+        if (ModConfig.GENERAL.replaceVanillaRecipes)
+        {
+            Items.WOODEN_AXE.setCreativeTab(null);
+            Items.WOODEN_HOE.setCreativeTab(null);
+            Items.WOODEN_PICKAXE.setCreativeTab(null);
+            Items.WOODEN_SHOVEL.setCreativeTab(null);
+            Items.WOODEN_SWORD.setCreativeTab(null);
+
+            Items.STONE_AXE.setCreativeTab(null);
+            Items.STONE_HOE.setCreativeTab(null);
+            Items.STONE_PICKAXE.setCreativeTab(null);
+            Items.STONE_SHOVEL.setCreativeTab(null);
+            Items.STONE_SWORD.setCreativeTab(null);
         }
     }
 }

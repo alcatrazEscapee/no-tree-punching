@@ -1,20 +1,17 @@
 {
   "type": "forge:ore_shaped",
   "pattern": [
-    "I",
-    "S"
+    "  I",
+    " II",
+    "I  "
   ],
   "key": {
     "I": {
-      "type": "forge:ore_dict",
-      "ore": "shardFlint"
-    },
-    "S": {
       "type": "forge:ore_dict",
       "ore": "stickWood"
     }
   },
   "result": {
-    "item": "notreepunching:knife/flint"
+    "item": "notreepunching:clay_tool"
   }
 }

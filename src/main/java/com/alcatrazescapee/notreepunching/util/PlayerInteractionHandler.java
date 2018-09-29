@@ -7,11 +7,12 @@
 package com.alcatrazescapee.notreepunching.util;
 
 import java.util.Random;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemAxe;
@@ -27,11 +28,12 @@ import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 
-public class PlayerInteractionHandler
+@ParametersAreNonnullByDefault
+public final class PlayerInteractionHandler
 {
     private static final Random rand = new Random();
 
-    public static boolean hasAction(World world, BlockPos pos, ItemStack stack, EnumFacing face)
+    public static boolean hasAction(World world, BlockPos pos, ItemStack stack, @Nullable EnumFacing face)
     {
         IBlockState state = world.getBlockState(pos);
         if (stack.getItem() == Items.FLINT)
@@ -40,7 +42,9 @@ public class PlayerInteractionHandler
         }
         if (CoreHelpers.doesStackMatchOre(stack, "toolWeakAxe") || CoreHelpers.doesStackMatchOre(stack, "toolAxe") || stack.getItem() instanceof ItemAxe)
         {
-            return WoodRecipeHandler.isLog(world, pos, state) && face == EnumFacing.UP;
+            IBlockState stateDown = world.getBlockState(pos.down());
+            return WoodRecipeHandler.isLog(world, pos, state) && !WoodRecipeHandler.isLog(world, pos.down(), stateDown) &&
+                    stateDown.isOpaqueCube() && face == EnumFacing.UP;
         }
         return false;
     }
@@ -50,26 +54,26 @@ public class PlayerInteractionHandler
      *
      * @return true if the event should be cancelled
      */
-    public static boolean performAction(World world, BlockPos pos, EntityPlayer player, ItemStack stack, EnumFacing face, EnumHand hand)
+    public static boolean performAction(World world, BlockPos pos, EntityPlayer player, ItemStack stack, @Nullable EnumFacing face, EnumHand hand)
     {
         if (stack.getItem() == Items.FLINT)
         {
-            return handleFlint(world, pos, player, stack, face, hand);
+            return handleFlint(world, pos, player, stack, hand);
         }
         if (CoreHelpers.doesStackMatchOre(stack, "toolWeakAxe") || CoreHelpers.doesStackMatchOre(stack, "toolAxe") || stack.getItem() instanceof ItemAxe)
         {
-            return handleChopping(world, pos, player, stack, face, hand);
+            return handleChopping(world, pos, player, stack);
         }
         return false;
     }
 
-    private static boolean handleFlint(World world, BlockPos pos, EntityPlayer player, ItemStack stack, EnumFacing face, EnumHand hand)
+    private static boolean handleFlint(World world, BlockPos pos, EntityPlayer player, ItemStack stack, EnumHand hand)
     {
         if (!world.isRemote)
         {
-            if (rand.nextFloat() < ModConfig.GENERAL.flintKnappingChance)
+            if (rand.nextFloat() < ModConfig.BALANCE.flintKnappingChance)
             {
-                if (rand.nextFloat() < ModConfig.GENERAL.flintKnappingSuccessChance)
+                if (rand.nextFloat() < ModConfig.BALANCE.flintKnappingSuccessChance)
                     CoreHelpers.dropItemInWorldExact(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, new ItemStack(ModItems.FLINT_SHARD));
 
                 player.setHeldItem(hand, CoreHelpers.consumeItem(player, stack));
@@ -79,11 +83,11 @@ public class PlayerInteractionHandler
         return true;
     }
 
-    private static boolean handleChopping(World world, BlockPos pos, EntityPlayer player, ItemStack stack, EnumFacing face, EnumHand hand)
+    private static boolean handleChopping(World world, BlockPos pos, EntityPlayer player, ItemStack stack)
     {
         if (!world.isRemote)
         {
-            if (rand.nextFloat() < ModConfig.GENERAL.logChoppingChance)
+            if (rand.nextFloat() < ModConfig.BALANCE.logChoppingChance)
             {
                 int amount = 1;
                 if (CoreHelpers.doesStackMatchOre(stack, "toolWeakAxe"))
@@ -101,7 +105,7 @@ public class PlayerInteractionHandler
                 {
                     result.setCount(amount);
                     CoreHelpers.dropItemInWorldExact(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, result);
-                    stack.attemptDamageItem(1, rand, (EntityPlayerMP) player);
+                    stack.damageItem(1, player);
                     world.setBlockToAir(pos);
                 }
                 world.playSound(null, pos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.PLAYERS, 0.6f, 1.0f);

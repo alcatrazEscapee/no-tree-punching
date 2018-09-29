@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -35,22 +36,47 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
     private static final byte BURN_FIELD_ID = 0;
     private static final byte MAX_BURN_FIELD_ID = 1;
     private static final byte COOK_FIELD_ID = 2;
-    private static final byte MAX_COOK_FIELD_ID = 3;
+    public static final byte FUEL_SLOT_ID = 0;
+    public static final byte INPUT_SLOT_ID = 1;
+    public static final byte OUTPUT_SLOT_ID = 2;
+    private static final byte NUM_FIELDS = 3;
 
-    public static boolean isStackValidFuel(ItemStack stack)
+    private static boolean isStackValidFuel(ItemStack stack)
     {
-        return TileEntityFurnace.getItemBurnTime(stack) > 0 && TileEntityFurnace.getItemBurnTime(stack) <= ModConfig.GENERAL.firePitFuelMaxAmount;
+        return TileEntityFurnace.getItemBurnTime(stack) > 0 && TileEntityFurnace.getItemBurnTime(stack) <= ModConfig.BALANCE.firePitFuelMaxAmount;
     }
 
     private int burnTicks;
     private int maxBurnTicks;
 
     private int cookTimer = 0;
-    private int maxCookTimer = 0;
+
+    private boolean hasCachedRecipe;
+    private FirePitRecipe cachedRecipe;
 
     public TileFirePit()
     {
         super(3);
+
+        hasCachedRecipe = false;
+        cachedRecipe = null;
+    }
+
+    public void light(boolean addStartingFuel)
+    {
+        world.setBlockState(pos, world.getBlockState(pos).withProperty(LIT, true));
+        if (addStartingFuel)
+        {
+            this.burnTicks = (int) (0.5 * TileEntityFurnace.getItemBurnTime(new ItemStack(Blocks.LOG)) * ModConfig.BALANCE.firePitFuelMultiplier);
+            this.maxBurnTicks = burnTicks * 2;
+        }
+    }
+
+    public void extinguish()
+    {
+        world.setBlockState(pos, world.getBlockState(pos).withProperty(LIT, false));
+        this.burnTicks = 0;
+        this.maxBurnTicks = 0;
     }
 
     @Override
@@ -61,50 +87,51 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
             IBlockState state = world.getBlockState(pos);
             if (world.getBlockState(pos).getValue(LIT))
             {
-                // Try and cook the item in the fire pit
-                ItemStack cookStack = inventory.getStackInSlot(1);
-                ItemStack outStack = inventory.getStackInSlot(2);
-
-                FirePitRecipe recipe = ModRecipes.FIRE_PIT.get(cookStack);
-                if (recipe != null)
+                if (!hasCachedRecipe)
                 {
-                    ItemStack output = recipe.getOutput();
-                    // check if the stacks can be merged in the output
-                    if (CoreHelpers.canMergeStacks(outStack, output))
-                    {
-                        cookTimer++;
-                        maxCookTimer = ModConfig.GENERAL.firePitCookSpeed;
+                    updateRecipe();
+                }
 
-                        if (cookTimer >= maxCookTimer)
+                if (cachedRecipe != null)
+                {
+                    cookTimer++;
+                    if (cookTimer >= ModConfig.BALANCE.firePitCookTime)
+                    {
+                        updateRecipe();
+                        if (cachedRecipe != null)
                         {
-                            inventory.setStackInSlot(1, recipe.consumeInput(cookStack));
-                            inventory.setStackInSlot(2, CoreHelpers.mergeStacks(outStack, output));
-                            cookTimer = 0;
+                            ItemStack cookStack = inventory.getStackInSlot(INPUT_SLOT_ID);
+                            ItemStack outStack = inventory.getStackInSlot(OUTPUT_SLOT_ID);
+
+                            inventory.setStackInSlot(INPUT_SLOT_ID, cachedRecipe.consumeInput(cookStack));
+                            inventory.setStackInSlot(OUTPUT_SLOT_ID, CoreHelpers.mergeStacks(outStack, cachedRecipe.getOutput()));
                         }
+                        cookTimer = 0;
                     }
                 }
-                else
+                else if (cookTimer > 0)
                 {
                     cookTimer -= 4;
-                    // Don't reset the max cool time
-                    //maxCookTimer = 0;
+                    if (cookTimer < 0)
+                    {
+                        cookTimer = 0;
+                    }
                 }
 
                 burnTicks--;
                 if (burnTicks <= 0)
                 {
                     // Try and consume one item in fuel slot
-                    ItemStack is = inventory.getStackInSlot(0);
-                    if (isStackValidFuel(is))
+                    ItemStack stack = inventory.getStackInSlot(FUEL_SLOT_ID);
+                    if (isStackValidFuel(stack))
                     {
-                        burnTicks += TileEntityFurnace.getItemBurnTime(is) * ModConfig.GENERAL.firePitFuelMultiplier;
+                        burnTicks += TileEntityFurnace.getItemBurnTime(stack) * ModConfig.BALANCE.firePitFuelMultiplier;
                         maxBurnTicks = burnTicks;
-                        is = CoreHelpers.consumeItem(is);
-                        inventory.setStackInSlot(0, is);
+                        stack = CoreHelpers.consumeItem(stack);
+                        inventory.setStackInSlot(FUEL_SLOT_ID, stack);
                     }
                     else
                     {
-
                         // Else, extinguish the fire pit
                         burnTicks = 0;
                         world.setBlockState(pos, state.withProperty(LIT, false));
@@ -120,6 +147,42 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
         }
     }
 
+    @Override
+    public void setAndUpdateSlots(int slot)
+    {
+        if (!world.isRemote)
+        {
+            updateRecipe();
+        }
+        super.setAndUpdateSlots(slot);
+    }
+
+    @Override
+    public boolean isItemValid(int slot, ItemStack stack)
+    {
+        switch (slot)
+        {
+            case FUEL_SLOT_ID:
+                return isStackValidFuel(stack);
+            case OUTPUT_SLOT_ID:
+                return false;
+            case INPUT_SLOT_ID:
+                return true;
+        }
+        throw new IllegalArgumentException("Invalid slot id in isItemValid: " + slot);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public int getScaledCookTime()
+    {
+        if (ModConfig.BALANCE.firePitCookTime != 0 && cookTimer != 0)
+        {
+            float f1 = cookTimer / (float) ModConfig.BALANCE.firePitCookTime;
+            return Math.round(23 * f1);
+        }
+        return 0;
+    }
+
     @SideOnly(Side.CLIENT)
     public int getScaledBurnTicks()
     {
@@ -131,15 +194,10 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
         return 0;
     }
 
-    @SideOnly(Side.CLIENT)
-    public int getScaledCookTime()
+    @Override
+    public int getFieldCount()
     {
-        if (maxCookTimer != 0 && cookTimer != 0)
-        {
-            float f1 = cookTimer / (float) maxCookTimer;
-            return Math.round(23 * f1);
-        }
-        return 0;
+        return NUM_FIELDS;
     }
 
     @Override
@@ -167,10 +225,26 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
         return oldState.getBlock() != newState.getBlock();
     }
 
-    @Override
-    public int getFieldCount()
+    private void updateRecipe()
     {
-        return 4;
+        hasCachedRecipe = true;
+        ItemStack cookStack = inventory.getStackInSlot(INPUT_SLOT_ID);
+        FirePitRecipe recipe = ModRecipes.FIRE_PIT.get(cookStack);
+
+        NoTreePunching.getLog().info("Found a recipe: {}", (recipe == null ? "null" : recipe.getName()));
+        if (recipe != null)
+        {
+            ItemStack outStack = inventory.getStackInSlot(OUTPUT_SLOT_ID);
+            ItemStack output = recipe.getOutput();
+            // check if the stacks can be merged in the output
+            if (CoreHelpers.canMergeStacks(outStack, output))
+            {
+                NoTreePunching.getLog().info("Recipe matches output! saving to cache");
+                cachedRecipe = recipe;
+                return;
+            }
+        }
+        cachedRecipe = null;
     }
 
     @Override
@@ -184,8 +258,6 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
                 return maxBurnTicks;
             case COOK_FIELD_ID:
                 return cookTimer;
-            case MAX_COOK_FIELD_ID:
-                return maxCookTimer;
             default:
                 NoTreePunching.getLog().warn("Invalid field ID: {}", id);
                 return 0;
@@ -205,9 +277,6 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
                 break;
             case COOK_FIELD_ID:
                 cookTimer = value;
-                break;
-            case MAX_COOK_FIELD_ID:
-                maxCookTimer = value;
                 break;
             default:
                 NoTreePunching.getLog().warn("Invalid Field ID {}", id);

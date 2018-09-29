@@ -23,21 +23,25 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 
+import com.alcatrazescapee.alcatrazcore.inventory.recipe.IRecipeManager;
 import com.alcatrazescapee.alcatrazcore.inventory.recipe.RecipeManager;
 import com.alcatrazescapee.notreepunching.ModConfig;
+import com.alcatrazescapee.notreepunching.ModConstants;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockCobble;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockPottery;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
+import com.alcatrazescapee.notreepunching.util.types.Metal;
 import com.alcatrazescapee.notreepunching.util.types.Pottery;
 import com.alcatrazescapee.notreepunching.util.types.Stone;
+import com.alcatrazescapee.notreepunching.util.types.ToolType;
 
 import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
-public class ModRecipes
+public final class ModRecipes
 {
-    public static final RecipeManager<FirePitRecipe> FIRE_PIT = new RecipeManager<>();
-    public static final RecipeManager<KnifeRecipe> KNIFE = new RecipeManager<>();
+    public static final IRecipeManager<FirePitRecipe> FIRE_PIT = new RecipeManager<>();
+    public static final IRecipeManager<KnifeRecipe> KNIFE = new RecipeManager<>();
 
     public static void init()
     {
@@ -46,6 +50,7 @@ public class ModRecipes
         GameRegistry.addSmelting(BlockCobble.get(Stone.GRANITE), new ItemStack(Blocks.STONE, 1, BlockStone.EnumType.GRANITE.getMetadata()), 0.1f);
         GameRegistry.addSmelting(BlockCobble.get(Stone.DIORITE), new ItemStack(Blocks.STONE, 1, BlockStone.EnumType.DIORITE.getMetadata()), 0.1f);
         GameRegistry.addSmelting(BlockCobble.get(Stone.ANDESITE), new ItemStack(Blocks.STONE, 1, BlockStone.EnumType.ANDESITE.getMetadata()), 0.1f);
+        // No cobblestone for sandstone
 
         GameRegistry.addSmelting(ModItems.GRASS_STRING, new ItemStack(Items.STRING), 0.1f);
         GameRegistry.addSmelting(ModItems.CLAY_BRICK, new ItemStack(Items.BRICK), 0.1f);
@@ -99,32 +104,60 @@ public class ModRecipes
         {
             KNIFE.add(new KnifeRecipe(new ItemStack(i < 4 ? Blocks.LEAVES : Blocks.LEAVES2, 6, i % 4), new ItemStack(Blocks.SAPLING, 1, i), new ItemStack(ModItems.GRASS_FIBER, 2)));
         }
-        KNIFE.add(new KnifeRecipe("sapling", 1, new ItemStack(ModItems.GRASS_FIBER, 2), new ItemStack(Items.STICK)));
+        KNIFE.add(new KnifeRecipe("treeSapling", 1, new ItemStack(ModItems.GRASS_FIBER, 2), new ItemStack(Items.STICK)));
     }
 
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event)
     {
-        IForgeRegistry<IRecipe> r = event.getRegistry();
+        IForgeRegistryModifiable<IRecipe> r = (IForgeRegistryModifiable<IRecipe>) event.getRegistry();
 
-        register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, ""), new ItemStack(Items.DIAMOND_AXE), "XXY", 'X', "toolSaw", 'Y', "stickWood"));
+        if (ModConfig.TOOLS.enableTinTools)
+        {
+            registerToolRecipes(r, Metal.TIN);
+        }
+
+        if (ModConfig.TOOLS.enableCopperTools)
+        {
+            registerToolRecipes(r, Metal.COPPER);
+        }
+
+        if (ModConfig.TOOLS.enableBronzeTools)
+        {
+            registerToolRecipes(r, Metal.BRONZE);
+        }
+
+        if (ModConfig.TOOLS.enableSteelTools)
+        {
+            registerToolRecipes(r, Metal.STEEL);
+        }
 
         if (ModConfig.GENERAL.replaceVanillaRecipes)
         {
-            IForgeRegistryModifiable<IRecipe> r2 = (IForgeRegistryModifiable<IRecipe>) r;
+            remove(r, "wooden_pickaxe");
+            remove(r, "wooden_shovel");
+            remove(r, "wooden_hoe");
+            remove(r, "wooden_sword");
+            remove(r, "wooden_axe");
 
-            remove(r2, "wooden_pickaxe");
-            remove(r2, "wooden_shovel");
-            remove(r2, "wooden_hoe");
-            remove(r2, "wooden_sword");
-            remove(r2, "wooden_axe");
-
-            remove(r2, "stone_pickaxe");
-            remove(r2, "stone_shovel");
-            remove(r2, "stone_hoe");
-            remove(r2, "stone_sword");
-            remove(r2, "stone_axe");
+            remove(r, "stone_pickaxe");
+            remove(r, "stone_shovel");
+            remove(r, "stone_hoe");
+            remove(r, "stone_sword");
+            remove(r, "stone_axe");
         }
 
+    }
+
+    private static void registerToolRecipes(IForgeRegistry<IRecipe> r, Metal metalType)
+    {
+        String metalName = metalType.name().toLowerCase() + "_";
+        String ingotName = ModConstants.CASE_CONVERTER.convert("INGOT_" + metalType.name());
+        register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, metalName + "knife"),
+                new ItemStack(ModItems.getTool(ToolType.KNIFE, metalType)), "I", "S", 'S', ingotName, 'I', "stickWood"));
+        register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, metalName + "saw"),
+                new ItemStack(ModItems.getTool(ToolType.SAW, metalType)), "  I", " IS", "IS ", 'S', ingotName, 'I', "stickWood"));
+        register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, metalName + "mattock"),
+                new ItemStack(ModItems.getTool(ToolType.MATTOCK, metalType)), "III", " SI", " S ", 'S', ingotName, 'I', "stickWood"));
     }
 
     private static void register(IForgeRegistry<IRecipe> registry, IRecipe recipe)

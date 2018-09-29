@@ -57,11 +57,12 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20180813"
+    mappings = "snapshot_${mcp_mapping}"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     replace 'GRADLE:VERSION', "${mod_version}"
     replace 'GRADLE:FORGE_VERSION', "${forge_version}"
+    replace 'GRADLE:ALC_CORE_VERSION', "${alc_core_version}"
 }
 
 dependencies {

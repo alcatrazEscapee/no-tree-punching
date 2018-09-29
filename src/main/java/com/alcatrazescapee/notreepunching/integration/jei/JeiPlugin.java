@@ -6,6 +6,10 @@
 
 package com.alcatrazescapee.notreepunching.integration.jei;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+
+import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.client.gui.GuiFirePit;
 import com.alcatrazescapee.notreepunching.common.recipe.FirePitRecipe;
 import com.alcatrazescapee.notreepunching.common.recipe.KnifeRecipe;
@@ -54,9 +58,22 @@ public class JeiPlugin implements IModPlugin
         */
 
         // Blacklist Ingredients
-        IIngredientBlacklist blacklist = registry.getJeiHelpers().getIngredientBlacklist();
-        // todo: check blacklist
-        //blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.looseRock));
+        if (ModConfig.GENERAL.replaceVanillaRecipes)
+        {
+            IIngredientBlacklist blacklist = registry.getJeiHelpers().getIngredientBlacklist();
+
+            blacklist.addIngredientToBlacklist(new ItemStack(Items.WOODEN_AXE));
+            blacklist.addIngredientToBlacklist(new ItemStack(Items.WOODEN_HOE));
+            blacklist.addIngredientToBlacklist(new ItemStack(Items.WOODEN_PICKAXE));
+            blacklist.addIngredientToBlacklist(new ItemStack(Items.WOODEN_SHOVEL));
+            blacklist.addIngredientToBlacklist(new ItemStack(Items.WOODEN_SWORD));
+
+            blacklist.addIngredientToBlacklist(new ItemStack(Items.STONE_AXE));
+            blacklist.addIngredientToBlacklist(new ItemStack(Items.STONE_HOE));
+            blacklist.addIngredientToBlacklist(new ItemStack(Items.STONE_PICKAXE));
+            blacklist.addIngredientToBlacklist(new ItemStack(Items.STONE_SHOVEL));
+            blacklist.addIngredientToBlacklist(new ItemStack(Items.STONE_SWORD));
+        }
 
         // Knife Recipes
         registry.handleRecipes(KnifeRecipe.class, KnifeRecipeCategory.Wrapper::new, KNIFE_UID);

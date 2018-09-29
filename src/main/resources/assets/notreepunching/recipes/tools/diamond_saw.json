@@ -1,25 +1,21 @@
 {
   "type": "forge:ore_shaped",
   "pattern": [
-    " II",
-    " GI",
-    "S  "
+    "  S",
+    " SI",
+    "SI "
   ],
   "key": {
     "I": {
       "type": "forge:ore_dict",
-      "ore": "shardFlint"
+      "ore": "gemDiamond"
     },
     "S": {
       "type": "forge:ore_dict",
       "ore": "stickWood"
-    },
-    "G": {
-      "type": "forge:ore_dict",
-      "ore": "string"
     }
   },
   "result": {
-    "item": "notreepunching:shovel/flint"
+    "item": "notreepunching:saw/diamond"
   }
 }

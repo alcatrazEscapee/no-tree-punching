@@ -6,39 +6,41 @@
 
 package com.alcatrazescapee.notreepunching.common.items;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IShearable;
 
 import com.alcatrazescapee.alcatrazcore.item.tool.ItemToolCore;
 import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
+import com.alcatrazescapee.notreepunching.common.ModMaterials;
 import com.alcatrazescapee.notreepunching.common.recipe.KnifeRecipe;
 import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
+import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 
 @ParametersAreNonnullByDefault
 public class ItemKnife extends ItemToolCore
 {
-    // todo: grass drops
-    private static final List<ItemStack> grassDrops = new ArrayList<>();
 
     static
     {
-        ItemKnife.addGrassDrop(new ItemStack(ModItems.GRASS_FIBER));
-    }
-
-    public static void addGrassDrop(ItemStack stack)
-    {
-        grassDrops.add(stack);
+        HarvestBlockHandler.addGrassDrop(new ItemStack(ModItems.GRASS_FIBER));
+        HarvestBlockHandler.addGrassDrop(new ItemStack(ModItems.GRASS_FIBER, 2));
     }
 
     public ItemKnife(ToolMaterial material)
@@ -83,5 +85,36 @@ public class ItemKnife extends ItemToolCore
         }
 
         return super.onItemRightClick(worldIn, playerIn, handIn);
+    }
+
+    public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase entity, EnumHand hand)
+    {
+        if (!entity.world.isRemote && entity instanceof IShearable && this.toolMaterial != ModMaterials.TOOL_FLINT)
+        {
+            IShearable target = (IShearable) entity;
+            BlockPos pos = new BlockPos(entity.posX, entity.posY, entity.posZ);
+            if (target.isShearable(stack, entity.world, pos))
+            {
+                List<ItemStack> drops = target.onSheared(stack, entity.world, pos, EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack));
+                Random rand = new Random();
+
+                for (ItemStack stack1 : drops)
+                {
+                    if (stack1 != null && !stack1.isEmpty())
+                    {
+                        EntityItem entityItem = entity.entityDropItem(stack1, 1.0F);
+                        if (entityItem != null)
+                        {
+                            entityItem.motionY += (double) (rand.nextFloat() * 0.05F);
+                            entityItem.motionX += (double) ((rand.nextFloat() - rand.nextFloat()) * 0.1F);
+                            entityItem.motionZ += (double) ((rand.nextFloat() - rand.nextFloat()) * 0.1F);
+                        }
+                    }
+                }
+                stack.damageItem(1, entity);
+            }
+            return true;
+        }
+        return false;
     }
 }

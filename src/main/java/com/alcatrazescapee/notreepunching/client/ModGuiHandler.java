@@ -30,7 +30,7 @@ import com.alcatrazescapee.notreepunching.common.tile.TileLargeVessel;
 
 import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
-public class ModGuiHandler implements IGuiHandler
+public final class ModGuiHandler implements IGuiHandler
 {
     public static final int LARGE_VESSEL = 0;
     public static final int SMALL_VESSEL = 1;

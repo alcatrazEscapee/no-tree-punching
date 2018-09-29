@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
@@ -57,8 +58,9 @@ public class BlockPottery extends BlockCore
         this.type = type;
         MAP.put(type, this);
 
-        setHardness(1.6f - 0.2f * type.ordinal());
+        setHardness(0.8f - 0.1f * type.ordinal());
         setHarvestLevel("shovel", 0);
+        setSoundType(SoundType.GROUND);
     }
 
     @Nonnull
