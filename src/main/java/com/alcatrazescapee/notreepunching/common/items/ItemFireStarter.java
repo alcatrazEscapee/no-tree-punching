@@ -146,7 +146,7 @@ public class ItemFireStarter extends ItemToolCore
             if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK)
             {
                 Vec3d v = result.hitVec;
-                ParticleManager.generateFireStarterParticle(world, v);
+                ParticleManager.generateFireStarterSmoke(world, v);
             }
         }
     }

@@ -6,7 +6,6 @@
 
 package com.alcatrazescapee.notreepunching.util;
 
-import java.util.Random;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -28,11 +27,11 @@ import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 
+import static com.alcatrazescapee.notreepunching.ModConstants.RNG;
+
 @ParametersAreNonnullByDefault
 public final class PlayerInteractionHandler
 {
-    private static final Random rand = new Random();
-
     public static boolean hasAction(World world, BlockPos pos, ItemStack stack, @Nullable EnumFacing face)
     {
         IBlockState state = world.getBlockState(pos);
@@ -43,8 +42,11 @@ public final class PlayerInteractionHandler
         if (CoreHelpers.doesStackMatchOre(stack, "toolWeakAxe") || CoreHelpers.doesStackMatchOre(stack, "toolAxe") || stack.getItem() instanceof ItemAxe)
         {
             IBlockState stateDown = world.getBlockState(pos.down());
-            return WoodRecipeHandler.isLog(world, pos, state) && !WoodRecipeHandler.isLog(world, pos.down(), stateDown) &&
-                    stateDown.isOpaqueCube() && face == EnumFacing.UP;
+            if (face == EnumFacing.UP && stateDown.isOpaqueCube())
+            {
+                return (WoodRecipeHandler.isLog(world, pos, state) && !WoodRecipeHandler.isLog(world, pos.down(), stateDown))
+                        || WoodRecipeHandler.isPlank(world, pos, state);
+            }
         }
         return false;
     }
@@ -71,11 +73,12 @@ public final class PlayerInteractionHandler
     {
         if (!world.isRemote)
         {
-            if (rand.nextFloat() < ModConfig.BALANCE.flintKnappingChance)
+            if (RNG.nextFloat() < ModConfig.BALANCE.flintKnappingChance)
             {
-                if (rand.nextFloat() < ModConfig.BALANCE.flintKnappingSuccessChance)
+                if (RNG.nextFloat() < ModConfig.BALANCE.flintKnappingSuccessChance)
+                {
                     CoreHelpers.dropItemInWorldExact(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, new ItemStack(ModItems.FLINT_SHARD));
-
+                }
                 player.setHeldItem(hand, CoreHelpers.consumeItem(player, stack));
             }
             world.playSound(null, pos, ModSounds.KNAPPING, SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -87,20 +90,16 @@ public final class PlayerInteractionHandler
     {
         if (!world.isRemote)
         {
-            if (rand.nextFloat() < ModConfig.BALANCE.logChoppingChance)
+            if (RNG.nextFloat() < ModConfig.BALANCE.logChoppingChance)
             {
-                int amount = 1;
-                if (CoreHelpers.doesStackMatchOre(stack, "toolWeakAxe"))
+                int amount = 1 + (RNG.nextFloat() < 0.75 ? 1 : 0);
+                if (CoreHelpers.doesStackMatchOre(stack, "toolAxe"))
                 {
-                    amount += (rand.nextFloat() < 0.75 ? 1 : 0);
-                }
-                else
-                {
-                    amount += 1 + (rand.nextFloat() < 0.75 ? 1 : 0);
+                    amount++;
                 }
 
-
-                ItemStack result = WoodRecipeHandler.getPlankForLog(world, pos, world.getBlockState(pos));
+                IBlockState state = world.getBlockState(pos);
+                ItemStack result = WoodRecipeHandler.getPlankForLog(world, pos, state);
                 if (result != null)
                 {
                     result.setCount(amount);
@@ -108,11 +107,21 @@ public final class PlayerInteractionHandler
                     stack.damageItem(1, player);
                     world.setBlockToAir(pos);
                 }
-                world.playSound(null, pos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.PLAYERS, 0.6f, 1.0f);
+                else
+                {
+                    if (WoodRecipeHandler.isPlank(world, pos, state))
+                    {
+                        result = new ItemStack(Items.STICK, 1 + (RNG.nextFloat() < 0.25 ? 1 : 0));
+                        CoreHelpers.dropItemInWorldExact(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, result);
+                        stack.damageItem(1, player);
+                        world.setBlockToAir(pos);
+                    }
+                }
+                world.playSound(null, pos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.PLAYERS, 1.2f, 1.0f);
             }
             else
             {
-                world.playSound(null, pos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                world.playSound(null, pos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.PLAYERS, 0.5f, 1.0f);
             }
         }
         return true;

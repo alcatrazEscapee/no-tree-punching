@@ -87,7 +87,6 @@ public final class ModRecipes
         KNIFE.add(new KnifeRecipe(new ItemStack(Blocks.WEB), new ItemStack(Items.STRING, 8)));
         KNIFE.add(new KnifeRecipe(new ItemStack(Items.REEDS), new ItemStack(ModItems.GRASS_FIBER, 2)));
         KNIFE.add(new KnifeRecipe(new ItemStack(Items.WHEAT), new ItemStack(ModItems.GRASS_FIBER, 1), new ItemStack(Items.WHEAT_SEEDS)));
-        KNIFE.add(new KnifeRecipe(new ItemStack(Blocks.SAPLING, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(Items.STICK), new ItemStack(ModItems.GRASS_FIBER)));
 
         KNIFE.add(new KnifeRecipe(new ItemStack(Items.LEATHER_BOOTS), new ItemStack(Items.LEATHER, 2)));
         KNIFE.add(new KnifeRecipe(new ItemStack(Items.LEATHER_CHESTPLATE), new ItemStack(Items.LEATHER, 5)));
@@ -110,8 +109,10 @@ public final class ModRecipes
         }
         KNIFE.add(new KnifeRecipe("treeSapling", 1, new ItemStack(ModItems.GRASS_FIBER, 2), new ItemStack(Items.STICK)));
 
+    }
 
-        /* CRAFT TWEAKER ACTIONS */
+    public static void postInit()
+    {
         actions.forEach(IRecipeAction::apply);
     }
 
@@ -153,7 +154,6 @@ public final class ModRecipes
             remove(r, "stone_sword");
             remove(r, "stone_axe");
         }
-
     }
 
     public static void addScheduledAction(IRecipeAction action)
@@ -166,11 +166,11 @@ public final class ModRecipes
         String metalName = metalType.name().toLowerCase() + "_";
         String ingotName = ModConstants.CASE_CONVERTER.convert("INGOT_" + metalType.name());
         register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, metalName + "knife"),
-                new ItemStack(ModItems.getTool(ToolType.KNIFE, metalType)), "I", "S", 'S', ingotName, 'I', "stickWood"));
+                new ItemStack(ModItems.getTool(ToolType.KNIFE, metalType)), "I", "S", 'I', ingotName, 'S', "stickWood"));
         register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, metalName + "saw"),
-                new ItemStack(ModItems.getTool(ToolType.SAW, metalType)), "  I", " IS", "IS ", 'S', ingotName, 'I', "stickWood"));
+                new ItemStack(ModItems.getTool(ToolType.SAW, metalType)), "  S", " SI", "SI ", 'I', ingotName, 'S', "stickWood"));
         register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, metalName + "mattock"),
-                new ItemStack(ModItems.getTool(ToolType.MATTOCK, metalType)), "III", " SI", " S ", 'S', ingotName, 'I', "stickWood"));
+                new ItemStack(ModItems.getTool(ToolType.MATTOCK, metalType)), "III", " SI", " S ", 'I', ingotName, 'S', "stickWood"));
     }
 
     private static void register(IForgeRegistry<IRecipe> registry, IRecipe recipe)

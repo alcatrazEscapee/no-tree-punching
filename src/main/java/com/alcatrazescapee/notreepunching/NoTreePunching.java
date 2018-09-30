@@ -48,7 +48,7 @@ public final class NoTreePunching
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
 
-        // Managers
+        // Pre-Init Managers
         CapabilityPlayerItem.preInit();
         ModBlocks.preInit();
         ModItems.preInit();
@@ -58,9 +58,10 @@ public final class NoTreePunching
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
-        // Register World Generation
+        // World gen
         GameRegistry.registerWorldGenerator(new WorldGenRocks(), 3);
 
+        // Init Managers
         ModRecipes.init();
         ModItems.init();
     }
@@ -68,8 +69,9 @@ public final class NoTreePunching
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        // Managers
+        // Post-Init Managers
         HarvestBlockHandler.postInit();
+        ModRecipes.postInit();
     }
 }
 

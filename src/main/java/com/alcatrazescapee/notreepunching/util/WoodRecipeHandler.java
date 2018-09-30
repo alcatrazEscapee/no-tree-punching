@@ -106,18 +106,20 @@ public final class WoodRecipeHandler
             r.remove(new ResourceLocation("minecraft:stick"));
     }
 
-    public static boolean isLog(World world, BlockPos pos, IBlockState state)
+    static boolean isLog(World world, BlockPos pos, IBlockState state)
     {
-        return isLog(state.getBlock().getPickBlock(state, null, world, pos, null));
-    }
-
-    public static boolean isLog(ItemStack stack)
-    {
+        ItemStack stack = state.getBlock().getPickBlock(state, null, world, pos, null);
         return MAP.keySet().stream().anyMatch(x -> CoreHelpers.doStacksMatch(stack, x));
     }
 
+    static boolean isPlank(World world, BlockPos pos, IBlockState state)
+    {
+        ItemStack stack = state.getBlock().getPickBlock(state, null, world, pos, null);
+        return MAP.values().stream().anyMatch(x -> CoreHelpers.doStacksMatch(stack, x));
+    }
+
     @Nullable
-    public static ItemStack getPlankForLog(World world, BlockPos pos, IBlockState state)
+    static ItemStack getPlankForLog(World world, BlockPos pos, IBlockState state)
     {
         ItemStack search = state.getBlock().getPickBlock(state, null, world, pos, null);
         return MAP.entrySet().stream().filter(x -> CoreHelpers.doStacksMatch(x.getKey(), search)).map(Map.Entry::getValue).findFirst().orElse(null);

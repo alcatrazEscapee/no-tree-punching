@@ -50,7 +50,7 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
     public void registerModel()
     {
         //noinspection ConstantConditions
-        ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(this.getRegistryName().toString()));
+        ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(this.getRegistryName().toString(), "inventory"));
     }
 
     @Override

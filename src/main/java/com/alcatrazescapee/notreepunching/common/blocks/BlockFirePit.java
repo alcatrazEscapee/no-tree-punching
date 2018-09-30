@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
@@ -52,10 +53,11 @@ public class BlockFirePit extends BlockTileCore
 
     public BlockFirePit()
     {
-        super(Material.WOOD);
+        super(Material.CIRCUITS);
 
         setTickRandomly(true);
         setDefaultState(this.blockState.getBaseState().withProperty(LIT, false));
+        setSoundType(SoundType.WOOD);
     }
 
     @SideOnly(Side.CLIENT)
@@ -145,14 +147,14 @@ public class BlockFirePit extends BlockTileCore
     {
         if (stateIn.getValue(LIT))
         {
-            ParticleManager.generateFirePitParticle(worldIn, pos);
+            ParticleManager.generateFirePitFlame(worldIn, pos);
             worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
             if (worldIn.canBlockSeeSky(pos) && worldIn.isRaining() && worldIn.getTopSolidOrLiquidBlock(pos).getY() < pos.getY() + 2)
             {
                 if (rand.nextFloat() < 0.5f)
                 {
                     worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
-                    ParticleManager.generateFireStarterParticle(worldIn, pos);
+                    ParticleManager.generateFirePitSmoke(worldIn, pos);
                 }
             }
         }

@@ -18,26 +18,45 @@ import com.alcatrazescapee.notreepunching.ModConstants;
 @SideOnly(Side.CLIENT)
 public class ParticleManager
 {
-    public static void generateFirePitParticle(World world, BlockPos pos)
+    public static void generateFirePitFlame(World world, BlockPos pos)
     {
-        if (ModConstants.RNG.nextFloat() < 0.15)
-            generateFireStarterParticle(world, pos);
-        Minecraft.getMinecraft().effectRenderer.addEffect(
-                new ParticleFirePit(world, pos.getX() + 0.5d + 0.05d * ModConstants.RNG.nextGaussian(),
-                        pos.getY() + 0.1d, pos.getZ() + 0.5d + 0.05d * ModConstants.RNG.nextGaussian(),
-                        0d, 0.008d, 0d));
+        if (ModConstants.RNG.nextFloat() < 0.3)
+        {
+            generateFirePitSmoke(world, pos);
+        }
+        Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFire(world,
+                pos.getX() + 0.5d + 0.15d * fastGaussian(),
+                pos.getY() + 0.1d,
+                pos.getZ() + 0.5d + 0.15d * fastGaussian(),
+                0d,
+                0.008d,
+                0d));
     }
 
-    public static void generateFireStarterParticle(World world, BlockPos pos)
+    public static void generateFirePitSmoke(World world, BlockPos pos)
     {
-        generateFireStarterParticle(world, new Vec3d(pos).add(0.5, 0, 0.5));
+        Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleSmoke(world,
+                pos.getX() + 0.5d + 0.1d * fastGaussian(),
+                pos.getY() + 0.1d,
+                pos.getZ() + 0.5d + 0.1d * fastGaussian(),
+                0.01d * fastGaussian(),
+                0.05d,
+                0.01d * fastGaussian()));
     }
 
-    public static void generateFireStarterParticle(World world, Vec3d vec)
+    public static void generateFireStarterSmoke(World world, Vec3d vec)
     {
-        Minecraft.getMinecraft().effectRenderer.addEffect(
-                new ParticleFireStarter(world, vec.x + 0.05d * ModConstants.RNG.nextGaussian(),
-                        vec.y, vec.z + 0.05d * ModConstants.RNG.nextGaussian(),
-                        0.01d * ModConstants.RNG.nextGaussian(), 0.03d, 0.01d * ModConstants.RNG.nextGaussian()));
+        Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleSmoke(world,
+                vec.x + 0.05d * fastGaussian(),
+                vec.y,
+                vec.z + 0.05d * fastGaussian(),
+                0.01d * fastGaussian(),
+                0.03d,
+                0.01d * fastGaussian()));
+    }
+
+    private static double fastGaussian()
+    {
+        return ModConstants.RNG.nextFloat() - ModConstants.RNG.nextFloat();
     }
 }
