@@ -28,6 +28,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple;
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,9 +41,11 @@ import com.alcatrazescapee.notreepunching.ModConfig;
 @ParametersAreNonnullByDefault
 public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
 {
+    private static final ItemStack EMPTY = new ItemStack(ModItems.CERAMIC_BUCKET);
+
     public ItemCeramicBucket()
     {
-        super(Fluid.BUCKET_VOLUME, ItemStack.EMPTY, false);
+        super(Fluid.BUCKET_VOLUME, EMPTY, false);
     }
 
     @SideOnly(Side.CLIENT)
@@ -81,23 +84,14 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
     public String getItemStackDisplayName(ItemStack stack)
     {
         FluidStack fluidStack = getFluid(stack);
-        String unlocalisedName = this.getUnlocalizedNameInefficiently(stack);
-
         // If the bucket is empty, translate the unlocalised name directly
         if (fluidStack == null)
         {
-            return I18n.translateToLocal(unlocalisedName + ".name").trim();
-        }
-
-        // If there's a fluid-specific translation, use it
-        String fluidUnlocalisedName = unlocalisedName + ".filled." + fluidStack.getFluid().getName() + ".name";
-        if (I18n.canTranslate(fluidUnlocalisedName))
-        {
-            return I18n.translateToLocal(fluidUnlocalisedName);
+            return I18n.translateToLocal(getTranslationKey() + ".name");
         }
 
         // Else translate the filled name directly, formatting it with the fluid name
-        return I18n.translateToLocalFormatted(unlocalisedName + ".filled.name", fluidStack.getLocalizedName());
+        return I18n.translateToLocalFormatted(getTranslationKey() + ".filled.name", fluidStack.getLocalizedName());
     }
 
     @Override
@@ -146,16 +140,24 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
 
     @Nullable
     @Override
-    public FluidStack getFluid(ItemStack container)
+    public FluidStack getFluid(ItemStack stack)
     {
-        return FluidUtil.getFluidContained(container);
+        if (stack.getItem() instanceof ItemCeramicBucket)
+        {
+            IFluidHandler cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+            if (cap != null)
+            {
+                return cap.drain(Integer.MAX_VALUE, false);
+            }
+        }
+        return null;
     }
 
     @Override
     @Nonnull
     public ItemStack getEmpty()
     {
-        return new ItemStack(this);
+        return EMPTY.copy();
     }
 
     @Override

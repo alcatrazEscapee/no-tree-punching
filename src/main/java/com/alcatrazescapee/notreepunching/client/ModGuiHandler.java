@@ -8,7 +8,6 @@ package com.alcatrazescapee.notreepunching.client;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -64,7 +63,7 @@ public final class ModGuiHandler implements IGuiHandler
 
     @Nullable
     @Override
-    public GuiContainer getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
         Container container = getServerGuiElement(ID, player, world, x, y, z);
         switch (ID)

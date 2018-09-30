@@ -1,10 +1,3 @@
-# Misc
-
-itemGroup.notreepunching.items.name=无树可撸物品
-itemGroup.notreepunching.tools.name=无树可撸工具
-
-notreepunching.subtitle.knapping.name=Stone Taps
-
 # Items
 
 item.notreepunching:grass_fiber.name=植物纤维
@@ -82,3 +75,12 @@ jei.description.knife=Knives can be used to cut materials. Hold the knife in one
 jei.description.mattock=Mattocks are multi-purpose tools: An axe and shovel and a hoe all in one!
 jei.description.saw=Saws are used to cut wood into planks. They can also be used as axes.
 jei.description.clay_tool=The clay tool is used to make pottery. Right click with a clay tool on a piece of clay to change the shape.
+
+# Misc
+
+itemGroup.notreepunching.items=无树可撸物品
+itemGroup.notreepunching.tools=无树可撸工具
+
+notreepunching.subtitle.knapping.name=Stone Taps
+
+

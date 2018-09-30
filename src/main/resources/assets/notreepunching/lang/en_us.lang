@@ -71,7 +71,6 @@ jei.description.rock=Loose rocks are found lying on the ground. Break or right c
 jei.description.grass_fiber=Grass fibers are dropped from breaking tall grass with a knife.
 jei.description.stick=Sticks are dropped ocassionally from leaves. Using a knife increaces the chance of getting sticks.
 jei.description.flint_shard=Flint shards are obtained by knapping (right clicking) a piece of flint on top of any rocky surface. It has a chance to split into two flint shards.
-
 jei.description.knife=Knives can be used to cut materials. Hold the knife in one and and the item in the other. Right click to cut the material in your other hand.
 jei.description.mattock=Mattocks are multi-purpose tools: An axe and shovel and a hoe all in one!
 jei.description.saw=Saws are used to cut wood into planks. They can also be used as axes.
@@ -79,7 +78,7 @@ jei.description.clay_tool=The clay tool is used to make pottery. Right click wit
 
 # Misc
 
-itemGroup.notreepunching.items.name=NTP Stuff
-itemGroup.notreepunching.tools.name=NTP Tools
+itemGroup.notreepunching.items=NTP Stuff
+itemGroup.notreepunching.tools=NTP Tools
 
 notreepunching.subtitle.knapping.name=Stone taps
