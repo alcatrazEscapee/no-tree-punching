@@ -20,8 +20,9 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenRegister
+@SuppressWarnings("unused")
 @ZenClass("mods.notreepunching.NoTreePunching")
-public class CraftTweakerPlugin
+public final class CraftTweakerPlugin
 {
     @ZenMethod
     public static void addKnifeGrassDrop(IItemStack stack)
@@ -41,18 +42,6 @@ public class CraftTweakerPlugin
             }
         });
     }
-
-    // Helper methods
-    @Nonnull
-    static ItemStack toStack(IItemStack stack)
-    {
-        if (stack == null)
-            return ItemStack.EMPTY;
-        Object obj = stack.getInternal();
-        return obj instanceof ItemStack ? (ItemStack) obj : ItemStack.EMPTY;
-    }
-
-    // Craft Tweaker Util Methods
 
     @Nonnull
     static ItemStack toStack(IIngredient ingredient)

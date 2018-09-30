@@ -38,6 +38,7 @@ public final class ModItems
 
     public static final Item CERAMIC_SMALL_VESSEL = getNull();
     public static final Item CERAMIC_BUCKET = getNull();
+    public static final Item CLAY_TOOL = getNull();
 
     private static ImmutableMap<ToolType, Item> FLINT_TOOLS;
     private static ImmutableEnumTable<ToolType, Metal, Item> METAL_TOOLS;

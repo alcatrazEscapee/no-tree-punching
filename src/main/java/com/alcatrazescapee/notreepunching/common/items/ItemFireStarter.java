@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -133,12 +134,6 @@ public class ItemFireStarter extends ItemToolCore
         return 30;
     }
 
-    @Override
-    public boolean isEnchantable(ItemStack stack)
-    {
-        return false;
-    }
-
     @SideOnly(Side.CLIENT)
     public void onUsingTick(ItemStack stack, EntityLivingBase player, int count)
     {
@@ -159,6 +154,6 @@ public class ItemFireStarter extends ItemToolCore
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
-        return false;
+        return enchantment.type == EnumEnchantmentType.BREAKABLE;
     }
 }

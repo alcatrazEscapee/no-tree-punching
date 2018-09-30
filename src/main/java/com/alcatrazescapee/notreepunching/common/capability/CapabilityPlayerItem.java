@@ -21,7 +21,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import static com.alcatrazescapee.alcatrazcore.util.CoreHelpers.getNull;
 import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
-public class CapabilityPlayerItem
+public final class CapabilityPlayerItem
 {
     public static final ResourceLocation KEY = new ResourceLocation(MOD_ID, "player_item");
     @CapabilityInject(IPlayerItem.class)
@@ -32,7 +32,7 @@ public class CapabilityPlayerItem
         net.minecraftforge.common.capabilities.CapabilityManager.INSTANCE.register(IPlayerItem.class, new Storage(), Instance::new);
     }
 
-    public static class Instance implements IPlayerItem, ICapabilityProvider
+    public static final class Instance implements IPlayerItem, ICapabilityProvider
     {
         private ItemStack stack;
 
@@ -64,9 +64,9 @@ public class CapabilityPlayerItem
         }
     }
 
-    private static class Storage implements Capability.IStorage<IPlayerItem>
+    private static final class Storage implements Capability.IStorage<IPlayerItem>
     {
-        @Nullable
+        @Nonnull
         @Override
         public NBTBase writeNBT(Capability<IPlayerItem> capability, IPlayerItem instance, EnumFacing facing)
         {

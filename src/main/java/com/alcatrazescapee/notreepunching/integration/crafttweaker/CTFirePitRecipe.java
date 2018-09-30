@@ -21,7 +21,8 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenRegister
-@ZenClass("mods.notreepunching.Firepit")
+@SuppressWarnings("unused")
+@ZenClass("mods.notreepunching.FirePit")
 public class CTFirePitRecipe
 {
     @ZenMethod
@@ -43,13 +44,13 @@ public class CTFirePitRecipe
             @Override
             public void apply()
             {
-                ModRecipes.FIRE_PIT.add(recipe);
+                ModRecipes.addScheduledAction(() -> ModRecipes.FIRE_PIT.add(recipe));
             }
 
             @Override
             public String describe()
             {
-                return "Adding Fire pit Recipe for " + recipe.getName();
+                return "Adding Fire pit recipe for " + recipe.getName();
             }
         });
     }
@@ -63,13 +64,13 @@ public class CTFirePitRecipe
             @Override
             public void apply()
             {
-                ModRecipes.FIRE_PIT.remove(IRecipeIngredient.of(stack));
+                ModRecipes.addScheduledAction(() -> ModRecipes.FIRE_PIT.remove(IRecipeIngredient.of(stack)));
             }
 
             @Override
             public String describe()
             {
-                return null;
+                return "Removing Fire pit recipe for " + stack.getDisplayName();
             }
         });
     }

@@ -35,24 +35,24 @@ import static com.alcatrazescapee.notreepunching.integration.jei.JeiPlugin.FIREP
 @ParametersAreNonnullByDefault
 public class FirePitRecipeCategory implements IRecipeCategory<FirePitRecipeCategory.Wrapper>
 {
+    private static final ResourceLocation GUI_LOCATION = new ResourceLocation(MOD_ID, "textures/jei/fire_pit.png");
+    private static final String TRANSLATION_KEY = "jei.category.firepit_recipe";
+
     private final IDrawable background;
     private final IDrawable icon;
     private final IDrawableAnimated animatedArrow;
     private final IDrawableAnimated animatedFlame;
-    private final String localizedName;
 
     public FirePitRecipeCategory(IGuiHelper guiHelper)
     {
-        ResourceLocation location = new ResourceLocation(MOD_ID, "textures/jei/fire_pit.png");
-        background = guiHelper.createDrawable(location, 0, 0, 74, 54);
-        // todo
-        localizedName = I18n.format("jei.category.firepit_recipe");
-        icon = guiHelper.createDrawable(location, 111, 0, 16, 16);
 
-        IDrawableStatic staticArrow = guiHelper.createDrawable(location, 88, 0, 16, 23);
+        background = guiHelper.createDrawable(GUI_LOCATION, 0, 0, 74, 54);
+        icon = guiHelper.createDrawable(GUI_LOCATION, 111, 0, 16, 16);
+
+        IDrawableStatic staticArrow = guiHelper.createDrawable(GUI_LOCATION, 88, 0, 16, 23);
         animatedArrow = guiHelper.createAnimatedDrawable(staticArrow, 200, IDrawableAnimated.StartDirection.LEFT, false);
 
-        IDrawableStatic staticFlame = guiHelper.createDrawable(location, 74, 0, 14, 13);
+        IDrawableStatic staticFlame = guiHelper.createDrawable(GUI_LOCATION, 74, 0, 14, 13);
         animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
 
     }
@@ -68,7 +68,7 @@ public class FirePitRecipeCategory implements IRecipeCategory<FirePitRecipeCateg
     @Override
     public String getTitle()
     {
-        return localizedName;
+        return I18n.format(TRANSLATION_KEY);
     }
 
     @Nonnull

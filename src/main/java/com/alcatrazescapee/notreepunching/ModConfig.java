@@ -40,6 +40,10 @@ public final class ModConfig
         @Config.Comment("Blocks that are always breakable. Use the format modid:registryname or modid:registryname:metadata")
         public String[] alwaysBreakable = new String[] {"minecraft:leaves", "minecraft:gravel", "minecraft:sand", "minecraft:dirt", "minecraft:grass"};
 
+        @Config.Comment("Fluids that are able to be picked up by the ceramic bucket")
+        @Config.RequiresMcRestart
+        public String[] ceramicBucketValidFluids = new String[] {"minecraft:water"};
+
         @Config.RequiresMcRestart
         @Config.Comment({"If true, NTP will add its own log->plank and plank->stick recipes and remove old versions",
                 "If false, NTP will still add its own recipes, but it will not remove any other vanilla or modded recipes"})

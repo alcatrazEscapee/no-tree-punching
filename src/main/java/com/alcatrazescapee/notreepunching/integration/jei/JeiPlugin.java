@@ -8,9 +8,11 @@ package com.alcatrazescapee.notreepunching.integration.jei;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.client.gui.GuiFirePit;
+import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.common.recipe.FirePitRecipe;
 import com.alcatrazescapee.notreepunching.common.recipe.KnifeRecipe;
 import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
@@ -23,10 +25,10 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
 @JEIPlugin
-public class JeiPlugin implements IModPlugin
+public final class JeiPlugin implements IModPlugin
 {
     static final String KNIFE_UID = MOD_ID + ".knife";
-    static final String FIREPIT_UID = MOD_ID + ".firepit";
+    static final String FIREPIT_UID = MOD_ID + ".fire_pit";
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry)
@@ -40,22 +42,17 @@ public class JeiPlugin implements IModPlugin
     @Override
     public void register(IModRegistry registry)
     {
-        // todo: replace with a guidebook
-        /*// Material Info:
-        registry.addIngredientInfo(new ItemStack(ModItems.rockStone), ItemStack.class,"jei.description.rock");
-        registry.addIngredientInfo(new ItemStack(ModItems.grassFiber), ItemStack.class,"jei.description.grass_fiber");
-        registry.addIngredientInfo(new ItemStack(ModItems.flintShard), ItemStack.class,"jei.description.flint_shard");
-        registry.addIngredientInfo(new ItemStack(Items.STICK), ItemStack.class,"jei.description.stick");
+        // Material Info:
+        registry.addIngredientInfo(OreDictionary.getOres("rock"), ItemStack.class, "jei.description.rock");
+        registry.addIngredientInfo(new ItemStack(ModItems.GRASS_FIBER), ItemStack.class, "jei.description.grass_fiber");
+        registry.addIngredientInfo(new ItemStack(ModItems.FLINT_SHARD), ItemStack.class, "jei.description.flint_shard");
+        registry.addIngredientInfo(new ItemStack(Items.STICK), ItemStack.class, "jei.description.stick");
 
         // Tools Info
-        registry.addIngredientInfo(ModItems.getTools(ToolType.MATTOCK),ItemStack.class,"jei.description.mattock");
-        registry.addIngredientInfo(ModItems.getTools(ToolType.KNIFE),ItemStack.class,"jei.description.knife");
-        registry.addIngredientInfo(ModItems.getTools(ToolType.SAW),ItemStack.class,"jei.description.saw");
-        registry.addIngredientInfo(new ItemStack(ModItems), ItemStack.class, "jei.description.clay_tool");
-
-        registry.addIngredientInfo(new ItemStack(ModBlocks.firepit),ItemStack.class,"jei.description.firepit");
-        registry.addIngredientInfo(OreDictionary.getOres("logWood"),ItemStack.class,"jei.description.wood_pile");
-        */
+        registry.addIngredientInfo(OreDictionary.getOres("toolKnife"), ItemStack.class, "jei.description.knife");
+        registry.addIngredientInfo(OreDictionary.getOres("toolMattock"), ItemStack.class, "jei.description.mattock");
+        registry.addIngredientInfo(OreDictionary.getOres("toolSaw"), ItemStack.class, "jei.description.saw");
+        registry.addIngredientInfo(new ItemStack(ModItems.CLAY_TOOL), ItemStack.class, "jei.description.clay_tool");
 
         // Blacklist Ingredients
         if (ModConfig.GENERAL.replaceVanillaRecipes)
@@ -83,6 +80,5 @@ public class JeiPlugin implements IModPlugin
         registry.handleRecipes(FirePitRecipe.class, FirePitRecipeCategory.Wrapper::new, FIREPIT_UID);
         registry.addRecipes(ModRecipes.FIRE_PIT.getAll(), FIREPIT_UID);
         registry.addRecipeClickArea(GuiFirePit.class, 75, 22, 26, 19, FIREPIT_UID);
-        //registry.addRecipeCatalyst(new ItemStack(ModBlocks.FIRE_PIT), FIREPIT_UID); // since it doesn't have an itemblock
     }
 }

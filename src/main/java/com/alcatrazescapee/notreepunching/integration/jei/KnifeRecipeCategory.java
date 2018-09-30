@@ -15,6 +15,8 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.alcatrazescapee.notreepunching.ModConstants;
@@ -32,17 +34,16 @@ import static com.alcatrazescapee.notreepunching.integration.jei.JeiPlugin.KNIFE
 @ParametersAreNonnullByDefault
 public class KnifeRecipeCategory implements IRecipeCategory<KnifeRecipeCategory.Wrapper>
 {
+    private static final String TRANSLATION_KEY = "jei.category.knife_recipe";
+    private static final ResourceLocation GUI_LOCATION = new ResourceLocation(MOD_ID, "textures/jei/knife.png");
+
     private final IDrawable background;
     private final IDrawable icon;
-    private final String localizedName;
 
     public KnifeRecipeCategory(IGuiHelper guiHelper)
     {
-        final ResourceLocation location = new ResourceLocation(MOD_ID, "textures/jei/knife.png");
-        background = guiHelper.createDrawable(location, 0, 0, 135, 18);
-        // todo: check on server
-        localizedName = I18n.format("jei.category.knife_recipe");
-        icon = guiHelper.createDrawable(location, 135, 0, 16, 16);
+        background = guiHelper.createDrawable(GUI_LOCATION, 0, 0, 135, 18);
+        icon = guiHelper.createDrawable(GUI_LOCATION, 135, 0, 16, 16);
     }
 
     @Nonnull
@@ -54,9 +55,10 @@ public class KnifeRecipeCategory implements IRecipeCategory<KnifeRecipeCategory.
 
     @Nonnull
     @Override
+    @SideOnly(Side.CLIENT)
     public String getTitle()
     {
-        return localizedName;
+        return I18n.format(TRANSLATION_KEY);
     }
 
     @Nonnull

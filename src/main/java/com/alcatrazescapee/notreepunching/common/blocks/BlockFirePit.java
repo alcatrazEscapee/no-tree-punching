@@ -146,13 +146,13 @@ public class BlockFirePit extends BlockTileCore
         if (stateIn.getValue(LIT))
         {
             ParticleManager.generateFirePitParticle(worldIn, pos);
-            worldIn.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+            worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
             if (worldIn.canBlockSeeSky(pos) && worldIn.isRaining() && worldIn.getTopSolidOrLiquidBlock(pos).getY() < pos.getY() + 2)
             {
-                if (rand.nextDouble() < 0.4D)
+                if (rand.nextFloat() < 0.5f)
                 {
-                    worldIn.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
-                    ParticleManager.generateFirePitParticle(worldIn, pos);
+                    worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
+                    ParticleManager.generateFireStarterParticle(worldIn, pos);
                 }
             }
         }
@@ -229,8 +229,6 @@ public class BlockFirePit extends BlockTileCore
     {
         return world.getBlockState(pos).getValue(LIT);
     }
-
-    // todo: more fire overrides?
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)

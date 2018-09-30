@@ -6,6 +6,8 @@
 
 package com.alcatrazescapee.notreepunching.common.recipe;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.BlockStone;
@@ -42,6 +44,8 @@ public final class ModRecipes
 {
     public static final IRecipeManager<FirePitRecipe> FIRE_PIT = new RecipeManager<>();
     public static final IRecipeManager<KnifeRecipe> KNIFE = new RecipeManager<>();
+
+    private static final List<IRecipeAction> actions = new LinkedList<>();
 
     public static void init()
     {
@@ -105,6 +109,10 @@ public final class ModRecipes
             KNIFE.add(new KnifeRecipe(new ItemStack(i < 4 ? Blocks.LEAVES : Blocks.LEAVES2, 6, i % 4), new ItemStack(Blocks.SAPLING, 1, i), new ItemStack(ModItems.GRASS_FIBER, 2)));
         }
         KNIFE.add(new KnifeRecipe("treeSapling", 1, new ItemStack(ModItems.GRASS_FIBER, 2), new ItemStack(Items.STICK)));
+
+
+        /* CRAFT TWEAKER ACTIONS */
+        actions.forEach(IRecipeAction::apply);
     }
 
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event)
@@ -146,6 +154,11 @@ public final class ModRecipes
             remove(r, "stone_axe");
         }
 
+    }
+
+    public static void addScheduledAction(IRecipeAction action)
+    {
+        actions.add(action);
     }
 
     private static void registerToolRecipes(IForgeRegistry<IRecipe> r, Metal metalType)

@@ -11,7 +11,9 @@ import java.util.Random;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,18 +33,10 @@ import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.common.ModMaterials;
 import com.alcatrazescapee.notreepunching.common.recipe.KnifeRecipe;
 import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
-import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 
 @ParametersAreNonnullByDefault
 public class ItemKnife extends ItemToolCore
 {
-
-    static
-    {
-        HarvestBlockHandler.addGrassDrop(new ItemStack(ModItems.GRASS_FIBER));
-        HarvestBlockHandler.addGrassDrop(new ItemStack(ModItems.GRASS_FIBER, 2));
-    }
-
     public ItemKnife(ToolMaterial material)
     {
         super(material, material.getAttackDamage() + 1.0f, -2.4f);
@@ -116,5 +110,11 @@ public class ItemKnife extends ItemToolCore
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
+    {
+        return enchantment.type == EnumEnchantmentType.BREAKABLE || enchantment.type == EnumEnchantmentType.WEAPON;
     }
 }

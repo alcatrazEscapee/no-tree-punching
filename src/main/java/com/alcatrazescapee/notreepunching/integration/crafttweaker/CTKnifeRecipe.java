@@ -19,6 +19,7 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenRegister
+@SuppressWarnings("unused")
 @ZenClass("mods.notreepunching.Knife")
 public class CTKnifeRecipe
 {
@@ -31,7 +32,7 @@ public class CTKnifeRecipe
             @Override
             public void apply()
             {
-                ModRecipes.KNIFE.add(recipe);
+                ModRecipes.addScheduledAction(() -> ModRecipes.KNIFE.add(recipe));
             }
 
             @Override
@@ -51,7 +52,7 @@ public class CTKnifeRecipe
             @Override
             public void apply()
             {
-                ModRecipes.KNIFE.remove(IRecipeIngredient.of(stack));
+                ModRecipes.addScheduledAction(() -> ModRecipes.KNIFE.remove(IRecipeIngredient.of(stack)));
             }
 
             @Override

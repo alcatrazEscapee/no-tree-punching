@@ -49,7 +49,7 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
     private int burnTicks;
     private int maxBurnTicks;
 
-    private int cookTimer = 0;
+    private int cookTimer;
 
     private boolean hasCachedRecipe;
     private FirePitRecipe cachedRecipe;
@@ -77,6 +77,7 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
         world.setBlockState(pos, world.getBlockState(pos).withProperty(LIT, false));
         this.burnTicks = 0;
         this.maxBurnTicks = 0;
+        this.cookTimer = 0;
     }
 
     @Override
@@ -231,7 +232,6 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
         ItemStack cookStack = inventory.getStackInSlot(INPUT_SLOT_ID);
         FirePitRecipe recipe = ModRecipes.FIRE_PIT.get(cookStack);
 
-        NoTreePunching.getLog().info("Found a recipe: {}", (recipe == null ? "null" : recipe.getName()));
         if (recipe != null)
         {
             ItemStack outStack = inventory.getStackInSlot(OUTPUT_SLOT_ID);
@@ -239,7 +239,6 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
             // check if the stacks can be merged in the output
             if (CoreHelpers.canMergeStacks(outStack, output))
             {
-                NoTreePunching.getLog().info("Recipe matches output! saving to cache");
                 cachedRecipe = recipe;
                 return;
             }

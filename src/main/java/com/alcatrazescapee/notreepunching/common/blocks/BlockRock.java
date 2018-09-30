@@ -119,12 +119,7 @@ public class BlockRock extends BlockCore
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         ItemStack stack = getPickBlock(state, null, worldIn, pos, playerIn);
-        // todo: replace with alccore 0.2.3
-        if (!playerIn.addItemStackToInventory(stack))
-        {
-            CoreHelpers.dropItemInWorldExact(worldIn, playerIn.getPosition(), stack);
-        }
-
+        CoreHelpers.giveItemToPlayer(worldIn, playerIn, stack);
         worldIn.setBlockToAir(pos);
         return true;
     }

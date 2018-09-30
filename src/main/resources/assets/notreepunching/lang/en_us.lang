@@ -1,10 +1,3 @@
-# Misc
-
-itemGroup.notreepunching.items.name=NTP Stuff
-itemGroup.notreepunching.tools.name=NTP Tools
-
-notreepunching.subtitle.knapping.name=Stone taps
-
 # Items
 
 item.notreepunching:grass_fiber.name=Plant Fiber
@@ -74,13 +67,19 @@ tile.notreepunching:fire_pit.name=Fire Pit
 jei.category.knife_recipe=Knife Cutting
 jei.category.firepit_recipe=Firepit
 
-jei.description.rock=Rocks are found lying on the ground. Breaking them can give you small rocks, with a small chance of giving you an small iron ore piece.
-jei.description.grass_fiber=Grass fibers are dropped when breaking tall grass with a knife. They can also be obtained by cutting plant material in your hand with a knife. They are used to make grass string, which is needed to create basic tools
-jei.description.stick=Sticks are dropped from leaves. Using any knife doubles the chance of getting a stick.
-jei.description.flint_shard=Flint shards can be obtained from knapping flint on any rocky surface. Right click a piece of flint on a stone like block, and it might split into two flint shards. It might take a few tries to get it right though.
+jei.description.rock=Loose rocks are found lying on the ground. Break or right click to pick them up.
+jei.description.grass_fiber=Grass fibers are dropped from breaking tall grass with a knife.
+jei.description.stick=Sticks are dropped ocassionally from leaves. Using a knife increaces the chance of getting sticks.
+jei.description.flint_shard=Flint shards are obtained by knapping (right clicking) a piece of flint on top of any rocky surface. It has a chance to split into two flint shards.
 
-jei.description.knife=Knives can be used to cut certain materials. Hold the knife in one hand, and an item in the other, and right click. This will use up 3x the durability on the knife and produce a new item. Knives are also effective at breaking plant material such as leaves.
-jei.description.mattock=Mattocks are a combination of an axe, a shovel, and a hoe. They can be used as an axe, with the added benefit of breaking most soft blocks that are broken with a shovel.
-jei.description.saw=Saws are multipurpose cutting instruments. They can function as an axe, and also are able to cut wood down into parts by using them as crafting ingredients. They are more effective than a crude axe in this way, giving four planks per log and two sticks per plank
-jei.description.firepit=To build a firepit, throw one log, one piece of kindling (plant string, paper, etc.), and three sticks on the ground. Then right click and hold a firestarter on that block. The items will be consumed and a firepit will be created. You can relight a firepit by clicking on it with a firestarter. You can extinguish a firepit by breaking it or clicking on it with a piece of sand.
-jei.description.clay_tool=The clay tool is used to shape blocks of clay into pottery. Right click on a block of clay to shape it into pottery. As you work, the clay will shape into smaller and smaller pieces, until nothing is left.
+jei.description.knife=Knives can be used to cut materials. Hold the knife in one and and the item in the other. Right click to cut the material in your other hand.
+jei.description.mattock=Mattocks are multi-purpose tools: An axe and shovel and a hoe all in one!
+jei.description.saw=Saws are used to cut wood into planks. They can also be used as axes.
+jei.description.clay_tool=The clay tool is used to make pottery. Right click with a clay tool on a piece of clay to change the shape.
+
+# Misc
+
+itemGroup.notreepunching.items.name=NTP Stuff
+itemGroup.notreepunching.tools.name=NTP Tools
+
+notreepunching.subtitle.knapping.name=Stone taps

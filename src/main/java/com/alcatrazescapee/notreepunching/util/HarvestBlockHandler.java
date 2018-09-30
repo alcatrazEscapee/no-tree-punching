@@ -14,7 +14,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockTallGrass;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -28,6 +27,7 @@ import com.alcatrazescapee.notreepunching.ModConstants;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
 import com.alcatrazescapee.notreepunching.common.items.ItemKnife;
 import com.alcatrazescapee.notreepunching.common.items.ItemRock;
+import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.util.types.Stone;
 import mcp.MethodsReturnNonnullByDefault;
 
@@ -41,6 +41,9 @@ public final class HarvestBlockHandler
     public static void postInit()
     {
         reloadWhitelist();
+
+        addGrassDrop(new ItemStack(ModItems.GRASS_FIBER));
+        addGrassDrop(new ItemStack(ModItems.GRASS_FIBER, 2));
     }
 
     public static void reloadWhitelist()
@@ -174,7 +177,6 @@ public final class HarvestBlockHandler
 
     private static Predicate<IBlockState> createPredicate(String entry)
     {
-        // todo: add material based exceptions?
         int colon = entry.indexOf(':');
         int colon2 = entry.lastIndexOf(':');
         if (colon == colon2)
@@ -214,22 +216,6 @@ public final class HarvestBlockHandler
         public boolean test(IBlockState state)
         {
             return state.getBlock() == block && meta == OreDictionary.WILDCARD_VALUE || state.getBlock().getMetaFromState(state) == meta;
-        }
-    }
-
-    private static class MaterialData implements Predicate<IBlockState>
-    {
-        private final Material material;
-
-        private MaterialData(Material material)
-        {
-            this.material = material;
-        }
-
-        @Override
-        public boolean test(IBlockState state)
-        {
-            return state.getMaterial() == material;
         }
     }
 }

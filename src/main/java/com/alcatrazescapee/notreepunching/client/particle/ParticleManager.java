@@ -20,10 +20,17 @@ public class ParticleManager
 {
     public static void generateFirePitParticle(World world, BlockPos pos)
     {
+        if (ModConstants.RNG.nextFloat() < 0.15)
+            generateFireStarterParticle(world, pos);
         Minecraft.getMinecraft().effectRenderer.addEffect(
                 new ParticleFirePit(world, pos.getX() + 0.5d + 0.05d * ModConstants.RNG.nextGaussian(),
                         pos.getY() + 0.1d, pos.getZ() + 0.5d + 0.05d * ModConstants.RNG.nextGaussian(),
                         0d, 0.008d, 0d));
+    }
+
+    public static void generateFireStarterParticle(World world, BlockPos pos)
+    {
+        generateFireStarterParticle(world, new Vec3d(pos).add(0.5, 0, 0.5));
     }
 
     public static void generateFireStarterParticle(World world, Vec3d vec)
