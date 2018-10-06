@@ -12,6 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -36,6 +37,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 
 import com.alcatrazescapee.alcatrazcore.client.IModelProvider;
 import com.alcatrazescapee.notreepunching.ModConfig;
+import com.alcatrazescapee.notreepunching.NoTreePunching;
 
 @ParametersAreNonnullByDefault
 public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
@@ -43,6 +45,8 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
     public ItemCeramicBucket()
     {
         super(Fluid.BUCKET_VOLUME, ItemStack.EMPTY, false);
+
+        setMaxStackSize(1);
     }
 
     @SideOnly(Side.CLIENT)
@@ -97,42 +101,56 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
     {
         ItemStack heldItem = player.getHeldItem(hand);
         FluidStack fluidStack = getFluid(heldItem);
+        ActionResult<ItemStack> result;
 
         // If the bucket is full, call the super method to try and empty it
-        if (fluidStack != null) return super.onItemRightClick(world, player, hand);
-
-        // If the bucket is empty, try and fill it
-        RayTraceResult target = this.rayTrace(world, player, true);
-
-        //noinspection ConstantConditions
-        if (target == null || target.typeOfHit != RayTraceResult.Type.BLOCK)
+        if (fluidStack != null)
         {
+            result = super.onItemRightClick(world, player, hand);
+            if (result.getType() == EnumActionResult.PASS)
+            {
+                player.setActiveHand(hand);
+                return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
+            }
+            else
+            {
+                return result;
+            }
+        }
+        else
+        {
+            // If the bucket is empty, try and fill it
+            RayTraceResult target = this.rayTrace(world, player, true);
+
+            //noinspection ConstantConditions
+            if (target == null || target.typeOfHit != RayTraceResult.Type.BLOCK)
+            {
+                return new ActionResult<>(EnumActionResult.PASS, heldItem);
+            }
+
+            BlockPos pos = target.getBlockPos();
+
+            ItemStack singleBucket = heldItem.copy();
+            singleBucket.setCount(1);
+
+            FluidActionResult filledResult = FluidUtil.tryPickUpFluid(singleBucket, player, world, pos, target.sideHit);
+            if (filledResult.isSuccess())
+            {
+                ItemStack filledBucket = filledResult.result;
+
+                if (player.capabilities.isCreativeMode)
+                    return new ActionResult<>(EnumActionResult.SUCCESS, heldItem);
+
+                heldItem.shrink(1);
+                if (heldItem.isEmpty())
+                    return new ActionResult<>(EnumActionResult.SUCCESS, filledBucket);
+
+                ItemHandlerHelper.giveItemToPlayer(player, filledBucket);
+
+                return new ActionResult<>(EnumActionResult.SUCCESS, heldItem);
+            }
             return new ActionResult<>(EnumActionResult.PASS, heldItem);
         }
-
-        BlockPos pos = target.getBlockPos();
-
-        ItemStack singleBucket = heldItem.copy();
-        singleBucket.setCount(1);
-
-        FluidActionResult filledResult = FluidUtil.tryPickUpFluid(singleBucket, player, world, pos, target.sideHit);
-        if (filledResult.isSuccess())
-        {
-            ItemStack filledBucket = filledResult.result;
-
-            if (player.capabilities.isCreativeMode)
-                return new ActionResult<>(EnumActionResult.SUCCESS, heldItem);
-
-            heldItem.shrink(1);
-            if (heldItem.isEmpty())
-                return new ActionResult<>(EnumActionResult.SUCCESS, filledBucket);
-
-            ItemHandlerHelper.giveItemToPlayer(player, filledBucket);
-
-            return new ActionResult<>(EnumActionResult.SUCCESS, heldItem);
-        }
-
-        return new ActionResult<>(EnumActionResult.PASS, heldItem);
     }
 
     /*@Nullable
@@ -149,6 +167,33 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
         }
         return null;
     }*/
+
+    @Nonnull
+    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
+    {
+        FluidStack fluidStack = getFluid(stack);
+        if (fluidStack != null)
+        {
+            if (!worldIn.isRemote)
+            {
+                Fluid fluid = fluidStack.getFluid();
+                if (fluid != null)
+                {
+                    switch (fluid.getName())
+                    {
+                        case "milk":
+                            entityLiving.curePotionEffects(stack);
+                            break;
+                        case "lava":
+                            NoTreePunching.getLog().info("You fool! Why are you drinking lava!");
+                            break;
+                    }
+                }
+            }
+            return getEmpty();
+        }
+        return stack;
+    }
 
     @Nullable
     @Override
