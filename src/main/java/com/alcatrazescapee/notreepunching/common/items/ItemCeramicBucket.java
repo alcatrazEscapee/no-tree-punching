@@ -28,7 +28,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple;
 import net.minecraftforge.fml.relauncher.Side;
@@ -41,11 +40,9 @@ import com.alcatrazescapee.notreepunching.ModConfig;
 @ParametersAreNonnullByDefault
 public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
 {
-    private static final ItemStack EMPTY = new ItemStack(ModItems.CERAMIC_BUCKET);
-
     public ItemCeramicBucket()
     {
-        super(Fluid.BUCKET_VOLUME, EMPTY, false);
+        super(Fluid.BUCKET_VOLUME, ItemStack.EMPTY, false);
     }
 
     @SideOnly(Side.CLIENT)
@@ -138,7 +135,7 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
         return new ActionResult<>(EnumActionResult.PASS, heldItem);
     }
 
-    @Nullable
+    /*@Nullable
     @Override
     public FluidStack getFluid(ItemStack stack)
     {
@@ -151,13 +148,20 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
             }
         }
         return null;
+    }*/
+
+    @Nullable
+    @Override
+    public FluidStack getFluid(ItemStack container)
+    {
+        return FluidUtil.getFluidContained(container);
     }
 
     @Override
     @Nonnull
     public ItemStack getEmpty()
     {
-        return EMPTY.copy();
+        return new ItemStack(this);
     }
 
     @Override

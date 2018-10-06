@@ -77,7 +77,7 @@ public final class PlayerInteractionHandler
             {
                 if (RNG.nextFloat() < ModConfig.BALANCE.flintKnappingSuccessChance)
                 {
-                    CoreHelpers.dropItemInWorldExact(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, new ItemStack(ModItems.FLINT_SHARD));
+                    CoreHelpers.dropItemInWorldExact(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, new ItemStack(ModItems.FLINT_SHARD, 2));
                 }
                 player.setHeldItem(hand, CoreHelpers.consumeItem(player, stack));
             }

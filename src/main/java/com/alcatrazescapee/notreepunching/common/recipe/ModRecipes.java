@@ -31,7 +31,6 @@ import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.ModConstants;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockCobble;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockPottery;
-import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.util.types.Metal;
 import com.alcatrazescapee.notreepunching.util.types.Pottery;
@@ -49,6 +48,28 @@ public final class ModRecipes
 
     public static void init()
     {
+        // Pottery Smelting + Fire pit
+        for (Pottery type : Pottery.values())
+        {
+            if (type != Pottery.WORKED)
+            {
+                BlockPottery block = BlockPottery.get(type);
+                GameRegistry.addSmelting(block, block.getFiredType(), 0.1f);
+                FIRE_PIT.add(new FirePitRecipe(block.getFiredType(), new ItemStack(block)));
+            }
+        }
+
+        // Fire pit food recipes
+        Map<ItemStack, ItemStack> map = FurnaceRecipes.instance().getSmeltingList();
+
+        for (Map.Entry<ItemStack, ItemStack> m : map.entrySet())
+        {
+            if (m.getValue().getItem() instanceof ItemFood)
+            {
+                FIRE_PIT.add(new FirePitRecipe(m.getValue().copy(), m.getKey().copy()));
+            }
+        }
+
         /* SMELTING RECIPES */
 
         GameRegistry.addSmelting(BlockCobble.get(Stone.GRANITE), new ItemStack(Blocks.STONE, 1, BlockStone.EnumType.GRANITE.getMetadata()), 0.1f);
@@ -61,22 +82,7 @@ public final class ModRecipes
 
         /* FIRE PIT RECIPES */
 
-        FIRE_PIT.add(new FirePitRecipe(new ItemStack(ModBlocks.CERAMIC_LARGE_VESSEL), new ItemStack(BlockPottery.get(Pottery.LARGE_VESSEL))));
-        FIRE_PIT.add(new FirePitRecipe(new ItemStack(ModItems.CERAMIC_SMALL_VESSEL), new ItemStack(BlockPottery.get(Pottery.SMALL_VESSEL))));
-        FIRE_PIT.add(new FirePitRecipe(new ItemStack(ModItems.CERAMIC_BUCKET), new ItemStack(BlockPottery.get(Pottery.BUCKET))));
-        FIRE_PIT.add(new FirePitRecipe(new ItemStack(Items.FLOWER_POT), new ItemStack(BlockPottery.get(Pottery.FLOWER_POT))));
         FIRE_PIT.add(new FirePitRecipe(new ItemStack(Items.BRICK), "brickClay", 1));
-
-        // Recipes from food
-        Map<ItemStack, ItemStack> map = FurnaceRecipes.instance().getSmeltingList();
-
-        for (Map.Entry<ItemStack, ItemStack> m : map.entrySet())
-        {
-            if (m.getValue().getItem() instanceof ItemFood)
-            {
-                FIRE_PIT.add(new FirePitRecipe(m.getValue().copy(), m.getKey().copy()));
-            }
-        }
 
         /* KNIFE RECIPES */
 
@@ -153,6 +159,8 @@ public final class ModRecipes
             remove(r, "stone_hoe");
             remove(r, "stone_sword");
             remove(r, "stone_axe");
+
+            remove(r, "flower_pot");
         }
     }
 

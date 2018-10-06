@@ -16,9 +16,11 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
@@ -27,6 +29,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.alcatrazescapee.alcatrazcore.block.BlockCore;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
@@ -63,6 +68,17 @@ public class BlockPottery extends BlockCore
         setSoundType(SoundType.GROUND);
     }
 
+    @SideOnly(Side.CLIENT)
+    @Override
+    @SuppressWarnings("ConstantConditions")
+    public void registerModel()
+    {
+        if (type == Pottery.LARGE_VESSEL)
+            super.registerModel();
+        else if (type != Pottery.WORKED)
+            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(this.getRegistryName(), "inventory"));
+    }
+
     @Nonnull
     public Pottery getType()
     {
@@ -80,8 +96,10 @@ public class BlockPottery extends BlockCore
                 return new ItemStack(ModItems.CERAMIC_BUCKET);
             case SMALL_VESSEL:
                 return new ItemStack(ModItems.CERAMIC_SMALL_VESSEL);
-            default: // FLOWER POT
-                return new ItemStack(Blocks.FLOWER_POT);
+            case FLOWER_POT:
+                return new ItemStack(Items.FLOWER_POT);
+            default:
+                return ItemStack.EMPTY;
         }
     }
 

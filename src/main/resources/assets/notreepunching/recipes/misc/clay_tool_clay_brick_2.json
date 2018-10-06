@@ -1,0 +1,19 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "SW"
+  ],
+  "key": {
+    "S": {
+      "type": "forge:ore_dict",
+      "ore": "toolClay"
+    },
+    "W": {
+      "item": "minecraft:clay"
+    }
+  },
+  "result": {
+    "item": "notreepunching:clay_brick",
+    "count": 4
+  }
+}

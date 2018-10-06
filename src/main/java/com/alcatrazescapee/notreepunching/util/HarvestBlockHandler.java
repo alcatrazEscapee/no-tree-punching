@@ -14,12 +14,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockTallGrass;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
-import net.minecraftforge.oredict.OreDictionary;
 
 import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
@@ -57,7 +57,7 @@ public final class HarvestBlockHandler
             {
                 exceptions.add(createPredicate(s));
             }
-            catch (Exception e)
+            catch (IllegalArgumentException e)
             {
                 NoTreePunching.getLog().warn("Problem loading entry in alwaysBreakable: {}, {}", s, e);
             }
@@ -175,8 +175,26 @@ public final class HarvestBlockHandler
         grassDrops.add(stack);
     }
 
-    private static Predicate<IBlockState> createPredicate(String entry)
+    private static Predicate<IBlockState> createPredicate(String entry) throws IllegalArgumentException
     {
+        // Specific checks for keywords:
+        if (entry.substring(0, 9).equals("material:"))
+        {
+            try
+            {
+                Object obj = Material.class.getField(entry.substring(9).toUpperCase()).get(null);
+                if (obj instanceof Material)
+                {
+                    Material material = (Material) obj;
+                    return state -> (state.getMaterial() == material);
+                }
+            }
+            catch (Exception e)
+            {
+                throw new IllegalArgumentException("Material is incorrect somehow", e);
+            }
+        }
+        // Default, fall back to block state based predicate
         int colon = entry.indexOf(':');
         int colon2 = entry.lastIndexOf(':');
         if (colon == colon2)
@@ -184,38 +202,15 @@ public final class HarvestBlockHandler
             // Construct a generic stack
             Block block = Block.getBlockFromName(entry);
             if (block == null) throw new IllegalArgumentException("Block is null, no metadata");
-            return new BlockData(block);
+            return state -> (state.getBlock() == block);
         }
         else
         {
             // Construct a stack with metadata
             Block block = Block.getBlockFromName(entry.substring(0, colon2));
-            if (block == null) throw new IllegalArgumentException("Item is null, with metadata");
+            if (block == null) throw new IllegalArgumentException("Block is null, with metadata");
             int meta = Integer.valueOf(entry.substring(colon2 + 1));
-            return new BlockData(block, meta);
-        }
-    }
-
-    private static class BlockData implements Predicate<IBlockState>
-    {
-        private final Block block;
-        private final int meta;
-
-        private BlockData(Block block)
-        {
-            this(block, OreDictionary.WILDCARD_VALUE);
-        }
-
-        private BlockData(Block block, int meta)
-        {
-            this.block = block;
-            this.meta = meta;
-        }
-
-        @Override
-        public boolean test(IBlockState state)
-        {
-            return state.getBlock() == block && meta == OreDictionary.WILDCARD_VALUE || state.getBlock().getMetaFromState(state) == meta;
+            return state -> (state.getBlock() == block && state.getBlock().getMetaFromState(state) == meta);
         }
     }
 }

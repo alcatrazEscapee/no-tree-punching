@@ -82,11 +82,7 @@ public class ItemClayTool extends ItemToolCore
     {
         ItemStack copy = stack.copy();
         copy.setItemDamage(copy.getItemDamage() + 2);
-        if (copy.getItemDamage() >= copy.getMaxDamage())
-        {
-            copy = ItemStack.EMPTY;
-        }
-        return copy;
+        return copy.getItemDamage() >= copy.getMaxDamage() ? ItemStack.EMPTY : copy;
     }
 
     @Override

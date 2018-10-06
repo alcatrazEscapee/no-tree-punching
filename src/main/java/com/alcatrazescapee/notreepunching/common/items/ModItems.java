@@ -35,10 +35,10 @@ public final class ModItems
     public static final Item GRASS_FIBER = getNull();
     public static final Item GRASS_STRING = getNull();
     public static final Item CLAY_BRICK = getNull();
-
     public static final Item CERAMIC_SMALL_VESSEL = getNull();
     public static final Item CERAMIC_BUCKET = getNull();
     public static final Item CLAY_TOOL = getNull();
+    public static final Item FIRE_STARTER = getNull();
 
     private static ImmutableMap<ToolType, Item> FLINT_TOOLS;
     private static ImmutableEnumTable<ToolType, Metal, Item> METAL_TOOLS;
@@ -115,6 +115,8 @@ public final class ModItems
         // Vanilla ore dictionary additions
         OreDictionary.registerOre("kindling", Items.PAPER);
         OreDictionary.registerOre("kindling", Blocks.HAY_BLOCK);
+
+        OreDictionaryHelper.register(CLAY_TOOL, "tool", "clay");
 
         // Remove wood + stone tools from creative tabs
         if (ModConfig.GENERAL.replaceVanillaRecipes)

@@ -21,9 +21,14 @@ repositories {
         name = "ModMaven"
         url = "modmaven.k-4u.nl"
     }
-    maven { // CraftTweaker
+    maven {
+        // CraftTweaker
         name 'jared maven'
         url "http://maven.blamejared.com/"
+    }
+    maven {
+        // GuideAPI
+        url 'http://tehnut.info/maven/'
     }
 }
 
@@ -36,6 +41,9 @@ dependencies {
     deobfProvided "CraftTweaker2:CraftTweaker2-API:4.1.8.5"
     // At runtime, use the full jar
     runtime "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
+
+    // Guide API
+    deobfCompile "info.amerifrance.guideapi:Guide-API:1.12-2.1.7-62"
 }
 
 

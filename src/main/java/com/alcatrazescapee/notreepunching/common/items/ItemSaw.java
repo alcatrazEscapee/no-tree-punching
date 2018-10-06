@@ -19,6 +19,8 @@ public class ItemSaw extends ItemAxeCore
     public ItemSaw(ToolMaterial material)
     {
         super(material, Math.max(material.getAttackDamage() - 1.0f, 1.0f), -2.8f);
+
+        setContainerItem(this);
     }
 
     @Override
@@ -26,7 +28,13 @@ public class ItemSaw extends ItemAxeCore
     public ItemStack getContainerItem(ItemStack stack)
     {
         ItemStack copy = stack.copy();
-        copy.attemptDamageItem(1, itemRand, null);
-        return copy;
+        copy.setItemDamage(copy.getItemDamage() + 1);
+        return copy.getItemDamage() >= copy.getMaxDamage() ? ItemStack.EMPTY : copy;
+    }
+
+    @Override
+    public boolean hasContainerItem(ItemStack stack)
+    {
+        return true;
     }
 }

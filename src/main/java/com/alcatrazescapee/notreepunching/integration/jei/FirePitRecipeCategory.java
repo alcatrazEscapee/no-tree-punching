@@ -30,7 +30,7 @@ import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 
 import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
-import static com.alcatrazescapee.notreepunching.integration.jei.JeiPlugin.FIREPIT_UID;
+import static com.alcatrazescapee.notreepunching.integration.jei.JeiPlugin.FIRE_PIT_UID;
 
 @ParametersAreNonnullByDefault
 public class FirePitRecipeCategory implements IRecipeCategory<FirePitRecipeCategory.Wrapper>
@@ -61,7 +61,7 @@ public class FirePitRecipeCategory implements IRecipeCategory<FirePitRecipeCateg
     @Override
     public String getUid()
     {
-        return FIREPIT_UID;
+        return FIRE_PIT_UID;
     }
 
     @Nonnull

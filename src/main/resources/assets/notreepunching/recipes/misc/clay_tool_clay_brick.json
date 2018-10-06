@@ -5,8 +5,8 @@
   ],
   "key": {
     "S": {
-      "item": "notreepunching:clay_tool",
-      "meta": 32767
+      "type": "forge:ore_dict",
+      "ore": "toolClay"
     },
     "W": {
       "item": "minecraft:clay_ball"
