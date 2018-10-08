@@ -41,8 +41,7 @@ public final class ModConfig
         public String[] alwaysBreakable = new String[] {"minecraft:leaves", "minecraft:gravel", "minecraft:sand", "minecraft:dirt", "minecraft:grass"};
 
         @Config.Comment("Fluids that are able to be picked up by the ceramic bucket")
-        @Config.RequiresMcRestart
-        public String[] ceramicBucketValidFluids = new String[] {"minecraft:water"};
+        public String[] ceramicBucketValidFluids = new String[] {"water"};
 
         @Config.RequiresMcRestart
         @Config.Comment({"If true, NTP will add its own log->plank and plank->stick recipes and remove old versions",
@@ -123,17 +122,17 @@ public final class ModConfig
         @Config.Comment("Mining level of copper tools. 0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond")
         @Config.RangeInt(min = 0, max = 4)
         @Config.RequiresMcRestart
-        public int miningLevelCopper = 0;
+        public int miningLevelCopper = 1;
 
         @Config.Comment("Mining level of bronze tools. 0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond")
         @Config.RangeInt(min = 0, max = 4)
         @Config.RequiresMcRestart
-        public int miningLevelBronze = 0;
+        public int miningLevelBronze = 2;
 
         @Config.Comment("Mining level of steel tools. 0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond")
         @Config.RangeInt(min = 0, max = 4)
         @Config.RequiresMcRestart
-        public int miningLevelSteel = 0;
+        public int miningLevelSteel = 3;
 
         @Config.Comment("Enable copper versions of NTP tools (knife, mattock, saw)")
         @Config.RequiresMcRestart

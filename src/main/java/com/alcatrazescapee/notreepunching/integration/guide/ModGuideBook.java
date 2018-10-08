@@ -86,6 +86,7 @@ public final class ModGuideBook implements IGuideBook
                         .addPage(new ResourceLocation(MOD_ID, "tools/fire_starter"))
                         .addPage(MOD_ID + ".guide.early_game.page.10")
                         .addPage(new PageTextImage(MOD_ID + ".guide.early_game.page.11", new ResourceLocation(MOD_ID, "textures/guide/fire_pit.png"), false))
+                        .addPage(MOD_ID + ".guide.early_game.page.12")
                         .build())
                 .addCategory(new CategoryBuilder(new CategoryItemStack(MOD_ID + ".guide.category.tools", new ItemStack(ModItems.FIRE_STARTER)).withKeyBase("tools"))
                         .addEntry(MOD_ID + ".guide.tools.flint")

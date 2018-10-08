@@ -106,6 +106,8 @@ public class TileFirePit extends TileInventory implements ITickable, ITileFields
 
                             inventory.setStackInSlot(INPUT_SLOT_ID, cachedRecipe.consumeInput(cookStack));
                             inventory.setStackInSlot(OUTPUT_SLOT_ID, CoreHelpers.mergeStacks(outStack, cachedRecipe.getOutput()));
+
+                            updateRecipe();
                         }
                         cookTimer = 0;
                     }
