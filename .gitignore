@@ -1,13 +1,15 @@
 # Gradle
-gradle.properties
-.gradle
+*.properties
+*.bin
 /build/
+/.gradle/
 
 # IntelliJ
 /.idea/
 *.iml
 *.ipr
 *.iws
+*.iml
 
 # Production
 /out/
