@@ -1,36 +1,19 @@
-# Compiled class file
-*.class
+# Gradle
+gradle.properties
+.gradle
+/build/
 
-# Python Helpers
-*.py
+# IntelliJ
+/.idea/
+*.iml
+*.ipr
+*.iws
 
-# Log file
-*.log
+# Production
+/out/
+/run/
+/libs/
 
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-
-# Folders to ignore from project file
-build/
-run/
-old/
-.gradle/
-.idea/
-out/
-libs/
-no-tree-punching.wiki/
+# Wiki
+/no-tree-punching.wiki/
 

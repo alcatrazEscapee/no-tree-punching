@@ -26,6 +26,7 @@ import com.alcatrazescapee.notreepunching.util.types.Stone;
 public class WorldGenRocks implements IWorldGenerator
 {
     private static final Set<Material> MATERIALS = Sets.newHashSet(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.GOURD, Material.SNOW);
+
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
@@ -45,13 +46,13 @@ public class WorldGenRocks implements IWorldGenerator
 
     private void placeRock(World world, BlockPos pos, Random random)
     {
-        IBlockState state = world.getBlockState(pos);
-        IBlockState stateDown = world.getBlockState(pos.down());
-        if (!state.getMaterial().isLiquid() && state.getBlock().isReplaceable(world, pos) && !state.isOpaqueCube() &&
-                stateDown.isNormalCube() && MATERIALS.contains(stateDown.getMaterial()))
+        IBlockState state = world.getBlockState(pos.up());
+        IBlockState stateDown = world.getBlockState(pos);
+        if (!state.getMaterial().isLiquid() && state.getBlock().isReplaceable(world, pos.up()) && !state.isOpaqueCube() &&
+                stateDown.isOpaqueCube() && MATERIALS.contains(stateDown.getMaterial()))
         {
             Stone stone = Stone.getFromMaterial(stateDown.getMaterial(), random);
-            world.setBlockState(pos, BlockRock.get(stone).getDefaultState());
+            world.setBlockState(pos.up(), BlockRock.get(stone).getDefaultState());
         }
     }
 }

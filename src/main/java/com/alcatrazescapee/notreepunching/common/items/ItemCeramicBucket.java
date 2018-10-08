@@ -153,21 +153,6 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
         }
     }
 
-    /*@Nullable
-    @Override
-    public FluidStack getFluid(ItemStack stack)
-    {
-        if (stack.getItem() instanceof ItemCeramicBucket)
-        {
-            IFluidHandler cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-            if (cap != null)
-            {
-                return cap.drain(Integer.MAX_VALUE, false);
-            }
-        }
-        return null;
-    }*/
-
     @Nonnull
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
     {
