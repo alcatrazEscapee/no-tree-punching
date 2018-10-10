@@ -29,6 +29,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple;
 import net.minecraftforge.fml.relauncher.Side;
@@ -80,9 +81,8 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
 
     @Nonnull
     @Override
-    @SideOnly(Side.CLIENT)
     @SuppressWarnings("deprecation")
-    public String getItemStackDisplayName(ItemStack stack)
+    public String getItemStackDisplayName(@Nonnull ItemStack stack)
     {
         FluidStack fluidStack = getFluid(stack);
         // If the bucket is empty, translate the unlocalised name directly
@@ -182,9 +182,14 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
 
     @Nullable
     @Override
-    public FluidStack getFluid(ItemStack container)
+    public FluidStack getFluid(ItemStack stack)
     {
-        return FluidUtil.getFluidContained(container);
+        IFluidHandler cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
+        if (cap instanceof FluidHandlerCeramicBucket)
+        {
+            return ((FluidHandlerCeramicBucket) cap).getFluid();
+        }
+        return null;
     }
 
     @Override
@@ -192,6 +197,17 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
     public ItemStack getEmpty()
     {
         return new ItemStack(this);
+    }
+
+    @Nonnull
+    public EnumAction getItemUseAction(ItemStack stack)
+    {
+        return EnumAction.DRINK;
+    }
+
+    public int getMaxItemUseDuration(ItemStack stack)
+    {
+        return 32;
     }
 
     @Override
@@ -215,14 +231,24 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
         };
     }
 
-    @Nonnull
-    public EnumAction getItemUseAction(ItemStack stack)
+    private static class FluidHandlerCeramicBucket extends FluidHandlerItemStackSimple
     {
-        return EnumAction.DRINK;
-    }
+        public FluidHandlerCeramicBucket(@Nonnull ItemStack container, int capacity)
+        {
+            super(container, capacity);
+        }
 
-    public int getMaxItemUseDuration(ItemStack stack)
-    {
-        return 32;
+        @Override
+        public boolean canFillFluidType(FluidStack fluid)
+        {
+            for (String s : ModConfig.GENERAL.ceramicBucketValidFluids)
+            {
+                if (s.equals(fluid.getFluid().getName()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
