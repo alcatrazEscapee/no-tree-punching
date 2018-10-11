@@ -35,10 +35,13 @@ public final class ModBlocks
         // Stone Blocks
         for (Stone type : Stone.values())
         {
-            if (type != Stone.STONE && type != Stone.SANDSTONE)
-                r.registerBlock(new BlockCobble(type), "cobblestone/" + type.name(), TAB_ITEMS);
+            if (type.isEnabled())
+            {
+                if (type.hasCobblestone())
+                    r.registerBlock(new BlockCobble(type), "cobblestone/" + type.name(), TAB_ITEMS);
 
-            r.registerBlock(new BlockRock(type), null, "loose_rock/" + type.name());
+                r.registerBlock(new BlockRock(type), null, "loose_rock/" + type.name());
+            }
         }
 
         // Pottery

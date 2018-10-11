@@ -7,33 +7,17 @@
 package com.alcatrazescapee.notreepunching;
 
 import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 
 import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
 
 @Config(modid = MOD_ID, category = "")
-@Mod.EventBusSubscriber(modid = MOD_ID)
 @SuppressWarnings("WeakerAccess")
 public final class ModConfig
 {
     public static final GeneralConfig GENERAL = new GeneralConfig();
     public static final BalanceConfig BALANCE = new BalanceConfig();
     public static final ToolsConfig TOOLS = new ToolsConfig();
-
-    @SubscribeEvent
-    public static void onConfigChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event)
-    {
-        if (event.getModID().equals(MOD_ID))
-        {
-            ConfigManager.sync(MOD_ID, Config.Type.INSTANCE);
-            HarvestBlockHandler.reloadWhitelist();
-        }
-    }
+    public static final CompatConfig COMPAT = new CompatConfig();
 
     public static class GeneralConfig
     {
@@ -151,5 +135,22 @@ public final class ModConfig
         public boolean enableSteelTools = false;
 
         private ToolsConfig() {}
+    }
+
+    public static class CompatConfig
+    {
+        @Config.Comment("Enable compatibility features from Rustic (slate cobblestone + loose rock)")
+        @Config.RequiresMcRestart
+        public boolean enableRusticCompat = true;
+
+        @Config.Comment("Enable compatibility features from Quark (marble + limestone cobblestone + loose rock)")
+        @Config.RequiresMcRestart
+        public boolean enableQuarkCompat = true;
+
+        //@Config.Comment("Enable compatibility features from Underground Biomes Constructs (UBC) (loose rocks)")
+        //@Config.RequiresMcRestart
+        //public boolean enableUBCCompat = true;
+
+        private CompatConfig() {}
     }
 }

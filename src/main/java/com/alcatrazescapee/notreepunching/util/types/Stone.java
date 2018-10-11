@@ -11,9 +11,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockStone;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraftforge.fml.common.Loader;
+
+import com.alcatrazescapee.notreepunching.ModConfig;
 
 public enum Stone
 {
@@ -21,22 +23,29 @@ public enum Stone
     ANDESITE,
     GRANITE,
     DIORITE,
-    SANDSTONE;
+    SANDSTONE,
+    MARBLE,
+    LIMESTONE,
+    SLATE;
 
     @Nonnull
-    public static Stone getFromMaterial(Material material, Random random)
+    public static Stone getFromBlock(IBlockState state, Random random)
     {
-        switch (random.nextInt(8))
+        Stone stone = getFromBlock(state);
+        if (stone == STONE)
         {
-            case 0:
-                return ANDESITE;
-            case 1:
-                return DIORITE;
-            case 2:
-                return GRANITE;
-            default:
-                return material == Material.SAND ? SANDSTONE : STONE;
+            // Chance to spice it up if normal stone is drawn
+            switch (random.nextInt(5))
+            {
+                case 0:
+                    return GRANITE;
+                case 1:
+                    return ANDESITE;
+                case 2:
+                    return DIORITE;
+            }
         }
+        return stone == null ? STONE : stone;
     }
 
     @Nullable
@@ -60,6 +69,55 @@ public enum Stone
         {
             return SANDSTONE;
         }
-        return null;
+        //noinspection ConstantConditions
+        String registryName = state.getBlock().getRegistryName().toString();
+        switch (registryName)
+        {
+            case "quark:limestone":
+                return LIMESTONE;
+            case "quark:marble":
+                return MARBLE;
+            case "rustic:slate":
+                return SLATE;
+            default:
+                return null;
+        }
+    }
+
+    public boolean isEnabled()
+    {
+        switch (this)
+        {
+            case STONE:
+            case ANDESITE:
+            case DIORITE:
+            case GRANITE:
+            case SANDSTONE:
+                return true;
+            case MARBLE:
+                return LIMESTONE.isEnabled() || SLATE.isEnabled();
+            case LIMESTONE:
+                return Loader.isModLoaded("quark") && ModConfig.COMPAT.enableQuarkCompat;
+            case SLATE:
+                return Loader.isModLoaded("rustic") && ModConfig.COMPAT.enableRusticCompat;
+            default:
+                return false;
+        }
+    }
+
+    public boolean hasCobblestone()
+    {
+        switch (this)
+        {
+            case DIORITE:
+            case GRANITE:
+            case ANDESITE:
+            case SLATE:
+            case MARBLE:
+            case LIMESTONE:
+                return true;
+            default:
+                return false;
+        }
     }
 }

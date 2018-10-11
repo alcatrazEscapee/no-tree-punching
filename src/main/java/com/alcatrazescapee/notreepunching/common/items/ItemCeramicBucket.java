@@ -214,21 +214,7 @@ public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
     public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt)
     {
         // FluidBucketWrapper only works with Forge's UniversalBucket instance, use a different IFluidHandlerItem implementation instead
-        return new FluidHandlerItemStackSimple(stack, Fluid.BUCKET_VOLUME)
-        {
-            @Override
-            public boolean canFillFluidType(FluidStack fluid)
-            {
-                for (String s : ModConfig.GENERAL.ceramicBucketValidFluids)
-                {
-                    if (s.equals(fluid.getFluid().getName()))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        };
+        return new FluidHandlerCeramicBucket(stack, Fluid.BUCKET_VOLUME);
     }
 
     private static class FluidHandlerCeramicBucket extends FluidHandlerItemStackSimple

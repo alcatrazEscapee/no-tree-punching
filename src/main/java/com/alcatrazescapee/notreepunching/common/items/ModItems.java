@@ -74,7 +74,8 @@ public final class ModItems
 
         for (Stone type : Stone.values())
         {
-            r.registerItem(new ItemRock(type), "rock/" + type.name(), TAB_ITEMS);
+            if (type.isEnabled())
+                r.registerItem(new ItemRock(type), "rock/" + type.name(), TAB_ITEMS);
         }
 
         {

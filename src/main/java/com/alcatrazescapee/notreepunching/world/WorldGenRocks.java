@@ -47,12 +47,14 @@ public class WorldGenRocks implements IWorldGenerator
     private void placeRock(World world, BlockPos pos, Random random)
     {
         IBlockState state = world.getBlockState(pos.up());
-        IBlockState stateDown = world.getBlockState(pos);
-        if (!state.getMaterial().isLiquid() && state.getBlock().isReplaceable(world, pos.up()) && !state.isOpaqueCube() &&
-                stateDown.isOpaqueCube() && MATERIALS.contains(stateDown.getMaterial()))
+        if (state.getMaterial().isLiquid() && !state.isOpaqueCube() && state.getBlock().isReplaceable(world, pos.up()))
         {
-            Stone stone = Stone.getFromMaterial(stateDown.getMaterial(), random);
-            world.setBlockState(pos.up(), BlockRock.get(stone).getDefaultState());
+            IBlockState stateDown = world.getBlockState(pos);
+            if (stateDown.isOpaqueCube() && MATERIALS.contains(stateDown.getMaterial()))
+            {
+                Stone stone = Stone.getFromBlock(world.getBlockState(pos.down(6)), random);
+                world.setBlockState(pos.up(), BlockRock.get(stone).getDefaultState());
+            }
         }
     }
 }
