@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.block.BlockStone;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
@@ -72,10 +71,13 @@ public final class ModRecipes
 
         /* SMELTING RECIPES */
 
-        GameRegistry.addSmelting(BlockCobble.get(Stone.GRANITE), new ItemStack(Blocks.STONE, 1, BlockStone.EnumType.GRANITE.getMetadata()), 0.1f);
-        GameRegistry.addSmelting(BlockCobble.get(Stone.DIORITE), new ItemStack(Blocks.STONE, 1, BlockStone.EnumType.DIORITE.getMetadata()), 0.1f);
-        GameRegistry.addSmelting(BlockCobble.get(Stone.ANDESITE), new ItemStack(Blocks.STONE, 1, BlockStone.EnumType.ANDESITE.getMetadata()), 0.1f);
-        // No cobblestone for sandstone
+        for (Stone stone : Stone.values())
+        {
+            if (stone.isEnabled() && stone.hasCobblestone())
+            {
+                GameRegistry.addSmelting(BlockCobble.get(stone), stone.getStoneStack(), 0.1f);
+            }
+        }
 
         GameRegistry.addSmelting(ModItems.GRASS_STRING, new ItemStack(Items.STRING), 0.1f);
         GameRegistry.addSmelting(ModItems.CLAY_BRICK, new ItemStack(Items.BRICK), 0.1f);
@@ -125,6 +127,15 @@ public final class ModRecipes
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event)
     {
         IForgeRegistryModifiable<IRecipe> r = (IForgeRegistryModifiable<IRecipe>) event.getRegistry();
+
+        for (Stone stone : Stone.values())
+        {
+            if (!stone.isDefault() && stone.isEnabled() && stone.hasCobblestone())
+            {
+                String oreName = ModConstants.CASE_CONVERTER.convert("ROCK_" + stone.name());
+                register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, "blocks/cobblestone_" + stone.name().toLowerCase()), BlockCobble.get(stone), "RR", "RR", 'R', oreName));
+            }
+        }
 
         if (ModConfig.TOOLS.enableTinTools)
         {

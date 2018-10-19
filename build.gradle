@@ -73,10 +73,6 @@ minecraft {
     replace 'GRADLE:ALC_CORE_VERSION', "${alc_core_version}"
 }
 
-dependencies {
-
-}
-
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
