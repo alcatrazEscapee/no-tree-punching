@@ -19,7 +19,7 @@ public final class ModConstants
 
     // Versioning / Dependencies
     public static final String VERSION = "GRADLE:VERSION";
-    public static final String FORGE_REQUIRED = "required-after:forge@[GRADLE:FORGE_VERSION,15.0.0.0);";
+    public static final String FORGE_REQUIRED = "required-after:forge@[14.23.4.2705,15.0.0.0);";
     public static final String ALC_CORE_REQUIRED = "required-after:alcatrazcore@[GRADLE:ALC_CORE_VERSION,2.0.0);";
     public static final String DEPENDENCIES = FORGE_REQUIRED + ALC_CORE_REQUIRED;
 
