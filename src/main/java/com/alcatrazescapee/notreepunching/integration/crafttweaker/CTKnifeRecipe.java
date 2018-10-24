@@ -6,6 +6,8 @@
 
 package com.alcatrazescapee.notreepunching.integration.crafttweaker;
 
+import java.util.Arrays;
+
 import net.minecraft.item.ItemStack;
 
 import com.alcatrazescapee.alcatrazcore.inventory.ingredient.IRecipeIngredient;
@@ -14,7 +16,9 @@ import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
+import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -24,9 +28,19 @@ import stanhebben.zenscript.annotations.ZenMethod;
 public class CTKnifeRecipe
 {
     @ZenMethod
-    public static void add(IItemStack input, IItemStack output)
+    public static void add(IIngredient input, IItemStack... output)
     {
-        KnifeRecipe recipe = new KnifeRecipe(CraftTweakerPlugin.toStack(input), CraftTweakerPlugin.toStack(output));
+        KnifeRecipe recipe;
+        ItemStack[] outputStack = Arrays.stream(output).map(CraftTweakerPlugin::toStack).toArray(ItemStack[]::new);
+        if (input instanceof IOreDictEntry)
+        {
+            IOreDictEntry ore = (IOreDictEntry) input;
+            recipe = new KnifeRecipe(ore.getName(), ore.getAmount(), outputStack);
+        }
+        else
+        {
+            recipe = new KnifeRecipe(CraftTweakerPlugin.toStack(input), outputStack);
+        }
         CraftTweakerAPI.apply(new IAction()
         {
             @Override
@@ -44,21 +58,30 @@ public class CTKnifeRecipe
     }
 
     @ZenMethod
-    public static void remove(IItemStack input)
+    public static void remove(IIngredient input)
     {
-        ItemStack stack = CraftTweakerPlugin.toStack(input);
+        IRecipeIngredient ingredient;
+        if (input instanceof IOreDictEntry)
+        {
+            IOreDictEntry ore = (IOreDictEntry) input;
+            ingredient = IRecipeIngredient.of(ore.getName(), ore.getAmount());
+        }
+        else
+        {
+            ingredient = IRecipeIngredient.of(CraftTweakerPlugin.toStack(input));
+        }
         CraftTweakerAPI.apply(new IAction()
         {
             @Override
             public void apply()
             {
-                ModRecipes.addScheduledAction(() -> ModRecipes.KNIFE.remove(IRecipeIngredient.of(stack)));
+                ModRecipes.addScheduledAction(() -> ModRecipes.KNIFE.remove(ingredient));
             }
 
             @Override
             public String describe()
             {
-                return "Removing knife recipe for " + stack.getDisplayName();
+                return "Removing knife recipe for " + ingredient.getName();
             }
         });
     }

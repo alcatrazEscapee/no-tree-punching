@@ -55,6 +55,10 @@ item.notreepunching:mattock.steel.name=Steel Mattock
 tile.notreepunching:cobblestone.andesite.name=Andesite Cobblestone
 tile.notreepunching:cobblestone.diorite.name=Diorite Cobblestone
 tile.notreepunching:cobblestone.granite.name=Granite Cobblestone
+tile.notreepunching:cobblestone.sandstone.name=Sandstone Cobblestone
+tile.notreepunching:cobblestone.marble.name=Marble Cobblestone
+tile.notreepunching:cobblestone.limestone.name=Limestone Cobblestone
+tile.notreepunching:cobblestone.slate.name=Slate Cobblestone
 
 tile.notreepunching:pottery.worked.name=Worked Clay
 tile.notreepunching:pottery.large_vessel.name=Clay Large Vessel
