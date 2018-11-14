@@ -41,7 +41,7 @@ repositories {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.matthewprenger.cursegradle'
 
-ext.priv = parseConfig(file('private.properties'))
+ext.priv = parseConfig(file('../../jar-signing/private.properties'))
 
 version = "${mod_version}"
 group = "com.alcatrazescapee.notreepunching" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -78,6 +78,7 @@ minecraft {
     makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     replace 'GRADLE:VERSION', "${mod_version}"
+    replaceIn "NoTreePunching.java"
 }
 
 processResources {
