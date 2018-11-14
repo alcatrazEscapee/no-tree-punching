@@ -81,7 +81,7 @@ public final class ModEventHandler
     }
 
     // Controls the drops of any block that is broken to require specific tools.
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void harvestBlock(BlockEvent.HarvestDropsEvent event)
     {
         EntityPlayer player = event.getHarvester();

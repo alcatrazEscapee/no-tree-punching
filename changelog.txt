@@ -1,0 +1,4 @@
+v2.0.5
+
+Changes:
+ - Fixed plant fiber not dropping when using Better With Mods

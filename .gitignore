@@ -13,6 +13,9 @@
 # Python
 *.py
 
+# Private Stuff
+private.properties
+
 # Production
 /out/
 /run/
