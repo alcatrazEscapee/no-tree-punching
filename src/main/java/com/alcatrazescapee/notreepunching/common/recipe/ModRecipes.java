@@ -27,16 +27,16 @@ import net.minecraftforge.registries.IForgeRegistryModifiable;
 import com.alcatrazescapee.alcatrazcore.inventory.recipe.IRecipeManager;
 import com.alcatrazescapee.alcatrazcore.inventory.recipe.RecipeManager;
 import com.alcatrazescapee.notreepunching.ModConfig;
-import com.alcatrazescapee.notreepunching.ModConstants;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockCobble;
 import com.alcatrazescapee.notreepunching.common.blocks.BlockPottery;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
+import com.alcatrazescapee.notreepunching.util.Util;
 import com.alcatrazescapee.notreepunching.util.types.Metal;
 import com.alcatrazescapee.notreepunching.util.types.Pottery;
 import com.alcatrazescapee.notreepunching.util.types.Stone;
 import com.alcatrazescapee.notreepunching.util.types.ToolType;
 
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public final class ModRecipes
 {
@@ -132,7 +132,7 @@ public final class ModRecipes
         {
             if (!stone.isDefault() && stone.isEnabled() && stone.hasCobblestone())
             {
-                String oreName = ModConstants.CASE_CONVERTER.convert("ROCK_" + stone.name());
+                String oreName = Util.CASE_CONVERTER.convert("ROCK_" + stone.name());
                 register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, "blocks/cobblestone_" + stone.name().toLowerCase()), BlockCobble.get(stone), "RR", "RR", 'R', oreName));
             }
         }
@@ -183,7 +183,7 @@ public final class ModRecipes
     private static void registerToolRecipes(IForgeRegistry<IRecipe> r, Metal metalType)
     {
         String metalName = metalType.name().toLowerCase() + "_";
-        String ingotName = ModConstants.CASE_CONVERTER.convert("INGOT_" + metalType.name());
+        String ingotName = Util.CASE_CONVERTER.convert("INGOT_" + metalType.name());
         register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, metalName + "knife"),
                 new ItemStack(ModItems.getTool(ToolType.KNIFE, metalType)), "I", "S", 'I', ingotName, 'S', "stickWood"));
         register(r, new ShapedOreRecipe(new ResourceLocation(MOD_ID, metalName + "saw"),

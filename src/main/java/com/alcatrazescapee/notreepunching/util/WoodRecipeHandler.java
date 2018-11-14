@@ -31,7 +31,7 @@ import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
 
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 @ParametersAreNonnullByDefault
 public final class WoodRecipeHandler

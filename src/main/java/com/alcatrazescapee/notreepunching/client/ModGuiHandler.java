@@ -27,7 +27,7 @@ import com.alcatrazescapee.notreepunching.common.items.ItemSmallVessel;
 import com.alcatrazescapee.notreepunching.common.tile.TileFirePit;
 import com.alcatrazescapee.notreepunching.common.tile.TileLargeVessel;
 
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public final class ModGuiHandler implements IGuiHandler
 {

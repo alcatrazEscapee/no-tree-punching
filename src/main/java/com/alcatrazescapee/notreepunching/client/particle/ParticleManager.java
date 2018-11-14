@@ -13,14 +13,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.alcatrazescapee.notreepunching.ModConstants;
+import com.alcatrazescapee.notreepunching.util.Util;
 
 @SideOnly(Side.CLIENT)
 public class ParticleManager
 {
     public static void generateFirePitFlame(World world, BlockPos pos)
     {
-        if (ModConstants.RNG.nextFloat() < 0.3)
+        if (Util.RNG.nextFloat() < 0.3)
         {
             generateFirePitSmoke(world, pos);
         }
@@ -57,6 +57,6 @@ public class ParticleManager
 
     private static double fastGaussian()
     {
-        return ModConstants.RNG.nextFloat() - ModConstants.RNG.nextFloat();
+        return Util.RNG.nextFloat() - Util.RNG.nextFloat();
     }
 }

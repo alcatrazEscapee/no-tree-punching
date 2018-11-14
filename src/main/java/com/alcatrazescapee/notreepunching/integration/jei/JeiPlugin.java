@@ -20,7 +20,7 @@ import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 @JEIPlugin
 public final class JeiPlugin implements IModPlugin

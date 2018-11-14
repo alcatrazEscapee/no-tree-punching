@@ -23,7 +23,6 @@ import net.minecraft.util.EnumHand;
 
 import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
-import com.alcatrazescapee.notreepunching.ModConstants;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
 import com.alcatrazescapee.notreepunching.common.items.ItemKnife;
 import com.alcatrazescapee.notreepunching.common.items.ItemRock;
@@ -74,7 +73,7 @@ public final class HarvestBlockHandler
         if (stone != null)
         {
             drops.clear();
-            drops.add(new ItemStack(ItemRock.get(stone), 2 + ModConstants.RNG.nextInt(3)));
+            drops.add(new ItemStack(ItemRock.get(stone), 2 + Util.RNG.nextInt(3)));
         }
 
         // Sticks from leaves
@@ -85,9 +84,9 @@ public final class HarvestBlockHandler
             {
                 stickChance += 0.3f;
             }
-            if (ModConstants.RNG.nextFloat() < stickChance)
+            if (Util.RNG.nextFloat() < stickChance)
             {
-                drops.add(new ItemStack(Items.STICK, 1 + ModConstants.RNG.nextInt(1)));
+                drops.add(new ItemStack(Items.STICK, 1 + Util.RNG.nextInt(1)));
             }
         }
 
@@ -96,9 +95,9 @@ public final class HarvestBlockHandler
         {
             if (stack.getItem() instanceof ItemKnife)
             {
-                if (ModConstants.RNG.nextFloat() < ModConfig.BALANCE.tallGrassDropPlantFiberChance)
+                if (Util.RNG.nextFloat() < ModConfig.BALANCE.tallGrassDropPlantFiberChance)
                 {
-                    ItemStack drop = grassDrops.get(ModConstants.RNG.nextInt(grassDrops.size()));
+                    ItemStack drop = grassDrops.get(Util.RNG.nextInt(grassDrops.size()));
                     drops.add(drop.copy());
                 }
                 stack.damageItem(1, player);

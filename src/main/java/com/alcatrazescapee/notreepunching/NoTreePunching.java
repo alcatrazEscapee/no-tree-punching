@@ -26,11 +26,23 @@ import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import com.alcatrazescapee.notreepunching.world.WorldGenRocks;
 
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_NAME;
-
-@Mod(modid = ModConstants.MOD_ID, version = ModConstants.VERSION, dependencies = ModConstants.DEPENDENCIES, useMetadata = true, certificateFingerprint = "3c2d6be715971d1ed58a028cdb3fae72987fc934")
+@SuppressWarnings({"WeakerAccess", "unused"})
+@Mod(modid = NoTreePunching.MOD_ID, version = NoTreePunching.VERSION, dependencies = NoTreePunching.DEPENDENCIES, useMetadata = true, certificateFingerprint = "3c2d6be715971d1ed58a028cdb3fae72987fc934")
 public final class NoTreePunching
 {
+
+    public static final String MOD_ID = "notreepunching";
+    public static final String MOD_NAME = "No Tree Punching";
+    public static final String VERSION = "GRADLE:VERSION";
+
+    // Versioning
+    private static final String FORGE_MIN = "14.23.4.2705";
+    private static final String FORGE_MAX = "15.0.0.0";
+    private static final String ALC_MIN = "1.0.0";
+    private static final String ALC_MAX = "2.0.0";
+
+    public static final String DEPENDENCIES = "required-after:forge@[" + FORGE_MIN + "," + FORGE_MAX + ");required-after:alcatrazcore@[" + ALC_MIN + "," + ALC_MAX + ");";
+
     @Mod.Instance
     private static NoTreePunching instance;
     private static Logger log;
@@ -81,6 +93,7 @@ public final class NoTreePunching
     {
         if (!isSignedBuild)
             log.warn("You are not running an official build. This version will NOT be supported by the author.");
+
         // Post-Init Managers
         HarvestBlockHandler.postInit();
         ModRecipes.postInit();
@@ -90,7 +103,6 @@ public final class NoTreePunching
     public void onFingerprintViolation(FMLFingerprintViolationEvent event)
     {
         isSignedBuild = false;
-        System.out.println("Hi bob:" + event.getSource().getName());
         FMLCommonHandler.instance().registerCrashCallable(new ICrashCallable()
         {
             @Override

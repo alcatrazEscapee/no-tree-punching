@@ -8,7 +8,7 @@ package com.alcatrazescapee.notreepunching;
 
 import net.minecraftforge.common.config.Config;
 
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 @Config(modid = MOD_ID, category = "")
 @SuppressWarnings("WeakerAccess")

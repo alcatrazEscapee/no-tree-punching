@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import com.alcatrazescapee.alcatrazcore.util.RegistryHelper;
 
 import static com.alcatrazescapee.alcatrazcore.util.CoreHelpers.getNull;
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 @GameRegistry.ObjectHolder(MOD_ID)
 public final class ModSounds

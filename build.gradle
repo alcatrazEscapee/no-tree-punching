@@ -114,6 +114,10 @@ curseforge {
             requiredDependency("alcatrazcore")
             optionalDependency("patchouli")
         }
+
+        afterEvaluate {
+            gameVersionStrings.remove('Java 9')
+        }
     }
 }
 

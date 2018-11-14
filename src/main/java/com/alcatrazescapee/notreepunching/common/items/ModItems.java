@@ -23,7 +23,7 @@ import com.alcatrazescapee.notreepunching.util.types.Stone;
 import com.alcatrazescapee.notreepunching.util.types.ToolType;
 
 import static com.alcatrazescapee.alcatrazcore.util.CoreHelpers.getNull;
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 import static com.alcatrazescapee.notreepunching.client.ModTabs.TAB_ITEMS;
 import static com.alcatrazescapee.notreepunching.client.ModTabs.TAB_TOOLS;
 import static com.alcatrazescapee.notreepunching.common.ModMaterials.TOOL_FLINT;
@@ -96,6 +96,7 @@ public final class ModItems
                     for (Metal metal : Metal.values())
                     {
                         // Metal Tools
+                        // todo: make these always register and then check if enabled later
                         if (metal.isEnabled)
                         {
                             metalTools.put(type, metal, r.registerItem(item = type.createTool(metal.toolMaterial), type.name() + "/" + metal.name(), TAB_TOOLS));

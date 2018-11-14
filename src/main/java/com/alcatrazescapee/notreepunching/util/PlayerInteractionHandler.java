@@ -27,7 +27,7 @@ import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 
-import static com.alcatrazescapee.notreepunching.ModConstants.RNG;
+import static com.alcatrazescapee.notreepunching.util.Util.RNG;
 
 @ParametersAreNonnullByDefault
 public final class PlayerInteractionHandler

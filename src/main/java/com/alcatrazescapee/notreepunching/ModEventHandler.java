@@ -40,7 +40,7 @@ import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import com.alcatrazescapee.notreepunching.util.PlayerInteractionHandler;
 import com.alcatrazescapee.notreepunching.util.WoodRecipeHandler;
 
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 @Mod.EventBusSubscriber(modid = MOD_ID)
 @SuppressWarnings("unused")
@@ -81,6 +81,7 @@ public final class ModEventHandler
     }
 
     // Controls the drops of any block that is broken to require specific tools.
+    // Lowest priority is to beat other mods' that might create or remove drops
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void harvestBlock(BlockEvent.HarvestDropsEvent event)
     {

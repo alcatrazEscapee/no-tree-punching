@@ -30,7 +30,7 @@ import com.alcatrazescapee.notreepunching.integration.guide.utils.PageFurnaceRec
 import com.alcatrazescapee.notreepunching.util.types.Pottery;
 import com.alcatrazescapee.notreepunching.util.types.ToolType;
 
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 import static com.alcatrazescapee.notreepunching.client.ModTabs.TAB_ITEMS;
 
 @GuideBook

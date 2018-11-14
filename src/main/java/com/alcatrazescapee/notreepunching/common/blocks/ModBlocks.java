@@ -18,7 +18,7 @@ import com.alcatrazescapee.notreepunching.util.types.Pottery;
 import com.alcatrazescapee.notreepunching.util.types.Stone;
 
 import static com.alcatrazescapee.alcatrazcore.util.CoreHelpers.getNull;
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 import static com.alcatrazescapee.notreepunching.client.ModTabs.TAB_ITEMS;
 
 @GameRegistry.ObjectHolder(value = MOD_ID)

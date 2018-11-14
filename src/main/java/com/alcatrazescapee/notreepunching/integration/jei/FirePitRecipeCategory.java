@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.alcatrazescapee.notreepunching.ModConstants;
+import com.alcatrazescapee.notreepunching.NoTreePunching;
 import com.alcatrazescapee.notreepunching.common.recipe.FirePitRecipe;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -29,7 +29,7 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 
-import static com.alcatrazescapee.notreepunching.ModConstants.MOD_ID;
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 import static com.alcatrazescapee.notreepunching.integration.jei.JeiPlugin.FIRE_PIT_UID;
 
 @ParametersAreNonnullByDefault
@@ -75,7 +75,7 @@ public class FirePitRecipeCategory implements IRecipeCategory<FirePitRecipeCateg
     @Override
     public String getModName()
     {
-        return ModConstants.MOD_NAME;
+        return NoTreePunching.MOD_NAME;
     }
 
     @Nonnull
