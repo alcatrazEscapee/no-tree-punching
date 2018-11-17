@@ -28,6 +28,7 @@ public enum Stone
     SANDSTONE(true, false),
     MARBLE(false, true), // Quark
     LIMESTONE(false, true),
+    BASALT(false, true),
     SLATE(false, true); // Rustic
 
     @Nonnull
@@ -88,6 +89,8 @@ public enum Stone
                 return LIMESTONE;
             case "quark:marble":
                 return MARBLE;
+            case "quark:basalt":
+                return BASALT;
             case "rustic:slate":
                 return SLATE;
             default:
@@ -116,6 +119,8 @@ public enum Stone
                 return CoreHelpers.getStackByRegistryName("quark:marble", 1, 0);
             case LIMESTONE:
                 return CoreHelpers.getStackByRegistryName("quark:limestone", 1, 0);
+            case BASALT:
+                return CoreHelpers.getStackByRegistryName("quark:basalt", 1, 0);
             default:
                 return ItemStack.EMPTY;
         }
@@ -138,8 +143,8 @@ public enum Stone
         switch (this)
         {
             case MARBLE:
-                return LIMESTONE.isEnabled() || SLATE.isEnabled();
             case LIMESTONE:
+            case BASALT:
                 return Loader.isModLoaded("quark") && ModConfig.COMPAT.enableQuarkCompat;
             case SLATE:
                 return Loader.isModLoaded("rustic") && ModConfig.COMPAT.enableRusticCompat;
