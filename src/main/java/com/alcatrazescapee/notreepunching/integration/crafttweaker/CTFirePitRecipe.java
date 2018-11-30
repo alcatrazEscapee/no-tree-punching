@@ -56,21 +56,30 @@ public class CTFirePitRecipe
     }
 
     @ZenMethod
-    public static void remove(IItemStack output)
+    public static void remove(IIngredient input)
     {
-        ItemStack stack = CraftTweakerPlugin.toStack(output);
+        IRecipeIngredient ingredient;
+        if (input instanceof IOreDictEntry)
+        {
+            IOreDictEntry ore = (IOreDictEntry) input;
+            ingredient = IRecipeIngredient.of(ore.getName(), ore.getAmount());
+        }
+        else
+        {
+            ingredient = IRecipeIngredient.of(CraftTweakerPlugin.toStack(input));
+        }
         CraftTweakerAPI.apply(new IAction()
         {
             @Override
             public void apply()
             {
-                ModRecipes.addScheduledAction(() -> ModRecipes.FIRE_PIT.remove(IRecipeIngredient.of(stack)));
+                ModRecipes.addScheduledAction(() -> ModRecipes.FIRE_PIT.remove(ingredient));
             }
 
             @Override
             public String describe()
             {
-                return "Removing Fire pit recipe for " + stack.getDisplayName();
+                return "Removing Fire pit recipe for " + ingredient.getName();
             }
         });
     }

@@ -1,4 +1,4 @@
-v2.0.5
+v2.0.7
 
 Changes:
- - Fixed plant fiber not dropping when using Better With Mods
+ - Firepit recipes that use an ore dictionary input are now able to be removed correctly via craft tweaker. Note: you must remove based on input value!

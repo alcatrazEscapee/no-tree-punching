@@ -27,13 +27,13 @@ repositories {
     }
     maven {
         // CraftTweaker
-        name 'jared maven'
+        name "jared maven"
         url "http://maven.blamejared.com/"
     }
     maven {
         // todo: remove and replace with Patchouli book
         // GuideAPI
-        url 'http://tehnut.info/maven/'
+        url "http://tehnut.info/maven/"
     }
 }
 
@@ -113,7 +113,7 @@ curseforge {
         addGameVersion("${mc_version}")
         relations {
             requiredDependency("alcatrazcore")
-            optionalDependency("patchouli")
+            optionalDependency("Guide-API")
         }
 
         afterEvaluate {
