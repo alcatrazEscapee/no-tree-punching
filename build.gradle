@@ -133,6 +133,8 @@ task signJar(type: SignJar, dependsOn: reobfJar) {
 }
 
 build.dependsOn signJar
+tasks.curseforge.mustRunAfter signJar
+tasks.curseforge.dependsOn build
 
 def static parseConfig(File config) {
     if (config.exists()) {
