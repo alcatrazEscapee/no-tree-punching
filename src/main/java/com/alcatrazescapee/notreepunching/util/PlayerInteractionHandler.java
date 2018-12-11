@@ -37,7 +37,7 @@ public final class PlayerInteractionHandler
         IBlockState state = world.getBlockState(pos);
         if (stack.getItem() == Items.FLINT)
         {
-            return state.getMaterial() == Material.ROCK && state.isNormalCube() && face == EnumFacing.UP;
+            return ModConfig.BALANCE.flintKnappingChance > 0 && state.getMaterial() == Material.ROCK && state.isNormalCube() && face == EnumFacing.UP;
         }
         if (CoreHelpers.doesStackMatchOre(stack, "toolWeakAxe") || CoreHelpers.doesStackMatchOre(stack, "toolAxe") || stack.getItem() instanceof ItemAxe)
         {

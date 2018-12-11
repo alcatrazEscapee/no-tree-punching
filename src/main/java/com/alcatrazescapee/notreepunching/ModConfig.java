@@ -52,7 +52,7 @@ public final class ModConfig
 
     public static class BalanceConfig
     {
-        @Config.Comment("Chance for a flint knapping to occur")
+        @Config.Comment("Chance for a flint knapping to occur. Set to zero to disable flint knapping.")
         @Config.RangeDouble(min = 0, max = 1)
         public double flintKnappingChance = 0.6;
 

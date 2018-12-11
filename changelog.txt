@@ -1,4 +1,4 @@
-v2.0.8
+v2.0.9
 
 Changes:
- - Fixed an issue with curseforge gradle jar signing magic
+ - Flint Knapping can now be disabled by setting the chance to zero (stops attemps)
