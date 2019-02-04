@@ -30,6 +30,7 @@ import net.minecraft.world.World;
 
 import com.alcatrazescapee.alcatrazcore.block.BlockCore;
 import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
+import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.common.items.ItemRock;
 import com.alcatrazescapee.notreepunching.util.types.Stone;
 
@@ -110,17 +111,21 @@ public class BlockRock extends BlockCore
     }
 
     @Override
-    public boolean canSpawnInBlock()
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        return true;
+        if (ModConfig.BALANCE.canPickUpRocks)
+        {
+            ItemStack stack = getPickBlock(state, null, worldIn, pos, playerIn);
+            CoreHelpers.giveItemToPlayer(worldIn, playerIn, stack);
+            worldIn.setBlockToAir(pos);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public boolean canSpawnInBlock()
     {
-        ItemStack stack = getPickBlock(state, null, worldIn, pos, playerIn);
-        CoreHelpers.giveItemToPlayer(worldIn, playerIn, stack);
-        worldIn.setBlockToAir(pos);
         return true;
     }
 

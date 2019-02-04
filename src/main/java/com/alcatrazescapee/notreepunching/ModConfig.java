@@ -88,6 +88,9 @@ public final class ModConfig
         @Config.RangeDouble(min = 0, max = 1)
         public double tallGrassDropPlantFiberChance = 0.4;
 
+        @Config.Comment("Can the player pick up rocks by right clicking? (vs. having to mine them)")
+        public boolean canPickUpRocks = true;
+
         private BalanceConfig() {}
     }
 
