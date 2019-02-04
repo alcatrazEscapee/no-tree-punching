@@ -1,4 +1,4 @@
-v2.0.9
+v2.0.10
 
 Changes:
- - Flint Knapping can now be disabled by setting the chance to zero (stops attemps)
+ - Added a config option to disable picking up rocks via right click.
