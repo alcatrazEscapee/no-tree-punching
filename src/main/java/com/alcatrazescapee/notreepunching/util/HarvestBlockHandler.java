@@ -70,7 +70,7 @@ public final class HarvestBlockHandler
     {
         // Stone -> Loose Rocks instead of cobblestone
         Stone stone = Stone.getFromBlock(state);
-        if (stone != null)
+        if (stone != null && stone.isEnabled())
         {
             drops.clear();
             drops.add(new ItemStack(ItemRock.get(stone), 2 + Util.RNG.nextInt(3)));

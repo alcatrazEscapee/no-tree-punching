@@ -1,4 +1,4 @@
-v2.0.10
+v2.0.11
 
 Changes:
- - Added a config option to disable picking up rocks via right click.
+ - Fixed bug where disabling quark / rustic compat caused blocks to have no drop

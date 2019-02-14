@@ -83,19 +83,22 @@ public enum Stone
         }
         //noinspection ConstantConditions
         String registryName = state.getBlock().getRegistryName().toString();
-        switch (registryName)
+        int meta = state.getBlock().getMetaFromState(state);
+        if (meta == 0)
         {
-            case "quark:limestone":
-                return LIMESTONE;
-            case "quark:marble":
-                return MARBLE;
-            case "quark:basalt":
-                return BASALT;
-            case "rustic:slate":
-                return SLATE;
-            default:
-                return null;
+            switch (registryName)
+            {
+                case "quark:limestone":
+                    return LIMESTONE;
+                case "quark:marble":
+                    return MARBLE;
+                case "quark:basalt":
+                    return BASALT;
+                case "rustic:slate":
+                    return SLATE;
+            }
         }
+        return null;
     }
 
     @Nonnull
