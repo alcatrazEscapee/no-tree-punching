@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -53,7 +54,8 @@ public class WorldGenRocks implements IWorldGenerator
             if (stateDown.isOpaqueCube() && MATERIALS.contains(stateDown.getMaterial()))
             {
                 Stone stone = Stone.getFromBlock(world.getBlockState(pos.down(6)), random);
-                world.setBlockState(pos.up(), BlockRock.get(stone).getDefaultState());
+                Block stoneBlock = stone.isEnabled() ? BlockRock.get(stone) : BlockRock.get(Stone.STONE);
+                world.setBlockState(pos.up(), stoneBlock.getDefaultState());
             }
         }
     }
