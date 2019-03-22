@@ -70,7 +70,7 @@ public final class HarvestBlockHandler
     {
         // Stone -> Loose Rocks instead of cobblestone
         Stone stone = Stone.getFromBlock(state);
-        if (stone != null && stone.isEnabled())
+        if (stone != null && stone.isEnabled() && ModConfig.GENERAL.enableStoneDropChanges)
         {
             drops.clear();
             drops.add(new ItemStack(ItemRock.get(stone), 2 + Util.RNG.nextInt(3)));
@@ -177,7 +177,7 @@ public final class HarvestBlockHandler
     private static Predicate<IBlockState> createPredicate(String entry) throws IllegalArgumentException
     {
         // Specific checks for keywords:
-        if (entry.substring(0, 9).equals("material:"))
+        if (entry.length() >= 9 && entry.substring(0, 9).equals("material:"))
         {
             try
             {

@@ -39,13 +39,10 @@ public class BlockCobble extends BlockCore
         return MAP.inverse().get(block);
     }
 
-    private final Stone type;
-
     public BlockCobble(Stone type)
     {
         super(Material.ROCK);
 
-        this.type = type;
         MAP.put(type, this);
 
         setHardness(2.5f);

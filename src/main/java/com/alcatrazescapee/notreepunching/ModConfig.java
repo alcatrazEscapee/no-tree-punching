@@ -40,6 +40,9 @@ public final class ModConfig
         @Config.Comment("If false, this will disable all changes to breaking speed + block drops.")
         public boolean enableBreakingChanges = true;
 
+        @Config.Comment("If false, this will disable all changes to Stone / Cobblestone drops.")
+        public boolean enableStoneDropChanges = true;
+
         @Config.Comment("If false, this will disable NTP world gen (surface rocks).")
         public boolean looseRocksGeneration = true;
 
@@ -146,9 +149,12 @@ public final class ModConfig
         @Config.RequiresMcRestart
         public boolean enableRusticCompat = true;
 
-        @Config.Comment("Enable compatibility features from Quark (marble + limestone cobblestone + loose rock)")
+        @Config.Comment("Enable compatibility features from Quark (marble + limestone cobblestone and loose rock)")
         @Config.RequiresMcRestart
         public boolean enableQuarkCompat = true;
+
+        @Config.Comment("Enable compatability features from Chisel (marble + limestone + basalt loose rocks)")
+        public boolean enableChiselCompat = true;
 
         //@Config.Comment("Enable compatibility features from Underground Biomes Constructs (UBC) (loose rocks)")
         //@Config.RequiresMcRestart

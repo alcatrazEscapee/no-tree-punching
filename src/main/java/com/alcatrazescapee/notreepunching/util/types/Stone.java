@@ -26,7 +26,7 @@ public enum Stone
     GRANITE(true, true),
     DIORITE(true, true),
     SANDSTONE(true, false),
-    MARBLE(false, true), // Quark
+    MARBLE(false, true), // Quark / Chisel
     LIMESTONE(false, true),
     BASALT(false, true),
     SLATE(false, true); // Rustic
@@ -49,15 +49,6 @@ public enum Stone
             }
         }
         return stone == null ? STONE : stone;
-    }
-
-    private final boolean isDefault;
-    private final boolean hasCobblestone;
-
-    Stone(boolean isDefault, boolean hasCobblestone)
-    {
-        this.isDefault = isDefault;
-        this.hasCobblestone = hasCobblestone;
     }
 
     @Nullable
@@ -89,16 +80,41 @@ public enum Stone
             switch (registryName)
             {
                 case "quark:limestone":
+                case "chisel:limestone":
                     return LIMESTONE;
                 case "quark:marble":
+                case "chisel:marble":
                     return MARBLE;
                 case "quark:basalt":
+                case "chisel:basalt":
                     return BASALT;
                 case "rustic:slate":
                     return SLATE;
             }
         }
         return null;
+    }
+
+    private final boolean isDefault;
+    private final boolean hasCobblestone;
+
+    Stone(boolean isDefault, boolean hasCobblestone)
+    {
+        this.isDefault = isDefault;
+        this.hasCobblestone = hasCobblestone;
+    }
+
+    private static ItemStack getStackByRegistryName(String... names)
+    {
+        for (String name : names)
+        {
+            ItemStack stack = CoreHelpers.getStackByRegistryName(name, 1, 0);
+            if (!stack.isEmpty())
+            {
+                return stack;
+            }
+        }
+        return ItemStack.EMPTY;
     }
 
     @Nonnull
@@ -119,11 +135,11 @@ public enum Stone
             case SLATE:
                 return CoreHelpers.getStackByRegistryName("rustic:slate", 1, 0);
             case MARBLE:
-                return CoreHelpers.getStackByRegistryName("quark:marble", 1, 0);
+                return getStackByRegistryName("quark:marble", "chisel:marble");
             case LIMESTONE:
-                return CoreHelpers.getStackByRegistryName("quark:limestone", 1, 0);
+                return getStackByRegistryName("quark:limestone", "chisel:limestone");
             case BASALT:
-                return CoreHelpers.getStackByRegistryName("quark:basalt", 1, 0);
+                return getStackByRegistryName("quark:basalt", "chisel:basalt");
             default:
                 return ItemStack.EMPTY;
         }
@@ -148,7 +164,8 @@ public enum Stone
             case MARBLE:
             case LIMESTONE:
             case BASALT:
-                return Loader.isModLoaded("quark") && ModConfig.COMPAT.enableQuarkCompat;
+                return (Loader.isModLoaded("quark") && ModConfig.COMPAT.enableQuarkCompat) ||
+                        (Loader.isModLoaded("chisel") && ModConfig.COMPAT.enableChiselCompat);
             case SLATE:
                 return Loader.isModLoaded("rustic") && ModConfig.COMPAT.enableRusticCompat;
             default:

@@ -1,4 +1,5 @@
 v2.0.11
 
 Changes:
- - Fixed bug where disabling quark / rustic compat caused blocks to have no drop
+ - Enabled NTP Marble, Basalt and Limestone stones if Chisel is present
+ - Added a config option to separate stone drop changes from other harvestability changes
