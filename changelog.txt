@@ -1,5 +1,5 @@
-v2.0.11
+v2.0.13
 
 Changes:
- - Enabled NTP Marble, Basalt and Limestone stones if Chisel is present
- - Added a config option to separate stone drop changes from other harvestability changes
+ - Fixed a tool duplication bug when repairing a saw or a clay tool
+ - Added a config option for disabling random stone variants in world gen

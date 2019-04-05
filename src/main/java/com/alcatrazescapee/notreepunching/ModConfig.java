@@ -43,6 +43,9 @@ public final class ModConfig
         @Config.Comment("If false, this will disable all changes to Stone / Cobblestone drops.")
         public boolean enableStoneDropChanges = true;
 
+        @Config.Comment("If false, this will disable stone variants (andesite, diorite, and granite) from appearing, except if the respective stone is found during world gen. (It will only disable random occurrences, not ones based on the underground material.)")
+        public boolean enableRandomStoneWorldGenVariants = false;
+
         @Config.Comment("If false, this will disable NTP world gen (surface rocks).")
         public boolean looseRocksGeneration = true;
 

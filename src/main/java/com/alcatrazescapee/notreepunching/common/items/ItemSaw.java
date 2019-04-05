@@ -20,6 +20,7 @@ public class ItemSaw extends ItemAxeCore
     {
         super(material, Math.max(material.getAttackDamage() - 1.0f, 1.0f), -2.8f);
 
+        setNoRepair();
         setContainerItem(this);
     }
 

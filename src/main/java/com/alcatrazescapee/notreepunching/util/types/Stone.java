@@ -35,7 +35,7 @@ public enum Stone
     public static Stone getFromBlock(IBlockState state, Random random)
     {
         Stone stone = getFromBlock(state);
-        if (stone == STONE)
+        if (stone == STONE && ModConfig.GENERAL.enableRandomStoneWorldGenVariants)
         {
             // Chance to spice it up if normal stone is drawn (used in world gen)
             switch (random.nextInt(5))

@@ -36,6 +36,7 @@ public class ItemClayTool extends ItemToolCore
 
         setMaxStackSize(1);
         setMaxDamage(60);
+        setNoRepair();
         setContainerItem(this);
     }
 
