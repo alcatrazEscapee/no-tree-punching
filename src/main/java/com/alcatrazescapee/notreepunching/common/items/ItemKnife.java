@@ -39,7 +39,7 @@ public class ItemKnife extends ItemToolCore
 {
     public ItemKnife(ToolMaterial material)
     {
-        super(material, material.getAttackDamage() + 1.0f, -2.4f);
+        super(material, Math.max(1.0f, material.getAttackDamage() - 1.5f), -2.4f);
     }
 
     @Override

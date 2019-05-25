@@ -26,6 +26,7 @@ public enum Stone
     GRANITE(true, true),
     DIORITE(true, true),
     SANDSTONE(true, false),
+    RED_SANDSTONE(true, false),
     MARBLE(false, true), // Quark / Chisel
     LIMESTONE(false, true),
     BASALT(false, true),
@@ -71,6 +72,10 @@ public enum Stone
         if (state.getBlock() == Blocks.SANDSTONE)
         {
             return SANDSTONE;
+        }
+        if (state.getBlock() == Blocks.RED_SANDSTONE)
+        {
+            return RED_SANDSTONE;
         }
         //noinspection ConstantConditions
         String registryName = state.getBlock().getRegistryName().toString();
