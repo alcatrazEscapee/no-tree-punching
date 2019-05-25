@@ -129,19 +129,19 @@ public final class ModConfig
 
         @Config.Comment("Enable copper versions of NTP tools (knife, mattock, saw)")
         @Config.RequiresMcRestart
-        public boolean enableCopperTools = false;
+        public boolean enableCopperTools = true;
 
         @Config.Comment("Enable tin versions of NTP tools (knife, mattock, saw)")
         @Config.RequiresMcRestart
-        public boolean enableTinTools = false;
+        public boolean enableTinTools = true;
 
         @Config.Comment("Enable bronze versions of NTP tools (knife, mattock, saw)")
         @Config.RequiresMcRestart
-        public boolean enableBronzeTools = false;
+        public boolean enableBronzeTools = true;
 
         @Config.Comment("Enable steel versions of NTP tools (knife, mattock, saw)")
         @Config.RequiresMcRestart
-        public boolean enableSteelTools = false;
+        public boolean enableSteelTools = true;
 
         private ToolsConfig() {}
     }
