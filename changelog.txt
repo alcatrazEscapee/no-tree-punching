@@ -1,5 +1,5 @@
-v2.0.13
+v2.0.14
 
 Changes:
- - Fixed a tool duplication bug when repairing a saw or a clay tool
- - Added a config option for disabling random stone variants in world gen
+ - Fixed a crash when fire would destroy log blocks.
+ - Added a second pass to try and locate log -> plank recipes. This should be more robust, fixing an issue where certain mod logs wouldn't get caught in the first pass.

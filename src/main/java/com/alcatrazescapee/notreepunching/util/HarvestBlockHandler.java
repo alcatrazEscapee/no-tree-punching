@@ -8,6 +8,7 @@ package com.alcatrazescapee.notreepunching.util;
 
 import java.util.*;
 import java.util.function.Predicate;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.block.Block;
@@ -20,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
@@ -106,8 +108,13 @@ public final class HarvestBlockHandler
         }
     }
 
-    public static boolean isInvalidTool(ItemStack stack, EntityPlayer player, IBlockState state)
+    public static boolean isInvalidTool(@Nullable ItemStack stack, @Nullable EntityPlayer player, IBlockState state)
     {
+        // Initial Sanity Checks
+        if (player == null || stack == null)
+        {
+            return true;
+        }
         // Always allow whitelisted IBlockStates
         if (isWhitelisted(state))
         {
@@ -120,7 +127,7 @@ public final class HarvestBlockHandler
         // Blocks must require a valid tool class to have an invalid one
         if (neededToolClass != null)
         {
-            // Breaking with your fists has no tool classes
+            // Breaking with your fists has no tool classes, or for some reason if this is null
             if (stack.isEmpty())
             {
                 return true;
@@ -181,7 +188,7 @@ public final class HarvestBlockHandler
         {
             try
             {
-                Object obj = Material.class.getField(entry.substring(9).toUpperCase()).get(null);
+                Object obj = ObfuscationReflectionHelper.getPrivateValue(Material.class, null, entry.substring(9).toUpperCase());
                 if (obj instanceof Material)
                 {
                     Material material = (Material) obj;

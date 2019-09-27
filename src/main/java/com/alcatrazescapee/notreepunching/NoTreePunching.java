@@ -24,6 +24,7 @@ import com.alcatrazescapee.notreepunching.common.capability.CapabilityPlayerItem
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
+import com.alcatrazescapee.notreepunching.util.WoodRecipeHandler;
 import com.alcatrazescapee.notreepunching.world.WorldGenRocks;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -96,6 +97,7 @@ public final class NoTreePunching
 
         // Post-Init Managers
         HarvestBlockHandler.postInit();
+        WoodRecipeHandler.postInit();
         ModRecipes.postInit();
     }
 
