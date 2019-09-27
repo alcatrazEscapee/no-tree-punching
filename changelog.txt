@@ -1,5 +1,4 @@
-v2.0.14
+v2.0.15
 
 Changes:
- - Fixed a crash when fire would destroy log blocks.
- - Added a second pass to try and locate log -> plank recipes. This should be more robust, fixing an issue where certain mod logs wouldn't get caught in the first pass.
+ - Added missing red sandstone loose rock blockstate
