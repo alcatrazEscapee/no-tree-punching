@@ -1,4 +1,5 @@
-v2.0.15
+v2.0.16
 
 Changes:
- - Added missing red sandstone loose rock blockstate
+ - Small rocks from stone, and sticks from leaves are now properly affected by silk touch.
+ - Minor cleanup to make player stack checking even more safe

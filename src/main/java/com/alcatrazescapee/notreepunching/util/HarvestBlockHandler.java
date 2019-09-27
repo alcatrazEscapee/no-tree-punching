@@ -36,8 +36,8 @@ import mcp.MethodsReturnNonnullByDefault;
 @ParametersAreNonnullByDefault
 public final class HarvestBlockHandler
 {
-    private static final Set<Predicate<IBlockState>> exceptions = new HashSet<>();
-    private static final List<ItemStack> grassDrops = new ArrayList<>();
+    private static final Set<Predicate<IBlockState>> EXCEPTIONS = new HashSet<>();
+    private static final List<ItemStack> GRASS_DROPS = new ArrayList<>();
 
     public static void postInit()
     {
@@ -49,14 +49,14 @@ public final class HarvestBlockHandler
 
     public static void reloadWhitelist()
     {
-        exceptions.clear();
+        EXCEPTIONS.clear();
 
         // Add exceptions from config file
         for (String s : ModConfig.GENERAL.alwaysBreakable)
         {
             try
             {
-                exceptions.add(createPredicate(s));
+                EXCEPTIONS.add(createPredicate(s));
             }
             catch (IllegalArgumentException e)
             {
@@ -65,21 +65,21 @@ public final class HarvestBlockHandler
         }
 
         // Cleanup
-        exceptions.removeIf(Objects::isNull);
+        EXCEPTIONS.removeIf(Objects::isNull);
     }
 
-    public static void addExtraDrops(List<ItemStack> drops, IBlockState state, EntityPlayer player, ItemStack stack)
+    public static void addExtraDrops(List<ItemStack> drops, IBlockState state, EntityPlayer player, ItemStack stack, boolean isSilkTouch)
     {
         // Stone -> Loose Rocks instead of cobblestone
         Stone stone = Stone.getFromBlock(state);
-        if (stone != null && stone.isEnabled() && ModConfig.GENERAL.enableStoneDropChanges)
+        if (stone != null && stone.isEnabled() && ModConfig.GENERAL.enableStoneDropChanges && !isSilkTouch)
         {
             drops.clear();
             drops.add(new ItemStack(ItemRock.get(stone), 2 + Util.RNG.nextInt(3)));
         }
 
         // Sticks from leaves
-        if (state.getBlock() instanceof BlockLeaves)
+        if (state.getBlock() instanceof BlockLeaves && !isSilkTouch)
         {
             float stickChance = (float) ModConfig.BALANCE.leavesStickDropChance;
             if (CoreHelpers.doesStackMatchOre(stack, "toolKnife"))
@@ -99,7 +99,7 @@ public final class HarvestBlockHandler
             {
                 if (Util.RNG.nextFloat() < ModConfig.BALANCE.tallGrassDropPlantFiberChance)
                 {
-                    ItemStack drop = grassDrops.get(Util.RNG.nextInt(grassDrops.size()));
+                    ItemStack drop = GRASS_DROPS.get(Util.RNG.nextInt(GRASS_DROPS.size()));
                     drops.add(drop.copy());
                 }
                 stack.damageItem(1, player);
@@ -173,12 +173,12 @@ public final class HarvestBlockHandler
 
     public static boolean isWhitelisted(IBlockState state)
     {
-        return exceptions.stream().anyMatch(x -> x.test(state));
+        return EXCEPTIONS.stream().anyMatch(x -> x.test(state));
     }
 
     public static void addGrassDrop(ItemStack stack)
     {
-        grassDrops.add(stack);
+        GRASS_DROPS.add(stack);
     }
 
     private static Predicate<IBlockState> createPredicate(String entry) throws IllegalArgumentException

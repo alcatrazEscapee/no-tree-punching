@@ -83,7 +83,7 @@ public final class ModEventHandler
     // Controls the drops of any block that is broken to require specific tools.
     // Lowest priority is to beat other mods' that might create or remove drops
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void harvestBlock(BlockEvent.HarvestDropsEvent event)
+    public static void onHarvestBlock(BlockEvent.HarvestDropsEvent event)
     {
         EntityPlayer player = event.getHarvester();
         if (!event.getWorld().isRemote && player != null && !(player instanceof FakePlayer) && !player.isCreative() && ModConfig.GENERAL.enableBreakingChanges)
@@ -100,7 +100,7 @@ public final class ModEventHandler
                 stack = player.getHeldItemMainhand();
             }
 
-            HarvestBlockHandler.addExtraDrops(event.getDrops(), state, player, stack);
+            HarvestBlockHandler.addExtraDrops(event.getDrops(), state, player, stack, event.isSilkTouching());
             if (HarvestBlockHandler.isInvalidTool(stack, player, state))
             {
                 event.getDrops().clear();

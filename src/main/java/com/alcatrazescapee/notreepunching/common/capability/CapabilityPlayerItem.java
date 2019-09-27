@@ -39,7 +39,7 @@ public final class CapabilityPlayerItem
         @Override
         public ItemStack getStack()
         {
-            return stack;
+            return stack == null ? ItemStack.EMPTY : stack;
         }
 
         @Override
@@ -49,7 +49,6 @@ public final class CapabilityPlayerItem
         }
 
         @Override
-        @SuppressWarnings("ConstantConditions")
         public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing)
         {
             return capability == CapabilityPlayerItem.CAPABILITY;
