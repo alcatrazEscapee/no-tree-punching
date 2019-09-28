@@ -15,6 +15,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
@@ -100,19 +101,20 @@ public final class WoodRecipeHandler
                 {
                     tempCrafting.setInventorySlotContents(0, log);
 
-                    //noinspection ConstantConditions
-                    IRecipe recipe = recipes.stream().filter(x -> x.matches(tempCrafting, null)).findFirst().orElse(null);
-                    if (recipe == null) continue;
-                    ItemStack plank = recipe.getCraftingResult(tempCrafting);
-
-                    if (!plank.isEmpty())
+                    IRecipe recipe = tryFindRecipeSafely(recipes, tempCrafting);
+                    if (recipe != null)
                     {
-                        MAP.put(log.copy(), plank.copy());
-                        if (ModConfig.GENERAL.replaceLogRecipes)
-                            registry.remove(recipe.getRegistryName());
-
-                        ResourceLocation loc = new ResourceLocation(MOD_ID, "saw_planks_" + ++logsFound);
-                        registry.register(new ShapedOreRecipe(loc, plank, "S", "W", 'S', "toolSaw", 'W', log).setRegistryName(loc));
+                        ItemStack plank = recipe.getCraftingResult(tempCrafting);
+                        if (!plank.isEmpty())
+                        {
+                            MAP.put(log.copy(), plank.copy());
+                            if (ModConfig.GENERAL.replaceLogRecipes)
+                            {
+                                registry.remove(recipe.getRegistryName());
+                            }
+                            ResourceLocation loc = new ResourceLocation(MOD_ID, "saw_planks_" + ++logsFound);
+                            registry.register(new ShapedOreRecipe(loc, plank, "S", "W", 'S', "toolSaw", 'W', log).setRegistryName(loc));
+                        }
                     }
                 }
             }
@@ -121,24 +123,39 @@ public final class WoodRecipeHandler
                 ItemStack log = stack.copy();
                 tempCrafting.setInventorySlotContents(0, log);
 
-                //noinspection ConstantConditions
-                IRecipe recipe = recipes.stream().filter(x -> x.matches(tempCrafting, null)).findFirst().orElse(null);
-                if (recipe == null) continue;
-                ItemStack plank = recipe.getCraftingResult(tempCrafting);
-
-                if (!plank.isEmpty())
+                IRecipe recipe = tryFindRecipeSafely(recipes, tempCrafting);
+                if (recipe != null)
                 {
-                    MAP.put(log.copy(), plank.copy());
-                    if (ModConfig.GENERAL.replaceLogRecipes)
+                    ItemStack plank = recipe.getCraftingResult(tempCrafting);
+                    if (!plank.isEmpty())
                     {
-                        registry.remove(recipe.getRegistryName());
-                    }
+                        MAP.put(log.copy(), plank.copy());
+                        if (ModConfig.GENERAL.replaceLogRecipes)
+                        {
+                            registry.remove(recipe.getRegistryName());
+                        }
 
-                    ResourceLocation loc = new ResourceLocation(MOD_ID, "saw_planks_" + ++logsFound);
-                    registry.register(new ShapedOreRecipe(loc, plank, "S", "W", 'S', "toolSaw", 'W', log).setRegistryName(loc));
+                        ResourceLocation loc = new ResourceLocation(MOD_ID, "saw_planks_" + ++logsFound);
+                        registry.register(new ShapedOreRecipe(loc, plank, "S", "W", 'S', "toolSaw", 'W', log).setRegistryName(loc));
+                    }
                 }
             }
         }
         NoTreePunching.getLog().info("Found and replaced {} Log -> Planks recipes with Saw + Log -> Plank recipes.", logsFound);
+    }
+
+    @Nullable
+    private static IRecipe tryFindRecipeSafely(Collection<IRecipe> recipes, InventoryCrafting tempCrafting)
+    {
+        try
+        {
+            //noinspection ConstantConditions
+            return recipes.stream().filter(x -> x.matches(tempCrafting, null)).findFirst().orElse(null);
+        }
+        catch (Exception e)
+        {
+            // Ignore, likely cased by world == null (which we don't have access to yet)
+            return null;
+        }
     }
 }

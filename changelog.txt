@@ -1,5 +1,4 @@
-v2.0.16
+v2.0.17
 
 Changes:
- - Small rocks from stone, and sticks from leaves are now properly affected by silk touch.
- - Minor cleanup to make player stack checking even more safe
+ - Fixed a crash trying to use a null world to check crafting recipes.
