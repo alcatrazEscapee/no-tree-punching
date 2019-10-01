@@ -39,6 +39,7 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 public final class WoodRecipeHandler
 {
     private static final Map<ItemStack, ItemStack> MAP = new HashMap<>();
+    private static int LOGS_FOUND = 0;
 
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event)
     {
@@ -85,7 +86,7 @@ public final class WoodRecipeHandler
         InventoryCraftingEmpty tempCrafting = new InventoryCraftingEmpty(3, 3);
         NonNullList<ItemStack> logs = OreDictionary.getOres("logWood", false);
 
-        int logsFound = 0;
+        int previousLogsFound = LOGS_FOUND;
 
         for (ItemStack stack : logs)
         {
@@ -112,7 +113,7 @@ public final class WoodRecipeHandler
                             {
                                 registry.remove(recipe.getRegistryName());
                             }
-                            ResourceLocation loc = new ResourceLocation(MOD_ID, "saw_planks_" + ++logsFound);
+                            ResourceLocation loc = new ResourceLocation(MOD_ID, "saw_planks_" + ++LOGS_FOUND);
                             registry.register(new ShapedOreRecipe(loc, plank, "S", "W", 'S', "toolSaw", 'W', log).setRegistryName(loc));
                         }
                     }
@@ -135,13 +136,20 @@ public final class WoodRecipeHandler
                             registry.remove(recipe.getRegistryName());
                         }
 
-                        ResourceLocation loc = new ResourceLocation(MOD_ID, "saw_planks_" + ++logsFound);
+                        ResourceLocation loc = new ResourceLocation(MOD_ID, "saw_planks_" + ++LOGS_FOUND);
                         registry.register(new ShapedOreRecipe(loc, plank, "S", "W", 'S', "toolSaw", 'W', log).setRegistryName(loc));
                     }
                 }
             }
         }
-        NoTreePunching.getLog().info("Found and replaced {} Log -> Planks recipes with Saw + Log -> Plank recipes.", logsFound);
+        if (previousLogsFound == 0)
+        {
+            NoTreePunching.getLog().info("Found and replaced {} Log -> Planks recipes with Saw + Log -> Plank recipes. (First Pass)", LOGS_FOUND);
+        }
+        else
+        {
+            NoTreePunching.getLog().info("Found and replaced additional {} Log -> Planks recipes with Saw + Log -> Plank recipes. (Second Pass)", LOGS_FOUND - previousLogsFound);
+        }
     }
 
     @Nullable
