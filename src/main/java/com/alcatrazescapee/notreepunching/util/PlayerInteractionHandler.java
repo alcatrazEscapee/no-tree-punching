@@ -14,7 +14,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -39,13 +38,12 @@ public final class PlayerInteractionHandler
         {
             return ModConfig.BALANCE.flintKnappingChance > 0 && state.getMaterial() == Material.ROCK && state.isNormalCube() && face == EnumFacing.UP;
         }
-        if (CoreHelpers.doesStackMatchOre(stack, "toolWeakAxe") || CoreHelpers.doesStackMatchOre(stack, "toolAxe") || stack.getItem() instanceof ItemAxe)
+        if (WoodRecipeHandler.isAxe(stack))
         {
             IBlockState stateDown = world.getBlockState(pos.down());
             if (face == EnumFacing.UP && stateDown.isOpaqueCube())
             {
-                return (WoodRecipeHandler.isLog(world, pos, state) && !WoodRecipeHandler.isLog(world, pos.down(), stateDown))
-                        || WoodRecipeHandler.isPlank(world, pos, state);
+                return (WoodRecipeHandler.isLog(world, pos, state) && !WoodRecipeHandler.isLog(world, pos.down(), stateDown)) || WoodRecipeHandler.isPlank(world, pos, state);
             }
         }
         return false;
@@ -62,7 +60,7 @@ public final class PlayerInteractionHandler
         {
             return handleFlint(world, pos, player, stack, hand);
         }
-        if (CoreHelpers.doesStackMatchOre(stack, "toolWeakAxe") || CoreHelpers.doesStackMatchOre(stack, "toolAxe") || stack.getItem() instanceof ItemAxe)
+        if (WoodRecipeHandler.isAxe(stack))
         {
             return handleChopping(world, pos, player, stack);
         }
@@ -93,7 +91,7 @@ public final class PlayerInteractionHandler
             if (RNG.nextFloat() < ModConfig.BALANCE.logChoppingChance)
             {
                 int amount = 1 + (RNG.nextFloat() < 0.75 ? 1 : 0);
-                if (CoreHelpers.doesStackMatchOre(stack, "toolAxe"))
+                if (!WoodRecipeHandler.isWeakAxe(stack))
                 {
                     amount++;
                 }

@@ -16,6 +16,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
@@ -72,6 +73,16 @@ public final class WoodRecipeHandler
     {
         ItemStack stack = state.getBlock().getPickBlock(state, null, world, pos, null);
         return MAP.values().stream().anyMatch(x -> CoreHelpers.doStacksMatch(stack, x));
+    }
+
+    static boolean isAxe(ItemStack stack)
+    {
+        return CoreHelpers.doesStackMatchOre(stack, "toolAxe") || CoreHelpers.doesStackMatchOre(stack, "toolWeakAxe") || stack.getItem() instanceof ItemAxe || stack.getItem().getToolClasses(stack).contains("axe");
+    }
+
+    static boolean isWeakAxe(ItemStack stack)
+    {
+        return CoreHelpers.doesStackMatchOre(stack, "toolWeakAxe");
     }
 
     @Nullable
