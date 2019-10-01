@@ -1,4 +1,7 @@
-v2.0.17
+v2.0.18
 
 Changes:
- - Fixed a crash trying to use a null world to check crafting recipes.
+ - Fixed a crash when trying to place a ceramic vessel inside of itself
+ - Fixed some wood saw recipes found in the second pass overriding others - fixes a bug where oak planks recipe would be removed if traverse was present (as it's fir logs were caught in the second pass)
+ - Removed plant fiber drops from tall flowers - fixes duplication bug / infinite plant fiber
+ - Improved detection of axes for the purposes of chopping. Ore dictionary values for `toolAxe` and `toolWeakAxe` should no longer be necessary (although they will still work). Only current known problem is with Ice and Fire, they have fixed this on their end, just waiting for an update to be released.
