@@ -37,6 +37,10 @@ public final class ModConfig
                 "If false, NTP will not add or remove any vanilla recipes"})
         public boolean replaceVanillaRecipes = true;
 
+        @Config.RequiresMcRestart
+        @Config.Comment("If true, this will allow NTP to search aggressively for recipes and try and replace log -> wood recipes. (Makes NTPs wood chopping / saw recipes more automatic.) For pack makers: this WILL run after craft tweaker, and it WILL override any recipes craft tweaker adds.")
+        public boolean enableAdvancedRecipeReplacement = true;
+
         @Config.Comment("If false, this will disable all changes to breaking speed + block drops.")
         public boolean enableBreakingChanges = true;
 
@@ -105,7 +109,7 @@ public final class ModConfig
         @Config.Comment("Mining level of flint tools. 0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond")
         @Config.RangeInt(min = 0, max = 4)
         @Config.RequiresMcRestart
-        public int miningLevelFlint = 0;
+        public int miningLevelFlint = 1;
 
         @Config.Comment("Mining level of tin tools. 0 = Wood, 1 = Stone, 2 = Iron, 3 = Diamond")
         @Config.RangeInt(min = 0, max = 4)

@@ -97,7 +97,11 @@ public final class NoTreePunching
 
         // Post-Init Managers
         HarvestBlockHandler.postInit();
-        WoodRecipeHandler.postInit();
+
+        if (ModConfig.GENERAL.enableAdvancedRecipeReplacement)
+        {
+            WoodRecipeHandler.postInit();
+        }
         ModRecipes.postInit();
     }
 

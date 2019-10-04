@@ -39,7 +39,7 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 @ParametersAreNonnullByDefault
 public final class WoodRecipeHandler
 {
-    private static final Map<ItemStack, ItemStack> MAP = new HashMap<>();
+    private static final Map<ItemStack, ItemStack> WOOD_TYPES = new HashMap<>();
     private static int LOGS_FOUND = 0;
 
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event)
@@ -63,16 +63,21 @@ public final class WoodRecipeHandler
         findMatchingRecipes(ForgeRegistries.RECIPES.getValuesCollection(), ((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES));
     }
 
+    public static void registerWoodRecipe(ItemStack log, ItemStack plank)
+    {
+        WOOD_TYPES.put(log, plank);
+    }
+
     static boolean isLog(World world, BlockPos pos, IBlockState state)
     {
         ItemStack stack = state.getBlock().getPickBlock(state, null, world, pos, null);
-        return MAP.keySet().stream().anyMatch(x -> CoreHelpers.doStacksMatch(stack, x));
+        return WOOD_TYPES.keySet().stream().anyMatch(x -> CoreHelpers.doStacksMatch(stack, x));
     }
 
     static boolean isPlank(World world, BlockPos pos, IBlockState state)
     {
         ItemStack stack = state.getBlock().getPickBlock(state, null, world, pos, null);
-        return MAP.values().stream().anyMatch(x -> CoreHelpers.doStacksMatch(stack, x));
+        return WOOD_TYPES.values().stream().anyMatch(x -> CoreHelpers.doStacksMatch(stack, x));
     }
 
     static boolean isAxe(ItemStack stack)
@@ -89,7 +94,7 @@ public final class WoodRecipeHandler
     static ItemStack getPlankForLog(World world, BlockPos pos, IBlockState state)
     {
         ItemStack search = state.getBlock().getPickBlock(state, null, world, pos, null);
-        return MAP.entrySet().stream().filter(x -> CoreHelpers.doStacksMatch(x.getKey(), search)).map(Map.Entry::getValue).findFirst().orElse(null);
+        return WOOD_TYPES.entrySet().stream().filter(x -> CoreHelpers.doStacksMatch(x.getKey(), search)).map(Map.Entry::getValue).findFirst().orElse(null);
     }
 
     private static void findMatchingRecipes(Collection<IRecipe> recipes, IForgeRegistryModifiable<IRecipe> registry)
@@ -119,7 +124,7 @@ public final class WoodRecipeHandler
                         ItemStack plank = recipe.getCraftingResult(tempCrafting);
                         if (!plank.isEmpty())
                         {
-                            MAP.put(log.copy(), plank.copy());
+                            WOOD_TYPES.put(log.copy(), plank.copy());
                             if (ModConfig.GENERAL.replaceLogRecipes)
                             {
                                 registry.remove(recipe.getRegistryName());
@@ -141,7 +146,7 @@ public final class WoodRecipeHandler
                     ItemStack plank = recipe.getCraftingResult(tempCrafting);
                     if (!plank.isEmpty())
                     {
-                        MAP.put(log.copy(), plank.copy());
+                        WOOD_TYPES.put(log.copy(), plank.copy());
                         if (ModConfig.GENERAL.replaceLogRecipes)
                         {
                             registry.remove(recipe.getRegistryName());

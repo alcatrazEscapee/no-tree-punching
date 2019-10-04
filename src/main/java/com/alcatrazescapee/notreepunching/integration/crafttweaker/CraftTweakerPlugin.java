@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import net.minecraft.item.ItemStack;
 
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
+import com.alcatrazescapee.notreepunching.util.WoodRecipeHandler;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
@@ -43,11 +44,32 @@ public final class CraftTweakerPlugin
         });
     }
 
+    @ZenMethod
+    public static void addWoodChoppingRecipe(IItemStack inputStack, IItemStack outputStack)
+    {
+        CraftTweakerAPI.apply(new IAction()
+        {
+            @Override
+            public void apply()
+            {
+                WoodRecipeHandler.registerWoodRecipe(toStack(inputStack), toStack(outputStack));
+            }
+
+            @Override
+            public String describe()
+            {
+                return "Adding Wood Chopping Recipe for " + inputStack.getDisplayName();
+            }
+        });
+    }
+
     @Nonnull
     static ItemStack toStack(IIngredient ingredient)
     {
         if (!(ingredient instanceof IItemStack))
-            return ItemStack.EMPTY;
+        {
+            throw new IllegalArgumentException("Must be an IItemStack!");
+        }
         Object obj = ingredient.getInternal();
         return obj instanceof ItemStack ? (ItemStack) obj : ItemStack.EMPTY;
     }

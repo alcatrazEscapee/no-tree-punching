@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -35,6 +36,11 @@ public class ItemMattock extends ItemToolCore
         addToolClass(ToolClass.SHOVEL);
         // Cause why the heck not
         setHarvestLevel("mattock", this.harvestLevel);
+
+        // Standard axe materials
+        effectiveMaterials.add(Material.WOOD);
+        effectiveMaterials.add(Material.PLANTS);
+        effectiveMaterials.add(Material.VINE);
     }
 
     @Nonnull

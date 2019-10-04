@@ -99,7 +99,8 @@ public final class ModItems
                         // todo: make these always register and then check if enabled later
                         if (metal.isEnabled)
                         {
-                            metalTools.put(type, metal, r.registerItem(type.createTool(metal.toolMaterial), type.name() + "/" + metal.name(), TAB_TOOLS));
+                            metalTools.put(type, metal, item = r.registerItem(type.createTool(metal.toolMaterial), type.name() + "/" + metal.name(), TAB_TOOLS));
+                            OreDictionaryHelper.register(item, "tool", type.name());
                         }
                     }
                 }

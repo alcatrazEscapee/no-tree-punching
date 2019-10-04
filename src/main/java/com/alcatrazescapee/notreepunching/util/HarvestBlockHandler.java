@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
@@ -92,7 +93,7 @@ public final class HarvestBlockHandler
         }
 
         // Plant fiber from grass
-        if (state.getBlock() instanceof BlockTallGrass)
+        if (state.getBlock() instanceof BlockTallGrass || (state.getBlock() instanceof BlockDoublePlant && (state.getValue(BlockDoublePlant.VARIANT) == BlockDoublePlant.EnumPlantType.FERN || state.getValue(BlockDoublePlant.VARIANT) == BlockDoublePlant.EnumPlantType.GRASS)))
         {
             if (stack.getItem() instanceof ItemKnife)
             {
