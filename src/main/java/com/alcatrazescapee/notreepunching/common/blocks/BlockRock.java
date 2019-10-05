@@ -155,4 +155,10 @@ public class BlockRock extends BlockCore
     {
         return 0;
     }
+
+    @Override
+    public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
+    {
+        return true;
+    }
 }

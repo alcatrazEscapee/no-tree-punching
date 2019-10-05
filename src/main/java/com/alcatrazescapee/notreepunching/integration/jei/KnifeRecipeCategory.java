@@ -6,6 +6,7 @@
 
 package com.alcatrazescapee.notreepunching.integration.jei;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nonnull;
@@ -108,7 +109,9 @@ public class KnifeRecipeCategory implements IRecipeCategory<KnifeRecipeCategory.
 
             // Add the main ingredient and knife items
             builder.add(recipe.getInput().getStacks());
-            builder.add(OreDictionary.getOres("toolKnife"));
+            List<ItemStack> knives = new ArrayList<>(OreDictionary.getOres("toolKnife"));
+            knives.addAll(OreDictionary.getOres("toolWeakKnife"));
+            builder.add(knives);
 
             // Set the input
             input = builder.build();
