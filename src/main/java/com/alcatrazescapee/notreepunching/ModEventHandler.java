@@ -90,12 +90,13 @@ public final class ModEventHandler
         {
             IBlockState state = event.getState();
             IPlayerItem cap = player.getCapability(CapabilityPlayerItem.CAPABILITY, null);
-            ItemStack stack;
+            ItemStack stack = ItemStack.EMPTY;
+            // Default to using the capability (as it's more accurate in case the tool was broken before we get to this event). But if it's empty, then try the main hand item, if something weird intercepted it. (see #89)
             if (cap != null)
             {
                 stack = cap.getStack();
             }
-            else
+            if (stack.isEmpty())
             {
                 stack = player.getHeldItemMainhand();
             }
