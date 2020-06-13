@@ -1,16 +1,61 @@
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven { // Forge Gradle
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven { // Curse Forge
-            url "https://plugins.gradle.org/m2/"
-        }
+        mavenCentral()
+
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.1.0'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
+}
+
+plugins {
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id 'idea'
+}
+apply plugin: 'net.minecraftforge.gradle'
+
+/**
+ * Version in dev is set to 'dev'
+ * Any builds produced by the github actions build script will have a version matching their tag.
+ * All version numbers should be Semantic Versioning 2.0 compliant
+ */
+if (System.getenv('VERSION') != null) {
+    version = System.getenv('VERSION')
+} else {
+    version = 'dev'
+}
+group = "com.alcatrazescapee.notreepunching"
+archivesBaseName = "notreepunching-forge-${mc_version}"
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
+minecraft {
+    mappings channel: 'snapshot', version: '20200609-1.15.2'
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    
+    // Run configurations
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                oreveins {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                oreveins {
+                    source sourceSets.main
+                }
+            }
+        }
     }
 }
 
@@ -18,132 +63,27 @@ repositories {
     maven {
         // location of the maven that hosts JEI files
         name = "Progwml6 maven"
-        url = "http://dvs1.progwml6.com/files/maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
     }
     maven {
         // location of a maven mirror for JEI files, as a fallback
         name = "ModMaven"
-        url = "modmaven.k-4u.nl"
-    }
-    maven {
-        // CraftTweaker
-        name "jared maven"
-        url "http://maven.blamejared.com/"
-    }
-    maven {
-        // todo: remove and replace with Patchouli book
-        // GuideAPI
-        url "http://tehnut.info/maven/"
+        url = "https://modmaven.k-4u.nl"
     }
 }
-
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'com.matthewprenger.cursegradle'
-
-ext.priv = parseConfig(file('../../jar-signing/private.properties'))
-
-version = "${mod_version}"
-group = "com.alcatrazescapee.notreepunching" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "notreepunching"
 
 dependencies {
-    // Provided for compile reasons
-    deobfProvided "mezz.jei:jei_${mc_version}:4.11.0.212:api"
-    deobfProvided "CraftTweaker2:CraftTweaker2-API:4.1.8.5"
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    // Use these at runtime
-    runtime "mezz.jei:jei_${mc_version}:4.11.0.212"
-    runtime "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.8.5"
-
-    // Guide API - todo: remove
-    deobfCompile "info.amerifrance.guideapi:Guide-API:1.12-2.1.7-62"
+    // compile against the JEI API but do not include it at runtime
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+    // at runtime, use the full JEI jar
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 }
 
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
-
-minecraft {
-    version = "${mc_version}-${forge_version}"
-    runDir = "run"
-
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "${mcp_mapping}"
-    makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-
-    replace 'GRADLE:VERSION', "${mod_version}"
-    replaceIn "NoTreePunching.java"
-}
-
-processResources {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-
-        // replace version and mcversion
-        expand 'version': project.version, 'mcversion': project.minecraft.version
-    }
-
-    // copy everything else except the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
-
-curseforge {
-    if (priv == null) {
-        return;
-    }
-    project {
-        apiKey = "${priv.curseforge_api_token}"
-        id = "289043"
-        changelog = file("changelog.txt")
-        releaseType = "release"
-
-        addGameVersion("${mc_version}")
-        relations {
-            requiredDependency("alcatrazcore")
-            optionalDependency("Guide-API")
-        }
-
-        afterEvaluate {
-            gameVersionStrings.remove('Java 9')
-        }
-    }
-}
-
-task signJar(type: SignJar, dependsOn: reobfJar) {
-    keyStore = "${priv.keyStore}"
-    alias = "${priv.keyStoreAlias}"
-    storePass = "${priv.keyStorePass}"
-    keyPass = "${priv.keyStoreKeyPass}"
-
-    inputFile = jar.archivePath
-    outputFile = jar.archivePath
-}
-
-build.dependsOn signJar
-tasks.curseforge.mustRunAfter signJar
-tasks.curseforge.dependsOn build
-
-def static parseConfig(File config) {
-    if (config.exists()) {
-        config.withReader {
-            def prop = new Properties()
-            prop.load(it)
-            return (new ConfigSlurper().parse(prop))
-        }
-    } else {
-        return null;
+// Puts the mod version into the jar for mods.toml to read from
+jar {
+    manifest {
+        attributes "Implementation-Version": "${version}"
     }
 }

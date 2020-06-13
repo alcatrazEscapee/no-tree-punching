@@ -1,0 +1,36 @@
+
+# Loader Metadata
+modLoader="javafml"
+loaderVersion="[31,)"
+#issueTrackerURL="" # optional
+
+# Mods
+[[mods]]
+modId="notreepunching"
+version="${file.jarVersion}"
+displayName="No Tree Punching"
+
+#updateJSONURL="http://myurl.me/" # optional
+#displayURL="http://example.com/" # optional
+#logoFile="examplemod.png" # optional
+#credits="" # optional
+authors="AlcatrazEscapee" # optional
+# The description text for the mod (multi line!)
+description='''
+Long, multi-line description
+'''
+
+# Dependencies
+[[dependencies.notreepunching]]
+    modId="forge"
+    mandatory=true
+    versionRange="[31,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.notreepunching]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2,)"
+    ordering="NONE"
+    side="BOTH"

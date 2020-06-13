@@ -12,11 +12,10 @@
 
 # Python
 *.py
+*.pyc
+__pycache__/
 
 # Production
 /out/
 /run/
 /libs/
-
-# Wiki
-/no-tree-punching.wiki/
