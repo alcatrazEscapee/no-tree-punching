@@ -24,17 +24,12 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 
-import com.alcatrazescapee.alcatrazcore.inventory.recipe.IRecipeManager;
-import com.alcatrazescapee.alcatrazcore.inventory.recipe.RecipeManager;
+import com.alcatrazescapee.core.inventory.recipe.IRecipeManager;
+import com.alcatrazescapee.core.inventory.recipe.RecipeManager;
 import com.alcatrazescapee.notreepunching.ModConfig;
-import com.alcatrazescapee.notreepunching.common.blocks.BlockCobble;
-import com.alcatrazescapee.notreepunching.common.blocks.BlockPottery;
+import com.alcatrazescapee.notreepunching.common.blocks.PotteryBlock;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.util.Util;
-import com.alcatrazescapee.notreepunching.util.types.Metal;
-import com.alcatrazescapee.notreepunching.util.types.Pottery;
-import com.alcatrazescapee.notreepunching.util.types.Stone;
-import com.alcatrazescapee.notreepunching.util.types.ToolType;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
@@ -48,11 +43,11 @@ public final class ModRecipes
     public static void init()
     {
         // Pottery Smelting + Fire pit
-        for (Pottery type : Pottery.values())
+        for (PotteryBlock.Variant variant : PotteryBlock.Variant.values())
         {
-            if (type != Pottery.WORKED)
+            if (variant != PotteryBlock.Variant.WORKED)
             {
-                BlockPottery block = BlockPottery.get(type);
+                PotteryBlock block = PotteryBlock.get(variant);
                 GameRegistry.addSmelting(block, block.getFiredType(), 0.1f);
                 FIRE_PIT.add(new FirePitRecipe(block.getFiredType(), new ItemStack(block)));
             }

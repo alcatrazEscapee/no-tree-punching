@@ -17,7 +17,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-import com.alcatrazescapee.alcatrazcore.inventory.container.ContainerItemStack;
+import com.alcatrazescapee.core.inventory.container.ContainerItemStack;
 
 @ParametersAreNonnullByDefault
 public class ContainerSmallVessel extends ContainerItemStack

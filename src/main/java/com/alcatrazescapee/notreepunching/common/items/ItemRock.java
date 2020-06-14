@@ -21,11 +21,10 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import com.alcatrazescapee.alcatrazcore.item.ItemCore;
-import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
-import com.alcatrazescapee.alcatrazcore.util.OreDictionaryHelper;
-import com.alcatrazescapee.notreepunching.common.blocks.BlockRock;
-import com.alcatrazescapee.notreepunching.util.types.Stone;
+import com.alcatrazescapee.core.item.ItemCore;
+import com.alcatrazescapee.core.util.CoreHelpers;
+import com.alcatrazescapee.core.util.OreDictionaryHelper;
+import com.alcatrazescapee.notreepunching.common.blocks.LooseRockBlock;
 
 public class ItemRock extends ItemCore
 {
@@ -65,7 +64,7 @@ public class ItemRock extends ItemCore
                 player.setHeldItem(hand, CoreHelpers.consumeItem(player, stack));
 
                 worldIn.playSound(null, pos, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                worldIn.setBlockState(pos.up(), BlockRock.get(type).getDefaultState());
+                worldIn.setBlockState(pos.up(), LooseRockBlock.get(type).getDefaultState());
             }
             return EnumActionResult.SUCCESS;
         }

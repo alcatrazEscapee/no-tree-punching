@@ -18,7 +18,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
-import static com.alcatrazescapee.alcatrazcore.util.CoreHelpers.getNull;
+import static com.alcatrazescapee.core.util.CoreHelpers.getNull;
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public final class CapabilityPlayerItem

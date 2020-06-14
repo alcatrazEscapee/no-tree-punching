@@ -21,7 +21,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
+import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;

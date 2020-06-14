@@ -29,8 +29,8 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 
-import com.alcatrazescapee.alcatrazcore.inventory.crafting.InventoryCraftingEmpty;
-import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
+import com.alcatrazescapee.core.inventory.crafting.InventoryCraftingEmpty;
+import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
 

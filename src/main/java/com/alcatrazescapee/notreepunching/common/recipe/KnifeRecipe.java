@@ -8,7 +8,7 @@ package com.alcatrazescapee.notreepunching.common.recipe;
 
 import net.minecraft.item.ItemStack;
 
-import com.alcatrazescapee.alcatrazcore.inventory.recipe.RecipeMultiOutput;
+import com.alcatrazescapee.core.inventory.recipe.RecipeMultiOutput;
 
 public class KnifeRecipe extends RecipeMultiOutput
 {

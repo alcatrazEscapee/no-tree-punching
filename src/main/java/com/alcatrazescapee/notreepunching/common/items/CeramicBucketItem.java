@@ -8,22 +8,13 @@ package com.alcatrazescapee.notreepunching.common.items;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -32,30 +23,16 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-import com.alcatrazescapee.alcatrazcore.client.IModelProvider;
 import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
 
-@ParametersAreNonnullByDefault
-public class ItemCeramicBucket extends UniversalBucket implements IModelProvider
+public class CeramicBucketItem extends BucketItem
 {
-    public ItemCeramicBucket()
+    public CeramicBucketItem()
     {
-        super(Fluid.BUCKET_VOLUME, ItemStack.EMPTY, false);
-
-        setMaxStackSize(1);
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerModel()
-    {
-        //noinspection ConstantConditions
-        ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(this.getRegistryName().toString(), "inventory"));
+        super();
     }
 
     @Override

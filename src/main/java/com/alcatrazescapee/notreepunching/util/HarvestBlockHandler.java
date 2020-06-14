@@ -23,13 +23,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
+import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
-import com.alcatrazescapee.notreepunching.common.items.ItemKnife;
+import com.alcatrazescapee.notreepunching.common.items.KnifeItem;
 import com.alcatrazescapee.notreepunching.common.items.ItemRock;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
-import com.alcatrazescapee.notreepunching.util.types.Stone;
 import mcp.MethodsReturnNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
@@ -95,7 +94,7 @@ public final class HarvestBlockHandler
         // Plant fiber from grass
         if (state.getBlock() instanceof BlockTallGrass || (state.getBlock() instanceof BlockDoublePlant && (state.getValue(BlockDoublePlant.VARIANT) == BlockDoublePlant.EnumPlantType.FERN || state.getValue(BlockDoublePlant.VARIANT) == BlockDoublePlant.EnumPlantType.GRASS)))
         {
-            if (stack.getItem() instanceof ItemKnife)
+            if (stack.getItem() instanceof KnifeItem)
             {
                 if (Util.RNG.nextFloat() < ModConfig.BALANCE.tallGrassDropPlantFiberChance)
                 {

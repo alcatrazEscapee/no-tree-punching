@@ -6,134 +6,57 @@
 
 package com.alcatrazescapee.notreepunching.common.items;
 
-import com.google.common.collect.ImmutableMap;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
+import com.alcatrazescapee.notreepunching.common.ModItemGroups;
+import com.alcatrazescapee.notreepunching.common.ModTiers;
 
-import com.alcatrazescapee.alcatrazcore.item.ItemCore;
-import com.alcatrazescapee.alcatrazcore.util.OreDictionaryHelper;
-import com.alcatrazescapee.alcatrazcore.util.RegistryHelper;
-import com.alcatrazescapee.alcatrazcore.util.collections.ImmutableEnumTable;
-import com.alcatrazescapee.notreepunching.ModConfig;
-import com.alcatrazescapee.notreepunching.util.types.Metal;
-import com.alcatrazescapee.notreepunching.util.types.Stone;
-import com.alcatrazescapee.notreepunching.util.types.ToolType;
+import net.minecraft.item.*;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
-import static com.alcatrazescapee.alcatrazcore.util.CoreHelpers.getNull;
+import java.util.function.Supplier;
+
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
-import static com.alcatrazescapee.notreepunching.client.ModTabs.TAB_ITEMS;
-import static com.alcatrazescapee.notreepunching.client.ModTabs.TAB_TOOLS;
-import static com.alcatrazescapee.notreepunching.common.ModMaterials.TOOL_FLINT;
 
-@GameRegistry.ObjectHolder(value = MOD_ID)
 public final class ModItems
 {
-    public static final Item FLINT_SHARD = getNull();
-    public static final Item GRASS_FIBER = getNull();
-    public static final Item GRASS_STRING = getNull();
-    public static final Item CLAY_BRICK = getNull();
-    public static final Item CERAMIC_SMALL_VESSEL = getNull();
-    public static final Item CERAMIC_BUCKET = getNull();
-    public static final Item CLAY_TOOL = getNull();
-    public static final Item FIRE_STARTER = getNull();
+    public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, MOD_ID);
 
-    private static ImmutableMap<ToolType, Item> FLINT_TOOLS;
-    private static ImmutableEnumTable<ToolType, Metal, Item> METAL_TOOLS;
+    public static final RegistryObject<Item> FLINT_SHARD = register("flint_shard");
+    public static final RegistryObject<Item> GRASS_FIBER = register("plant_fiber");
+    public static final RegistryObject<Item> GRASS_STRING = register("plant_string");
+    public static final RegistryObject<Item> CLAY_BRICK = register("clay_brick");
+    public static final RegistryObject<SmallVesselItem> CERAMIC_SMALL_VESSEL = register("ceramic_small_vessel", SmallVesselItem::new);
+    public static final RegistryObject<CeramicBucketItem> CERAMIC_BUCKET = register("ceramic_bucket", CeramicBucketItem::new);
+    public static final RegistryObject<ClayToolItem> CLAY_TOOL = register("clay_tool", ClayToolItem::new);
+    public static final RegistryObject<FireStarterItem> FIRE_STARTER = register("fire_starter", FireStarterItem::new);
 
-    public static Item getFlintTool(ToolType type)
+    public static final RegistryObject<TieredItem> FLINT_AXE = register("flint_axe", () -> new AxeItem(ModTiers.FLINT, 3.0f, -3.3f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<TieredItem> FLINT_PICKAXE = register("flint_pickaxe", () -> new PickaxeItem(ModTiers.FLINT, 1, -2.8f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<TieredItem> FLINT_HOE = register("flint_hoe", () -> new HoeItem(ModTiers.FLINT, -4.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<TieredItem> FLINT_SHOVEL = register("flint_shovel", () -> new ShovelItem(ModTiers.FLINT, -1.0f, -3.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<SwordItem> MACUAHUITL = register("machuhuitl", () -> new SwordItem(ModTiers.FLINT, 3, -2.4f, new Item.Properties().group(ModItemGroups.ITEMS)));
+
+    public static final RegistryObject<KnifeItem> FLINT_KNIFE = register("flint_knife", () -> new KnifeItem(ModTiers.FLINT, 1, -2.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<KnifeItem> IRON_KNIFE = register("iron_knife", () -> new KnifeItem(ItemTier.IRON, 1, -2.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<KnifeItem> GOLD_KNIFE = register("gold_knife", () -> new KnifeItem(ItemTier.GOLD, 1, -2.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<KnifeItem> DIAMOND_KNIFE = register("diamond_knife", () -> new KnifeItem(ItemTier.DIAMOND, 1, -2.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
+
+    public static final RegistryObject<MattockItem> IRON_MATTOCK = register("iron_mattock", () -> new MattockItem(ItemTier.IRON, 0.5f, -3.0f));
+    public static final RegistryObject<MattockItem> GOLD_MATTOCK = register("gold_mattock", () -> new MattockItem(ItemTier.GOLD, 0.5f, -3.0f));
+    public static final RegistryObject<MattockItem> DIAMOND_MATTOCK = register("diamond_mattock", () -> new MattockItem(ItemTier.DIAMOND, 0.5f, -3.0f));
+
+    public static final RegistryObject<SawItem> IRON_SAW = register("iron_saw", () -> new SawItem(ItemTier.IRON, 3.0f, -3.2f));
+    public static final RegistryObject<SawItem> GOLD_SAW = register("gold_saw", () -> new SawItem(ItemTier.GOLD, 3.0f, -3.2f));
+    public static final RegistryObject<SawItem> DIAMOND_SAW = register("diamond_saw", () -> new SawItem(ItemTier.DIAMOND, 2.0f, -3.2f));
+
+    private static RegistryObject<Item> register(String name)
     {
-        return FLINT_TOOLS.get(type);
+        return register(name, () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));
     }
 
-    public static Item getTool(ToolType type, Metal metal)
+    private static <T extends Item> RegistryObject<T> register(String name, Supplier<T> item)
     {
-        return METAL_TOOLS.get(type, metal);
-    }
-
-    public static void preInit()
-    {
-        RegistryHelper r = RegistryHelper.get(MOD_ID);
-        Item item;
-
-        r.registerItem(new ItemCore(), "grass_fiber", TAB_ITEMS);
-        r.registerItem(new ItemClayTool(), "clay_tool", TAB_TOOLS);
-        r.registerItem(new ItemFireStarter(), "fire_starter", TAB_TOOLS);
-        r.registerItem(new ItemSmallVessel(), "ceramic_small_vessel", TAB_ITEMS);
-        r.registerItem(new ItemCeramicBucket(), "ceramic_bucket", TAB_ITEMS);
-
-        r.registerItem(item = new ItemCore(), "grass_string", TAB_ITEMS);
-        OreDictionaryHelper.register(item, "kindling");
-        OreDictionaryHelper.register(item, "string");
-        r.registerItem(item = new ItemCore(), "flint_shard", TAB_ITEMS);
-        OreDictionaryHelper.register(item, "shard", "flint");
-        r.registerItem(item = new ItemCore(), "clay_brick", TAB_ITEMS);
-        OreDictionaryHelper.register(item, "brick", "clay");
-
-        for (Stone type : Stone.values())
-        {
-            if (type.isEnabled())
-                r.registerItem(new ItemRock(type), "rock/" + type.name(), TAB_ITEMS);
-        }
-
-        {
-            // Tools
-            ImmutableMap.Builder<ToolType, Item> flintTools = new ImmutableMap.Builder<>();
-            ImmutableEnumTable.Builder<ToolType, Metal, Item> metalTools = new ImmutableEnumTable.Builder<>(ToolType.class, Metal.class);
-
-            for (ToolType type : ToolType.values())
-            {
-                if (type.isFlintTool)
-                {
-                    flintTools.put(type, r.registerItem(item = type.createFlint(TOOL_FLINT), type.name() + "/flint", TAB_TOOLS));
-                    OreDictionaryHelper.register(item, "tool", "weak", type.name());
-                }
-
-                if (type.isNewTool)
-                {
-                    for (Metal metal : Metal.values())
-                    {
-                        // Metal Tools
-                        // todo: make these always register and then check if enabled later
-                        if (metal.isEnabled)
-                        {
-                            metalTools.put(type, metal, item = r.registerItem(type.createTool(metal.toolMaterial), type.name() + "/" + metal.name(), TAB_TOOLS));
-                            OreDictionaryHelper.register(item, "tool", type.name());
-                        }
-                    }
-                }
-            }
-
-            FLINT_TOOLS = flintTools.build();
-            METAL_TOOLS = metalTools.build();
-        }
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    public static void init()
-    {
-        // Vanilla ore dictionary additions
-        OreDictionary.registerOre("kindling", Items.PAPER);
-        OreDictionary.registerOre("kindling", Blocks.HAY_BLOCK);
-
-        OreDictionaryHelper.register(CLAY_TOOL, "tool", "clay");
-
-        // Remove wood + stone tools from creative tabs
-        if (ModConfig.GENERAL.replaceVanillaRecipes)
-        {
-            Items.WOODEN_AXE.setCreativeTab(null);
-            Items.WOODEN_HOE.setCreativeTab(null);
-            Items.WOODEN_PICKAXE.setCreativeTab(null);
-            Items.WOODEN_SHOVEL.setCreativeTab(null);
-            Items.WOODEN_SWORD.setCreativeTab(null);
-
-            Items.STONE_AXE.setCreativeTab(null);
-            Items.STONE_HOE.setCreativeTab(null);
-            Items.STONE_PICKAXE.setCreativeTab(null);
-            Items.STONE_SHOVEL.setCreativeTab(null);
-            Items.STONE_SWORD.setCreativeTab(null);
-        }
+        return ITEMS.register(name, item);
     }
 }

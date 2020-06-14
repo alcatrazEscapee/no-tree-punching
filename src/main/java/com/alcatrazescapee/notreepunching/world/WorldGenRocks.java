@@ -19,10 +19,9 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
-import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
+import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
-import com.alcatrazescapee.notreepunching.common.blocks.BlockRock;
-import com.alcatrazescapee.notreepunching.util.types.Stone;
+import com.alcatrazescapee.notreepunching.common.blocks.LooseRockBlock;
 
 public class WorldGenRocks implements IWorldGenerator
 {
@@ -54,7 +53,7 @@ public class WorldGenRocks implements IWorldGenerator
             if (stateDown.isOpaqueCube() && MATERIALS.contains(stateDown.getMaterial()))
             {
                 Stone stone = Stone.getFromBlock(world.getBlockState(pos.down(6)), random);
-                Block stoneBlock = stone.isEnabled() ? BlockRock.get(stone) : BlockRock.get(Stone.STONE);
+                Block stoneBlock = stone.isEnabled() ? LooseRockBlock.get(stone) : LooseRockBlock.get(Stone.STONE);
                 world.setBlockState(pos.up(), stoneBlock.getDefaultState());
             }
         }

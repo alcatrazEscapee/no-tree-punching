@@ -9,9 +9,9 @@ package com.alcatrazescapee.notreepunching.client;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import com.alcatrazescapee.alcatrazcore.util.RegistryHelper;
+import com.alcatrazescapee.core.util.RegistryHelper;
 
-import static com.alcatrazescapee.alcatrazcore.util.CoreHelpers.getNull;
+import static com.alcatrazescapee.core.util.CoreHelpers.getNull;
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 @GameRegistry.ObjectHolder(MOD_ID)

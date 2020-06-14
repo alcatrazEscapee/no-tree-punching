@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.alcatrazescapee.alcatrazcore.client.gui.GuiContainerTileCore;
+import com.alcatrazescapee.core.client.gui.GuiContainerTileCore;
 import com.alcatrazescapee.notreepunching.common.tile.TileFirePit;
 
 @SideOnly(Side.CLIENT)

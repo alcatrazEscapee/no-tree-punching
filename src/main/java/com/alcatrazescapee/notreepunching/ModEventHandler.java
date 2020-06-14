@@ -32,7 +32,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.alcatrazescapee.alcatrazcore.util.RegistryHelper;
+import com.alcatrazescapee.core.util.RegistryHelper;
 import com.alcatrazescapee.notreepunching.common.capability.CapabilityPlayerItem;
 import com.alcatrazescapee.notreepunching.common.capability.IPlayerItem;
 import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;

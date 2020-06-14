@@ -6,15 +6,14 @@
 
 package com.alcatrazescapee.notreepunching;
 
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.ICrashCallable;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.alcatrazescapee.notreepunching.client.ModGuiHandler;
@@ -27,101 +26,56 @@ import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import com.alcatrazescapee.notreepunching.util.WoodRecipeHandler;
 import com.alcatrazescapee.notreepunching.world.WorldGenRocks;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
-@Mod(modid = NoTreePunching.MOD_ID, version = NoTreePunching.VERSION, dependencies = NoTreePunching.DEPENDENCIES, useMetadata = true, certificateFingerprint = "3c2d6be715971d1ed58a028cdb3fae72987fc934")
+@Mod(value = NoTreePunching.MOD_ID)
 public final class NoTreePunching
 {
-
     public static final String MOD_ID = "notreepunching";
-    public static final String MOD_NAME = "No Tree Punching";
-    public static final String VERSION = "GRADLE:VERSION";
 
-    // Versioning
-    private static final String FORGE_MIN = "14.23.4.2705";
-    private static final String FORGE_MAX = "15.0.0.0";
-    private static final String ALC_MIN = "1.0.0";
-    private static final String ALC_MAX = "2.0.0";
+    private static final Logger LOGGER = LogManager.getLogger();
 
-    public static final String DEPENDENCIES = "required-after:forge@[" + FORGE_MIN + "," + FORGE_MAX + ");required-after:alcatrazcore@[" + ALC_MIN + "," + ALC_MAX + ");";
-
-    @Mod.Instance
-    private static NoTreePunching instance;
-    private static Logger log;
-    private static boolean isSignedBuild = true;
-
-    public static NoTreePunching getInstance()
-    {
-        return instance;
-    }
-
+    @Deprecated
     public static Logger getLog()
     {
-        return log;
+        return LOGGER;
     }
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
+    public NoTreePunching()
     {
-        log = event.getModLog();
-        log.debug("If you can see this, debug logging is working :)");
-        if (!isSignedBuild)
-            log.warn("You are not running an official build. This version will NOT be supported by the author.");
+        LOGGER.info("Hello No Tree Punching!");
+        LOGGER.debug("If you can see this, debug logging is working.");
 
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.register(this);
+
+        ModBlocks.BLOCKS.register(modEventBus);
+        ModItems.ITEMS.register(modEventBus);
+
+        //NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
 
         // Pre-Init Managers
-        CapabilityPlayerItem.preInit();
-        ModBlocks.preInit();
-        ModItems.preInit();
-        ModSounds.preInit();
+        //CapabilityPlayerItem.preInit();
+        //ModBlocks.preInit();
+        //ModItems.preInit();
+        //ModSounds.preInit();
     }
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event)
+    @SubscribeEvent
+    public void setup(FMLCommonSetupEvent event)
     {
-        if (!isSignedBuild)
-            log.warn("You are not running an official build. This version will NOT be supported by the author.");
         // World gen
-        GameRegistry.registerWorldGenerator(new WorldGenRocks(), 3);
+        //GameRegistry.registerWorldGenerator(new WorldGenRocks(), 3);
 
         // Init Managers
-        ModRecipes.init();
-        ModItems.init();
-    }
-
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
-        if (!isSignedBuild)
-            log.warn("You are not running an official build. This version will NOT be supported by the author.");
+        //ModRecipes.init();
+        //ModItems.init();
 
         // Post-Init Managers
-        HarvestBlockHandler.postInit();
+        //HarvestBlockHandler.postInit();
 
-        if (ModConfig.GENERAL.enableAdvancedRecipeReplacement)
-        {
-            WoodRecipeHandler.postInit();
-        }
-        ModRecipes.postInit();
-    }
-
-    @Mod.EventHandler
-    public void onFingerprintViolation(FMLFingerprintViolationEvent event)
-    {
-        isSignedBuild = false;
-        FMLCommonHandler.instance().registerCrashCallable(new ICrashCallable()
-        {
-            @Override
-            public String getLabel()
-            {
-                return MOD_NAME;
-            }
-
-            @Override
-            public String call()
-            {
-                return "You are not running an official build. This version will NOT be supported by the author.";
-            }
-        });
+        //if (ModConfig.GENERAL.enableAdvancedRecipeReplacement)
+        //{
+        //    WoodRecipeHandler.postInit();
+        //}
+        //ModRecipes.postInit();
     }
 }

@@ -16,14 +16,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
-import com.alcatrazescapee.alcatrazcore.client.gui.GuiContainerCore;
-import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
+import com.alcatrazescapee.core.client.gui.GuiContainerCore;
+import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.client.gui.GuiFirePit;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.container.ContainerFirePit;
 import com.alcatrazescapee.notreepunching.common.container.ContainerLargeVessel;
 import com.alcatrazescapee.notreepunching.common.container.ContainerSmallVessel;
-import com.alcatrazescapee.notreepunching.common.items.ItemSmallVessel;
+import com.alcatrazescapee.notreepunching.common.items.SmallVesselItem;
 import com.alcatrazescapee.notreepunching.common.tile.TileFirePit;
 import com.alcatrazescapee.notreepunching.common.tile.TileLargeVessel;
 
@@ -50,7 +50,7 @@ public final class ModGuiHandler implements IGuiHandler
                 return teLargeVessel != null ? new ContainerLargeVessel(player.inventory, teLargeVessel) : null;
             case SMALL_VESSEL:
                 ItemStack stack = player.getHeldItemMainhand();
-                if (!(stack.getItem() instanceof ItemSmallVessel))
+                if (!(stack.getItem() instanceof SmallVesselItem))
                     stack = player.getHeldItemOffhand();
                 return new ContainerSmallVessel(player.inventory, stack);
             case FIRE_PIT:
@@ -72,7 +72,7 @@ public final class ModGuiHandler implements IGuiHandler
                 return new GuiContainerCore(container, player.inventory, LARGE_VESSEL_BACKGROUND, ModBlocks.CERAMIC_LARGE_VESSEL.getTranslationKey());
             case SMALL_VESSEL:
                 ItemStack stack = player.getHeldItemMainhand();
-                if (!(stack.getItem() instanceof ItemSmallVessel))
+                if (!(stack.getItem() instanceof SmallVesselItem))
                     stack = player.getHeldItemOffhand();
                 return new GuiContainerCore(container, player.inventory, SMALL_VESSEL_BACKGROUND, stack.getTranslationKey());
             case FIRE_PIT:

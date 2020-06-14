@@ -15,8 +15,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.alcatrazescapee.notreepunching.common.items.ItemRock;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
-import com.alcatrazescapee.notreepunching.util.types.Stone;
-import com.alcatrazescapee.notreepunching.util.types.ToolType;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 

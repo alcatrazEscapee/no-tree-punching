@@ -9,34 +9,26 @@ package com.alcatrazescapee.notreepunching.common.items;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
-import com.alcatrazescapee.alcatrazcore.inventory.capability.ItemHandlerItem;
-import com.alcatrazescapee.alcatrazcore.item.ItemCore;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
 import com.alcatrazescapee.notreepunching.client.ModGuiHandler;
+import com.alcatrazescapee.notreepunching.common.ModItemGroups;
 
-@ParametersAreNonnullByDefault
-public class ItemSmallVessel extends ItemCore
+public class SmallVesselItem extends Item
 {
-    public ItemSmallVessel()
+    public SmallVesselItem()
     {
-        setMaxStackSize(1);
+        super(new Properties().group(ModItemGroups.ITEMS).maxStackSize(1));
     }
 
     @Override

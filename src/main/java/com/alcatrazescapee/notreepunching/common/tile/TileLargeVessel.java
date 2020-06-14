@@ -13,7 +13,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-import com.alcatrazescapee.alcatrazcore.tile.TileInventory;
+import com.alcatrazescapee.core.tile.TileInventory;
 
 @ParametersAreNonnullByDefault
 public class TileLargeVessel extends TileInventory

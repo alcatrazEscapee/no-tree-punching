@@ -12,9 +12,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
-import com.alcatrazescapee.alcatrazcore.inventory.container.ContainerTileInventory;
-import com.alcatrazescapee.alcatrazcore.inventory.slot.SlotOutput;
-import com.alcatrazescapee.alcatrazcore.inventory.slot.SlotTileCore;
+import com.alcatrazescapee.core.inventory.container.ContainerTileInventory;
+import com.alcatrazescapee.core.inventory.slot.SlotOutput;
+import com.alcatrazescapee.core.inventory.slot.SlotTileCore;
 import com.alcatrazescapee.notreepunching.common.tile.TileFirePit;
 
 @ParametersAreNonnullByDefault

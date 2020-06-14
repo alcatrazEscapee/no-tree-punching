@@ -20,15 +20,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.alcatrazescapee.alcatrazcore.tile.ITileFields;
-import com.alcatrazescapee.alcatrazcore.tile.TileInventory;
-import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
+import com.alcatrazescapee.core.tile.ITileFields;
+import com.alcatrazescapee.core.tile.TileInventory;
+import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
 import com.alcatrazescapee.notreepunching.common.recipe.FirePitRecipe;
 import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
 
-import static com.alcatrazescapee.notreepunching.common.blocks.BlockFirePit.LIT;
+import static com.alcatrazescapee.notreepunching.common.blocks.FirePitBlock.LIT;
 
 @ParametersAreNonnullByDefault
 public class TileFirePit extends TileInventory implements ITickable, ITileFields
