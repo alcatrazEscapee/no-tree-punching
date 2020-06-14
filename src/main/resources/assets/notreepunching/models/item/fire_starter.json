@@ -1,6 +1,7 @@
 {
+  "__comment__": "This file was automatically created by mcresources",
   "parent": "item/generated",
   "textures": {
-    "layer0": "notreepunching:items/fire_starter"
+    "layer0": "notreepunching:item/fire_starter"
   }
 }

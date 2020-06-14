@@ -6,7 +6,7 @@ def generate(rm: ResourceManager):
 
     # First
     rm.lang({
-
+        'itemGroup.notreepunching.items': 'No Tree Punching'
     })
 
     # Stone
@@ -22,20 +22,21 @@ def generate(rm: ResourceManager):
             .make_wall()
         for piece in ('stairs', 'slab', 'wall'):
             rm.block('%s_cobblestone_%s' % (stone, piece)) \
-                .with_lang(lang('%s cobblestone %s', stone, piece))
+                .with_lang(lang('%s cobblestone %s', stone, piece)) \
+                .with_tag(piece + ('s' if not piece.endswith('s') else ''))  # plural tag
 
     for stone in ('granite', 'andesite', 'diorite', 'stone', 'sandstone', 'red_sandstone'):
         rm.blockstate('%s_loose_rock' % stone) \
-            .with_block_model(parent='notreepunching:block/loose_rock') \
-            .with_block_loot('%s_loose_rock' % stone) \
+            .with_block_model(textures='minecraft:%s' % stone, parent='notreepunching:block/loose_rock') \
+            .with_block_loot('notreepunching:%s_loose_rock' % stone) \
             .with_lang(lang('%s loose rock', stone))
         # flat item model for the block item
-        rm.item_model('%s_loose_rock')
+        rm.item_model('%s_loose_rock' % stone)
 
     # Pottery
     for pottery in ('worked', 'large_vessel', 'small_vessel', 'bucket', 'flower_pot'):
         block = rm.blockstate('clay_%s' % pottery) \
-            .with_block_model(parent='notreepunching:block/pottery_%s' % pottery) \
+            .with_block_model(textures='minecraft:clay', parent='notreepunching:block/pottery_%s' % pottery) \
             .with_item_model() \
             .with_block_loot('notreepunching:clay_%s' % pottery)
         if pottery == 'worked':
@@ -44,7 +45,7 @@ def generate(rm: ResourceManager):
             block.with_lang(lang('clay %s', pottery))
 
     rm.blockstate('ceramic_large_vessel') \
-        .with_block_model(parent='notreepunching:block/pottery_large_vessel') \
+        .with_block_model(textures='notreepunching:block/ceramic', parent='notreepunching:block/pottery_large_vessel') \
         .with_item_model() \
         .with_block_loot('notreepunching:ceramic_large_vessel') \
         .with_lang(lang('ceramic large vessel'))
@@ -54,7 +55,8 @@ def generate(rm: ResourceManager):
         rm.item_model('%s_mattock' % tool) \
             .with_lang(lang('%s mattock', tool))
         rm.item_model('%s_saw' % tool) \
-            .with_lang(lang('%s saw', tool))
+            .with_lang(lang('%s saw', tool)) \
+            .with_tag('saws')
         rm.item_model('%s_knife' % tool) \
             .with_lang(lang('%s knife', tool))
 
@@ -62,8 +64,15 @@ def generate(rm: ResourceManager):
     for tool in ('axe', 'pickaxe', 'shovel', 'hoe', 'knife'):
         rm.item_model('flint_%s' % tool) \
             .with_lang(lang('flint %s', tool))
-    rm.item_model('machuhuitl') \
-        .with_lang(lang('machuhuitl'))
+    rm.item_model('macuahuitl') \
+        .with_lang(lang('macuahuitl'))
+
+    for item in ('flint_shard', 'plant_fiber', 'plant_string', 'clay_brick', 'ceramic_small_vessel', 'clay_tool', 'fire_starter'):
+        rm.item_model(item) \
+            .with_lang(lang(item))
+
+
+    # todo: ceramic bucket
 
 
 def lang(key: str, *args) -> str:

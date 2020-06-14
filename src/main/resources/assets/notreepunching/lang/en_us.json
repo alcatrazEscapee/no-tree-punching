@@ -1,5 +1,6 @@
 {
   "__comment__": "This file was automatically created by mcresources",
+  "itemGroup.notreepunching.items": "No Tree Punching",
   "block.notreepunching.granite_cobblestone": "Granite Cobblestone",
   "block.notreepunching.granite_cobblestone_stairs": "Granite Cobblestone Stairs",
   "block.notreepunching.granite_cobblestone_slab": "Granite Cobblestone Slab",
@@ -38,5 +39,12 @@
   "item.notreepunching.flint_shovel": "Flint Shovel",
   "item.notreepunching.flint_hoe": "Flint Hoe",
   "item.notreepunching.flint_knife": "Flint Knife",
-  "item.notreepunching.machuhuitl": "Machuhuitl"
+  "item.notreepunching.macuahuitl": "Macuahuitl",
+  "item.notreepunching.flint_shard": "Flint Shard",
+  "item.notreepunching.plant_fiber": "Plant Fiber",
+  "item.notreepunching.plant_string": "Plant String",
+  "item.notreepunching.clay_brick": "Clay Brick",
+  "item.notreepunching.ceramic_small_vessel": "Ceramic Small Vessel",
+  "item.notreepunching.clay_tool": "Clay Tool",
+  "item.notreepunching.fire_starter": "Fire Starter"
 }

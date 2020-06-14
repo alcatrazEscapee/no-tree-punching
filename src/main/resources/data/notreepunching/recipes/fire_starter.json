@@ -1,0 +1,22 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SP",
+    "FS"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "P": {
+      "tag": "forge:string"
+    },
+    "F": {
+      "item": "notreepunching:flint_shard"
+    }
+  },
+  "result": {
+    "item": "notreepunching:fire_starter"
+  }
+}

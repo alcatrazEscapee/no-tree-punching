@@ -1,6 +1,7 @@
 {
-  "parent": "item/handheld",
+  "__comment__": "This file was automatically created by mcresources",
+  "parent": "item/generated",
   "textures": {
-    "layer0": "notreepunching:items/clay_tool"
+    "layer0": "notreepunching:item/clay_tool"
   }
 }

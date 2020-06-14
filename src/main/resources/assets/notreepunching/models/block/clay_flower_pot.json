@@ -2,6 +2,6 @@
   "__comment__": "This file was automatically created by mcresources",
   "parent": "notreepunching:block/pottery_flower_pot",
   "textures": {
-    "all": "notreepunching:block/clay_flower_pot"
+    "all": "minecraft:clay"
   }
 }

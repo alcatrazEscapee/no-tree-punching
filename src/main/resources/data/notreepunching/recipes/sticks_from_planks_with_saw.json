@@ -1,0 +1,19 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SW"
+  ],
+  "key": {
+    "S": {
+      "tag": "notreepunching:saws"
+    },
+    "W": {
+      "item": "minecraft:spruce_planks"
+    }
+  },
+  "result": {
+    "count": 2,
+    "item": "minecraft:stick"
+  }
+}

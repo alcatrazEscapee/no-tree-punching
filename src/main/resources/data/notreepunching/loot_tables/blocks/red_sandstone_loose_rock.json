@@ -8,7 +8,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "red_sandstone_loose_rock"
+          "name": "notreepunching:red_sandstone_loose_rock"
         }
       ],
       "conditions": [

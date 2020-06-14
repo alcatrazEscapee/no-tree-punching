@@ -1,6 +1,7 @@
 {
+  "__comment__": "This file was automatically created by mcresources",
   "parent": "item/generated",
   "textures": {
-    "layer0": "notreepunching:items/clay_brick"
+    "layer0": "notreepunching:item/clay_brick"
   }
 }
