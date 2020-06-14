@@ -27,9 +27,6 @@ public class MattockItem extends ToolItem
 {
     public MattockItem(IItemTier tier, float attackDamageIn, float attackSpeedIn)
     {
-        // todo: more AT entries!
-        // public net.minecraft.item.AxeItem field_150917_c # EFFECTIVE_ON
-        // public net.minecraft.item.ShovelItem field_150916_c # EFFECTIVE_ON
         super(attackDamageIn, attackSpeedIn, tier, Sets.union(AxeItem.EFFECTIVE_ON, ShovelItem.EFFECTIVE_ON), new Properties().group(ModItemGroups.ITEMS).addToolType(ToolType.AXE, tier.getHarvestLevel()).addToolType(ToolType.SHOVEL, tier.getHarvestLevel()));
     }
 
@@ -79,13 +76,12 @@ public class MattockItem extends ToolItem
     /**
      * Copy pasta from {@link AxeItem}
      */
+    @SuppressWarnings("ALL")
     private ActionResultType onAxeItemUse(ItemUseContext context)
     {
         World world = context.getWorld();
         BlockPos blockpos = context.getPos();
         BlockState blockstate = world.getBlockState(blockpos);
-        // todo: AT entry
-        // public net.minecraft.item.AxeItem field_203176_a # BLOCK_STRIPPING_MAP
         Block block = AxeItem.BLOCK_STRIPPING_MAP.get(blockstate.getBlock());
         if (block != null) {
             PlayerEntity playerentity = context.getPlayer();
@@ -108,6 +104,7 @@ public class MattockItem extends ToolItem
     /**
      * Copy pasta from {@link HoeItem}
      */
+    @SuppressWarnings("ALL")
     private ActionResultType onHoeItemUse(ItemUseContext context)
     {
         World world = context.getWorld();
@@ -116,8 +113,6 @@ public class MattockItem extends ToolItem
         if (hook != 0) return hook > 0 ? ActionResultType.SUCCESS : ActionResultType.FAIL;
         if (context.getFace() != Direction.DOWN && world.isAirBlock(blockpos.up()))
         {
-            // todo: AT entry for hoe
-            // public net.minecraft.item.HoeItem field_195973_b # HOE_LOOKUP
             BlockState blockstate = HoeItem.HOE_LOOKUP.get(world.getBlockState(blockpos).getBlock());
             if (blockstate != null)
             {
@@ -155,8 +150,6 @@ public class MattockItem extends ToolItem
         else
         {
             PlayerEntity playerentity = context.getPlayer();
-            // todo: EVEN MORE AT ETNRIES
-            // public net.minecraft.item.ShovelItem field_195955_e # SHOVEL_LOOKUP
             BlockState blockstate1 = ShovelItem.SHOVEL_LOOKUP.get(blockstate.getBlock());
             BlockState blockstate2 = null;
             if (blockstate1 != null && world.isAirBlock(blockpos.up()))

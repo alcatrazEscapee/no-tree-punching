@@ -26,7 +26,7 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import com.alcatrazescapee.core.common.block.DeviceBlock;
-import com.alcatrazescapee.notreepunching.common.tile.TileLargeVessel;
+import com.alcatrazescapee.notreepunching.common.tile.LargeVesselTileEntity;
 
 public class LargeVesselBlock extends DeviceBlock
 {
@@ -53,7 +53,7 @@ public class LargeVesselBlock extends DeviceBlock
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world)
     {
-        return new TileLargeVessel();
+        return new LargeVesselTileEntity();
     }
 
     @Override

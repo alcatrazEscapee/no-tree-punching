@@ -9,14 +9,23 @@ package com.alcatrazescapee.notreepunching.common.items;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BucketItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -24,58 +33,61 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
-import com.alcatrazescapee.notreepunching.ModConfig;
+import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
+import com.alcatrazescapee.notreepunching.common.ModTags;
 
-public class CeramicBucketItem extends BucketItem
+public class CeramicBucketItem extends Item
 {
-    public CeramicBucketItem()
+    public CeramicBucketItem(Properties properties)
     {
-        super();
+        super(properties);
     }
 
     @Override
-    public void getSubItems(@Nullable CreativeTabs tab, NonNullList<ItemStack> subItems)
+    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items)
     {
-        if (!this.isInCreativeTab(tab)) return;
-
-        subItems.add(new ItemStack(this));
-
-        for (Fluid fluid : FluidRegistry.getRegisteredFluids().values())
+        if (isInGroup(group))
         {
-            // Add all fluids that the bucket can be filled with
-            FluidStack fs = new FluidStack(fluid, getCapacity());
-            ItemStack stack = new ItemStack(this);
-            IFluidHandlerItem fluidHandler = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
-            if (fluidHandler != null && fluidHandler.fill(fs, true) == fs.amount)
+            items.add(new ItemStack(this));
+            for (Fluid fluid : ForgeRegistries.FLUIDS.getValues())
             {
-                ItemStack filled = fluidHandler.getContainer();
-                subItems.add(filled);
+                if (ModTags.Fluids.CERAMIC_BUCKETABLE.contains(fluid))
+                {
+                    ItemStack stack = new ItemStack(this);
+                    stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(handler -> {
+                        FluidStack fluidStack = new FluidStack(fluid, 1000);
+                        if (handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE) > 0)
+                        {
+                            items.add(stack);
+                        }
+                    });
+                }
             }
         }
     }
 
-    @Nonnull
     @Override
-    @SuppressWarnings("deprecation")
-    public String getItemStackDisplayName(@Nonnull ItemStack stack)
+    public ITextComponent getDisplayName(ItemStack stack)
     {
-        FluidStack fluidStack = getFluid(stack);
-        // If the bucket is empty, translate the unlocalised name directly
-        if (fluidStack == null)
-        {
-            return I18n.translateToLocal(getTranslationKey() + ".name");
-        }
-
-        // Else translate the filled name directly, formatting it with the fluid name
-        return I18n.translateToLocalFormatted(getTranslationKey() + ".filled.name", fluidStack.getLocalizedName());
+        return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).map(handler -> {
+            if (handler instanceof FluidHandlerItemStackSimple)
+            {
+                ITextComponent fluidName = ((FluidHandlerItemStackSimple) handler).getFluid().getDisplayName();
+                fluidName.appendSibling(super.getDisplayName(stack));
+                return fluidName;
+            }
+            return super.getDisplayName(stack);
+        }).orElseThrow(() -> new IllegalStateException("No fluid handler on ceramic bucket?"));
     }
 
     @Override
-    @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
+        // todo: fluid interactions
+        /*
         ItemStack heldItem = player.getHeldItem(hand);
         FluidStack fluidStack = getFluid(heldItem);
         ActionResult<ItemStack> result;
@@ -127,91 +139,13 @@ public class CeramicBucketItem extends BucketItem
                 return new ActionResult<>(EnumActionResult.SUCCESS, heldItem);
             }
             return new ActionResult<>(EnumActionResult.PASS, heldItem);
-        }
-    }
-
-    @Nonnull
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
-    {
-        FluidStack fluidStack = getFluid(stack);
-        if (fluidStack != null)
-        {
-            if (!worldIn.isRemote)
-            {
-                Fluid fluid = fluidStack.getFluid();
-                if (fluid != null)
-                {
-                    switch (fluid.getName())
-                    {
-                        case "milk":
-                            entityLiving.curePotionEffects(stack);
-                            break;
-                        case "lava":
-                            NoTreePunching.getLog().info("You fool! Why are you drinking lava!");
-                            break;
-                    }
-                }
-            }
-            return getEmpty();
-        }
-        return stack;
-    }
-
-    @Nullable
-    @Override
-    public FluidStack getFluid(ItemStack stack)
-    {
-        IFluidHandler cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
-        if (cap instanceof FluidHandlerCeramicBucket)
-        {
-            return ((FluidHandlerCeramicBucket) cap).getFluid();
-        }
-        return null;
+        }*/
+        return new ActionResult<>(ActionResultType.PASS, playerIn.getHeldItem(handIn));
     }
 
     @Override
-    @Nonnull
-    public ItemStack getEmpty()
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
     {
-        return new ItemStack(this);
-    }
-
-    @Nonnull
-    public EnumAction getItemUseAction(ItemStack stack)
-    {
-        return EnumAction.DRINK;
-    }
-
-    public int getMaxItemUseDuration(ItemStack stack)
-    {
-        return 32;
-    }
-
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt)
-    {
-        // FluidBucketWrapper only works with Forge's UniversalBucket instance, use a different IFluidHandlerItem implementation instead
-        return new FluidHandlerCeramicBucket(stack, Fluid.BUCKET_VOLUME);
-    }
-
-    private static class FluidHandlerCeramicBucket extends FluidHandlerItemStackSimple
-    {
-        public FluidHandlerCeramicBucket(@Nonnull ItemStack container, int capacity)
-        {
-            super(container, capacity);
-        }
-
-        @Override
-        public boolean canFillFluidType(FluidStack fluid)
-        {
-            for (String s : ModConfig.GENERAL.ceramicBucketValidFluids)
-            {
-                if (s.equals(fluid.getFluid().getName()))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        return new FluidHandlerItemStackSimple(stack, 1000);
     }
 }

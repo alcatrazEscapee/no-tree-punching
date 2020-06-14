@@ -18,14 +18,11 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 
 import com.alcatrazescapee.core.client.gui.GuiContainerCore;
 import com.alcatrazescapee.core.util.CoreHelpers;
-import com.alcatrazescapee.notreepunching.client.gui.GuiFirePit;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
-import com.alcatrazescapee.notreepunching.common.container.ContainerFirePit;
 import com.alcatrazescapee.notreepunching.common.container.ContainerLargeVessel;
 import com.alcatrazescapee.notreepunching.common.container.ContainerSmallVessel;
 import com.alcatrazescapee.notreepunching.common.items.SmallVesselItem;
-import com.alcatrazescapee.notreepunching.common.tile.TileFirePit;
-import com.alcatrazescapee.notreepunching.common.tile.TileLargeVessel;
+import com.alcatrazescapee.notreepunching.common.tile.LargeVesselTileEntity;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
@@ -46,7 +43,7 @@ public final class ModGuiHandler implements IGuiHandler
         switch (ID)
         {
             case LARGE_VESSEL:
-                TileLargeVessel teLargeVessel = CoreHelpers.getTE(world, new BlockPos(x, y, z), TileLargeVessel.class);
+                LargeVesselTileEntity teLargeVessel = CoreHelpers.getTE(world, new BlockPos(x, y, z), LargeVesselTileEntity.class);
                 return teLargeVessel != null ? new ContainerLargeVessel(player.inventory, teLargeVessel) : null;
             case SMALL_VESSEL:
                 ItemStack stack = player.getHeldItemMainhand();

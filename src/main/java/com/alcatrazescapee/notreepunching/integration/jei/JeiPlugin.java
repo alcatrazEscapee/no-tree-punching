@@ -5,11 +5,11 @@
  */
 
 package com.alcatrazescapee.notreepunching.integration.jei;
-
+/*
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import com.alcatrazescapee.notreepunching.ModConfig;
+import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.client.gui.GuiFirePit;
 import com.alcatrazescapee.notreepunching.common.recipe.FirePitRecipe;
 import com.alcatrazescapee.notreepunching.common.recipe.KnifeRecipe;
@@ -22,8 +22,8 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
-@JEIPlugin
-public final class JeiPlugin implements IModPlugin
+@JEIPlugin*/ // todo: this
+public final class JeiPlugin {} /* implements IModPlugin
 {
     static final String KNIFE_UID = MOD_ID + ".knife";
     static final String FIRE_PIT_UID = MOD_ID + ".fire_pit";
@@ -41,7 +41,7 @@ public final class JeiPlugin implements IModPlugin
     public void register(IModRegistry registry)
     {
         // Hide vanilla wood + stone tools from JEI
-        if (ModConfig.GENERAL.replaceVanillaRecipes)
+        if (Config.GENERAL.replaceVanillaRecipes)
         {
             IIngredientBlacklist blacklist = registry.getJeiHelpers().getIngredientBlacklist();
 
@@ -67,4 +67,4 @@ public final class JeiPlugin implements IModPlugin
         registry.addRecipes(ModRecipes.FIRE_PIT.getAll(), FIRE_PIT_UID);
         registry.addRecipeClickArea(GuiFirePit.class, 75, 22, 26, 19, FIRE_PIT_UID);
     }
-}
+}*/

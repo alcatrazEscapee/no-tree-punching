@@ -12,19 +12,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.minecraftforge.fml.common.ICrashCallable;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import com.alcatrazescapee.notreepunching.client.ModGuiHandler;
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
-import com.alcatrazescapee.notreepunching.common.capability.CapabilityPlayerItem;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
-import com.alcatrazescapee.notreepunching.common.recipe.ModRecipes;
-import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
-import com.alcatrazescapee.notreepunching.util.WoodRecipeHandler;
-import com.alcatrazescapee.notreepunching.world.WorldGenRocks;
+import com.alcatrazescapee.notreepunching.common.tile.ModTileEntities;
+import com.alcatrazescapee.notreepunching.util.MaterialHacks;
 
 @Mod(value = NoTreePunching.MOD_ID)
 public final class NoTreePunching
@@ -49,6 +43,9 @@ public final class NoTreePunching
 
         ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
+        ModTileEntities.TILE_ENTITIES.register(modEventBus);
+
+        ModSounds.SOUNDS.register(modEventBus);
 
         //NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
 
@@ -62,6 +59,8 @@ public final class NoTreePunching
     @SubscribeEvent
     public void setup(FMLCommonSetupEvent event)
     {
+        MaterialHacks.setup();
+
         // World gen
         //GameRegistry.registerWorldGenerator(new WorldGenRocks(), 3);
 

@@ -25,7 +25,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
 import com.alcatrazescapee.core.util.CoreHelpers;
-import com.alcatrazescapee.notreepunching.ModConfig;
+import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.ModItemGroups;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 
@@ -87,7 +87,7 @@ public class FireStarterItem extends TieredItem
                     else
                     {
                         // No fire pit to make, try light a fire
-                        if (random.nextFloat() < ModConfig.BALANCE.fireStarterFireStartChance)
+                        if (random.nextFloat() < Config.BALANCE.fireStarterFireStartChance)
                         {
                             worldIn.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
                         }

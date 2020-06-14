@@ -6,23 +6,28 @@
 
 package com.alcatrazescapee.notreepunching.client;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
-import com.alcatrazescapee.core.util.RegistryHelper;
+import com.alcatrazescapee.notreepunching.NoTreePunching;
 
 import static com.alcatrazescapee.core.util.CoreHelpers.getNull;
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
-@GameRegistry.ObjectHolder(MOD_ID)
 public final class ModSounds
 {
-    public static final SoundEvent KNAPPING = getNull();
+    public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, MOD_ID);
 
-    public static void preInit()
+    public static final RegistryObject<SoundEvent> KNAPPING = register("knapping");
+
+    @SuppressWarnings("SameParameterValue")
+    private static RegistryObject<SoundEvent> register(String name)
     {
-        RegistryHelper r = RegistryHelper.get(MOD_ID);
-
-        r.registerSound("knapping");
+        return SOUNDS.register(name, () -> new SoundEvent(new ResourceLocation(MOD_ID, name)));
     }
 }

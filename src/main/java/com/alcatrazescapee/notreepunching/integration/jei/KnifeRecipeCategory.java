@@ -6,6 +6,7 @@
 
 package com.alcatrazescapee.notreepunching.integration.jei;
 
+/*
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,8 +33,8 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 import static com.alcatrazescapee.notreepunching.integration.jei.JeiPlugin.KNIFE_UID;
 
-@ParametersAreNonnullByDefault
-public class KnifeRecipeCategory implements IRecipeCategory<KnifeRecipeCategory.Wrapper>
+*/ // todo: this
+public class KnifeRecipeCategory {} /* implements IRecipeCategory<KnifeRecipeCategory.Wrapper>
 {
     private static final String TRANSLATION_KEY = "jei.category.knife_recipe";
     private static final ResourceLocation GUI_LOCATION = new ResourceLocation(MOD_ID, "textures/jei/knife.png");
@@ -132,3 +133,4 @@ public class KnifeRecipeCategory implements IRecipeCategory<KnifeRecipeCategory.
         }
     }
 }
+*/

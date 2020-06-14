@@ -6,11 +6,7 @@
 
 package com.alcatrazescapee.notreepunching.common.recipe;
 
-import net.minecraft.item.ItemStack;
-
-import com.alcatrazescapee.core.inventory.recipe.RecipeMultiOutput;
-
-public class KnifeRecipe extends RecipeMultiOutput
+public class KnifeRecipe {} /* extends RecipeMultiOutput
 {
     public KnifeRecipe(ItemStack inputStack, ItemStack... outputStacks)
     {
@@ -21,4 +17,4 @@ public class KnifeRecipe extends RecipeMultiOutput
     {
         super(inputOre, inputAmount, outputStacks);
     }
-}
+}*/

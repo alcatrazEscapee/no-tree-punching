@@ -14,12 +14,12 @@ import net.minecraftforge.items.IItemHandler;
 
 import com.alcatrazescapee.core.inventory.container.ContainerTileInventory;
 import com.alcatrazescapee.core.inventory.slot.SlotTileCore;
-import com.alcatrazescapee.notreepunching.common.tile.TileLargeVessel;
+import com.alcatrazescapee.notreepunching.common.tile.LargeVesselTileEntity;
 
 @ParametersAreNonnullByDefault
-public class ContainerLargeVessel extends ContainerTileInventory<TileLargeVessel>
+public class ContainerLargeVessel extends ContainerTileInventory<LargeVesselTileEntity>
 {
-    public ContainerLargeVessel(InventoryPlayer playerInv, TileLargeVessel tile)
+    public ContainerLargeVessel(InventoryPlayer playerInv, LargeVesselTileEntity tile)
     {
         super(playerInv, tile);
     }

@@ -6,8 +6,6 @@
 
 package com.alcatrazescapee.notreepunching.common.blocks;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -26,7 +24,7 @@ import net.minecraft.world.World;
 
 import net.minecraftforge.items.ItemHandlerHelper;
 
-import com.alcatrazescapee.notreepunching.ModConfig;
+import com.alcatrazescapee.notreepunching.Config;
 
 public class LooseRockBlock extends Block
 {
@@ -63,7 +61,7 @@ public class LooseRockBlock extends Block
     @SuppressWarnings("deprecation")
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
     {
-        if (ModConfig.BALANCE.canPickUpRocks)
+        if (Config.BALANCE.canPickUpRocks)
         {
             ItemStack stack = getPickBlock(state, hit, worldIn, pos, player);
             ItemHandlerHelper.giveItemToPlayer(player, stack);

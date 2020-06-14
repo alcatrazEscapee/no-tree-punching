@@ -27,7 +27,7 @@ public final class ModItems
     public static final RegistryObject<Item> GRASS_STRING = register("plant_string");
     public static final RegistryObject<Item> CLAY_BRICK = register("clay_brick");
     public static final RegistryObject<SmallVesselItem> CERAMIC_SMALL_VESSEL = register("ceramic_small_vessel", SmallVesselItem::new);
-    public static final RegistryObject<CeramicBucketItem> CERAMIC_BUCKET = register("ceramic_bucket", CeramicBucketItem::new);
+    public static final RegistryObject<CeramicBucketItem> CERAMIC_BUCKET = register("ceramic_bucket", () -> new CeramicBucketItem(new Item.Properties().group(ModItemGroups.ITEMS).maxStackSize(1)));
     public static final RegistryObject<ClayToolItem> CLAY_TOOL = register("clay_tool", ClayToolItem::new);
     public static final RegistryObject<FireStarterItem> FIRE_STARTER = register("fire_starter", FireStarterItem::new);
 

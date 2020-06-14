@@ -13,8 +13,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.alcatrazescapee.notreepunching.util.Util;
-
 @SideOnly(Side.CLIENT)
 public class ParticleManager
 {

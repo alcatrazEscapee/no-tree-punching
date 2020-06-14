@@ -6,35 +6,13 @@
 
 package com.alcatrazescapee.notreepunching.common.recipe;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryModifiable;
-
-import com.alcatrazescapee.core.inventory.recipe.IRecipeManager;
-import com.alcatrazescapee.core.inventory.recipe.RecipeManager;
-import com.alcatrazescapee.notreepunching.ModConfig;
-import com.alcatrazescapee.notreepunching.common.blocks.PotteryBlock;
-import com.alcatrazescapee.notreepunching.common.items.ModItems;
-import com.alcatrazescapee.notreepunching.util.Util;
-
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
-
 public final class ModRecipes
 {
+    // todo: recipe types?
+    // todo: recipe serializers?
+    // todo: indirect hash collections? (because that's fookin awesome)
+    // todo: move all these recipes to json
+    /*
     public static final IRecipeManager<FirePitRecipe> FIRE_PIT = new RecipeManager<>();
     public static final IRecipeManager<KnifeRecipe> KNIFE = new RecipeManager<>();
 
@@ -64,7 +42,6 @@ public final class ModRecipes
             }
         }
 
-        /* SMELTING RECIPES */
 
         for (Stone stone : Stone.values())
         {
@@ -77,11 +54,9 @@ public final class ModRecipes
         GameRegistry.addSmelting(ModItems.GRASS_STRING, new ItemStack(Items.STRING), 0.1f);
         GameRegistry.addSmelting(ModItems.CLAY_BRICK, new ItemStack(Items.BRICK), 0.1f);
 
-        /* FIRE PIT RECIPES */
 
         FIRE_PIT.add(new FirePitRecipe(new ItemStack(Items.BRICK), "brickClay", 1));
 
-        /* KNIFE RECIPES */
 
         KNIFE.add(new KnifeRecipe("rock", 1, new ItemStack(ModItems.FLINT_SHARD)));
         KNIFE.add(new KnifeRecipe(new ItemStack(Items.FLINT), new ItemStack(ModItems.FLINT_SHARD, 2)));
@@ -132,27 +107,27 @@ public final class ModRecipes
             }
         }
 
-        if (ModConfig.TOOLS.enableTinTools)
+        if (Config.TOOLS.enableTinTools)
         {
             registerToolRecipes(r, Metal.TIN);
         }
 
-        if (ModConfig.TOOLS.enableCopperTools)
+        if (Config.TOOLS.enableCopperTools)
         {
             registerToolRecipes(r, Metal.COPPER);
         }
 
-        if (ModConfig.TOOLS.enableBronzeTools)
+        if (Config.TOOLS.enableBronzeTools)
         {
             registerToolRecipes(r, Metal.BRONZE);
         }
 
-        if (ModConfig.TOOLS.enableSteelTools)
+        if (Config.TOOLS.enableSteelTools)
         {
             registerToolRecipes(r, Metal.STEEL);
         }
 
-        if (ModConfig.GENERAL.replaceVanillaRecipes)
+        if (Config.GENERAL.replaceVanillaRecipes)
         {
             remove(r, "wooden_pickaxe");
             remove(r, "wooden_shovel");
@@ -197,5 +172,5 @@ public final class ModRecipes
     {
         registry.remove(new ResourceLocation("minecraft:" + name));
     }
-
+*/
 }

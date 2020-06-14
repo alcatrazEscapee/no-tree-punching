@@ -6,25 +6,11 @@
 
 package com.alcatrazescapee.notreepunching.world;
 
-import java.util.Random;
-import java.util.Set;
 
-import com.google.common.collect.Sets;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraftforge.fml.common.IWorldGenerator;
-
-import com.alcatrazescapee.core.util.CoreHelpers;
-import com.alcatrazescapee.notreepunching.ModConfig;
-import com.alcatrazescapee.notreepunching.common.blocks.LooseRockBlock;
-
-public class WorldGenRocks implements IWorldGenerator
+// todo: convert to feature
+public class WorldGenRocks
 {
+    /*
     private static final Set<Material> MATERIALS = Sets.newHashSet(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.GOURD, Material.SNOW);
 
     @Override
@@ -58,4 +44,5 @@ public class WorldGenRocks implements IWorldGenerator
             }
         }
     }
+    */
 }
