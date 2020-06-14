@@ -61,14 +61,10 @@ public class LooseRockBlock extends Block
     @SuppressWarnings("deprecation")
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
     {
-        if (Config.BALANCE.canPickUpRocks)
-        {
-            ItemStack stack = getPickBlock(state, hit, worldIn, pos, player);
-            ItemHandlerHelper.giveItemToPlayer(player, stack);
-            worldIn.destroyBlock(pos, false);
-            return ActionResultType.SUCCESS;
-        }
-        return ActionResultType.PASS;
+        ItemStack stack = getPickBlock(state, hit, worldIn, pos, player);
+        ItemHandlerHelper.giveItemToPlayer(player, stack);
+        worldIn.destroyBlock(pos, false);
+        return ActionResultType.SUCCESS;
     }
 
     @Override

@@ -9,6 +9,7 @@ package com.alcatrazescapee.notreepunching.common.items;
 import java.util.List;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.block.CampfireBlock;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.LivingEntity;
@@ -60,8 +61,8 @@ public class FireStarterItem extends TieredItem
                     CoreHelpers.damageItem(player, player.getActiveHand(), stack, 1);
                     List<ItemEntity> entities = worldIn.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos.up(), pos.add(1, 2, 1)));
 
-                    // Require 1 log, 3 kindling. Tinder is optional but makes it more efficient
-                    int tinder = 3, logs = 1, kindling = 3;
+                    // Require 1 log, 2 kindling and 3 tinder
+                    int logs = 0, kindling = 0, tinder = 0;
 
                     for (ItemEntity drop : entities)
                     {
@@ -79,15 +80,16 @@ public class FireStarterItem extends TieredItem
                             tinder += dropStack.getCount();
                         }
                     }
-                    if (tinder <= 0 && logs <= 0 && kindling <= 0)
+                    if (logs >= 1 && kindling >= 2 && tinder >= 3)
                     {
                         // Commence Fire pit making
-                        worldIn.setBlockState(pos.up(), Blocks.CAMPFIRE.getDefaultState());
+                        worldIn.setBlockState(pos.up(), Blocks.CAMPFIRE.getDefaultState().with(CampfireBlock.LIT, true));
+                        // ... well, that was easier than expected
                     }
                     else
                     {
                         // No fire pit to make, try light a fire
-                        if (random.nextFloat() < Config.BALANCE.fireStarterFireStartChance)
+                        if (random.nextFloat() < Config.SERVER.fireStarterFireStartChance.get())
                         {
                             worldIn.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
                         }

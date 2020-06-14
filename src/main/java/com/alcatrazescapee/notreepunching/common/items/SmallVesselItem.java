@@ -7,22 +7,31 @@
 package com.alcatrazescapee.notreepunching.common.items;
 
 import java.util.List;
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 
-import com.alcatrazescapee.notreepunching.NoTreePunching;
-import com.alcatrazescapee.notreepunching.client.ModGuiHandler;
+import com.alcatrazescapee.core.common.inventory.ItemStackItemHandler;
 import com.alcatrazescapee.notreepunching.common.ModItemGroups;
+
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public class SmallVesselItem extends Item
 {
@@ -32,48 +41,61 @@ public class SmallVesselItem extends Item
     }
 
     @Override
-    @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
         ItemStack stack = playerIn.getHeldItem(handIn);
-        if (!worldIn.isRemote)
+        if (playerIn instanceof ServerPlayerEntity && !playerIn.isSneaking())
         {
-            if (!playerIn.isSneaking())
-            {
-                playerIn.openGui(NoTreePunching.getInstance(), ModGuiHandler.SMALL_VESSEL, worldIn, 0, 0, 0);
-            }
+            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+                if (handler instanceof INamedContainerProvider)
+                {
+                    NetworkHooks.openGui((ServerPlayerEntity) playerIn, (INamedContainerProvider) handler);
+                }
+            });
         }
-        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+        return new ActionResult<>(ActionResultType.SUCCESS, stack);
     }
 
     @Nullable
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt)
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
     {
-        return new ItemHandlerItem(nbt, 4);
+        return new ItemStackItemHandler(stack, 9);
     }
 
-    @SideOnly(Side.CLIENT)
+    /**
+     * Copy pasta from {@link net.minecraft.block.ShulkerBoxBlock#addInformation(ItemStack, IBlockReader, List, ITooltipFlag)}
+     */
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
     {
-        IItemHandler cap = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-        if (cap != null)
+        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY != null)
         {
-            boolean flag = true;
-            for (int i = 0; i < cap.getSlots(); i++)
-            {
-                ItemStack stack1 = cap.getStackInSlot(i);
-                if (!stack1.isEmpty())
+            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(handler -> {
+                int displayCount = 0;
+                int totalCount = 0;
+
+                for (int i = 0; i < handler.getSlots(); i++)
                 {
-                    if (flag)
+                    ItemStack contentStack = handler.getStackInSlot(i);
+                    if (!contentStack.isEmpty())
                     {
-                        tooltip.add(TextFormatting.GREEN + "Contents:");
-                        flag = false;
+                        ++totalCount;
+                        if (displayCount <= 4)
+                        {
+                            ++displayCount;
+                            ITextComponent itextcomponent = contentStack.getDisplayName().deepCopy();
+                            itextcomponent.appendText(" x").appendText(String.valueOf(contentStack.getCount()));
+                            tooltip.add(itextcomponent);
+                        }
                     }
-                    tooltip.add(String.format(TextFormatting.GRAY + "%dx %s", stack1.getCount(), stack1.getDisplayName()));
                 }
-            }
+
+                if (totalCount > displayCount)
+                {
+                    tooltip.add((new TranslationTextComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount)).applyTextStyle(TextFormatting.ITALIC));
+                }
+            });
         }
     }
 }

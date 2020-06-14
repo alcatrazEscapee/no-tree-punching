@@ -45,6 +45,7 @@ public final class Config
         public final ForgeConfigSpec.BooleanValue noBlockDropsWithoutCorrectTool;
         public final ForgeConfigSpec.DoubleValue flintKnappingConsumeChance;
         public final ForgeConfigSpec.DoubleValue flintKnappingSuccessChance;
+        public final ForgeConfigSpec.DoubleValue fireStarterFireStartChance;
 
         private ServerConfig(ForgeConfigSpec.Builder builder)
         {
@@ -53,6 +54,8 @@ public final class Config
 
             flintKnappingConsumeChance = builder.comment("The chance to consume a piece of flint when knapping").defineInRange("flintKnappingConsumeChance", 0.4, 0, 1);
             flintKnappingSuccessChance = builder.comment("The chance to produce flint shards if a piece of flint has been consumed while knapping").defineInRange("flintKnappingSuccessChance", 0.7, 0, 1);
+
+            fireStarterFireStartChance = builder.comment("The chance for a fire starter to start fires").defineInRange("fireStarterFireStartChance", 0.3, 0, 1);
         }
     }
 

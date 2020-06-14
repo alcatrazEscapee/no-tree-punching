@@ -72,15 +72,19 @@ public class CeramicBucketItem extends Item
     @Override
     public ITextComponent getDisplayName(ItemStack stack)
     {
-        return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).map(handler -> {
-            if (handler instanceof FluidHandlerItemStackSimple)
-            {
-                ITextComponent fluidName = ((FluidHandlerItemStackSimple) handler).getFluid().getDisplayName();
-                fluidName.appendSibling(super.getDisplayName(stack));
-                return fluidName;
-            }
-            return super.getDisplayName(stack);
-        }).orElseThrow(() -> new IllegalStateException("No fluid handler on ceramic bucket?"));
+        if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null)
+        {
+            return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).map(handler -> {
+                if (handler instanceof FluidHandlerItemStackSimple)
+                {
+                    ITextComponent fluidName = ((FluidHandlerItemStackSimple) handler).getFluid().getDisplayName();
+                    fluidName.appendSibling(super.getDisplayName(stack));
+                    return fluidName;
+                }
+                return super.getDisplayName(stack);
+            }).orElseThrow(() -> new IllegalStateException("No fluid handler on ceramic bucket?"));
+        }
+        return super.getDisplayName(stack);
     }
 
     @Override

@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
+import com.alcatrazescapee.notreepunching.common.container.ModContainers;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.common.tile.ModTileEntities;
 import com.alcatrazescapee.notreepunching.util.MaterialHacks;
@@ -44,6 +45,7 @@ public final class NoTreePunching
         ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModTileEntities.TILE_ENTITIES.register(modEventBus);
+        ModContainers.CONTAINERS.register(modEventBus);
 
         ModSounds.SOUNDS.register(modEventBus);
 

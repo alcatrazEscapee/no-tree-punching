@@ -17,7 +17,7 @@ public class ModTileEntities
 {
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, MOD_ID);
 
-    public static final RegistryObject<TileEntityType<LargeVesselTileEntity>> LARGE_VESSEL = register("large_Vessel", LargeVesselTileEntity::new, ModBlocks.CERAMIC_LARGE_VESSEL);
+    public static final RegistryObject<TileEntityType<LargeVesselTileEntity>> LARGE_VESSEL = register("large_vessel", LargeVesselTileEntity::new, ModBlocks.CERAMIC_LARGE_VESSEL);
 
     @SuppressWarnings({"ConstantConditions", "SameParameterValue"})
     private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String name, Supplier<T> tileEntityFactory, Supplier<? extends Block> blockFactory)

@@ -8,5 +8,5 @@ import com.alcatrazescapee.core.util.ModItemTier;
 
 public final class ModTiers
 {
-    public static final IItemTier FLINT = new ModItemTier(0, 45, 2.5f, 0.5f, 0, () -> Ingredient.fromItems(Items.FLINT));
+    public static final IItemTier FLINT = new ModItemTier(0, 60, 2.5f, 0.5f, 0, () -> Ingredient.fromItems(Items.FLINT));
 }
