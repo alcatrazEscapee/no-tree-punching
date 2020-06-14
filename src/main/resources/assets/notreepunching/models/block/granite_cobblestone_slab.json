@@ -1,0 +1,9 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "parent": "block/slab",
+  "textures": {
+    "bottom": "notreepunching:block/granite_cobblestone",
+    "top": "notreepunching:block/granite_cobblestone",
+    "side": "notreepunching:block/granite_cobblestone"
+  }
+}

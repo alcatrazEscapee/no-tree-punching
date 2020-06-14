@@ -1,0 +1,7 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "parent": "notreepunching:block/loose_rock",
+  "textures": {
+    "all": "notreepunching:block/sandstone_loose_rock"
+  }
+}

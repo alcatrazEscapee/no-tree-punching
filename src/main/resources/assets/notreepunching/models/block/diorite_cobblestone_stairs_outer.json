@@ -1,0 +1,9 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "parent": "block/outer_stairs",
+  "textures": {
+    "bottom": "notreepunching:block/diorite_cobblestone",
+    "top": "notreepunching:block/diorite_cobblestone",
+    "side": "notreepunching:block/diorite_cobblestone"
+  }
+}

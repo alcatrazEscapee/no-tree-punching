@@ -8,10 +8,8 @@
 *.iml
 *.ipr
 *.iws
-*.iml
 
 # Python
-*.py
 *.pyc
 __pycache__/
 
