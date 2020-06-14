@@ -1,7 +1,6 @@
 /*
- *  Part of the No Tree Punching Mod by alcatrazEscapee
- *  Work under Copyright. Licensed under the GPL-3.0.
- *  See the project LICENSE.md for more information.
+ * Part of the No Tree Punching mod by AlcatrazEscapee.
+ * Copyright (c) 2019. See the project LICENSE.md for details.
  */
 
 package com.alcatrazescapee.notreepunching.common.items;
@@ -57,13 +56,6 @@ public class SmallVesselItem extends Item
         return new ActionResult<>(ActionResultType.SUCCESS, stack);
     }
 
-    @Nullable
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
-    {
-        return new SmallVesselItemStackHandler(stack, 9);
-    }
-
     /**
      * Copy pasta from {@link net.minecraft.block.ShulkerBoxBlock#addInformation(ItemStack, IBlockReader, List, ITooltipFlag)}
      */
@@ -98,6 +90,13 @@ public class SmallVesselItem extends Item
                 }
             });
         }
+    }
+
+    @Nullable
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
+    {
+        return new SmallVesselItemStackHandler(stack, 9);
     }
 
     static final class SmallVesselItemStackHandler extends ItemStackItemHandler

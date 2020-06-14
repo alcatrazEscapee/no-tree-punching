@@ -1,7 +1,6 @@
 /*
- *  Part of the No Tree Punching Mod by alcatrazEscapee
- *  Work under Copyright. Licensed under the GPL-3.0.
- *  See the project LICENSE.md for more information.
+ * Part of the No Tree Punching mod by AlcatrazEscapee.
+ * Copyright (c) 2019. See the project LICENSE.md for details.
  */
 
 package com.alcatrazescapee.notreepunching;
@@ -99,24 +98,24 @@ public final class Config
         {
             // Build the list of predicates, then the cached only has to do item equality and tag set contains
             List<Predicate<ItemStack>> predicates = blacklist.stream()
-                .map(((Function<String, Predicate<ItemStack>>)(s -> {
-                ResourceLocation id = new ResourceLocation(s);
-                if (ForgeRegistries.ITEMS.containsKey(id))
-                {
-                    Item item = ForgeRegistries.ITEMS.getValue(id);
-                    return stack -> stack.getItem() == item;
-                }
-                else
-                {
-                    Tag<Item> tag = ItemTags.getCollection().get(id);
-                    if (tag != null)
+                .map(((Function<String, Predicate<ItemStack>>) (s -> {
+                    ResourceLocation id = new ResourceLocation(s);
+                    if (ForgeRegistries.ITEMS.containsKey(id))
                     {
-                        return stack -> tag.contains(stack.getItem());
+                        Item item = ForgeRegistries.ITEMS.getValue(id);
+                        return stack -> stack.getItem() == item;
                     }
-                }
-                LOGGER.warn("Invalid item or tag in item blacklist: {}", s);
-                return null;
-            }))).filter(Objects::nonNull).collect(Collectors.toList());
+                    else
+                    {
+                        Tag<Item> tag = ItemTags.getCollection().get(id);
+                        if (tag != null)
+                        {
+                            return stack -> tag.contains(stack.getItem());
+                        }
+                    }
+                    LOGGER.warn("Invalid item or tag in item blacklist: {}", s);
+                    return null;
+                }))).filter(Objects::nonNull).collect(Collectors.toList());
             return stackIn -> predicates.stream().anyMatch(predicate -> predicate.test(stackIn));
         }
 

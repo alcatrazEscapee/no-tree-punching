@@ -1,7 +1,6 @@
 /*
- *  Part of the No Tree Punching Mod by alcatrazEscapee
- *  Work under Copyright. Licensed under the GPL-3.0.
- *  See the project LICENSE.md for more information.
+ * Part of the No Tree Punching mod by AlcatrazEscapee.
+ * Copyright (c) 2019. See the project LICENSE.md for details.
  */
 
 package com.alcatrazescapee.notreepunching.common.items;
@@ -17,7 +16,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
 import net.minecraftforge.common.ToolType;
 
 import com.alcatrazescapee.notreepunching.common.ModItemGroups;
@@ -34,12 +32,6 @@ public class MattockItem extends ToolItem
     {
         Material material = state.getMaterial();
         return material != Material.WOOD && material != Material.PLANTS && material != Material.TALL_PLANTS && material != Material.BAMBOO ? super.getDestroySpeed(stack, state) : this.efficiency;
-    }
-
-    public boolean canHarvestBlock(BlockState blockIn)
-    {
-        Block block = blockIn.getBlock();
-        return block == Blocks.SNOW || block == Blocks.SNOW_BLOCK;
     }
 
     /**
@@ -73,6 +65,12 @@ public class MattockItem extends ToolItem
         return result;
     }
 
+    public boolean canHarvestBlock(BlockState blockIn)
+    {
+        Block block = blockIn.getBlock();
+        return block == Blocks.SNOW || block == Blocks.SNOW_BLOCK;
+    }
+
     /**
      * Copy pasta from {@link AxeItem}
      */
@@ -83,12 +81,15 @@ public class MattockItem extends ToolItem
         BlockPos blockpos = context.getPos();
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = AxeItem.BLOCK_STRIPPING_MAP.get(blockstate.getBlock());
-        if (block != null) {
+        if (block != null)
+        {
             PlayerEntity playerentity = context.getPlayer();
             world.playSound(playerentity, blockpos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            if (!world.isRemote) {
+            if (!world.isRemote)
+            {
                 world.setBlockState(blockpos, block.getDefaultState().with(RotatedPillarBlock.AXIS, blockstate.get(RotatedPillarBlock.AXIS)), 11);
-                if (playerentity != null) {
+                if (playerentity != null)
+                {
                     context.getItem().damageItem(1, playerentity, (p_220040_1_) -> {
                         p_220040_1_.sendBreakAnimation(context.getHand());
                     });
@@ -96,7 +97,9 @@ public class MattockItem extends ToolItem
             }
 
             return ActionResultType.SUCCESS;
-        } else {
+        }
+        else
+        {
             return ActionResultType.PASS;
         }
     }

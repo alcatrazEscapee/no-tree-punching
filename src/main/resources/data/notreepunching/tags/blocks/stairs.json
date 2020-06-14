@@ -1,0 +1,9 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "replace": false,
+  "values": [
+    "notreepunching:granite_cobblestone_stairs",
+    "notreepunching:andesite_cobblestone_stairs",
+    "notreepunching:diorite_cobblestone_stairs"
+  ]
+}

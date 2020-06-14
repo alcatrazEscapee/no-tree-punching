@@ -1,7 +1,6 @@
 /*
- *  Part of the No Tree Punching Mod by alcatrazEscapee
- *  Work under Copyright. Licensed under the GPL-3.0.
- *  See the project LICENSE.md for more information.
+ * Part of the No Tree Punching mod by AlcatrazEscapee.
+ * Copyright (c) 2019. See the project LICENSE.md for details.
  */
 
 package com.alcatrazescapee.notreepunching.common.items;
@@ -21,7 +20,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple;
@@ -34,47 +33,6 @@ public class CeramicBucketItem extends Item
     public CeramicBucketItem(Properties properties)
     {
         super(properties);
-    }
-
-    @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items)
-    {
-        if (isInGroup(group))
-        {
-            items.add(new ItemStack(this));
-            for (Fluid fluid : ForgeRegistries.FLUIDS.getValues())
-            {
-                if (ModTags.Fluids.CERAMIC_BUCKETABLE.contains(fluid))
-                {
-                    ItemStack stack = new ItemStack(this);
-                    stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(handler -> {
-                        FluidStack fluidStack = new FluidStack(fluid, 1000);
-                        if (handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE) > 0)
-                        {
-                            items.add(stack);
-                        }
-                    });
-                }
-            }
-        }
-    }
-
-    @Override
-    public ITextComponent getDisplayName(ItemStack stack)
-    {
-        if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null)
-        {
-            return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).map(handler -> {
-                if (handler instanceof FluidHandlerItemStackSimple)
-                {
-                    ITextComponent fluidName = ((FluidHandlerItemStackSimple) handler).getFluid().getDisplayName();
-                    fluidName.appendSibling(super.getDisplayName(stack));
-                    return fluidName;
-                }
-                return super.getDisplayName(stack);
-            }).orElseThrow(() -> new IllegalStateException("No fluid handler on ceramic bucket?"));
-        }
-        return super.getDisplayName(stack);
     }
 
     @Override
@@ -135,6 +93,47 @@ public class CeramicBucketItem extends Item
             return new ActionResult<>(EnumActionResult.PASS, heldItem);
         }*/
         return new ActionResult<>(ActionResultType.PASS, playerIn.getHeldItem(handIn));
+    }
+
+    @Override
+    public ITextComponent getDisplayName(ItemStack stack)
+    {
+        if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null)
+        {
+            return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).map(handler -> {
+                if (handler instanceof FluidHandlerItemStackSimple)
+                {
+                    ITextComponent fluidName = ((FluidHandlerItemStackSimple) handler).getFluid().getDisplayName();
+                    fluidName.appendSibling(super.getDisplayName(stack));
+                    return fluidName;
+                }
+                return super.getDisplayName(stack);
+            }).orElseThrow(() -> new IllegalStateException("No fluid handler on ceramic bucket?"));
+        }
+        return super.getDisplayName(stack);
+    }
+
+    @Override
+    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items)
+    {
+        if (isInGroup(group))
+        {
+            items.add(new ItemStack(this));
+            for (Fluid fluid : ForgeRegistries.FLUIDS.getValues())
+            {
+                if (ModTags.Fluids.CERAMIC_BUCKETABLE.contains(fluid))
+                {
+                    ItemStack stack = new ItemStack(this);
+                    stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(handler -> {
+                        FluidStack fluidStack = new FluidStack(fluid, 1000);
+                        if (handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE) > 0)
+                        {
+                            items.add(stack);
+                        }
+                    });
+                }
+            }
+        }
     }
 
     @Override

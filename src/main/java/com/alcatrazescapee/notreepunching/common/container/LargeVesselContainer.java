@@ -1,7 +1,6 @@
 /*
- *  Part of the No Tree Punching Mod by alcatrazEscapee
- *  Work under Copyright. Licensed under the GPL-3.0.
- *  See the project LICENSE.md for more information.
+ * Part of the No Tree Punching mod by AlcatrazEscapee.
+ * Copyright (c) 2019. See the project LICENSE.md for details.
  */
 
 package com.alcatrazescapee.notreepunching.common.container;
@@ -9,9 +8,7 @@ package com.alcatrazescapee.notreepunching.common.container;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 
 import com.alcatrazescapee.core.common.container.DeviceContainer;
 import com.alcatrazescapee.core.common.inventory.SlotCallback;

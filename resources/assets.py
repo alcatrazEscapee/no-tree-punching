@@ -1,9 +1,10 @@
+#  Part of the No Tree Punching mod by AlcatrazEscapee.
+#  Copyright (c) 2019. See the project LICENSE.md for details.
 
 from mcresources import ResourceManager
 
 
 def generate(rm: ResourceManager):
-
     # First
     rm.lang({
         'itemGroup.notreepunching.items': 'No Tree Punching'
@@ -70,7 +71,6 @@ def generate(rm: ResourceManager):
     for item in ('flint_shard', 'plant_fiber', 'plant_string', 'clay_brick', 'ceramic_small_vessel', 'clay_tool', 'fire_starter'):
         rm.item_model(item) \
             .with_lang(lang(item))
-
 
     # todo: ceramic bucket
 

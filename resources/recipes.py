@@ -1,10 +1,10 @@
+#  Part of the No Tree Punching mod by AlcatrazEscapee.
+#  Copyright (c) 2019. See the project LICENSE.md for details.
 
 from mcresources import ResourceManager
-from mcresources.utils import item_stack
 
 
 def generate(rm: ResourceManager):
-
     # Loose rocks
     rm.crafting_shaped('cobblestone_from_rocks', ('XX', 'XX'), {'X': 'notreepunching:stone_loose_rock'}, 'minecraft:cobblestone').with_advancement('notreepunching:stone_loose_rock')
     for stone in ('andesite', 'diorite', 'granite'):
@@ -22,10 +22,7 @@ def generate(rm: ResourceManager):
         rm.crafting_shaped('%s_cobblestone_wall' % stone, ('XXX', 'XXX'), {'X': cobble}, (6, 'notreepunching:%s_cobblestone_wall' % stone)).with_advancement(cobble)
 
         # stone cutting
-        rm.recipe(('stonecutting', '%s_cobblestone_stairs_from_cobblestone' % stone), 'minecraft:stonecutting', {
-            'ingredient': item_stack()
-        })
-
+        # todo: stonecutting recipes
 
     # Clay tool
     rm.crafting_shapeless('clay_brick_from_balls', ('notreepunching:clay_tool', 'minecraft:clay_ball'), 'notreepunching:clay_brick').with_advancement('minecraft:clay_ball')

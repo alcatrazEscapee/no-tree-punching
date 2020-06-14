@@ -1,7 +1,6 @@
 /*
- *  Part of the No Tree Punching Mod by alcatrazEscapee
- *  Work under Copyright. Licensed under the GPL-3.0.
- *  See the project LICENSE.md for more information.
+ * Part of the No Tree Punching mod by AlcatrazEscapee.
+ * Copyright (c) 2019. See the project LICENSE.md for details.
  */
 
 package com.alcatrazescapee.notreepunching.common.items;
@@ -12,7 +11,10 @@ import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTier;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.TieredItem;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -71,9 +73,9 @@ public class ClayToolItem extends TieredItem
     }
 
     @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
+    public ItemStack getContainerItem(ItemStack itemStack)
     {
-        return enchantment.type == EnchantmentType.BREAKABLE;
+        return CoreHelpers.damageItem(itemStack.copy(), 1);
     }
 
     @Override
@@ -83,8 +85,8 @@ public class ClayToolItem extends TieredItem
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack itemStack)
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
-        return CoreHelpers.damageItem(itemStack.copy(), 1);
+        return enchantment.type == EnchantmentType.BREAKABLE;
     }
 }
