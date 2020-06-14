@@ -26,6 +26,7 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import com.alcatrazescapee.core.common.block.DeviceBlock;
+import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.common.tile.LargeVesselTileEntity;
 
 public class LargeVesselBlock extends DeviceBlock
@@ -41,10 +42,9 @@ public class LargeVesselBlock extends DeviceBlock
     @SuppressWarnings("deprecation")
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
     {
-        if (player instanceof ServerPlayerEntity && player.isSneaking())
+        if (player instanceof ServerPlayerEntity && !player.isSneaking())
         {
-            // todo: container?
-            NetworkHooks.openGui((ServerPlayerEntity) player, null, pos);
+            CoreHelpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> NetworkHooks.openGui((ServerPlayerEntity) player, tile, pos));
         }
         return ActionResultType.SUCCESS;
     }

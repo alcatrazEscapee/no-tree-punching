@@ -18,6 +18,7 @@ import java.util.function.Supplier;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
+@SuppressWarnings("unused")
 public final class ModItems
 {
     public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, MOD_ID);
@@ -33,9 +34,9 @@ public final class ModItems
 
     public static final RegistryObject<TieredItem> FLINT_AXE = register("flint_axe", () -> new AxeItem(ModTiers.FLINT, 3.0f, -3.3f, new Item.Properties().group(ModItemGroups.ITEMS)));
     public static final RegistryObject<TieredItem> FLINT_PICKAXE = register("flint_pickaxe", () -> new PickaxeItem(ModTiers.FLINT, 1, -2.8f, new Item.Properties().group(ModItemGroups.ITEMS)));
-    public static final RegistryObject<TieredItem> FLINT_HOE = register("flint_hoe", () -> new HoeItem(ModTiers.FLINT, -4.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<TieredItem> FLINT_HOE = register("flint_hoe", () -> new HoeItem(ModTiers.FLINT, -3.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
     public static final RegistryObject<TieredItem> FLINT_SHOVEL = register("flint_shovel", () -> new ShovelItem(ModTiers.FLINT, -1.0f, -3.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
-    public static final RegistryObject<SwordItem> MACUAHUITL = register("machuhuitl", () -> new SwordItem(ModTiers.FLINT, 3, -2.4f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<SwordItem> MACUAHUITL = register("macuahuitl", () -> new SwordItem(ModTiers.FLINT, 3, -2.4f, new Item.Properties().group(ModItemGroups.ITEMS)));
 
     public static final RegistryObject<KnifeItem> FLINT_KNIFE = register("flint_knife", () -> new KnifeItem(ModTiers.FLINT, 1, -2.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
     public static final RegistryObject<KnifeItem> IRON_KNIFE = register("iron_knife", () -> new KnifeItem(ItemTier.IRON, 1, -2.2f, new Item.Properties().group(ModItemGroups.ITEMS)));

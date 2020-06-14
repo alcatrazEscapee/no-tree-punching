@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
+@SuppressWarnings("unused")
 public final class ModBlocks
 {
     public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, MOD_ID);

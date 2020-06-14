@@ -8,6 +8,7 @@ package com.alcatrazescapee.notreepunching;
 
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -28,12 +29,6 @@ public final class NoTreePunching
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @Deprecated
-    public static Logger getLog()
-    {
-        return LOGGER;
-    }
-
     public NoTreePunching()
     {
         LOGGER.info("Hello No Tree Punching!");
@@ -49,34 +44,25 @@ public final class NoTreePunching
 
         ModSounds.SOUNDS.register(modEventBus);
 
-        //NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
-
-        // Pre-Init Managers
-        //CapabilityPlayerItem.preInit();
-        //ModBlocks.preInit();
-        //ModItems.preInit();
-        //ModSounds.preInit();
+        Config.init();
     }
 
     @SubscribeEvent
     public void setup(FMLCommonSetupEvent event)
     {
+        LOGGER.info("Setup");
+
         MaterialHacks.setup();
 
         // World gen
+        // todo: world generation register
         //GameRegistry.registerWorldGenerator(new WorldGenRocks(), 3);
+    }
 
-        // Init Managers
-        //ModRecipes.init();
-        //ModItems.init();
-
-        // Post-Init Managers
-        //HarvestBlockHandler.postInit();
-
-        //if (ModConfig.GENERAL.enableAdvancedRecipeReplacement)
-        //{
-        //    WoodRecipeHandler.postInit();
-        //}
-        //ModRecipes.postInit();
+    @SubscribeEvent
+    public void onConfigReload(ModConfig.Reloading event)
+    {
+        LOGGER.info("Config Reloading - Invalidating Caches");
+        Config.onConfigReloading();
     }
 }

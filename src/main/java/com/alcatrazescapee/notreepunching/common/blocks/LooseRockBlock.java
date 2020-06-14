@@ -24,15 +24,13 @@ import net.minecraft.world.World;
 
 import net.minecraftforge.items.ItemHandlerHelper;
 
-import com.alcatrazescapee.notreepunching.Config;
-
 public class LooseRockBlock extends Block
 {
     public static final VoxelShape SHAPE = makeCuboidShape(6, 0, 6, 10, 1, 10);
 
     public LooseRockBlock()
     {
-        super(Properties.create(Material.EARTH).sound(SoundType.STONE).hardnessAndResistance(0.15f));
+        super(Properties.create(Material.EARTH).sound(SoundType.STONE).hardnessAndResistance(0.15f).doesNotBlockMovement().notSolid());
     }
 
     @Override

@@ -22,7 +22,7 @@ public class LargeVesselContainer extends DeviceContainer<LargeVesselTileEntity>
 {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    protected LargeVesselContainer(LargeVesselTileEntity tile, PlayerInventory playerInventory, int windowId)
+    public LargeVesselContainer(LargeVesselTileEntity tile, PlayerInventory playerInventory, int windowId)
     {
         super(ModContainers.LARGE_VESSEL.get(), tile, playerInventory, windowId);
     }

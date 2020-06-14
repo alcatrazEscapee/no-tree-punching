@@ -29,6 +29,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import com.alcatrazescapee.core.common.inventory.ItemStackItemHandler;
+import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.ModItemGroups;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
@@ -60,7 +61,7 @@ public class SmallVesselItem extends Item
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
     {
-        return new ItemStackItemHandler(stack, 9);
+        return new SmallVesselItemStackHandler(stack, 9);
     }
 
     /**
@@ -96,6 +97,20 @@ public class SmallVesselItem extends Item
                     tooltip.add((new TranslationTextComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount)).applyTextStyle(TextFormatting.ITALIC));
                 }
             });
+        }
+    }
+
+    static final class SmallVesselItemStackHandler extends ItemStackItemHandler
+    {
+        SmallVesselItemStackHandler(ItemStack stack, int slots)
+        {
+            super(stack, slots);
+        }
+
+        @Override
+        public boolean isItemValid(int slot, ItemStack stack)
+        {
+            return !Config.SERVER.smallCeramicVesselBlacklist.get().test(stack);
         }
     }
 }
