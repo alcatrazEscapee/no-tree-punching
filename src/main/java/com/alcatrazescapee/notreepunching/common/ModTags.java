@@ -26,6 +26,8 @@ public final class ModTags
 
         public static final Tag<Item> FLINT_KNAPPABLE = create("flint_knappable");
 
+        public static final Tag<Item> KNIVES = create("knives");
+
         private static Tag<Item> create(String id)
         {
             return new ItemTags.Wrapper(new ResourceLocation(MOD_ID, id));

@@ -12,11 +12,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
+import net.minecraftforge.common.ToolType;
 
 import com.alcatrazescapee.core.util.CoreHelpers;
 
@@ -24,7 +23,7 @@ public class KnifeItem extends SwordItem
 {
     public KnifeItem(IItemTier tier, int attackDamageIn, float attackSpeedIn, Properties builder)
     {
-        super(tier, attackDamageIn, attackSpeedIn, builder.setNoRepair());
+        super(tier, attackDamageIn, attackSpeedIn, builder.setNoRepair().addToolType(ToolType.get("sword"), tier.getHarvestLevel()));
     }
 
     @Override
