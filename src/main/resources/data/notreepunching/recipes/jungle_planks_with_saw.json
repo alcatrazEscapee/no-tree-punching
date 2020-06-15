@@ -1,0 +1,20 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "W"
+  ],
+  "key": {
+    "S": {
+      "tag": "notreepunching:saws"
+    },
+    "W": {
+      "tag": "minecraft:jungle_logs"
+    }
+  },
+  "result": {
+    "count": 4,
+    "item": "minecraft:jungle_planks"
+  }
+}

@@ -24,12 +24,13 @@ def generate(rm: ResourceManager):
         for piece in ('stairs', 'slab', 'wall'):
             rm.block('%s_cobblestone_%s' % (stone, piece)) \
                 .with_lang(lang('%s cobblestone %s', stone, piece)) \
-                .with_tag(piece + ('s' if not piece.endswith('s') else ''))  # plural tag
+                .with_tag('minecraft:' + piece + ('s' if not piece.endswith('s') else ''))  # plural tag
 
     for stone in ('granite', 'andesite', 'diorite', 'stone', 'sandstone', 'red_sandstone'):
         rm.blockstate('%s_loose_rock' % stone) \
-            .with_block_model(textures='minecraft:%s' % stone, parent='notreepunching:block/loose_rock') \
+            .with_block_model(textures='minecraft:block/%s' % stone, parent='notreepunching:block/loose_rock') \
             .with_block_loot('notreepunching:%s_loose_rock' % stone) \
+            .with_tag('loose_rocks') \
             .with_lang(lang('%s loose rock', stone))
         # flat item model for the block item
         rm.item_model('%s_loose_rock' % stone)
@@ -37,7 +38,7 @@ def generate(rm: ResourceManager):
     # Pottery
     for pottery in ('worked', 'large_vessel', 'small_vessel', 'bucket', 'flower_pot'):
         block = rm.blockstate('clay_%s' % pottery) \
-            .with_block_model(textures='minecraft:clay', parent='notreepunching:block/pottery_%s' % pottery) \
+            .with_block_model(textures='minecraft:block/clay', parent='notreepunching:block/pottery_%s' % pottery) \
             .with_item_model() \
             .with_block_loot('notreepunching:clay_%s' % pottery)
         if pottery == 'worked':
@@ -59,7 +60,8 @@ def generate(rm: ResourceManager):
             .with_lang(lang('%s saw', tool)) \
             .with_tag('saws')
         rm.item_model('%s_knife' % tool) \
-            .with_lang(lang('%s knife', tool))
+            .with_lang(lang('%s knife', tool)) \
+            .with_tag('knives')
 
     # Flint
     for tool in ('axe', 'pickaxe', 'shovel', 'hoe', 'knife'):
@@ -67,12 +69,36 @@ def generate(rm: ResourceManager):
             .with_lang(lang('flint %s', tool))
     rm.item_model('macuahuitl') \
         .with_lang(lang('macuahuitl'))
+    rm.item('flint_knife').with_tag('knives')
 
     for item in ('flint_shard', 'plant_fiber', 'plant_string', 'clay_brick', 'ceramic_small_vessel', 'clay_tool', 'fire_starter'):
         rm.item_model(item) \
             .with_lang(lang(item))
 
-    # todo: ceramic bucket
+    # ceramic bucket, since it uses a very custom model
+    rm.data(('models', 'item', 'ceramic_bucket'), {
+        'parent': 'forge:item/default',
+        'textures': {
+            'base': 'notreepunching:item/ceramic_bucket',
+            'fluid': 'forge:item/mask/bucket_fluid_drip'
+        },
+        'loader': 'forge:bucket',
+        'fluid': 'empty'
+    }, root_domain='assets')
+    rm.item('ceramic_bucket').with_lang(lang('ceramic bucket'))
+
+    # Misc Tags
+    rm.item('plant_string').with_tag('string')
+    rm.item('minecraft:gravel').with_tag('always_breakable').with_tag('always_drops')
+    for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce'):
+        rm.item('minecraft:%s_leaves' % wood).with_tag('always_breakable').with_tag('always_drops')
+
+
+def generate_vanilla(rm: ResourceManager):
+    # Vanilla Tags
+    rm.item('flint').with_tag('notreepunching:flint_knappable')
+    for block in ('grass_block', 'dirt', 'coarse_dirt', 'gravel', 'sand', 'red_sand', 'terracotta', 'stone', 'andesite', 'diorite', 'granite', 'sandstone', 'red_sandstone', 'podzol'):
+        rm.block(block).with_tag('notreepunching:loose_rock_placeable_on')
 
 
 def lang(key: str, *args) -> str:

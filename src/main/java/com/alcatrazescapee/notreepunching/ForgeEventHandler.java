@@ -16,7 +16,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -38,10 +37,7 @@ public final class ForgeEventHandler
     @SubscribeEvent
     public static void onHarvestCheck(PlayerEvent.HarvestCheck event)
     {
-        if (Config.SERVER.noBlockDropsWithoutCorrectTool.get())
-        {
-            event.setCanHarvest(event.canHarvest() || MaterialHacks.canHarvest(event.getTargetBlock(), event.getPlayer()));
-        }
+        event.setCanHarvest(event.canHarvest() || MaterialHacks.canHarvest(event.getTargetBlock(), event.getPlayer()));
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
@@ -49,7 +45,8 @@ public final class ForgeEventHandler
     {
         if (Config.SERVER.noMiningWithoutCorrectTool.get() && !ModTags.Blocks.ALWAYS_BREAKABLE.contains(event.getState().getBlock()) && !MaterialHacks.canHarvest(event.getState(), event.getPlayer()))
         {
-            event.setNewSpeed(0);
+            // Everything except instant breaking things will take basically forever (if enabled)
+            event.setNewSpeed(Config.SERVER.doInstantBreakBlocksRequireTool.get() ? 0 : 1e-10f);
         }
     }
 

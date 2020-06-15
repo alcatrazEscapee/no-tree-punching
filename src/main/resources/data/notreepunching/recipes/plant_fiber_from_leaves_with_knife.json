@@ -1,0 +1,15 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "minecraft:leaves"
+    },
+    {
+      "tag": "notreepunching:knives"
+    }
+  ],
+  "result": {
+    "item": "notreepunching:plant_fiber"
+  }
+}

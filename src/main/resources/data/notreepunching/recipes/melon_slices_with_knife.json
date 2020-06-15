@@ -1,0 +1,16 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:melon"
+    },
+    {
+      "tag": "notreepunching:knives"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "minecraft:melon_slice"
+  }
+}

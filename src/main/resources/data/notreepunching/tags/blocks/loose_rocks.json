@@ -1,0 +1,12 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "replace": false,
+  "values": [
+    "notreepunching:granite_loose_rock",
+    "notreepunching:andesite_loose_rock",
+    "notreepunching:diorite_loose_rock",
+    "notreepunching:stone_loose_rock",
+    "notreepunching:sandstone_loose_rock",
+    "notreepunching:red_sandstone_loose_rock"
+  ]
+}

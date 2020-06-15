@@ -66,6 +66,7 @@ public final class Config
     {
         public final ForgeConfigSpec.BooleanValue noMiningWithoutCorrectTool;
         public final ForgeConfigSpec.BooleanValue noBlockDropsWithoutCorrectTool;
+        public final ForgeConfigSpec.BooleanValue doInstantBreakBlocksRequireTool;
         public final ForgeConfigSpec.DoubleValue flintKnappingConsumeChance;
         public final ForgeConfigSpec.DoubleValue flintKnappingSuccessChance;
         public final ForgeConfigSpec.DoubleValue fireStarterFireStartChance;
@@ -80,6 +81,7 @@ public final class Config
         {
             noMiningWithoutCorrectTool = builder.comment("Makes blocks take forever to mine if using the wrong tool").define("noMiningWithoutCorrectTool", true);
             noBlockDropsWithoutCorrectTool = builder.comment("Makes blocks not drop anything when broken with the wrong tool").define("noBlockDropsWithoutCorrectTool", true);
+            doInstantBreakBlocksRequireTool = builder.comment("Makes blocks that would otherwise be broken instantly unbreakable if using the wrong tool.").define("doInstantBreakBlocksRequireTool", false);
 
             flintKnappingConsumeChance = builder.comment("The chance to consume a piece of flint when knapping").defineInRange("flintKnappingConsumeChance", 0.4, 0, 1);
             flintKnappingSuccessChance = builder.comment("The chance to produce flint shards if a piece of flint has been consumed while knapping").defineInRange("flintKnappingSuccessChance", 0.7, 0, 1);

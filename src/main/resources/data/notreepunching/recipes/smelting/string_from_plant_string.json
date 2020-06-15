@@ -1,0 +1,10 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "notreepunching:plant_string"
+  },
+  "result": "minecraft:string",
+  "experience": 0.1,
+  "cookingtime": 200
+}

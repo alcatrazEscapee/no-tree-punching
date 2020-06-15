@@ -2,6 +2,6 @@
   "__comment__": "This file was automatically created by mcresources",
   "parent": "notreepunching:block/pottery_small_vessel",
   "textures": {
-    "all": "minecraft:clay"
+    "all": "minecraft:block/clay"
   }
 }

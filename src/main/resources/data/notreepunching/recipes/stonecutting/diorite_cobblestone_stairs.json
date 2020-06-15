@@ -1,0 +1,9 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "notreepunching:diorite_cobblestone"
+  },
+  "result": "notreepunching:diorite_cobblestone_stairs",
+  "count": 1
+}

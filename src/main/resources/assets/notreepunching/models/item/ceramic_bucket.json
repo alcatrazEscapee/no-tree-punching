@@ -1,0 +1,10 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "parent": "forge:item/default",
+  "textures": {
+    "base": "notreepunching:item/ceramic_bucket",
+    "fluid": "forge:item/mask/bucket_fluid_drip"
+  },
+  "loader": "forge:bucket",
+  "fluid": "empty"
+}

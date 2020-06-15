@@ -1,0 +1,19 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SW"
+  ],
+  "key": {
+    "S": {
+      "item": "notreepunching:flint_axe"
+    },
+    "W": {
+      "tag": "minecraft:spruce_logs"
+    }
+  },
+  "result": {
+    "count": 6,
+    "item": "minecraft:stick"
+  }
+}

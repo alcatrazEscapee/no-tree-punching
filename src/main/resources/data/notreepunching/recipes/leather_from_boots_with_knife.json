@@ -1,0 +1,16 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:leather_boots"
+    },
+    {
+      "tag": "notreepunching:knives"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "minecraft:leather"
+  }
+}

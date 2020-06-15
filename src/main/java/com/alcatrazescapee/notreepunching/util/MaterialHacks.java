@@ -47,10 +47,7 @@ public class MaterialHacks
     {
         ForgeRegistries.BLOCKS.getValues()
             .stream()
-            .flatMap(block -> block.getStateContainer()
-                .getValidStates()
-                .stream()
-            )
+            .flatMap(block -> block.getStateContainer().getValidStates().stream())
             .forEach(state -> {
                 Block block = state.getBlock();
                 Material material = state.getMaterial();
@@ -86,7 +83,7 @@ public class MaterialHacks
                 {
                     Field toolClasses = Item.class.getDeclaredField("toolClasses");
                     toolClasses.setAccessible(true);
-                    castReallyUnsafely(toolClasses.get(item)).put(SWORD, ((SwordItem) item).getTier().getHarvestLevel());
+                    castReallySafely(toolClasses.get(item)).put(SWORD, ((SwordItem) item).getTier().getHarvestLevel());
                 }
                 return Unit.INSTANCE;
             }, () -> "Failed to add the sword tool class to item: " + item.getRegistryName());
@@ -118,7 +115,6 @@ public class MaterialHacks
                 }
                 return player.inventory.canHarvestBlock(state);
             }
-            // No tool that can harvest this block, must always return true
         }
         return true;
     }
@@ -160,7 +156,7 @@ public class MaterialHacks
     }
 
     @SuppressWarnings("unchecked")
-    private static <K, V> Map<K, V> castReallyUnsafely(Object whatever)
+    private static <K, V> Map<K, V> castReallySafely(Object whatever)
     {
         return (Map<K, V>) whatever;
     }

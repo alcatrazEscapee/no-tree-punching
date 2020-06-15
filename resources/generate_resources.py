@@ -8,13 +8,17 @@ import recipes
 
 
 def main():
-    rm = ResourceManager('notreepunching', '../src/main/resources')
+    rm = ResourceManager('notreepunching', resource_dir='../src/main/resources')
+    rm_vanilla = ResourceManager(resource_dir='../src/main/resources')
     clean_generated_resources('../src/main/resources')
 
     assets.generate(rm)
+    assets.generate_vanilla(rm_vanilla)
     recipes.generate(rm)
+    recipes.generate_vanilla(rm_vanilla)
 
     rm.flush()
+    rm_vanilla.flush()
 
 
 if __name__ == '__main__':
