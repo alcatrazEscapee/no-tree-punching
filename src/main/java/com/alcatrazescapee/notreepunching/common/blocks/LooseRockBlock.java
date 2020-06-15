@@ -59,7 +59,7 @@ public class LooseRockBlock extends Block
     {
         ItemStack stack = getPickBlock(state, hit, worldIn, pos, player);
         ItemHandlerHelper.giveItemToPlayer(player, stack);
-        worldIn.destroyBlock(pos, false);
+        worldIn.removeBlock(pos, false);
         return ActionResultType.SUCCESS;
     }
 

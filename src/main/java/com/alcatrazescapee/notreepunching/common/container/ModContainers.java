@@ -18,7 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import com.alcatrazescapee.core.common.container.DeviceContainer;
 import com.alcatrazescapee.core.common.tile.InventoryTileEntity;
 import com.alcatrazescapee.core.util.CoreHelpers;
-import com.alcatrazescapee.notreepunching.common.tile.LargeVesselTileEntity;
+import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 

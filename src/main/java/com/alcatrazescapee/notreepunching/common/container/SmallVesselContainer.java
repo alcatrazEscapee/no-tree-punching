@@ -15,6 +15,7 @@ import com.alcatrazescapee.core.common.inventory.ISlotCallback;
 import com.alcatrazescapee.core.common.inventory.SlotCallback;
 import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
+import com.alcatrazescapee.notreepunching.common.items.SmallVesselItem;
 
 public class SmallVesselContainer extends ItemStackContainer
 {
@@ -29,11 +30,11 @@ public class SmallVesselContainer extends ItemStackContainer
     protected void addContainerSlots()
     {
         CoreHelpers.ifPresentOrElse(stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).filter(handler -> handler instanceof ISlotCallback), handler -> {
-            for (int x = 0; x < 3; x++)
+            for (int x = 0; x < SmallVesselItem.SLOT_COLUMNS; x++)
             {
-                for (int y = 0; y < 3; y++)
+                for (int y = 0; y < SmallVesselItem.SLOT_ROWS; y++)
                 {
-                    addSlot(new SlotCallback((ISlotCallback) handler, handler, x + 5 * y, 62 + x * 18, 20 + y * 18));
+                    addSlot(new SlotCallback((ISlotCallback) handler, handler, x + SmallVesselItem.SLOT_COLUMNS * y, 62 + x * 18, 20 + y * 18));
                 }
             }
         }, () -> LOGGER.warn("Missing item handler or incorrect subclass?"));

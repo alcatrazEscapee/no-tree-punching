@@ -23,9 +23,9 @@ import com.alcatrazescapee.notreepunching.common.ModItemGroups;
 
 public class MattockItem extends ToolItem
 {
-    public MattockItem(IItemTier tier, float attackDamageIn, float attackSpeedIn)
+    public MattockItem(IItemTier tier, float attackDamageIn, float attackSpeedIn, Properties builder)
     {
-        super(attackDamageIn, attackSpeedIn, tier, Sets.union(AxeItem.EFFECTIVE_ON, ShovelItem.EFFECTIVE_ON), new Properties().group(ModItemGroups.ITEMS).addToolType(ToolType.AXE, tier.getHarvestLevel()).addToolType(ToolType.SHOVEL, tier.getHarvestLevel()));
+        super(attackDamageIn, attackSpeedIn, tier, Sets.union(AxeItem.EFFECTIVE_ON, ShovelItem.EFFECTIVE_ON), builder.addToolType(ToolType.AXE, tier.getHarvestLevel()).addToolType(ToolType.SHOVEL, tier.getHarvestLevel()));
     }
 
     public float getDestroySpeed(ItemStack stack, BlockState state)

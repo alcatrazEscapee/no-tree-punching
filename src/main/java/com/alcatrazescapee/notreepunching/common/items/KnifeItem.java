@@ -18,48 +18,25 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 
+import com.alcatrazescapee.core.util.CoreHelpers;
+
 public class KnifeItem extends SwordItem
 {
     public KnifeItem(IItemTier tier, int attackDamageIn, float attackSpeedIn, Properties builder)
     {
-        super(tier, attackDamageIn, attackSpeedIn, builder);
+        super(tier, attackDamageIn, attackSpeedIn, builder.setNoRepair());
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
+    public boolean hasContainerItem(ItemStack stack)
     {
-        // Get Opposite Hand to Knife
-        Hand handOther = handIn == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND;
+        return true;
+    }
 
-        // Get Items in each hand:
-        ItemStack knifeStack = playerIn.getHeldItem(handIn);
-        ItemStack cutStack = playerIn.getHeldItem(handOther);
-
-        // todo: proper recipe handling
-        /*
-        KnifeRecipe recipe = ModRecipes.KNIFE.get(cutStack);
-        if (recipe != null)
-        {
-            if (!worldIn.isRemote)
-            {
-                for (ItemStack stack : recipe.getOutput())
-                {
-                    ItemHandlerHelper.giveItemToPlayer(playerIn, stack);
-                }
-                if (!playerIn.isCreative())
-                {
-                    CoreHelpers.damageItem(playerIn, handIn, knifeStack, 3);
-                    playerIn.setHeldItem(handOther, recipe.consumeInput(cutStack));
-                }
-            }
-
-            // Play a cool sound effect:
-            worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1.0F, 1.0F);
-            return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
-        }
-        */
-
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+    @Override
+    public ItemStack getContainerItem(ItemStack stack)
+    {
+        return CoreHelpers.damageItem(stack.copy(), 1);
     }
 
     /**

@@ -25,7 +25,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import com.alcatrazescapee.core.common.block.DeviceBlock;
 import com.alcatrazescapee.core.util.CoreHelpers;
-import com.alcatrazescapee.notreepunching.common.tile.LargeVesselTileEntity;
+import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
 
 public class LargeVesselBlock extends DeviceBlock
 {

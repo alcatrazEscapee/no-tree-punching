@@ -3,7 +3,7 @@
  * Copyright (c) 2019. See the project LICENSE.md for details.
  */
 
-package com.alcatrazescapee.notreepunching.common.tile;
+package com.alcatrazescapee.notreepunching.common.tileentity;
 
 import java.util.function.Supplier;
 

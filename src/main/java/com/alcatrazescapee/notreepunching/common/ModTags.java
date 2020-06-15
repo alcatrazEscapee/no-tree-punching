@@ -37,6 +37,8 @@ public final class ModTags
         public static final Tag<Block> ALWAYS_BREAKABLE = create("always_breakable");
         public static final Tag<Block> ALWAYS_DROPS = create("always_drops");
 
+        public static final Tag<Block> LOOSE_ROCK_PLACEABLE_ON = create("loose_rock_placeable_on");
+
         private static Tag<Block> create(String id)
         {
             return new BlockTags.Wrapper(new ResourceLocation(MOD_ID, id));

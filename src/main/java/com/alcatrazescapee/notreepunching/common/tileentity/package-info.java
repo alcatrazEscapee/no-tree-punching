@@ -5,7 +5,7 @@
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package com.alcatrazescapee.notreepunching.common.recipe;
+package com.alcatrazescapee.notreepunching.common.tileentity;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

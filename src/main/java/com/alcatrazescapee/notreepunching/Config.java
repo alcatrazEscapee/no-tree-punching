@@ -132,9 +132,13 @@ public final class Config
 
     public static final class CommonConfig
     {
+        public final ForgeConfigSpec.BooleanValue enableLooseRockSpawning;
+        public final ForgeConfigSpec.IntValue looseRockFrequency;
 
         private CommonConfig(ForgeConfigSpec.Builder builder)
         {
+            enableLooseRockSpawning = builder.comment("Enable loose rock spawning. Note: this requires a MC restart to take effect.").define("enableLooseRockSpawning", true);
+            looseRockFrequency = builder.comment("How common loose rocks are.  Note: this requires a MC restart to take effect.").defineInRange("looseRockFrequency", 12, 0, Integer.MAX_VALUE);
         }
     }
 }

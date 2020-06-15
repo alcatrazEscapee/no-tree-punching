@@ -26,6 +26,7 @@ import net.minecraftforge.fml.common.Mod;
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
+import com.alcatrazescapee.notreepunching.util.MaterialHacks;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
@@ -37,13 +38,16 @@ public final class ForgeEventHandler
     @SubscribeEvent
     public static void onHarvestCheck(PlayerEvent.HarvestCheck event)
     {
-        event.setCanHarvest(event.canHarvest() || ModTags.Blocks.ALWAYS_DROPS.contains(event.getTargetBlock().getBlock()));
+        if (Config.SERVER.noBlockDropsWithoutCorrectTool.get())
+        {
+            event.setCanHarvest(event.canHarvest() || MaterialHacks.canHarvest(event.getTargetBlock(), event.getPlayer()));
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void breakSpeed(PlayerEvent.BreakSpeed event)
     {
-        if (Config.SERVER.noMiningWithoutCorrectTool.get() && ModTags.Blocks.ALWAYS_BREAKABLE.contains(event.getState().getBlock()) && !ForgeHooks.canHarvestBlock(event.getState(), event.getPlayer(), event.getPlayer().getEntityWorld(), event.getPos()))
+        if (Config.SERVER.noMiningWithoutCorrectTool.get() && !ModTags.Blocks.ALWAYS_BREAKABLE.contains(event.getState().getBlock()) && !MaterialHacks.canHarvest(event.getState(), event.getPlayer()))
         {
             event.setNewSpeed(0);
         }

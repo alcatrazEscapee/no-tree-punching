@@ -10,7 +10,9 @@ import javax.annotation.Nullable;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -30,11 +32,14 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import com.alcatrazescapee.core.common.inventory.ItemStackItemHandler;
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.ModItemGroups;
+import com.alcatrazescapee.notreepunching.common.container.SmallVesselContainer;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public class SmallVesselItem extends Item
 {
+    public static final int SLOT_ROWS = 3, SLOT_COLUMNS = 3, SLOTS = SLOT_ROWS * SLOT_COLUMNS;
+
     public SmallVesselItem()
     {
         super(new Properties().group(ModItemGroups.ITEMS).maxStackSize(1));
@@ -96,10 +101,10 @@ public class SmallVesselItem extends Item
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
     {
-        return new SmallVesselItemStackHandler(stack, 9);
+        return new SmallVesselItemStackHandler(stack, SLOTS);
     }
 
-    static final class SmallVesselItemStackHandler extends ItemStackItemHandler
+    static final class SmallVesselItemStackHandler extends ItemStackItemHandler implements INamedContainerProvider
     {
         SmallVesselItemStackHandler(ItemStack stack, int slots)
         {
@@ -110,6 +115,18 @@ public class SmallVesselItem extends Item
         public boolean isItemValid(int slot, ItemStack stack)
         {
             return !Config.SERVER.smallCeramicVesselBlacklist.get().test(stack);
+        }
+
+        @Override
+        public ITextComponent getDisplayName()
+        {
+            return stack.getDisplayName();
+        }
+
+        @Override
+        public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity player)
+        {
+            return new SmallVesselContainer(windowId, playerInventory);
         }
     }
 }

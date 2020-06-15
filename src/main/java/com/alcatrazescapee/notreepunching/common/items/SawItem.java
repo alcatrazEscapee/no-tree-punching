@@ -14,9 +14,9 @@ import com.alcatrazescapee.notreepunching.common.ModItemGroups;
 
 public class SawItem extends AxeItem
 {
-    public SawItem(IItemTier tier, float attackDamageIn, float attackSpeedIn)
+    public SawItem(IItemTier tier, float attackDamageIn, float attackSpeedIn, Properties builder)
     {
-        super(tier, attackDamageIn, attackSpeedIn, new Properties().group(ModItemGroups.ITEMS).setNoRepair());
+        super(tier, attackDamageIn, attackSpeedIn, builder.setNoRepair());
     }
 
     @Override

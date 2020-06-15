@@ -42,13 +42,13 @@ public final class ModItems
     public static final RegistryObject<KnifeItem> GOLD_KNIFE = register("gold_knife", () -> new KnifeItem(ItemTier.GOLD, 1, -2.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
     public static final RegistryObject<KnifeItem> DIAMOND_KNIFE = register("diamond_knife", () -> new KnifeItem(ItemTier.DIAMOND, 1, -2.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
 
-    public static final RegistryObject<MattockItem> IRON_MATTOCK = register("iron_mattock", () -> new MattockItem(ItemTier.IRON, 0.5f, -3.0f));
-    public static final RegistryObject<MattockItem> GOLD_MATTOCK = register("gold_mattock", () -> new MattockItem(ItemTier.GOLD, 0.5f, -3.0f));
-    public static final RegistryObject<MattockItem> DIAMOND_MATTOCK = register("diamond_mattock", () -> new MattockItem(ItemTier.DIAMOND, 0.5f, -3.0f));
+    public static final RegistryObject<MattockItem> IRON_MATTOCK = register("iron_mattock", () -> new MattockItem(ItemTier.IRON, 0.5f, -3.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<MattockItem> GOLD_MATTOCK = register("gold_mattock", () -> new MattockItem(ItemTier.GOLD, 0.5f, -3.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<MattockItem> DIAMOND_MATTOCK = register("diamond_mattock", () -> new MattockItem(ItemTier.DIAMOND, 0.5f, -3.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
 
-    public static final RegistryObject<SawItem> IRON_SAW = register("iron_saw", () -> new SawItem(ItemTier.IRON, 3.0f, -3.2f));
-    public static final RegistryObject<SawItem> GOLD_SAW = register("gold_saw", () -> new SawItem(ItemTier.GOLD, 3.0f, -3.2f));
-    public static final RegistryObject<SawItem> DIAMOND_SAW = register("diamond_saw", () -> new SawItem(ItemTier.DIAMOND, 2.0f, -3.2f));
+    public static final RegistryObject<SawItem> IRON_SAW = register("iron_saw", () -> new SawItem(ItemTier.IRON, 3.0f, -3.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<SawItem> GOLD_SAW = register("gold_saw", () -> new SawItem(ItemTier.GOLD, 3.0f, -3.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<SawItem> DIAMOND_SAW = register("diamond_saw", () -> new SawItem(ItemTier.DIAMOND, 2.0f, -3.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
 
     private static RegistryObject<Item> register(String name)
     {

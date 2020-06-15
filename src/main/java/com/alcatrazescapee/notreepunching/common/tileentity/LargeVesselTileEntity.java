@@ -3,7 +3,7 @@
  * Copyright (c) 2019. See the project LICENSE.md for details.
  */
 
-package com.alcatrazescapee.notreepunching.common.tile;
+package com.alcatrazescapee.notreepunching.common.tileentity;
 
 import javax.annotation.Nullable;
 
@@ -22,11 +22,15 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public class LargeVesselTileEntity extends DeviceTileEntity
 {
+    public static final int SLOT_COLUMNS = 5;
+    public static final int SLOT_ROWS = 3;
+    public static final int SLOTS = SLOT_COLUMNS * SLOT_ROWS;
+
     private static final ITextComponent NAME = new TranslationTextComponent(MOD_ID + ".tile_entity.large_vessel");
 
     public LargeVesselTileEntity()
     {
-        super(ModTileEntities.LARGE_VESSEL.get(), 9, NAME);
+        super(ModTileEntities.LARGE_VESSEL.get(), SLOTS, NAME);
     }
 
     @Nullable
