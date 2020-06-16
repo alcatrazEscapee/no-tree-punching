@@ -3,14 +3,17 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "minecraft:flint"
+      "item": "minecraft:gravel"
     },
     {
-      "tag": "notreepunching:knives"
+      "item": "minecraft:gravel"
+    },
+    {
+      "item": "minecraft:gravel"
     }
   ],
   "result": {
     "count": 2,
-    "item": "notreepunching:flint_shard"
+    "item": "minecraft:flint"
   }
 }

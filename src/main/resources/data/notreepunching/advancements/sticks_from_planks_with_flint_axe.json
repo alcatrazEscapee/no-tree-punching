@@ -7,7 +7,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:spruce_planks"
+            "tag": "minecraft:planks"
           }
         ]
       }

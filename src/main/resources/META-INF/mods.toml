@@ -25,7 +25,7 @@ Long, multi-line description
     modId="forge"
     mandatory=true
     versionRange="[31,)"
-    ordering="NONE"
+    ordering="AFTER"
     side="BOTH"
 
 [[dependencies.notreepunching]]

@@ -7,7 +7,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:spruce_log"
+            "tag": "minecraft:logs"
           }
         ]
       }

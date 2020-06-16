@@ -7,7 +7,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:flint"
+            "item": "minecraft:gravel"
           }
         ]
       }
@@ -15,7 +15,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "notreepunching:flint_shard_from_flint_with_knife"
+        "recipe": "notreepunching:flint_from_gravel"
       }
     }
   },
@@ -27,7 +27,7 @@
   ],
   "rewards": {
     "recipes": [
-      "notreepunching:flint_shard_from_flint_with_knife"
+      "notreepunching:flint_from_gravel"
     ]
   }
 }

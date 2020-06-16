@@ -1,12 +1,9 @@
 #  Part of the No Tree Punching mod by AlcatrazEscapee.
 #  Copyright (c) 2019. See the project LICENSE.md for details.
 
+import mcresources.loot_tables as loot_tables
+import mcresources.utils as utils
 from mcresources import ResourceManager
-from mcresources.utils import ingredient
-
-# Arguments to ResourceManager in order to produce a dummy disabled recipe
-DISABLED_SHAPELESS = ['minecraft_air', 'minecraft:air', None, 'forge:false']
-DISABLED_SHAPED = [('#',), {'#': 'minecraft:air'}, 'minecraft:air', None, 'forge:false']
 
 
 def generate(rm: ResourceManager):
@@ -28,24 +25,24 @@ def generate(rm: ResourceManager):
 
         # stone cutting
         rm.recipe(('stonecutting', '%s_cobblestone_stairs' % stone), 'minecraft:stonecutting', {
-            'ingredient': ingredient(cobble),
+            'ingredient': utils.ingredient(cobble),
             'result': cobble + '_stairs',
             'count': 1
         }).with_advancement(cobble)
         rm.recipe(('stonecutting', '%s_cobblestone_slab' % stone), 'minecraft:stonecutting', {
-            'ingredient': ingredient(cobble),
+            'ingredient': utils.ingredient(cobble),
             'result': cobble + '_slab',
             'count': 2
         })
         rm.recipe(('stonecutting', '%s_cobblestone_wall' % stone), 'minecraft:stonecutting', {
-            'ingredient': ingredient(cobble),
+            'ingredient': utils.ingredient(cobble),
             'result': cobble + '_wall',
             'count': 1
         })
 
         # smelting
         rm.recipe(('smelting', '%s_from_cobblestone' % stone), 'minecraft:smelting', {
-            'ingredient': ingredient(cobble),
+            'ingredient': utils.ingredient(cobble),
             'result': 'minecraft:%s' % stone,
             'experience': 0.1,
             'cookingtime': 200
@@ -58,22 +55,25 @@ def generate(rm: ResourceManager):
     # Misc
     rm.crafting_shapeless('plant_string', ['notreepunching:plant_fiber'] * 3, 'notreepunching:plant_string').with_advancement('notreepunching:plant_fiber')
     rm.recipe(('smelting', 'string_from_plant_string'), 'minecraft:smelting', {
-        'ingredient': ingredient('notreepunching:plant_string'),
+        'ingredient': utils.ingredient('notreepunching:plant_string'),
         'result': 'minecraft:string',
         'experience': 0.1,
         'cookingtime': 200
     })
+    rm.crafting_shapeless('flint_from_gravel', ['minecraft:gravel'] * 3, (2, 'minecraft:flint')).with_advancement('minecraft:gravel')
 
     # Wood
     for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce'):
+        # Planks
         rm.crafting_shaped('%s_planks_with_saw' % wood, ('S', 'W'), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:%s_logs' % wood}, (4, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s_log' % wood)
         rm.crafting_shaped('%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': 'notreepunching:flint_axe', 'W': 'tag!minecraft:%s_logs' % wood}, (2, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s_log' % wood)
 
-    rm.crafting_shaped('sticks_from_logs_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:%s_logs' % wood}, (8, 'minecraft:stick')).with_advancement('minecraft:%s_log' % wood)
-    rm.crafting_shaped('sticks_from_planks_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'minecraft:%s_planks' % wood}, (2, 'minecraft:stick')).with_advancement('minecraft:%s_planks' % wood)
+    # Sticks
+    rm.crafting_shaped('sticks_from_logs_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:logs'}, (8, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
+    rm.crafting_shaped('sticks_from_planks_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:planks'}, (2, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
 
-    rm.crafting_shaped('sticks_from_logs_with_flint_axe', ('SW',), {'S': 'notreepunching:flint_axe', 'W': 'tag!minecraft:%s_logs' % wood}, (6, 'minecraft:stick')).with_advancement('minecraft:%s_log' % wood)
-    rm.crafting_shaped('sticks_from_planks_with_flint_axe', ('SW',), {'S': 'notreepunching:flint_axe', 'W': 'minecraft:%s_planks' % wood}, (1, 'minecraft:stick')).with_advancement('minecraft:%s_planks' % wood)
+    rm.crafting_shaped('sticks_from_logs_with_flint_axe', ('SW',), {'S': 'notreepunching:flint_axe', 'W': 'tag!minecraft:logs'}, (6, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
+    rm.crafting_shaped('sticks_from_planks_with_flint_axe', ('SW',), {'S': 'notreepunching:flint_axe', 'W': 'tag!minecraft:planks'}, (1, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
 
     # Tools
     for tool in ('iron', 'gold', 'diamond'):
@@ -82,15 +82,18 @@ def generate(rm: ResourceManager):
         rm.crafting_shaped('%s_mattock' % tool, ('III', ' SI', ' S '), {'S': 'tag!forge:rods/wooden', 'I': ingot}, 'notreepunching:%s_mattock' % tool).with_advancement(ingot)
         rm.crafting_shaped('%s_saw' % tool, ('  S', ' SI', 'SI '), {'S': 'tag!forge:rods/wooden', 'I': ingot}, 'notreepunching:%s_saw' % tool).with_advancement(ingot)
 
+    # Flint Tools
     rm.crafting_shaped('flint_axe', ('PI', 'S '), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'}, 'notreepunching:flint_axe').with_advancement('notreepunching:flint_shard')
     rm.crafting_shaped('flint_hoe', ('PII', 'S  ', 'S  '), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'}, 'notreepunching:flint_hoe').with_advancement('notreepunching:flint_shard')
     rm.crafting_shaped('flint_knife', ('I', 'S'), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard'}, 'notreepunching:flint_knife').with_advancement('notreepunching:flint_shard')
     rm.crafting_shaped('flint_pickaxe', ('IPI', 'ISI', ' S '), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'}, 'notreepunching:flint_pickaxe').with_advancement('notreepunching:flint_shard')
     rm.crafting_shaped('flint_shovel', (' II', ' PI', 'S  '), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'}, 'notreepunching:flint_shovel').with_advancement('notreepunching:flint_shard')
 
+    # Misc Tools
     rm.crafting_shaped('clay_tool', ('  I', ' II', 'I  '), {'I': 'tag!forge:rods/wooden'}, 'notreepunching:clay_tool').with_advancement('tag!forge:rods/wooden')
     rm.crafting_shaped('fire_starter', ('SP', 'FS'), {'S': 'tag!forge:rods/wooden', 'P': 'tag!forge:string', 'F': 'notreepunching:flint_shard'}, 'notreepunching:fire_starter').with_advancement('notreepunching:flint_shard')
 
+    # Pottery firing
     for pottery in ('large_vessel', 'small_vessel', 'bucket', 'flower_pot', 'brick'):
         clay = 'notreepunching:clay_' + pottery
         if pottery == 'flower_pot':
@@ -100,13 +103,13 @@ def generate(rm: ResourceManager):
         else:
             fired = 'notreepunching:ceramic_' + pottery
         rm.recipe(('smelting', pottery), 'minecraft:smelting', {
-            'ingredient': ingredient(clay),
+            'ingredient': utils.ingredient(clay),
             'result': fired,
             'experience': 0.1,
             'cookingtime': 200
         })
         rm.recipe(('campfire', pottery), 'minecraft:campfire_cooking', {
-            'ingredient': ingredient(clay),
+            'ingredient': utils.ingredient(clay),
             'result': fired,
             'experience': 0.1,
             'cookingtime': 600
@@ -114,8 +117,6 @@ def generate(rm: ResourceManager):
 
     # Knife crafting
     knife = 'tag!notreepunching:knives'
-    rm.crafting_shapeless('flint_shard_from_rock_with_knife', ('tag!notreepunching:loose_rocks', knife), 'notreepunching:flint_shard').with_advancement('tag!notreepunching:loose_rocks')
-    rm.crafting_shapeless('flint_shard_from_flint_with_knife', ('minecraft:flint', knife), (2, 'notreepunching:flint_shard')).with_advancement('minecraft:flint')
     rm.crafting_shapeless('string_from_wool_with_knife', ('tag!minecraft:wool', knife), (4, 'minecraft:string')).with_advancement('tag!minecraft:wool')
     rm.crafting_shapeless('string_from_web_with_knife', ('minecraft:cobweb', knife), (8, 'minecraft:string')).with_advancement('minecraft:cobweb')
     rm.crafting_shapeless('plant_fiber_from_sugarcane_with_knife', ('minecraft:sugar_cane', knife), (3, 'notreepunching:plant_fiber')).with_advancement('minecraft:sugar_cane')
@@ -136,16 +137,53 @@ def generate(rm: ResourceManager):
 
 
 def generate_vanilla(rm: ResourceManager):
+    empty = {'type': 'forge:conditional', 'recipes': []}
+
     # Remove wood crafting recipes
     for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce'):
-        rm.crafting_shapeless('%s_planks' % wood, *DISABLED_SHAPELESS)
+        rm.data(('recipes', '%s_planks' % wood), empty)
 
-    rm.crafting_shaped('stick', *DISABLED_SHAPED)
+    rm.data(('recipes', 'stick'), empty)
 
     # Remove wood and stone tools
     for tool in ('pickaxe', 'shovel', 'hoe', 'sword', 'axe'):
-        rm.crafting_shaped('wooden_%s' % tool, *DISABLED_SHAPED)
-        rm.crafting_shaped('stone_%s' % tool, *DISABLED_SHAPED)
+        rm.data(('recipes', 'wooden_%s' % tool), empty)
+        rm.data(('recipes', 'stone_%s' % tool), empty)
 
-    rm.crafting_shaped('campfire', *DISABLED_SHAPED)
-    rm.crafting_shaped('flower_pot', *DISABLED_SHAPED)
+    rm.data(('recipes', 'campfire'), empty)
+    rm.data(('recipes', 'flower_pot'), empty)
+
+    # Add optional plant fiber to loot tables
+    rm.block_loot('grass', [{
+        'rolls': 1,
+        'entries': {
+            'type': 'minecraft:alternatives',
+            'children': utils.loot_entry_list([{
+                'name': 'minecraft:grass',
+                'conditions': [{
+                    'condition': 'minecraft:match_tool',
+                    'predicate': {'item': 'minecraft:shears'}
+                }]
+            }, {
+                'name': 'notreepunching:plant_fiber',
+                'conditions': [{
+                    'condition': 'minecraft:match_tool',
+                    'predicate': {'tag': 'notreepunching:knives'}
+                }, {
+                    'condition': 'minecraft:random_chance',
+                    'chance': 0.25
+                }]
+            }, {
+                'conditions': [{
+                    'condition': 'minecraft:random_chance',
+                    'chance': 0.125
+                }],
+                'functions': [
+                    loot_tables.fortune_bonus(2),
+                    'minecraft:explosion_decay'
+                ],
+                'name': 'minecraft:wheat_seeds'
+            }
+            ])
+        }  # todo: support None conditions
+    }])

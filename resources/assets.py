@@ -30,10 +30,10 @@ def generate(rm: ResourceManager):
         rm.blockstate('%s_loose_rock' % stone) \
             .with_block_model(textures='minecraft:block/%s' % stone, parent='notreepunching:block/loose_rock') \
             .with_block_loot('notreepunching:%s_loose_rock' % stone) \
-            .with_tag('loose_rocks') \
             .with_lang(lang('%s loose rock', stone))
         # flat item model for the block item
-        rm.item_model('%s_loose_rock' % stone)
+        rm.item_model('%s_loose_rock' % stone) \
+            .with_tag('loose_rocks')  # item tag is needed for recipes
 
     # Pottery
     for pottery in ('worked', 'large_vessel', 'small_vessel', 'bucket', 'flower_pot'):
@@ -88,10 +88,14 @@ def generate(rm: ResourceManager):
     rm.item('ceramic_bucket').with_lang(lang('ceramic bucket'))
 
     # Misc Tags
-    rm.item('plant_string').with_tag('string')
-    rm.item('minecraft:gravel').with_tag('always_breakable').with_tag('always_drops')
+    rm.item('plant_string').with_tag('forge:string')
+    rm.block('minecraft:gravel').with_tag('always_breakable').with_tag('always_drops')
     for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce'):
-        rm.item('minecraft:%s_leaves' % wood).with_tag('always_breakable').with_tag('always_drops')
+        rm.block('minecraft:%s_leaves' % wood).with_tag('always_breakable').with_tag('always_drops')
+
+    rm.item_tag('fire_starter_logs', '#minecraft:logs', '#minecraft:planks')
+    rm.item_tag('fire_starter_kindling', '#forge:rods/wooden', '#minecraft:saplings')
+    rm.item_tag('fire_starter_tinder', '#minecraft:leaves', 'notreepunching:plant_string', 'notreepunching:plant_fiber', 'minecraft:hay_block')
 
 
 def generate_vanilla(rm: ResourceManager):

@@ -1,20 +1,5 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "#"
-  ],
-  "key": {
-    "#": {
-      "item": "minecraft:air"
-    }
-  },
-  "result": {
-    "item": "minecraft:air"
-  },
-  "conditions": [
-    {
-      "type": "forge:false"
-    }
-  ]
+  "type": "forge:conditional",
+  "recipes": []
 }
