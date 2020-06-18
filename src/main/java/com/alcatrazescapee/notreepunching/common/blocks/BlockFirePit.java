@@ -185,9 +185,12 @@ public class BlockFirePit extends BlockTileCore
                     // Burn the end of a stick into a torch
                     if (!world.isRemote)
                     {
-                        CoreHelpers.giveItemToPlayer(world, player, new ItemStack(Blocks.TORCH, 2));
-                        player.setHeldItem(hand, CoreHelpers.consumeItem(player, stack, 1));
-                        world.playSound(null, player.getPosition(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 0.5F, 1.5F);
+                        if (ModConfig.GENERAL.allowTorchesFromFirePits) 
+                        {
+                            CoreHelpers.giveItemToPlayer(world, player, new ItemStack(Blocks.TORCH, 2));
+                            player.setHeldItem(hand, CoreHelpers.consumeItem(player, stack, 1));
+                            world.playSound(null, player.getPosition(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 0.5F, 1.5F);
+                        }
                     }
                     return true;
                 }

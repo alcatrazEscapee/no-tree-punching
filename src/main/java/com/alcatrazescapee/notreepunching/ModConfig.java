@@ -52,6 +52,9 @@ public final class ModConfig
 
         @Config.Comment("If false, this will disable NTP world gen (surface rocks).")
         public boolean looseRocksGeneration = true;
+        
+        @Config.Comment("If false, this will disable the ability to get torches from fire pits.")
+        public boolean allowTorchesFromFirePits = true;
 
         @Config.Comment("Frequency of loose rocks in the world")
         @Config.RangeInt(min = 1, max = 1000)
@@ -162,7 +165,7 @@ public final class ModConfig
 
         @Config.Comment("Enable compatability features from Chisel (marble + limestone + basalt loose rocks)")
         public boolean enableChiselCompat = true;
-
+        
         //@Config.Comment("Enable compatibility features from Underground Biomes Constructs (UBC) (loose rocks)")
         //@Config.RequiresMcRestart
         //public boolean enableUBCCompat = true;
