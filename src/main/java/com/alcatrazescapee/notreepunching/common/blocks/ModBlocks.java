@@ -23,6 +23,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.alcatrazescapee.notreepunching.common.ModItemGroups;
+import com.alcatrazescapee.notreepunching.common.items.LargeVesselBlockItem;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
@@ -57,7 +58,7 @@ public final class ModBlocks
 
     public static final Map<PotteryBlock.Variant, RegistryObject<PotteryBlock>> POTTERY = Arrays.stream(PotteryBlock.Variant.values()).collect(Collectors.toMap(Function.identity(), pottery -> register("clay_" + pottery.name().toLowerCase(), () -> new PotteryBlock(pottery))));
 
-    public static final RegistryObject<LargeVesselBlock> CERAMIC_LARGE_VESSEL = register("ceramic_large_vessel", LargeVesselBlock::new);
+    public static final RegistryObject<LargeVesselBlock> CERAMIC_LARGE_VESSEL = register("ceramic_large_vessel", LargeVesselBlock::new, block -> new LargeVesselBlockItem(block, new Item.Properties().group(ModItemGroups.ITEMS)));
 
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockFactory)
     {

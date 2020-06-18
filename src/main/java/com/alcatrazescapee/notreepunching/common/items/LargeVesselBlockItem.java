@@ -8,55 +8,43 @@ package com.alcatrazescapee.notreepunching.common.items;
 import java.util.List;
 import javax.annotation.Nullable;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import com.alcatrazescapee.core.common.inventory.ItemStackItemHandler;
-import com.alcatrazescapee.core.util.CoreHelpers;
-import com.alcatrazescapee.notreepunching.common.ModItemGroups;
 import com.alcatrazescapee.notreepunching.common.ModTags;
-import com.alcatrazescapee.notreepunching.common.container.SmallVesselContainer;
+import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
-public class SmallVesselItem extends Item
+public class LargeVesselBlockItem extends BlockItem
 {
-    public static final int SLOT_ROWS = 3, SLOT_COLUMNS = 3, SLOTS = SLOT_ROWS * SLOT_COLUMNS;
-
-    public SmallVesselItem()
+    public LargeVesselBlockItem(Block blockIn, Properties builder)
     {
-        super(new Properties().group(ModItemGroups.ITEMS).maxStackSize(1));
+        super(blockIn, builder);
     }
 
+    @Nullable
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
     {
-        ItemStack stack = playerIn.getHeldItem(handIn);
-        if (playerIn instanceof ServerPlayerEntity && !playerIn.isSneaking())
+        // This tag is used because minecraft expects it
+        if (nbt != null && nbt.contains("BlockEntityTag"))
         {
-            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> NetworkHooks.openGui((ServerPlayerEntity) playerIn, CoreHelpers.getStackContainerProvider(stack, (windowID, playerInventory, player) -> new SmallVesselContainer(windowID, playerInventory))));
+            nbt = nbt.getCompound("BlockEntityTag");
         }
-        return new ActionResult<>(ActionResultType.SUCCESS, stack);
+        return new LargeVesselItemHandler(nbt, stack, LargeVesselTileEntity.SLOTS);
     }
 
-    /**
-     * Copy pasta from {@link net.minecraft.block.ShulkerBoxBlock#addInformation(ItemStack, IBlockReader, List, ITooltipFlag)}
-     */
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
     {
@@ -90,16 +78,9 @@ public class SmallVesselItem extends Item
         }
     }
 
-    @Nullable
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
+    static class LargeVesselItemHandler extends ItemStackItemHandler
     {
-        return new SmallVesselItemStackHandler(nbt, stack, SLOTS);
-    }
-
-    static final class SmallVesselItemStackHandler extends ItemStackItemHandler
-    {
-        SmallVesselItemStackHandler(@Nullable CompoundNBT capNbt, ItemStack stack, int slots)
+        LargeVesselItemHandler(@Nullable CompoundNBT capNbt, ItemStack stack, int slots)
         {
             super(capNbt, stack, slots);
         }
@@ -107,7 +88,7 @@ public class SmallVesselItem extends Item
         @Override
         public boolean isItemValid(int slot, ItemStack stack)
         {
-            return !ModTags.Items.SMALL_VESSEL_BLACKLIST.contains(stack.getItem());
+            return ModTags.Items.LARGE_VESSEL_BLACKLIST.contains(stack.getItem());
         }
     }
 }

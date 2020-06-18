@@ -16,7 +16,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -73,12 +72,5 @@ public final class NoTreePunching
                 }
             }
         });
-    }
-
-    @SubscribeEvent
-    public void onConfigReload(ModConfig.Reloading event)
-    {
-        LOGGER.info("Config Reloading - Invalidating Caches");
-        Config.onConfigReloading();
     }
 }

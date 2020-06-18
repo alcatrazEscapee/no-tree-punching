@@ -152,6 +152,7 @@ def generate_vanilla(rm: ResourceManager):
 
     rm.data(('recipes', 'campfire'), empty)
     rm.data(('recipes', 'flower_pot'), empty)
+    rm.data(('recipes', 'brick'), empty)
 
     # Add optional plant fiber to loot tables
     rm.block_loot('grass', [{
@@ -175,4 +176,24 @@ def generate_vanilla(rm: ResourceManager):
                 'name': 'minecraft:wheat_seeds'
             }])
         }, 'conditions': None
+    }])
+    rm.block_loot('tall_grass', [{
+        'entries': {
+            'type': 'minecraft:alternatives',
+            'children': utils.loot_entry_list([{
+                'name': 'minecraft:grass',
+                'conditions': loot_tables.match_tool('minecraft:shears')
+            }, {
+                'name': 'minecraft:wheat_seeds',
+                'conditions': [
+                    'minecraft:survives_explosion',
+                    {
+                        'condition': 'minecraft:block_state_property',
+                        'block': 'minecraft:tall_grass',
+                        'properties': {'half': 'lower'}
+                    },
+                    loot_tables.random_chance(0.125)
+                ]
+            }])
+        }
     }])

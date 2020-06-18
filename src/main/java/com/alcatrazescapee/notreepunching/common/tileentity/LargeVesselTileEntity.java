@@ -15,7 +15,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import com.alcatrazescapee.core.common.tileentity.DeviceTileEntity;
-import com.alcatrazescapee.notreepunching.Config;
+import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.container.LargeVesselContainer;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
@@ -43,6 +43,24 @@ public class LargeVesselTileEntity extends DeviceTileEntity
     @Override
     public boolean isItemValid(int slot, ItemStack stack)
     {
-        return !Config.SERVER.largeCeramicVesselBlacklist.get().test(stack);
+        return !ModTags.Items.LARGE_VESSEL_BLACKLIST.contains(stack.getItem());
+    }
+
+    public boolean isEmpty()
+    {
+        for (int i = 0; i < inventory.getSlots(); i++)
+        {
+            if (!inventory.getStackInSlot(i).isEmpty())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onReplaced()
+    {
+        // Keep inventory
     }
 }

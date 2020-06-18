@@ -50,7 +50,25 @@ def generate(rm: ResourceManager):
     rm.blockstate('ceramic_large_vessel') \
         .with_block_model(textures='notreepunching:block/ceramic', parent='notreepunching:block/pottery_large_vessel') \
         .with_item_model() \
-        .with_block_loot('notreepunching:ceramic_large_vessel') \
+        .with_block_loot({
+        'entries': {
+            'name': 'notreepunching:ceramic_large_vessel',
+            'functions': [
+                {
+                    'function': 'minecraft:copy_name',
+                    'source': 'block_entity'
+                }, {
+                    'function': 'minecraft:copy_nbt',
+                    'source': 'block_entity',
+                    'ops': [{
+                        'source': '',
+                        'target': 'BlockEntityTag',
+                        'op': 'replace'
+                    }]
+                }
+            ],
+        }
+    }) \
         .with_lang(lang('ceramic large vessel'))
 
     # Tools
@@ -96,6 +114,13 @@ def generate(rm: ResourceManager):
 
     rm.item_tag('fire_starter_logs', '#minecraft:logs', '#minecraft:planks')
     rm.item_tag('fire_starter_kindling', '#forge:rods/wooden', '#minecraft:saplings', '#minecraft:leaves', '#forge:string', 'notreepunching:plant_fiber')
+
+    # todo: large and small vessel blacklist tags
+    rm.item('ceramic_small_vessel').with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
+    rm.item('ceramic_large_vessel').with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
+    rm.item('minecraft:shulker_box').with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
+    for color in ('white', 'orange', 'magenta', 'light_blue', 'yellow', 'lime', 'pink', 'gray', 'light_gray', 'cyan', 'purple', 'blue', 'brown', 'green', 'red', 'black'):
+        rm.item('minecraft:%s_shulker_box' % color).with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
 
 
 def generate_vanilla(rm: ResourceManager):

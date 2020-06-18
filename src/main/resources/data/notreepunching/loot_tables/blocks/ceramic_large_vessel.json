@@ -7,8 +7,25 @@
       "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "notreepunching:ceramic_large_vessel"
+          "type": "item",
+          "name": "notreepunching:ceramic_large_vessel",
+          "functions": [
+            {
+              "function": "minecraft:copy_name",
+              "source": "block_entity"
+            },
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "",
+                  "target": "BlockEntityTag",
+                  "op": "replace"
+                }
+              ]
+            }
+          ]
         }
       ],
       "conditions": [

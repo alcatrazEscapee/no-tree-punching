@@ -24,6 +24,7 @@ Later on in the game, there are also a couple other additions and changes which 
 - [Mattocks](https://github.com/alcatrazEscapee/no-tree-punching/wiki/Mattocks) are the ultimate all-in-one tool. They can mine blocks as if they were a shovel or axe, can strip wood like an axe, till grass like a hoe, and make paths like a shovel. (The latter two functions sometimes conflict and can be chosen by sneaking)
 
 I hope you enjoy :)
+
  ~ AlcatrazEscapee
 
 ![No Tree Punching Banner Image](https://github.com/alcatrazEscapee/no-tree-punching/blob/1.15.x/img/splash.png?raw=true)

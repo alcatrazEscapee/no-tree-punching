@@ -27,6 +27,9 @@ public final class ModTags
 
         public static final Tag<Item> KNIVES = create("knives");
 
+        public static final Tag<Item> SMALL_VESSEL_BLACKLIST = create("small_vessel_blacklist");
+        public static final Tag<Item> LARGE_VESSEL_BLACKLIST = create("large_vessel_blacklist");
+
         private static Tag<Item> create(String id)
         {
             return new ItemTags.Wrapper(new ResourceLocation(MOD_ID, id));
