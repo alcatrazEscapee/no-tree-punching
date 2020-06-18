@@ -8,7 +8,6 @@
 *.iml
 *.ipr
 *.iws
-*.iml
 
 # Python
 *.py
@@ -17,6 +16,7 @@
 /out/
 /run/
 /libs/
+/deps/
 
 # Wiki
 /no-tree-punching.wiki/

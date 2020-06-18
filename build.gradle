@@ -15,6 +15,10 @@ buildscript {
 }
 
 repositories {
+    flatDir {
+        // Hacked on bullshit for guide API
+        dirs 'deps'
+    }
     maven {
         // location of the maven that hosts JEI files
         name = "Progwml6 maven"
@@ -30,18 +34,11 @@ repositories {
         name "jared maven"
         url "http://maven.blamejared.com/"
     }
-    maven {
-        // todo: remove and replace with Patchouli book
-        // GuideAPI
-        url "http://tehnut.info/maven/"
-    }
 }
 
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.matthewprenger.cursegradle'
-
-ext.priv = parseConfig(file('../../jar-signing/private.properties'))
 
 version = "${mod_version}"
 group = "com.alcatrazescapee.notreepunching" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -56,8 +53,8 @@ dependencies {
     runtime "mezz.jei:jei_${mc_version}:4.11.0.212"
     runtime "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.8.5"
 
-    // Guide API - todo: remove
-    deobfCompile "info.amerifrance.guideapi:Guide-API:1.12-2.1.7-62"
+    // Guide API
+    deobfCompile name: 'Guide-API-1.12-2.1.8-63'
 }
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
@@ -101,8 +98,10 @@ processResources {
 }
 
 curseforge {
-    if (priv == null) {
-        return;
+    def envApiKey = System.getenv('CURSEFORGE_API_KEY')
+    if (envApiKey == null) {
+        println 'Unable to locate api key in env variable'
+        return
     }
     project {
         apiKey = "${priv.curseforge_api_token}"
@@ -119,31 +118,5 @@ curseforge {
         afterEvaluate {
             gameVersionStrings.remove('Java 9')
         }
-    }
-}
-
-task signJar(type: SignJar, dependsOn: reobfJar) {
-    keyStore = "${priv.keyStore}"
-    alias = "${priv.keyStoreAlias}"
-    storePass = "${priv.keyStorePass}"
-    keyPass = "${priv.keyStoreKeyPass}"
-
-    inputFile = jar.archivePath
-    outputFile = jar.archivePath
-}
-
-build.dependsOn signJar
-tasks.curseforge.mustRunAfter signJar
-tasks.curseforge.dependsOn build
-
-def static parseConfig(File config) {
-    if (config.exists()) {
-        config.withReader {
-            def prop = new Properties()
-            prop.load(it)
-            return (new ConfigSlurper().parse(prop))
-        }
-    } else {
-        return null;
     }
 }
