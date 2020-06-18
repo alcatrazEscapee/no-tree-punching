@@ -1,6 +1,1 @@
-v2.0.20
-
-Changes:
- - Fixed #88: flint knives not showing in JEI as a catalyst for knife recipes
- - Fixed #89: crash involving MultiMine and Sponge
- - Fixed #91: rocks causing entity collision and interfering with mob pathfinding
+v2.0.21 - Last update for 1.12. Merge a PR that has been waiting for months but otherwise this is done for 1.12. 1.15 coming out soon (TM).
