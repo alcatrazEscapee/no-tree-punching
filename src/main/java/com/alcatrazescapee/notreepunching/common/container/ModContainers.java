@@ -16,7 +16,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.alcatrazescapee.core.common.container.DeviceContainer;
-import com.alcatrazescapee.core.common.tile.InventoryTileEntity;
+import com.alcatrazescapee.core.common.tileentity.InventoryTileEntity;
 import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
 

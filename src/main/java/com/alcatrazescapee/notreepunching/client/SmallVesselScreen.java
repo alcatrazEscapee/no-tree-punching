@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
-import com.alcatrazescapee.core.client.ModContainerScreen;
+import com.alcatrazescapee.core.client.screen.ModContainerScreen;
 import com.alcatrazescapee.notreepunching.common.container.SmallVesselContainer;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;

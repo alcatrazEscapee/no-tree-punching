@@ -8,6 +8,7 @@ package com.alcatrazescapee.notreepunching.common.container;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import com.alcatrazescapee.core.common.container.ItemStackContainer;
@@ -23,7 +24,12 @@ public class SmallVesselContainer extends ItemStackContainer
 
     public SmallVesselContainer(int windowId, PlayerInventory playerInv)
     {
-        super(ModContainers.SMALL_VESSEL.get(), playerInv, playerInv.player.getHeldItemMainhand().getItem() == ModItems.CERAMIC_SMALL_VESSEL.get() ? playerInv.player.getHeldItemMainhand() : playerInv.player.getHeldItemOffhand(), windowId);
+        this(windowId, playerInv, playerInv.player.getHeldItemMainhand().getItem() == ModItems.CERAMIC_SMALL_VESSEL.get() ? playerInv.player.getHeldItemMainhand() : playerInv.player.getHeldItemOffhand());
+    }
+
+    public SmallVesselContainer(int windowId, PlayerInventory playerInv, ItemStack stack)
+    {
+        super(ModContainers.SMALL_VESSEL.get(), playerInv, stack, windowId);
     }
 
     @Override

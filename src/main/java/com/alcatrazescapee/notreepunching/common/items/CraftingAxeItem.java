@@ -10,11 +10,10 @@ import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
 
 import com.alcatrazescapee.core.util.CoreHelpers;
-import com.alcatrazescapee.notreepunching.common.ModItemGroups;
 
-public class SawItem extends AxeItem
+public class CraftingAxeItem extends AxeItem
 {
-    public SawItem(IItemTier tier, float attackDamageIn, float attackSpeedIn, Properties builder)
+    public CraftingAxeItem(IItemTier tier, float attackDamageIn, float attackSpeedIn, Properties builder)
     {
         super(tier, attackDamageIn, attackSpeedIn, builder.setNoRepair());
     }

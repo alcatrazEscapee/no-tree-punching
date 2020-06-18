@@ -5,7 +5,7 @@
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package com.alcatrazescapee.notreepunching.integration.jei;
+package com.alcatrazescapee.notreepunching.compat;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

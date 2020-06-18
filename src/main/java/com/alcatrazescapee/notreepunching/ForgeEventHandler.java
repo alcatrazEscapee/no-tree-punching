@@ -37,16 +37,36 @@ public final class ForgeEventHandler
     @SubscribeEvent
     public static void onHarvestCheck(PlayerEvent.HarvestCheck event)
     {
-        event.setCanHarvest(event.canHarvest() || MaterialHacks.canHarvest(event.getTargetBlock(), event.getPlayer()));
+        boolean canHarvest = event.canHarvest();
+        if (ModTags.Blocks.ALWAYS_DROPS.contains(event.getTargetBlock().getBlock()))
+        {
+            canHarvest = true;
+        }
+        else
+        {
+            if (Config.SERVER.noBlockDropsWithoutCorrectTool.get())
+            {
+                canHarvest |= MaterialHacks.canHarvest(event.getTargetBlock(), event.getPlayer());
+            }
+            else
+            {
+                canHarvest |= MaterialHacks.doesMaterialRequireNoToolByDefault(event.getTargetBlock().getMaterial());
+            }
+        }
+        event.setCanHarvest(canHarvest);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void breakSpeed(PlayerEvent.BreakSpeed event)
     {
-        if (Config.SERVER.noMiningWithoutCorrectTool.get() && !ModTags.Blocks.ALWAYS_BREAKABLE.contains(event.getState().getBlock()) && !MaterialHacks.canHarvest(event.getState(), event.getPlayer()))
+        if (Config.SERVER.noMiningWithoutCorrectTool.get())
         {
-            // Everything except instant breaking things will take basically forever (if enabled)
-            event.setNewSpeed(Config.SERVER.doInstantBreakBlocksRequireTool.get() ? 0 : 1e-10f);
+            if (!MaterialHacks.canHarvest(event.getState(), event.getPlayer()) && !ModTags.Blocks.ALWAYS_BREAKABLE.contains(event.getState().getBlock()))
+            {
+                // Everything except instant breaking things will take basically forever (if enabled)
+                float newSpeed = Config.SERVER.doInstantBreakBlocksRequireTool.get() ? 0 : 1e-10f;
+                event.setNewSpeed(newSpeed);
+            }
         }
     }
 
@@ -54,20 +74,6 @@ public final class ForgeEventHandler
     public static void playerInteractEvent(PlayerInteractEvent.RightClickBlock event)
     {
         ItemStack stack = event.getItemStack();
-        // todo: TENTATIVE, is this not nessecary anymore because we have the correct cancellation result on both client + server?
-/*
-        PlayerEntity player = event.getPlayer();
-        if (event.getHand() == Hand.OFF_HAND)
-        {
-            ItemStack mainStack = player.getHeldItem(Hand.MAIN_HAND);
-            if (PlayerInteractionHandler.hasAction(event.getWorld(), event.getPos(), mainStack, event.getFace()))
-            {
-                event.setCancellationResult(ActionResultType.SUCCESS);
-                event.setCanceled(true);
-                return;
-            }
-        }
-*/
         World world = event.getWorld();
         BlockPos pos = event.getPos();
         BlockState state = world.getBlockState(pos);
@@ -80,7 +86,7 @@ public final class ForgeEventHandler
                     if (RANDOM.nextFloat() < Config.SERVER.flintKnappingSuccessChance.get())
                     {
                         Direction face = event.getFace() == null ? Direction.UP : event.getFace();
-                        InventoryHelper.spawnItemStack(world, pos.getX() + 0.5 + face.getXOffset() * 0.5, pos.getY() + 0.5 + face.getYOffset() * 0.5, pos.getZ() + 0.5 + face.getZOffset() * 0.5, new ItemStack(ModItems.FLINT_SHARD.get()));
+                        InventoryHelper.spawnItemStack(world, pos.getX() + 0.5 + face.getXOffset() * 0.5, pos.getY() + 0.5 + face.getYOffset() * 0.5, pos.getZ() + 0.5 + face.getZOffset() * 0.5, new ItemStack(ModItems.FLINT_SHARD.get(), 2));
                     }
                     stack.shrink(1);
                     event.getPlayer().setHeldItem(event.getHand(), stack);

@@ -155,35 +155,24 @@ def generate_vanilla(rm: ResourceManager):
 
     # Add optional plant fiber to loot tables
     rm.block_loot('grass', [{
-        'rolls': 1,
         'entries': {
             'type': 'minecraft:alternatives',
             'children': utils.loot_entry_list([{
                 'name': 'minecraft:grass',
-                'conditions': [{
-                    'condition': 'minecraft:match_tool',
-                    'predicate': {'item': 'minecraft:shears'}
-                }]
+                'conditions': loot_tables.match_tool('minecraft:shears')
             }, {
                 'name': 'notreepunching:plant_fiber',
-                'conditions': [{
-                    'condition': 'minecraft:match_tool',
-                    'predicate': {'tag': 'notreepunching:knives'}
-                }, {
-                    'condition': 'minecraft:random_chance',
-                    'chance': 0.25
-                }]
+                'conditions': [
+                    loot_tables.match_tool('tag!notreepunching:knives'),
+                    loot_tables.random_chance(0.25)
+                ]
             }, {
-                'conditions': [{
-                    'condition': 'minecraft:random_chance',
-                    'chance': 0.125
-                }],
+                'conditions': loot_tables.random_chance(0.125),
                 'functions': [
                     loot_tables.fortune_bonus(2),
                     'minecraft:explosion_decay'
                 ],
                 'name': 'minecraft:wheat_seeds'
-            }
-            ])
-        }  # todo: support None conditions
+            }])
+        }, 'conditions': None
     }])

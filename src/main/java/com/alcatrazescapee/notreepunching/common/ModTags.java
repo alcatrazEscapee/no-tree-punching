@@ -22,7 +22,6 @@ public final class ModTags
     {
         public static final Tag<Item> FIRE_STARTER_LOGS = create("fire_starter_logs");
         public static final Tag<Item> FIRE_STARTER_KINDLING = create("fire_starter_kindling");
-        public static final Tag<Item> FIRE_STARTER_TINDER = create("fire_starter_tinder");
 
         public static final Tag<Item> FLINT_KNAPPABLE = create("flint_knappable");
 

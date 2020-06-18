@@ -90,6 +90,11 @@ public class MaterialHacks
         });
     }
 
+    public static boolean doesMaterialRequireNoToolByDefault(Material material)
+    {
+        return DEFAULT_NO_TOOL_MATERIALS.contains(material);
+    }
+
     /**
      * This is a better version of {@link net.minecraftforge.common.ForgeHooks#canHarvestBlock(BlockState, PlayerEntity, IBlockReader, BlockPos)}
      */
@@ -150,7 +155,7 @@ public class MaterialHacks
         }
         catch (Exception e)
         {
-            LOGGER.warn("Oh noes, our dirty hacks have failed: " + message.get());
+            LOGGER.warn("Oh noes: " + message.get());
             LOGGER.debug("Stacktrace", e);
         }
     }

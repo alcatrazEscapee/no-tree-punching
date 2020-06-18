@@ -123,7 +123,7 @@ public final class Config
 
         private List<String> getDefaultVesselBlacklist()
         {
-            List<String> blacklist = CoreHelpers.listOf("notreepunching:ceramic_small_vessel");
+            List<String> blacklist = CoreHelpers.listOf("notreepunching:ceramic_small_vessel", "minecraft:shulker_box");
             for (DyeColor color : DyeColor.values())
             {
                 blacklist.add("minecraft:" + color.getName() + "_shulker_box");

@@ -10,10 +10,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -30,6 +27,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import com.alcatrazescapee.core.common.inventory.ItemStackItemHandler;
+import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.ModItemGroups;
 import com.alcatrazescapee.notreepunching.common.container.SmallVesselContainer;
@@ -51,12 +49,7 @@ public class SmallVesselItem extends Item
         ItemStack stack = playerIn.getHeldItem(handIn);
         if (playerIn instanceof ServerPlayerEntity && !playerIn.isSneaking())
         {
-            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                if (handler instanceof INamedContainerProvider)
-                {
-                    NetworkHooks.openGui((ServerPlayerEntity) playerIn, (INamedContainerProvider) handler);
-                }
-            });
+            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> NetworkHooks.openGui((ServerPlayerEntity) playerIn, CoreHelpers.getStackContainerProvider(stack, (windowID, playerInventory, player) -> new SmallVesselContainer(windowID, playerInventory))));
         }
         return new ActionResult<>(ActionResultType.SUCCESS, stack);
     }
@@ -101,32 +94,20 @@ public class SmallVesselItem extends Item
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
     {
-        return new SmallVesselItemStackHandler(stack, SLOTS);
+        return new SmallVesselItemStackHandler(nbt, stack, SLOTS);
     }
 
-    static final class SmallVesselItemStackHandler extends ItemStackItemHandler implements INamedContainerProvider
+    static final class SmallVesselItemStackHandler extends ItemStackItemHandler
     {
-        SmallVesselItemStackHandler(ItemStack stack, int slots)
+        SmallVesselItemStackHandler(@Nullable CompoundNBT capNbt, ItemStack stack, int slots)
         {
-            super(stack, slots);
+            super(capNbt, stack, slots);
         }
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack)
         {
             return !Config.SERVER.smallCeramicVesselBlacklist.get().test(stack);
-        }
-
-        @Override
-        public ITextComponent getDisplayName()
-        {
-            return stack.getDisplayName();
-        }
-
-        @Override
-        public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity player)
-        {
-            return new SmallVesselContainer(windowId, playerInventory);
         }
     }
 }

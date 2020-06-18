@@ -31,7 +31,7 @@ public final class ModItems
     public static final RegistryObject<ClayToolItem> CLAY_TOOL = register("clay_tool", ClayToolItem::new);
     public static final RegistryObject<FireStarterItem> FIRE_STARTER = register("fire_starter", FireStarterItem::new);
 
-    public static final RegistryObject<TieredItem> FLINT_AXE = register("flint_axe", () -> new AxeItem(ModTiers.FLINT, 3.0f, -3.3f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<TieredItem> FLINT_AXE = register("flint_axe", () -> new CraftingAxeItem(ModTiers.FLINT, 3.0f, -3.3f, new Item.Properties().group(ModItemGroups.ITEMS)));
     public static final RegistryObject<TieredItem> FLINT_PICKAXE = register("flint_pickaxe", () -> new PickaxeItem(ModTiers.FLINT, 1, -2.8f, new Item.Properties().group(ModItemGroups.ITEMS)));
     public static final RegistryObject<TieredItem> FLINT_HOE = register("flint_hoe", () -> new HoeItem(ModTiers.FLINT, -3.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
     public static final RegistryObject<TieredItem> FLINT_SHOVEL = register("flint_shovel", () -> new ShovelItem(ModTiers.FLINT, -1.0f, -3.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
@@ -46,9 +46,9 @@ public final class ModItems
     public static final RegistryObject<MattockItem> GOLD_MATTOCK = register("gold_mattock", () -> new MattockItem(ItemTier.GOLD, 0.5f, -3.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
     public static final RegistryObject<MattockItem> DIAMOND_MATTOCK = register("diamond_mattock", () -> new MattockItem(ItemTier.DIAMOND, 0.5f, -3.0f, new Item.Properties().group(ModItemGroups.ITEMS)));
 
-    public static final RegistryObject<SawItem> IRON_SAW = register("iron_saw", () -> new SawItem(ItemTier.IRON, 3.0f, -3.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
-    public static final RegistryObject<SawItem> GOLD_SAW = register("gold_saw", () -> new SawItem(ItemTier.GOLD, 3.0f, -3.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
-    public static final RegistryObject<SawItem> DIAMOND_SAW = register("diamond_saw", () -> new SawItem(ItemTier.DIAMOND, 2.0f, -3.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<CraftingAxeItem> IRON_SAW = register("iron_saw", () -> new CraftingAxeItem(ItemTier.IRON, 3.0f, -3.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<CraftingAxeItem> GOLD_SAW = register("gold_saw", () -> new CraftingAxeItem(ItemTier.GOLD, 3.0f, -3.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<CraftingAxeItem> DIAMOND_SAW = register("diamond_saw", () -> new CraftingAxeItem(ItemTier.DIAMOND, 2.0f, -3.2f, new Item.Properties().group(ModItemGroups.ITEMS)));
 
     private static RegistryObject<Item> register(String name)
     {

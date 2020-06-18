@@ -15,8 +15,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
 
@@ -24,13 +26,51 @@ import com.alcatrazescapee.notreepunching.common.items.ModItems;
 
 public class PotteryBlock extends Block
 {
-    // todo: make these actually represent the block shape instead of not
     private static final VoxelShape[] SHAPES = new VoxelShape[] {
+        // Worked - the only simple one here
         makeCuboidShape(1, 0, 1, 15, 15, 15),
-        makeCuboidShape(2, 0, 2, 14, 14, 14),
-        makeCuboidShape(4, 0, 4, 8, 6, 8),
-        makeCuboidShape(5, 0, 5, 7, 6, 7),
-        makeCuboidShape(5, 0, 5, 7, 3, 7)
+        // Large vessel
+        VoxelShapes.combineAndSimplify(
+            VoxelShapes.or(
+                makeCuboidShape(2, 0, 2, 14, 14, 14),
+                makeCuboidShape(1, 2, 1, 15, 12, 15)
+            ),
+            makeCuboidShape(4, 2, 4, 12, 14, 12),
+            IBooleanFunction.ONLY_FIRST
+        ),
+        // Small vessel
+        VoxelShapes.combineAndSimplify(
+            VoxelShapes.or(
+                makeCuboidShape(4, 0, 4, 12, 10, 12),
+                makeCuboidShape(3, 2, 4, 13, 8, 12),
+                makeCuboidShape(4, 2, 3, 12, 8, 13),
+                makeCuboidShape(5, 9, 5, 11, 11, 11)
+            ),
+            VoxelShapes.or(
+                makeCuboidShape(5, 0, 5, 10, 10, 10),
+                makeCuboidShape(6, 9, 6, 10, 11, 10)
+            ),
+            IBooleanFunction.ONLY_FIRST
+        ),
+        // Bucket
+        VoxelShapes.combineAndSimplify(
+            VoxelShapes.or(
+                makeCuboidShape(6, 0, 6, 10, 1, 10),
+                makeCuboidShape(5, 1, 5, 11, 7, 11),
+                makeCuboidShape(5, 4, 4, 11, 10, 12),
+                makeCuboidShape(4, 4, 5, 12, 10, 11)
+            ),
+            VoxelShapes.or(
+                makeCuboidShape(6, 3, 6, 10, 10, 10),
+                makeCuboidShape(5, 7, 5, 11, 10, 11)
+            ),
+            IBooleanFunction.ONLY_FIRST
+        ),
+        VoxelShapes.combineAndSimplify(
+            makeCuboidShape(5, 0, 5, 11, 6, 11),
+            makeCuboidShape(6, 2, 6, 10, 6, 10),
+            IBooleanFunction.ONLY_FIRST
+        )
     };
 
     private final Variant variant;

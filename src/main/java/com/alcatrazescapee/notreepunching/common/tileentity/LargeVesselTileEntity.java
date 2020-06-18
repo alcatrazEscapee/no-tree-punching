@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
-import com.alcatrazescapee.core.common.tile.DeviceTileEntity;
+import com.alcatrazescapee.core.common.tileentity.DeviceTileEntity;
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.container.LargeVesselContainer;
 

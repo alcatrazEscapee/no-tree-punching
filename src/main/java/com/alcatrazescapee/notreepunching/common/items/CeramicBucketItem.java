@@ -251,6 +251,7 @@ public class CeramicBucketItem extends Item
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items)
     {
+        // todo: since this tag is not loaded yet we don't know what fluids this can contain
         if (isInGroup(group))
         {
             items.add(new ItemStack(this));

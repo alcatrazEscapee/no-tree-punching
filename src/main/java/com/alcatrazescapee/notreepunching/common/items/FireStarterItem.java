@@ -5,8 +5,10 @@
 
 package com.alcatrazescapee.notreepunching.common.items;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.enchantment.Enchantment;
@@ -14,13 +16,10 @@ import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTier;
-import net.minecraft.item.TieredItem;
-import net.minecraft.item.UseAction;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
+import net.minecraft.item.*;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
@@ -58,45 +57,70 @@ public class FireStarterItem extends TieredItem
                 if (!worldIn.isRemote)
                 {
                     CoreHelpers.damageItem(player, player.getActiveHand(), stack, 1);
-                    List<ItemEntity> entities = worldIn.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos.up(), pos.add(1, 2, 1)));
 
-                    // Require 1 log, 2 kindling and 3 tinder
-                    int logs = 0, kindling = 0, tinder = 0;
-
-                    for (ItemEntity drop : entities)
+                    BlockState stateAt = worldIn.getBlockState(pos);
+                    if (FlintAndSteelItem.isUnlitCampfire(stateAt))
                     {
-                        ItemStack dropStack = drop.getItem();
-                        if (ModTags.Items.FIRE_STARTER_LOGS.contains(dropStack.getItem()))
-                        {
-                            logs += dropStack.getCount();
-                        }
-                        else if (ModTags.Items.FIRE_STARTER_KINDLING.contains(dropStack.getItem()))
-                        {
-                            kindling += dropStack.getCount();
-                        }
-                        else if (ModTags.Items.FIRE_STARTER_TINDER.contains(dropStack.getItem()))
-                        {
-                            tinder += dropStack.getCount();
-                        }
-                    }
-                    if (logs >= 1 && kindling >= 2 && tinder >= 3)
-                    {
-                        // Commence Fire pit making
-                        worldIn.setBlockState(pos.up(), Blocks.CAMPFIRE.getDefaultState().with(CampfireBlock.LIT, true));
-                        // ... well, that was easier than expected
+                        // Light campfire
+                        worldIn.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, random.nextFloat() * 0.4F + 0.8F);
+                        worldIn.setBlockState(pos, stateAt.with(BlockStateProperties.LIT, true), 11);
                     }
                     else
                     {
-                        // No fire pit to make, try light a fire
-                        if (random.nextFloat() < Config.SERVER.fireStarterFireStartChance.get())
+                        List<ItemEntity> entities = worldIn.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos.up(), pos.add(1, 2, 1)));
+                        List<ItemEntity> logEntities = new ArrayList<>(), kindlingEntities = new ArrayList<>();
+
+                        // Require 1 log, 3 kindling
+                        int logs = 0, kindling = 0;
+
+                        for (ItemEntity drop : entities)
                         {
-                            worldIn.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
+                            ItemStack dropStack = drop.getItem();
+                            if (ModTags.Items.FIRE_STARTER_LOGS.contains(dropStack.getItem()))
+                            {
+                                logs += dropStack.getCount();
+                                logEntities.add(drop);
+                            }
+                            else if (ModTags.Items.FIRE_STARTER_KINDLING.contains(dropStack.getItem()))
+                            {
+                                kindling += dropStack.getCount();
+                                kindlingEntities.add(drop);
+                            }
+                        }
+                        if (logs >= 1 && kindling >= 3)
+                        {
+                            // Commence Fire pit making
+                            removeItems(logEntities, logs);
+                            removeItems(kindlingEntities, kindling);
+                            worldIn.setBlockState(pos.up(), Blocks.CAMPFIRE.getDefaultState().with(CampfireBlock.LIT, true));
+                        }
+                        else
+                        {
+                            // No fire pit to make, try light a fire
+                            if (random.nextFloat() < Config.SERVER.fireStarterFireStartChance.get())
+                            {
+                                worldIn.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
+                            }
                         }
                     }
                 }
             }
         }
         return stack;
+    }
+
+    @Override
+    public void onUsingTick(ItemStack stack, LivingEntity player, int count)
+    {
+        if (player.world.isRemote && player instanceof PlayerEntity)
+        {
+            RayTraceResult result = rayTrace(player.world, (PlayerEntity) player, RayTraceContext.FluidMode.NONE);
+            if (result instanceof BlockRayTraceResult && random.nextInt(5) == 0)
+            {
+                BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+                player.world.addParticle(ParticleTypes.SMOKE, blockResult.getHitVec().x, blockResult.getHitVec().y, blockResult.getHitVec().z, 0.0F, 0.1F, 0.0F);
+            }
+        }
     }
 
     @Override
@@ -111,24 +135,19 @@ public class FireStarterItem extends TieredItem
         return 30;
     }
 
-    @Override
-    public void onUsingTick(ItemStack stack, LivingEntity player, int count)
+    private void removeItems(List<ItemEntity> itemEntities, int removeAmount)
     {
-        // todo: client only particles
-        /*
-        if (random.nextFloat() < 0.3)
+        for (ItemEntity logEntity : itemEntities)
         {
-            World world = player.getEntityWorld();
-            EntityPlayer player1 = (EntityPlayer) player;
-            RayTraceResult result = rayTrace(world, player1, false);
-            // noinspection ConstantConditions
-            if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK)
+            ItemStack logStack = logEntity.getItem();
+            int shrink = Math.min(logStack.getCount(), removeAmount);
+            removeAmount -= shrink;
+            logStack.shrink(shrink);
+            if (logStack.getCount() == 0)
             {
-                Vec3d v = result.hitVec;
-                ParticleManager.generateFireStarterSmoke(world, v);
+                logEntity.remove();
             }
         }
-        */
     }
 
     @Override

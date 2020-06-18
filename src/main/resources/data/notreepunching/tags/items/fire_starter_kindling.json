@@ -3,6 +3,9 @@
   "replace": false,
   "values": [
     "#forge:rods/wooden",
-    "#minecraft:saplings"
+    "#minecraft:saplings",
+    "#minecraft:leaves",
+    "#forge:string",
+    "notreepunching:plant_fiber"
   ]
 }

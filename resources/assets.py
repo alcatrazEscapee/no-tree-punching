@@ -7,7 +7,8 @@ from mcresources import ResourceManager
 def generate(rm: ResourceManager):
     # First
     rm.lang({
-        'itemGroup.notreepunching.items': 'No Tree Punching'
+        'itemGroup.notreepunching.items': 'No Tree Punching',
+        'notreepunching.tooltip.small_vessel_more': '%d More...'
     })
 
     # Stone
@@ -94,8 +95,7 @@ def generate(rm: ResourceManager):
         rm.block('minecraft:%s_leaves' % wood).with_tag('always_breakable').with_tag('always_drops')
 
     rm.item_tag('fire_starter_logs', '#minecraft:logs', '#minecraft:planks')
-    rm.item_tag('fire_starter_kindling', '#forge:rods/wooden', '#minecraft:saplings')
-    rm.item_tag('fire_starter_tinder', '#minecraft:leaves', 'notreepunching:plant_string', 'notreepunching:plant_fiber', 'minecraft:hay_block')
+    rm.item_tag('fire_starter_kindling', '#forge:rods/wooden', '#minecraft:saplings', '#minecraft:leaves', '#forge:string', 'notreepunching:plant_fiber')
 
 
 def generate_vanilla(rm: ResourceManager):
