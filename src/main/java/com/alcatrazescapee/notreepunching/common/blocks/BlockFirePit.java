@@ -41,6 +41,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.alcatrazescapee.alcatrazcore.block.BlockTileCore;
 import com.alcatrazescapee.alcatrazcore.util.CoreHelpers;
 import com.alcatrazescapee.alcatrazcore.util.compat.FireRegistry;
+import com.alcatrazescapee.notreepunching.ModConfig;
 import com.alcatrazescapee.notreepunching.NoTreePunching;
 import com.alcatrazescapee.notreepunching.client.ModGuiHandler;
 import com.alcatrazescapee.notreepunching.client.particle.ParticleManager;
@@ -185,7 +186,7 @@ public class BlockFirePit extends BlockTileCore
                     // Burn the end of a stick into a torch
                     if (!world.isRemote)
                     {
-                        if (ModConfig.GENERAL.allowTorchesFromFirePits) 
+                        if (ModConfig.GENERAL.allowTorchesFromFirePits)
                         {
                             CoreHelpers.giveItemToPlayer(world, player, new ItemStack(Blocks.TORCH, 2));
                             player.setHeldItem(hand, CoreHelpers.consumeItem(player, stack, 1));
