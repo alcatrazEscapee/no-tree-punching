@@ -17,8 +17,6 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 /**
  * Simple implementation of {@link ItemGroup} which uses a lazily initialized icon stack.
- *
- * @since 2.0.0
  */
 public class ModItemGroup extends ItemGroup
 {

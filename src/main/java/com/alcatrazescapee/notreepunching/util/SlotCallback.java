@@ -12,8 +12,6 @@ import net.minecraftforge.items.SlotItemHandler;
 
 /**
  * A Slot that delegates to the callback for validity and stack size checks
- *
- * @since 2.0.0
  */
 public class SlotCallback extends SlotItemHandler
 {

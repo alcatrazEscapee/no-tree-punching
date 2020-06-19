@@ -12,8 +12,6 @@ import net.minecraft.util.LazyValue;
 
 /**
  * Mod-usable implementation of {@link IItemTier}
- *
- * @since 2.0.0
  */
 public class ModItemTier implements IItemTier
 {
@@ -25,11 +23,6 @@ public class ModItemTier implements IItemTier
     private final float attackDamage;
     private final int enchantability;
     private final LazyValue<Ingredient> repairMaterial;
-
-    public ModItemTier(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantability)
-    {
-        this(harvestLevel, maxUses, efficiency, attackDamage, enchantability, () -> Ingredient.EMPTY);
-    }
 
     public ModItemTier(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantability, java.util.function.Supplier<Ingredient> repairMaterial)
     {
