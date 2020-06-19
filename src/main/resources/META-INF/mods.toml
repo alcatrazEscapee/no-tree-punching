@@ -34,10 +34,3 @@ loaderVersion="[31,)"
     versionRange="[1.15.2,)"
     ordering="NONE"
     side="BOTH"
-
-[[dependencies.notreepunching]]
-    modId="alcatrazcore"
-    mandatory=true
-    versionRange="[v2.0.0,)"
-    ordering="NONE"
-    side="BOTH"

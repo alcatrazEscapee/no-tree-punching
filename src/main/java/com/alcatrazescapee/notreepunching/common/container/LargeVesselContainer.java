@@ -10,10 +10,9 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-import com.alcatrazescapee.core.common.container.DeviceContainer;
-import com.alcatrazescapee.core.common.inventory.SlotCallback;
-import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
+import com.alcatrazescapee.notreepunching.util.Helpers;
+import com.alcatrazescapee.notreepunching.util.SlotCallback;
 
 public class LargeVesselContainer extends DeviceContainer<LargeVesselTileEntity>
 {
@@ -27,7 +26,7 @@ public class LargeVesselContainer extends DeviceContainer<LargeVesselTileEntity>
     @Override
     protected void addContainerSlots()
     {
-        CoreHelpers.ifPresentOrElse(tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY), handler -> {
+        Helpers.ifPresentOrElse(tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY), handler -> {
             for (int x = 0; x < LargeVesselTileEntity.SLOT_COLUMNS; x++)
             {
                 for (int y = 0; y < LargeVesselTileEntity.SLOT_ROWS; y++)
