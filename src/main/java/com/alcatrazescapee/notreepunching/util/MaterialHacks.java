@@ -6,13 +6,14 @@
 package com.alcatrazescapee.notreepunching.util;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
+import com.google.common.collect.ImmutableMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.block.Block;
@@ -24,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.TieredItem;
 import net.minecraft.util.Unit;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
@@ -40,8 +42,16 @@ public class MaterialHacks
 {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Set<Material> DEFAULT_NO_TOOL_MATERIALS = new HashSet<>();
-    private static final Set<Material> SWORD_MATERIALS = new HashSet<>(Arrays.asList(Material.PLANTS, Material.OCEAN_PLANT, Material.TALL_PLANTS, Material.SEA_GRASS, Material.BAMBOO, Material.BAMBOO_SAPLING, Material.LEAVES, Material.CACTUS));
     private static final ToolType SWORD = ToolType.get("sword");
+
+    private static final Map<Material, ToolType> EXTRA_MATERIAL_TOOLS = Util.make(() -> {
+        ImmutableMap.Builder<Material, ToolType> builder = ImmutableMap.builder();
+        Stream.of(Material.PLANTS, Material.OCEAN_PLANT, Material.TALL_PLANTS, Material.SEA_GRASS, Material.BAMBOO, Material.BAMBOO_SAPLING, Material.CACTUS).forEach(material -> builder.put(material, SWORD));
+        Stream.of(Material.WOOD, Material.LEAVES).forEach(material -> builder.put(material, ToolType.AXE));
+        Stream.of(Material.ROCK, Material.IRON, Material.ANVIL, Material.PISTON).forEach(material -> builder.put(material, ToolType.PICKAXE));
+        Stream.of(Material.EARTH, Material.GOURD, Material.SAND, Material.CLAY, Material.SNOW, Material.SNOW_BLOCK).forEach(material -> builder.put(material, ToolType.SHOVEL));
+        return builder.build();
+    });
 
     public static void setup()
     {
@@ -67,9 +77,9 @@ public class MaterialHacks
                     Field harvestLevel = Block.class.getDeclaredField("harvestLevel");
                     harvestTool.setAccessible(true);
                     harvestLevel.setAccessible(true);
-                    if (harvestTool.get(block) == null && harvestLevel.getInt(block) == -1 && SWORD_MATERIALS.contains(material))
+                    if (harvestTool.get(block) == null && harvestLevel.getInt(block) == -1 && EXTRA_MATERIAL_TOOLS.containsKey(material))
                     {
-                        harvestTool.set(block, SWORD);
+                        harvestTool.set(block, EXTRA_MATERIAL_TOOLS.get(material));
                         harvestLevel.set(block, 0);
                     }
                     return Unit.INSTANCE;
