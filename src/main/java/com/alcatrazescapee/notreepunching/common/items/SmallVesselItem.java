@@ -26,11 +26,11 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-import com.alcatrazescapee.core.common.inventory.ItemStackItemHandler;
-import com.alcatrazescapee.core.util.CoreHelpers;
-import com.alcatrazescapee.notreepunching.common.ModItemGroups;
+import com.alcatrazescapee.notreepunching.common.ModItemGroup;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.container.SmallVesselContainer;
+import com.alcatrazescapee.notreepunching.util.Helpers;
+import com.alcatrazescapee.notreepunching.util.ItemStackItemHandler;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
@@ -40,7 +40,7 @@ public class SmallVesselItem extends Item
 
     public SmallVesselItem()
     {
-        super(new Properties().group(ModItemGroups.ITEMS).maxStackSize(1));
+        super(new Properties().group(ModItemGroup.ITEMS).maxStackSize(1));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class SmallVesselItem extends Item
         ItemStack stack = playerIn.getHeldItem(handIn);
         if (playerIn instanceof ServerPlayerEntity && !playerIn.isSneaking())
         {
-            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> NetworkHooks.openGui((ServerPlayerEntity) playerIn, CoreHelpers.getStackContainerProvider(stack, (windowID, playerInventory, player) -> new SmallVesselContainer(windowID, playerInventory))));
+            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> NetworkHooks.openGui((ServerPlayerEntity) playerIn, Helpers.getStackContainerProvider(stack, (windowID, playerInventory, player) -> new SmallVesselContainer(windowID, playerInventory))));
         }
         return new ActionResult<>(ActionResultType.SUCCESS, stack);
     }

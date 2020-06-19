@@ -14,13 +14,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
-import com.alcatrazescapee.core.common.tileentity.DeviceTileEntity;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.container.LargeVesselContainer;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
-public class LargeVesselTileEntity extends DeviceTileEntity
+public class LargeVesselTileEntity extends InventoryTileEntity
 {
     public static final int SLOT_COLUMNS = 5;
     public static final int SLOT_ROWS = 3;

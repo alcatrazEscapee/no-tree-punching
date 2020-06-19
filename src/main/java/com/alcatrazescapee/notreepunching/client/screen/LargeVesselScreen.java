@@ -3,13 +3,12 @@
  * Copyright (c) 2019. See the project LICENSE.md for details.
  */
 
-package com.alcatrazescapee.notreepunching.client;
+package com.alcatrazescapee.notreepunching.client.screen;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
-import com.alcatrazescapee.core.client.screen.ModContainerScreen;
 import com.alcatrazescapee.notreepunching.common.container.LargeVesselContainer;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;

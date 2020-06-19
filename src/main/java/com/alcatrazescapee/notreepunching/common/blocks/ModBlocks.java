@@ -22,7 +22,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import com.alcatrazescapee.notreepunching.common.ModItemGroups;
+import com.alcatrazescapee.notreepunching.common.ModItemGroup;
 import com.alcatrazescapee.notreepunching.common.items.LargeVesselBlockItem;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 
@@ -58,11 +58,11 @@ public final class ModBlocks
 
     public static final Map<PotteryBlock.Variant, RegistryObject<PotteryBlock>> POTTERY = Arrays.stream(PotteryBlock.Variant.values()).collect(Collectors.toMap(Function.identity(), pottery -> register("clay_" + pottery.name().toLowerCase(), () -> new PotteryBlock(pottery))));
 
-    public static final RegistryObject<LargeVesselBlock> CERAMIC_LARGE_VESSEL = register("ceramic_large_vessel", LargeVesselBlock::new, block -> new LargeVesselBlockItem(block, new Item.Properties().group(ModItemGroups.ITEMS)));
+    public static final RegistryObject<LargeVesselBlock> CERAMIC_LARGE_VESSEL = register("ceramic_large_vessel", LargeVesselBlock::new, block -> new LargeVesselBlockItem(block, new Item.Properties().group(ModItemGroup.ITEMS)));
 
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockFactory)
     {
-        return register(name, blockFactory, block -> new BlockItem(block, new Item.Properties().group(ModItemGroups.ITEMS)));
+        return register(name, blockFactory, block -> new BlockItem(block, new Item.Properties().group(ModItemGroup.ITEMS)));
     }
 
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockFactory, Function<T, BlockItem> blockItemFactory)

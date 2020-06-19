@@ -11,12 +11,11 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-import com.alcatrazescapee.core.common.container.ItemStackContainer;
-import com.alcatrazescapee.core.common.inventory.ISlotCallback;
-import com.alcatrazescapee.core.common.inventory.SlotCallback;
-import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.common.items.SmallVesselItem;
+import com.alcatrazescapee.notreepunching.util.Helpers;
+import com.alcatrazescapee.notreepunching.util.ISlotCallback;
+import com.alcatrazescapee.notreepunching.util.SlotCallback;
 
 public class SmallVesselContainer extends ItemStackContainer
 {
@@ -35,7 +34,7 @@ public class SmallVesselContainer extends ItemStackContainer
     @Override
     protected void addContainerSlots()
     {
-        CoreHelpers.ifPresentOrElse(stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).filter(handler -> handler instanceof ISlotCallback), handler -> {
+        Helpers.ifPresentOrElse(stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).filter(handler -> handler instanceof ISlotCallback), handler -> {
             for (int x = 0; x < SmallVesselItem.SLOT_COLUMNS; x++)
             {
                 for (int y = 0; y < SmallVesselItem.SLOT_ROWS; y++)

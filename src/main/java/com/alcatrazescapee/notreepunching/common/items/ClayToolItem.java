@@ -21,16 +21,16 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 
-import com.alcatrazescapee.core.util.CoreHelpers;
-import com.alcatrazescapee.notreepunching.common.ModItemGroups;
+import com.alcatrazescapee.notreepunching.common.ModItemGroup;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.blocks.PotteryBlock;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public class ClayToolItem extends TieredItem
 {
     public ClayToolItem()
     {
-        super(ItemTier.WOOD, new Properties().group(ModItemGroups.ITEMS).setNoRepair());
+        super(ItemTier.WOOD, new Properties().group(ModItemGroup.ITEMS).setNoRepair());
     }
 
     @Override
@@ -48,7 +48,7 @@ public class ClayToolItem extends TieredItem
             {
                 world.setBlockState(pos, ModBlocks.POTTERY.get(PotteryBlock.Variant.WORKED).get().getDefaultState(), 3);
                 world.playSound(null, pos, SoundEvents.BLOCK_GRAVEL_PLACE, SoundCategory.BLOCKS, 0.5F, 1.0F);
-                CoreHelpers.damageItem(player, context.getHand(), stack, 1);
+                Helpers.damageItem(player, context.getHand(), stack, 1);
             }
             else if (state.getBlock() instanceof PotteryBlock)
             {
@@ -66,7 +66,7 @@ public class ClayToolItem extends TieredItem
                     }
                 }
                 world.playSound(null, pos, SoundEvents.BLOCK_GRAVEL_PLACE, SoundCategory.BLOCKS, 0.5F, 1.0F);
-                CoreHelpers.damageItem(player, context.getHand(), stack, 1);
+                Helpers.damageItem(player, context.getHand(), stack, 1);
             }
         }
         return ActionResultType.SUCCESS;
@@ -75,7 +75,7 @@ public class ClayToolItem extends TieredItem
     @Override
     public ItemStack getContainerItem(ItemStack itemStack)
     {
-        return CoreHelpers.damageItem(itemStack.copy(), 1);
+        return Helpers.damageItem(itemStack.copy(), 1);
     }
 
     @Override

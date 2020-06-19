@@ -18,8 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
-import com.alcatrazescapee.notreepunching.common.ModItemGroups;
-
 
 public class MattockItem extends ToolItem
 {

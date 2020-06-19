@@ -7,6 +7,7 @@ package com.alcatrazescapee.notreepunching.common.blocks;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
@@ -29,11 +30,11 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-import com.alcatrazescapee.core.common.block.DeviceBlock;
-import com.alcatrazescapee.core.util.CoreHelpers;
+import com.alcatrazescapee.notreepunching.common.tileentity.InventoryTileEntity;
 import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 
-public class LargeVesselBlock extends DeviceBlock
+public class LargeVesselBlock extends Block
 {
     private static final VoxelShape SHAPE = makeCuboidShape(2, 0, 2, 14, 14, 14);
 
@@ -58,11 +59,22 @@ public class LargeVesselBlock extends DeviceBlock
 
     @Override
     @SuppressWarnings("deprecation")
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving)
+    {
+        Helpers.getTE(worldIn, pos, InventoryTileEntity.class).ifPresent(tile -> {
+            tile.onReplaced();
+            worldIn.updateComparatorOutputLevel(pos, this);
+        });
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
     {
         if (player instanceof ServerPlayerEntity && !player.isSneaking())
         {
-            CoreHelpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> NetworkHooks.openGui((ServerPlayerEntity) player, tile, pos));
+            Helpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> NetworkHooks.openGui((ServerPlayerEntity) player, tile, pos));
         }
         return ActionResultType.SUCCESS;
     }
@@ -72,7 +84,7 @@ public class LargeVesselBlock extends DeviceBlock
     {
         if (stack.hasDisplayName())
         {
-            CoreHelpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> tile.setCustomName(stack.getDisplayName()));
+            Helpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> tile.setCustomName(stack.getDisplayName()));
         }
     }
 
@@ -82,32 +94,36 @@ public class LargeVesselBlock extends DeviceBlock
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player)
     {
-        CoreHelpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> {
-            tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                if (!worldIn.isRemote && player.isCreative() && !tile.isEmpty())
+        Helpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+            if (!worldIn.isRemote && player.isCreative() && !tile.isEmpty())
+            {
+                ItemStack stack = new ItemStack(this);
+                CompoundNBT compoundnbt = tile.write(new CompoundNBT());
+                if (!compoundnbt.isEmpty())
                 {
-                    ItemStack stack = new ItemStack(this);
-                    CompoundNBT compoundnbt = tile.write(new CompoundNBT());
-                    if (!compoundnbt.isEmpty())
-                    {
-                        stack.setTagInfo("BlockEntityTag", compoundnbt);
-                    }
-
-                    stack.setDisplayName(tile.getDisplayName());
-                    ItemEntity itemEntity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);
-                    itemEntity.setDefaultPickupDelay();
-                    worldIn.addEntity(itemEntity);
+                    stack.setTagInfo("BlockEntityTag", compoundnbt);
                 }
-            });
-        });
+
+                stack.setDisplayName(tile.getDisplayName());
+                ItemEntity itemEntity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);
+                itemEntity.setDefaultPickupDelay();
+                worldIn.addEntity(itemEntity);
+            }
+        }));
         super.onBlockHarvested(worldIn, pos, state, player);
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state)
+    {
+        return true;
     }
 
     @Override
     public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player)
     {
         ItemStack stack = super.getPickBlock(state, target, world, pos, player);
-        CoreHelpers.getTE(world, pos, LargeVesselTileEntity.class).ifPresent(tile -> {
+        Helpers.getTE(world, pos, LargeVesselTileEntity.class).ifPresent(tile -> {
             CompoundNBT nbt = tile.write(new CompoundNBT());
             if (!nbt.isEmpty())
             {

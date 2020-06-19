@@ -38,6 +38,6 @@ loaderVersion="[31,)"
 [[dependencies.notreepunching]]
     modId="alcatrazcore"
     mandatory=true
-    versionRange="[2.0.0,)"
+    versionRange="[v2.0.0,)"
     ordering="NONE"
     side="BOTH"

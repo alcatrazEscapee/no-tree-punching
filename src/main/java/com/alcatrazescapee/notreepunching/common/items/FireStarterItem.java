@@ -23,16 +23,16 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
-import com.alcatrazescapee.core.util.CoreHelpers;
 import com.alcatrazescapee.notreepunching.Config;
-import com.alcatrazescapee.notreepunching.common.ModItemGroups;
+import com.alcatrazescapee.notreepunching.common.ModItemGroup;
 import com.alcatrazescapee.notreepunching.common.ModTags;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public class FireStarterItem extends TieredItem
 {
     public FireStarterItem()
     {
-        super(ItemTier.WOOD, new Properties().group(ModItemGroups.ITEMS).maxDamage(10).setNoRepair());
+        super(ItemTier.WOOD, new Properties().group(ModItemGroup.ITEMS).maxDamage(10).setNoRepair());
     }
 
     @Override
@@ -56,7 +56,7 @@ public class FireStarterItem extends TieredItem
                 BlockPos pos = ((BlockRayTraceResult) result).getPos();
                 if (!worldIn.isRemote)
                 {
-                    CoreHelpers.damageItem(player, player.getActiveHand(), stack, 1);
+                    Helpers.damageItem(player, player.getActiveHand(), stack, 1);
 
                     BlockState stateAt = worldIn.getBlockState(pos);
                     if (FlintAndSteelItem.isUnlitCampfire(stateAt))

@@ -11,6 +11,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+import com.alcatrazescapee.notreepunching.client.screen.LargeVesselScreen;
+import com.alcatrazescapee.notreepunching.client.screen.SmallVesselScreen;
 import com.alcatrazescapee.notreepunching.common.container.ModContainers;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;

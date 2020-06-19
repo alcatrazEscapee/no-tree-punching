@@ -17,7 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.ToolType;
 
-import com.alcatrazescapee.core.util.CoreHelpers;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public class KnifeItem extends SwordItem
 {
@@ -35,7 +35,7 @@ public class KnifeItem extends SwordItem
     @Override
     public ItemStack getContainerItem(ItemStack stack)
     {
-        return CoreHelpers.damageItem(stack.copy(), 1);
+        return Helpers.damageItem(stack.copy(), 1);
     }
 
     /**

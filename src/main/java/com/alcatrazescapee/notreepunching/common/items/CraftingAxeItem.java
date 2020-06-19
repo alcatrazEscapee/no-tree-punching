@@ -9,7 +9,7 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
 
-import com.alcatrazescapee.core.util.CoreHelpers;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public class CraftingAxeItem extends AxeItem
 {
@@ -21,7 +21,7 @@ public class CraftingAxeItem extends AxeItem
     @Override
     public ItemStack getContainerItem(ItemStack itemStack)
     {
-        return CoreHelpers.damageItem(itemStack.copy(), 1);
+        return Helpers.damageItem(itemStack.copy(), 1);
     }
 
     @Override

@@ -15,10 +15,9 @@ import net.minecraftforge.fml.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import com.alcatrazescapee.core.common.container.DeviceContainer;
-import com.alcatrazescapee.core.common.tileentity.InventoryTileEntity;
-import com.alcatrazescapee.core.util.CoreHelpers;
+import com.alcatrazescapee.notreepunching.common.tileentity.InventoryTileEntity;
 import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
@@ -35,7 +34,7 @@ public class ModContainers
         return register(name, (windowId, playerInventory, packetBuffer) -> {
             World world = playerInventory.player.world;
             BlockPos pos = packetBuffer.readBlockPos();
-            return CoreHelpers.getTE(world, pos, tileClass).map(tile -> factory.create(tile, playerInventory, windowId)).orElse(null);
+            return Helpers.getTE(world, pos, tileClass).map(tile -> factory.create(tile, playerInventory, windowId)).orElse(null);
         });
     }
 
