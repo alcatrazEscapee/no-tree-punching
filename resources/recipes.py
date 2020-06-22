@@ -88,6 +88,7 @@ def generate(rm: ResourceManager):
     rm.crafting_shaped('flint_knife', ('I', 'S'), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard'}, 'notreepunching:flint_knife').with_advancement('notreepunching:flint_shard')
     rm.crafting_shaped('flint_pickaxe', ('IPI', 'ISI', ' S '), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'}, 'notreepunching:flint_pickaxe').with_advancement('notreepunching:flint_shard')
     rm.crafting_shaped('flint_shovel', (' II', ' PI', 'S  '), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'}, 'notreepunching:flint_shovel').with_advancement('notreepunching:flint_shard')
+    rm.crafting_shaped('macuahuitl', (' IS', 'ISI', 'SI'), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard'}, 'notreepunching:macuahuitl').with_advancement('notreepunching:flint_shard')
 
     # Misc Tools
     rm.crafting_shaped('clay_tool', ('  I', ' II', 'I  '), {'I': 'tag!forge:rods/wooden'}, 'notreepunching:clay_tool').with_advancement('tag!forge:rods/wooden')

@@ -15,7 +15,7 @@ import net.minecraft.util.LazyValue;
  */
 public class ModItemTier implements IItemTier
 {
-    public static final IItemTier FLINT = new ModItemTier(0, 60, 2.5f, 0.5f, 0, () -> Ingredient.fromItems(Items.FLINT));
+    public static final IItemTier FLINT = new ModItemTier(1, 60, 2.5f, 0.5f, 0, () -> Ingredient.fromItems(Items.FLINT));
 
     private final int harvestLevel;
     private final int maxUses;
