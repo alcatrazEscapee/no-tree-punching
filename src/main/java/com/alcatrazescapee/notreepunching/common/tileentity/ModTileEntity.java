@@ -1,6 +1,6 @@
 /*
  * Part of the No Tree Punching mod by AlcatrazEscapee.
- * Copyright (c) 2019. See the project LICENSE.md for details.
+ * Work under copyright. See the project LICENSE.md for details.
  */
 
 package com.alcatrazescapee.notreepunching.common.tileentity;

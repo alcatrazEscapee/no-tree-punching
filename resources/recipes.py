@@ -1,5 +1,5 @@
 #  Part of the No Tree Punching mod by AlcatrazEscapee.
-#  Copyright (c) 2019. See the project LICENSE.md for details.
+#  Work under copyright. See the project LICENSE.md for details.
 
 import mcresources.loot_tables as loot_tables
 import mcresources.utils as utils

@@ -1,6 +1,6 @@
 /*
  * Part of the No Tree Punching mod by AlcatrazEscapee.
- * Copyright (c) 2019. See the project LICENSE.md for details.
+ * Work under copyright. See the project LICENSE.md for details.
  */
 
 package com.alcatrazescapee.notreepunching.world;
@@ -8,7 +8,6 @@ package com.alcatrazescapee.notreepunching.world;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableMap;
@@ -21,8 +20,6 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.placement.CountConfig;
-
 import net.minecraftforge.common.util.Lazy;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
