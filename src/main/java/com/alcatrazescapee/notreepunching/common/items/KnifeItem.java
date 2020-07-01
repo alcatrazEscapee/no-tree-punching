@@ -5,18 +5,22 @@
 
 package com.alcatrazescapee.notreepunching.common.items;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.ToolType;
 
+import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public class KnifeItem extends SwordItem
@@ -36,6 +40,16 @@ public class KnifeItem extends SwordItem
     public ItemStack getContainerItem(ItemStack stack)
     {
         return Helpers.damageItem(stack.copy(), 1);
+    }
+
+    @Override
+    public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving)
+    {
+        if (!worldIn.isRemote && (state.getBlockHardness(worldIn, pos) != 0.0F || Config.SERVER.doInstantBreakBlocksDamageKnives.get()))
+        {
+            stack.damageItem(1, entityLiving, entityIn -> entityIn.sendBreakAnimation(EquipmentSlotType.MAINHAND));
+        }
+        return true;
     }
 
     /**

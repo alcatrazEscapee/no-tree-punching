@@ -19,6 +19,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemHandlerHelper;
 
@@ -42,15 +43,18 @@ public class LooseRockBlock extends Block
     @SuppressWarnings("deprecation")
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
     {
-        if (!worldIn.isRemote)
+        if (!state.isValidPosition(worldIn, pos) && !worldIn.isRemote)
         {
-            // Breaks rock if the block under it breaks.
-            BlockState stateUnder = worldIn.getBlockState(pos.down());
-            if (!stateUnder.isSolidSide(worldIn, pos.down(), Direction.UP))
-            {
-                worldIn.destroyBlock(pos, true);
-            }
+            worldIn.destroyBlock(pos, true);
         }
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
+    {
+        BlockState stateUnder = worldIn.getBlockState(pos.down());
+        return stateUnder.isSolidSide(worldIn, pos.down(), Direction.UP);
     }
 
     @Override
