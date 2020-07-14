@@ -24,13 +24,13 @@ loaderVersion="[31,)"
 [[dependencies.notreepunching]]
     modId="forge"
     mandatory=true
-    versionRange="[31,)"
+    versionRange="[31.2.9,32)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.notreepunching]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2,)"
+    versionRange="[1.15.2,1.16)"
     ordering="NONE"
     side="BOTH"

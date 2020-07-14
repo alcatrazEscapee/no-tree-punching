@@ -123,7 +123,12 @@ public class MaterialHacks
                     {
                         toolLevel = getExtraHarvestLevel(stack, tool);
                     }
-                    if (toolLevel >= state.getHarvestLevel() && state.getHarvestLevel() != -1)
+                    int harvestLevel = state.getHarvestLevel();
+                    if (harvestLevel == -1)
+                    {
+                        harvestLevel = 0; // Assume, since the state has a harvest tool, that it should also have a harvest level. Careless modders may omit this.
+                    }
+                    if (toolLevel >= harvestLevel)
                     {
                         return true;
                     }
