@@ -20,8 +20,6 @@ import net.minecraft.world.server.ServerWorld;
 
 /**
  * A tile entity that handles saving NBT data and default update packets
- *
- * @since 2.0.0
  */
 public abstract class ModTileEntity extends TileEntity
 {

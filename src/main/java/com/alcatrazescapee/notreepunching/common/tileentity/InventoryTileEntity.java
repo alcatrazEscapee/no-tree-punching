@@ -19,14 +19,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-import com.alcatrazescapee.notreepunching.util.Helpers;
 import com.alcatrazescapee.notreepunching.util.ISlotCallback;
 import com.alcatrazescapee.notreepunching.util.ItemStackHandlerCallback;
 
 /**
  * An extension of {@link InventoryTileEntity} which has a custom name
- *
- * @since 2.0.0
  */
 public abstract class InventoryTileEntity extends ModTileEntity implements INamedContainerProvider, ISlotCallback
 {
@@ -114,9 +111,6 @@ public abstract class InventoryTileEntity extends ModTileEntity implements IName
 
     public void onReplaced()
     {
-        if (world != null && !world.isRemote)
-        {
-            Helpers.dropInventoryItems(world, pos, inventory);
-        }
+        inventoryCapability.invalidate();
     }
 }

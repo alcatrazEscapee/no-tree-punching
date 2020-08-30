@@ -56,10 +56,4 @@ public class LargeVesselTileEntity extends InventoryTileEntity
         }
         return true;
     }
-
-    @Override
-    public void onReplaced()
-    {
-        // Keep inventory
-    }
 }

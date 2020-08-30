@@ -115,7 +115,6 @@ def generate(rm: ResourceManager):
     rm.item_tag('fire_starter_logs', '#minecraft:logs', '#minecraft:planks')
     rm.item_tag('fire_starter_kindling', '#forge:rods/wooden', '#minecraft:saplings', '#minecraft:leaves', '#forge:string', 'notreepunching:plant_fiber')
 
-    # todo: large and small vessel blacklist tags
     rm.item('ceramic_small_vessel').with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
     rm.item('ceramic_large_vessel').with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
     rm.item('minecraft:shulker_box').with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
