@@ -7,6 +7,7 @@ package com.alcatrazescapee.notreepunching.common.tileentity;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
@@ -67,14 +68,14 @@ public abstract class InventoryTileEntity extends ModTileEntity implements IName
     }
 
     @Override
-    public void read(CompoundNBT nbt)
+    public void fromTag(BlockState state, CompoundNBT nbt)
     {
         if (nbt.contains("CustomName"))
         {
             customName = ITextComponent.Serializer.fromJson(nbt.getString("CustomName"));
         }
         inventory.deserializeNBT(nbt.getCompound("inventory"));
-        super.read(nbt);
+        super.fromTag(state, nbt);
     }
 
     @Override

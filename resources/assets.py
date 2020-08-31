@@ -2,6 +2,7 @@
 #  Work under copyright. See the project LICENSE.md for details.
 
 from mcresources import ResourceManager
+from mcresources.block_context import BlockContext
 
 
 def generate(rm: ResourceManager):
@@ -13,15 +14,15 @@ def generate(rm: ResourceManager):
 
     # Stone
     for stone in ('granite', 'andesite', 'diorite'):
-        rm.blockstate('%s_cobblestone' % stone) \
+        block = rm.blockstate('%s_cobblestone' % stone) \
             .with_block_model() \
             .with_item_model() \
             .with_tag('cobblestone') \
             .with_block_loot('notreepunching:%s_cobblestone' % stone) \
             .with_lang(lang('%s cobblestone', stone)) \
             .make_stairs() \
-            .make_slab() \
-            .make_wall()
+            .make_slab()
+        wall_v2(block)  # todo: for now. we use this as mcresources is not updated for the 1.16.x pack version change here
         for piece in ('stairs', 'slab', 'wall'):
             rm.block('%s_cobblestone_%s' % (stone, piece)) \
                 .with_lang(lang('%s cobblestone %s', stone, piece)) \
@@ -131,3 +132,32 @@ def generate_vanilla(rm: ResourceManager):
 
 def lang(key: str, *args) -> str:
     return ((key % args) if len(args) > 0 else key).replace('_', ' ').replace('/', ' ').title()
+
+
+def wall_v2(ctx: BlockContext, wall_suffix: str = '_wall'):
+    block = ctx.res.join('block/')
+    wall = ctx.res.join() + wall_suffix
+    wall_post = block + wall_suffix + '_post'
+    wall_side = block + wall_suffix + '_side'
+    wall_side_tall = block + wall_suffix + '_side_tall'
+    wall_inv = block + wall_suffix + '_inventory'
+    ctx.rm.blockstate_multipart(wall, wall_multipart_v2(wall_post, wall_side, wall_side_tall))
+    ctx.rm.block_model(wall + '_post', textures={'wall': block}, parent='block/template_wall_post')
+    ctx.rm.block_model(wall + '_side', textures={'wall': block}, parent='block/template_wall_side')
+    ctx.rm.block_model(wall + '_side_tall', textures={'wall': block}, parent='block/template_wall_side_tall')
+    ctx.rm.block_model(wall + '_inventory', textures={'wall': block}, parent='block/wall_inventory')
+    ctx.rm.item_model(wall, parent=wall_inv, no_textures=True)
+
+
+def wall_multipart_v2(wall_post: str, wall_side: str, wall_side_tall: str):
+    return [
+        ({'up': 'true'}, {'model': wall_post}),
+        ({'north': 'low'}, {'model': wall_side, 'uvlock': True}),
+        ({'east': 'low'}, {'model': wall_side, 'y': 90, 'uvlock': True}),
+        ({'south': 'low'}, {'model': wall_side, 'y': 180, 'uvlock': True}),
+        ({'west': 'low'}, {'model': wall_side, 'y': 270, 'uvlock': True}),
+        ({'north': 'tall'}, {'model': wall_side_tall, 'uvlock': True}),
+        ({'east': 'tall'}, {'model': wall_side_tall, 'y': 90, 'uvlock': True}),
+        ({'south': 'tall'}, {'model': wall_side_tall, 'y': 180, 'uvlock': True}),
+        ({'west': 'tall'}, {'model': wall_side_tall, 'y': 270, 'uvlock': True})
+    ]

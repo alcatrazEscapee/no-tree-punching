@@ -31,7 +31,7 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 @SuppressWarnings("unused")
 public final class ModBlocks
 {
-    public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
 
     public static final RegistryObject<Block> ANDESITE_COBBLESTONE = register("andesite_cobblestone", () -> new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)));
     public static final RegistryObject<Block> DIORITE_COBBLESTONE = register("diorite_cobblestone", () -> new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)));

@@ -1,8 +1,9 @@
 
 # Loader Metadata
 modLoader="javafml"
-loaderVersion="[31,)"
-#issueTrackerURL="" # optional
+loaderVersion="[33,)"
+issueTrackerURL="https://github.com/alcatrazEscapee/no-tree-punching/issues" # optional
+license="MIT"
 
 # Mods
 [[mods]]
@@ -24,13 +25,13 @@ loaderVersion="[31,)"
 [[dependencies.notreepunching]]
     modId="forge"
     mandatory=true
-    versionRange="[31.2.9,32)"
+    versionRange="[33.0.22,)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.notreepunching]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2,1.16)"
+    versionRange="[1.16.2,)"
     ordering="NONE"
     side="BOTH"

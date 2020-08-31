@@ -15,9 +15,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraftforge.common.util.Lazy;
@@ -42,11 +41,11 @@ public class LooseRocksFeature extends Feature<NoFeatureConfig>
 
     public LooseRocksFeature()
     {
-        super(NoFeatureConfig::deserialize);
+        super(NoFeatureConfig.CODEC);
     }
 
     @Override
-    public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config)
+    public boolean generate(ISeedReader worldIn, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoFeatureConfig config)
     {
         BlockState stateAt = worldIn.getBlockState(pos);
         BlockState stateDown = worldIn.getBlockState(pos.down());

@@ -1,11 +1,13 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url='https://dist.creeper.host/Sponge/maven' }
         jcenter()
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 plugins {
@@ -13,30 +15,35 @@ plugins {
     id 'idea'
 }
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.spongepowered.mixin'
 
 /**
  * Version in dev is set to 'dev'
  * Any builds produced by the github actions build script will have a version matching their tag.
  * All version numbers should be Semantic Versioning 2.0 compliant
  */
-if (System.getenv('VERSION') != null) {
-    version = System.getenv('VERSION')
-} else {
-    version = 'dev'
-}
-group = "com.alcatrazescapee.notreepunching"
-archivesBaseName = "notreepunching-forge-${mc_version}"
+def envVersion = System.getenv('VERSION')
+version = envVersion == null ? 'indev' : envVersion
+mod_id = 'notreepunching'
+group = "com.alcatrazescapee.${mod_id}"
+archivesBaseName = "${mod_id}-forge-${mc_version}"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+repositories {
+    maven {
+        url "https://maven.tterrag.com/"
+    }
+}
+
 minecraft {
-    mappings channel: 'snapshot', version: '20200609-1.15.1'
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    mappings channel: 'snapshot', version: '20200829-mixed-1.16.2'
+    //accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Run configurations
     runs {
         client {
             workingDirectory project.file('run')
+            arg '-mixin.config=' + mod_id + '.mixins.json'
             property 'forge.logging.console.level', 'debug'
             mods {
                 notreepunching {
@@ -47,6 +54,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
+            arg '-mixin.config=' + mod_id + '.mixins.json'
             property 'forge.logging.console.level', 'debug'
             mods {
                 notreepunching {
@@ -81,31 +89,29 @@ dependencies {
 // Puts the mod version into the jar for mods.toml to read from
 jar {
     manifest {
-        attributes "Implementation-Version": "${version}"
+        attributes ([
+            "Implementation-Version": "${version}",
+            "MixinConfigs": "${mod_id}.mixins.json"
+        ])
     }
 }
 
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+}
+
 curseforge {
-    if (version == "dev") {
-        return
-    }
-    String envApiKey = System.getenv('CURSEFORGE_API_KEY')
-    if (envApiKey == null) {
-        println 'Unable to locate CURSEFORGE_API_KEY in env variable'
-        return
-    }
-    String versionReleaseType = "release"
-    if (version.toString().contains("beta")) {
-        versionReleaseType = "beta"
-    } else if (version.toString().contains("alpha")) {
-        versionReleaseType = "alpha"
-    }
     project {
-        apiKey = envApiKey
-        id = '289043'
+        def envApiKey = System.getenv('CURSEFORGE_API_KEY')
+        apiKey = envApiKey == null ? 'nope' : envApiKey
+    
+        id = '289043' // No Tree Punching
+        
         changelog = "[Release Notes ${version}](https://github.com/alcatrazEscapee/no-tree-punching/releases/tag/v${version})"
         changelogType = "markdown"
-        releaseType = versionReleaseType
+        
+        releaseType = 'release' // Forge versions are marked release
+        
         addGameVersion "${mc_version}"
     }
 }

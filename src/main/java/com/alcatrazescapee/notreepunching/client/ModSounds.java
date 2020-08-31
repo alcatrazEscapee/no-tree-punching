@@ -15,7 +15,7 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public final class ModSounds
 {
-    public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, MOD_ID);
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
 
     public static final RegistryObject<SoundEvent> KNAPPING = register("knapping");
 

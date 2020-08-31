@@ -20,7 +20,7 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public class ModTileEntities
 {
-    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, MOD_ID);
+    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, MOD_ID);
 
     public static final RegistryObject<TileEntityType<LargeVesselTileEntity>> LARGE_VESSEL = register("large_vessel", LargeVesselTileEntity::new, ModBlocks.CERAMIC_LARGE_VESSEL);
 

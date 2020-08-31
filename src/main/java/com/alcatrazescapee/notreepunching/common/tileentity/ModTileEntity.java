@@ -45,13 +45,13 @@ public abstract class ModTileEntity extends TileEntity
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
     {
-        read(pkt.getNbtCompound());
+        fromTag(getBlockState(), pkt.getNbtCompound());
     }
 
     @Override
-    public void handleUpdateTag(CompoundNBT nbt)
+    public void handleUpdateTag(BlockState state, CompoundNBT nbt)
     {
-        read(nbt);
+        fromTag(state, nbt);
     }
 
     /**

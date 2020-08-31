@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 import com.google.common.collect.ImmutableMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -33,54 +34,78 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.ModTags;
+import com.alcatrazescapee.notreepunching.mixin.block.AbstractBlockAccess;
+import com.alcatrazescapee.notreepunching.mixin.block.AbstractBlockPropertiesAccess;
+import com.alcatrazescapee.notreepunching.mixin.block.AbstractBlockStateAccess;
 
 /**
- * Hack all the materials so every material says it requires a tool
- * We then intercept the break check via typical forge methods (that wouldn't've been reached otherwise)
+ * Manager for all block / blockstate / material related modifications in order for this mod to function
+ *
+ * Invasive modifications:
+ * - Modifies the `toolRequired` field of blocks and blockstates to be always true
+ * - Adds tool types based on materials to specific blocks if they don't declare one by default
+ * - Adds the "sword" tool type to all sword subclasses
  */
-public class MaterialHacks
+public class HarvestBlockHandler
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Set<Material> DEFAULT_NO_TOOL_MATERIALS = new HashSet<>();
+    private static final Set<Block> DEFAULT_NO_TOOL_BLOCKS = new HashSet<>();
     private static final ToolType SWORD = ToolType.get("sword");
 
-    private static final Map<Material, ToolType> EXTRA_MATERIAL_TOOLS = Util.make(() -> {
-        ImmutableMap.Builder<Material, ToolType> builder = ImmutableMap.builder();
-        Stream.of(Material.PLANTS, Material.OCEAN_PLANT, Material.TALL_PLANTS, Material.SEA_GRASS, Material.BAMBOO, Material.BAMBOO_SAPLING, Material.CACTUS).forEach(material -> builder.put(material, SWORD));
-        Stream.of(Material.WOOD, Material.LEAVES).forEach(material -> builder.put(material, ToolType.AXE));
-        Stream.of(Material.ROCK, Material.IRON, Material.ANVIL, Material.PISTON).forEach(material -> builder.put(material, ToolType.PICKAXE));
-        Stream.of(Material.EARTH, Material.GOURD, Material.SAND, Material.CLAY, Material.SNOW, Material.SNOW_BLOCK).forEach(material -> builder.put(material, ToolType.SHOVEL));
-        return builder.build();
+    private static final Field HARVEST_TOOL_FIELD = wrap(() -> {
+        Field field = Block.class.getDeclaredField("harvestTool");
+        field.setAccessible(true);
+        return field;
     });
+    private static final Field HARVEST_LEVEL_FIELD = wrap(() -> {
+        Field field = Block.class.getDeclaredField("harvestLevel");
+        field.setAccessible(true);
+        return field;
+    });
+
+
+    private static final Map<Material, ToolType> EXTRA_MATERIAL_TOOLS = Util.make(new ImmutableMap.Builder<Material, ToolType>(), builder -> {
+
+        Stream.of(Material.PLANTS, Material.OCEAN_PLANT, Material.TALL_PLANTS, Material.SEA_GRASS, Material.BAMBOO, Material.BAMBOO_SAPLING, Material.CACTUS)
+            .forEach(material -> builder.put(material, SWORD));
+        Stream.of(Material.WOOD, Material.NETHER_WOOD)
+            .forEach(material -> builder.put(material, ToolType.AXE));
+        Stream.of(Material.ROCK, Material.IRON, Material.ANVIL, Material.PISTON)
+            .forEach(material -> builder.put(material, ToolType.PICKAXE));
+        Stream.of(Material.EARTH, Material.GOURD, Material.SAND, Material.CLAY, Material.SNOW, Material.SNOW_BLOCK)
+            .forEach(material -> builder.put(material, ToolType.SHOVEL));
+        Stream.of(Material.ORGANIC, Material.field_26708 /* warped / nether plants */, Material.SPONGE, Material.LEAVES)
+            .forEach(material -> builder.put(material, ToolType.HOE));
+    }).build();
 
     public static void setup()
     {
         ForgeRegistries.BLOCKS.getValues()
-            .stream()
-            .flatMap(block -> block.getStateContainer().getValidStates().stream())
-            .forEach(state -> {
-                Block block = state.getBlock();
-                Material material = state.getMaterial();
+            .forEach(block -> {
 
-                // Save it so we can refer to this later
-                if (material.isToolNotRequired())
+                AbstractBlockAccess blockAccess = (AbstractBlockAccess) block;
+                AbstractBlock.Properties settings = blockAccess.getSettings();
+                AbstractBlockPropertiesAccess settingsAccess = (AbstractBlockPropertiesAccess) settings;
+                Material material = blockAccess.getMaterial();
+
+                if (!settingsAccess.isToolRequired())
                 {
-                    DEFAULT_NO_TOOL_MATERIALS.add(material);
+                    // The block by default has no tool. Flag it so we can refer to it later
+                    DEFAULT_NO_TOOL_BLOCKS.add(block);
                 }
 
-                // The titular feature
-                material.requiresNoTool = false;
+                // Forcefully set everything to require a tool
+                // Need to do both the block settings and the block state wince the value is copied there for every state
+                settings.requiresTool();
+                block.getStateContainer().getValidStates().forEach(state -> ((AbstractBlockStateAccess) state).setToolRequired(true));
 
+                // Add extra harvest levels and types to specific blocks
                 // Apparently we "shouldn't be doing this". But that's kind of the whole point of this mod, so here we go!
                 runReallySafely(() -> {
-                    Field harvestTool = Block.class.getDeclaredField("harvestTool");
-                    Field harvestLevel = Block.class.getDeclaredField("harvestLevel");
-                    harvestTool.setAccessible(true);
-                    harvestLevel.setAccessible(true);
-                    if (harvestTool.get(block) == null && harvestLevel.getInt(block) == -1 && EXTRA_MATERIAL_TOOLS.containsKey(material))
+                    if (HARVEST_TOOL_FIELD.get(block) == null && HARVEST_LEVEL_FIELD.getInt(block) == -1 && EXTRA_MATERIAL_TOOLS.containsKey(material))
                     {
-                        harvestTool.set(block, EXTRA_MATERIAL_TOOLS.get(material));
-                        harvestLevel.set(block, 0);
+                        HARVEST_TOOL_FIELD.set(block, EXTRA_MATERIAL_TOOLS.get(material));
+                        HARVEST_LEVEL_FIELD.set(block, 0);
                     }
                     return Unit.INSTANCE;
                 }, () -> "Failed to add the sword tool type to block: " + block.getRegistryName());
@@ -100,9 +125,9 @@ public class MaterialHacks
         });
     }
 
-    public static boolean doesMaterialRequireNoToolByDefault(Material material)
+    public static boolean doesBlockRequireNoToolByDefault(Block block)
     {
-        return DEFAULT_NO_TOOL_MATERIALS.contains(material);
+        return DEFAULT_NO_TOOL_BLOCKS.contains(block);
     }
 
     /**
@@ -110,7 +135,7 @@ public class MaterialHacks
      */
     public static boolean canHarvest(BlockState state, PlayerEntity player)
     {
-        if ((Config.SERVER.noBlockDropsWithoutCorrectTool.get() || !DEFAULT_NO_TOOL_MATERIALS.contains(state.getMaterial())) && !ModTags.Blocks.ALWAYS_DROPS.contains(state.getBlock()))
+        if ((Config.SERVER.noBlockDropsWithoutCorrectTool.get() || !doesBlockRequireNoToolByDefault(state.getBlock())) && !ModTags.Blocks.ALWAYS_DROPS.contains(state.getBlock()))
         {
             ItemStack stack = player.getHeldItemMainhand();
             ToolType tool = state.getHarvestTool();
@@ -133,7 +158,7 @@ public class MaterialHacks
                         return true;
                     }
                 }
-                return player.inventory.canHarvestBlock(state);
+                return player.inventory.getCurrentItem().canHarvestBlock(state);
             }
         }
         return true;
@@ -172,6 +197,18 @@ public class MaterialHacks
         {
             LOGGER.warn("Oh noes: " + message.get());
             LOGGER.debug("Stacktrace", e);
+        }
+    }
+
+    private static <T> T wrap(Callable<T> callable)
+    {
+        try
+        {
+            return callable.call();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
         }
     }
 

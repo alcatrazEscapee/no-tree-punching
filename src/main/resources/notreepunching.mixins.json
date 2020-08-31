@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.alcatrazescapee.notreepunching.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": ["block.AbstractBlockAccess", "block.AbstractBlockPropertiesAccess", "block.AbstractBlockStateAccess", "item.AxeItemAccess", "item.HoeItemAccess", "item.ShovelItemAccess"],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "notreepunching.refmap.json"
+}

@@ -29,7 +29,7 @@ public class LooseRockBlock extends Block
 
     public LooseRockBlock()
     {
-        super(Properties.create(Material.EARTH).sound(SoundType.STONE).hardnessAndResistance(0.15f).doesNotBlockMovement().notSolid());
+        super(Properties.create(Material.EARTH).sound(SoundType.STONE).hardnessAndResistance(0.15f).doesNotBlockMovement().nonOpaque());
     }
 
     @Override
@@ -51,20 +51,20 @@ public class LooseRockBlock extends Block
 
     @Override
     @SuppressWarnings("deprecation")
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
-    {
-        BlockState stateUnder = worldIn.getBlockState(pos.down());
-        return stateUnder.isSolidSide(worldIn, pos.down(), Direction.UP);
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
+    public ActionResultType onUse(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
     {
         ItemStack stack = getPickBlock(state, hit, worldIn, pos, player);
         ItemHandlerHelper.giveItemToPlayer(player, stack);
         worldIn.removeBlock(pos, false);
         return ActionResultType.SUCCESS;
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
+    {
+        BlockState stateUnder = worldIn.getBlockState(pos.down());
+        return stateUnder.isSideSolidFullSquare(worldIn, pos.down(), Direction.UP);
     }
 
     @Override

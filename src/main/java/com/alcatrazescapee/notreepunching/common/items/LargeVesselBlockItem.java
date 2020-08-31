@@ -13,6 +13,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -63,16 +64,18 @@ public class LargeVesselBlockItem extends BlockItem
                         if (displayCount <= 4)
                         {
                             ++displayCount;
-                            ITextComponent itextcomponent = contentStack.getDisplayName().deepCopy();
-                            itextcomponent.appendText(" x").appendText(String.valueOf(contentStack.getCount()));
-                            tooltip.add(itextcomponent);
+                            IFormattableTextComponent textComponent = contentStack.getDisplayName().copy();
+                            textComponent.append(" x").append(String.valueOf(contentStack.getCount()));
+                            tooltip.add(textComponent);
                         }
                     }
                 }
 
                 if (totalCount > displayCount)
                 {
-                    tooltip.add((new TranslationTextComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount)).applyTextStyle(TextFormatting.ITALIC));
+                    TranslationTextComponent textComponent = new TranslationTextComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
+                    textComponent.setStyle(textComponent.getStyle().withFormatting(TextFormatting.ITALIC));
+                    tooltip.add(textComponent);
                 }
             });
         }

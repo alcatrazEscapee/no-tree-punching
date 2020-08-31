@@ -32,7 +32,7 @@ public final class NoTreePunchingJEIPlugin implements IModPlugin
         registration.registerSubtypeInterpreter(ModItems.CERAMIC_BUCKET.get(), itemStack ->
             itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
                 .filter(handler -> handler instanceof FluidHandlerItemStackSimple)
-                .map(handler -> ((FluidHandlerItemStackSimple) handler).getFluid().getDisplayName().getFormattedText())
+                .map(handler -> ((FluidHandlerItemStackSimple) handler).getFluid().getDisplayName().getString())
                 .orElse("")
         );
     }

@@ -17,6 +17,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -75,8 +76,8 @@ public class SmallVesselItem extends Item
                         if (displayCount <= 4)
                         {
                             ++displayCount;
-                            ITextComponent itextcomponent = contentStack.getDisplayName().deepCopy();
-                            itextcomponent.appendText(" x").appendText(String.valueOf(contentStack.getCount()));
+                            IFormattableTextComponent itextcomponent = contentStack.getDisplayName().copy();
+                            itextcomponent.append(" x").append(String.valueOf(contentStack.getCount()));
                             tooltip.add(itextcomponent);
                         }
                     }
@@ -84,7 +85,9 @@ public class SmallVesselItem extends Item
 
                 if (totalCount > displayCount)
                 {
-                    tooltip.add((new TranslationTextComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount)).applyTextStyle(TextFormatting.ITALIC));
+                    IFormattableTextComponent textComponent = new TranslationTextComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
+                    textComponent.setStyle(textComponent.getStyle().withFormatting(TextFormatting.ITALIC));
+                    tooltip.add(textComponent);
                 }
             });
         }

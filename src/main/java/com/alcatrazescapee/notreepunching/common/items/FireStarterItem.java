@@ -16,7 +16,10 @@ import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTier;
+import net.minecraft.item.TieredItem;
+import net.minecraft.item.UseAction;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.*;
@@ -48,18 +51,18 @@ public class FireStarterItem extends TieredItem
         if (entityLiving instanceof PlayerEntity)
         {
             PlayerEntity player = (PlayerEntity) entityLiving;
-            RayTraceResult result = rayTrace(worldIn, player, RayTraceContext.FluidMode.NONE);
+            BlockRayTraceResult result = rayTrace(worldIn, player, RayTraceContext.FluidMode.NONE);
 
             if (result.getType() == RayTraceResult.Type.BLOCK)
             {
                 // If looking at a block
-                BlockPos pos = ((BlockRayTraceResult) result).getPos();
+                BlockPos pos = result.getPos();
                 if (!worldIn.isRemote)
                 {
                     Helpers.damageItem(player, player.getActiveHand(), stack, 1);
 
                     BlockState stateAt = worldIn.getBlockState(pos);
-                    if (FlintAndSteelItem.isUnlitCampfire(stateAt))
+                    if (CampfireBlock.method_30035(stateAt)) /* canBeLit */
                     {
                         // Light campfire
                         worldIn.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, random.nextFloat() * 0.4F + 0.8F);
@@ -114,11 +117,10 @@ public class FireStarterItem extends TieredItem
     {
         if (player.world.isRemote && player instanceof PlayerEntity)
         {
-            RayTraceResult result = rayTrace(player.world, (PlayerEntity) player, RayTraceContext.FluidMode.NONE);
-            if (result instanceof BlockRayTraceResult && random.nextInt(5) == 0)
+            BlockRayTraceResult result = rayTrace(player.world, (PlayerEntity) player, RayTraceContext.FluidMode.NONE);
+            if (random.nextInt(5) == 0)
             {
-                BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
-                player.world.addParticle(ParticleTypes.SMOKE, blockResult.getHitVec().x, blockResult.getHitVec().y, blockResult.getHitVec().z, 0.0F, 0.1F, 0.0F);
+                player.world.addParticle(ParticleTypes.SMOKE, result.getHitVec().x, result.getHitVec().y, result.getHitVec().z, 0.0F, 0.1F, 0.0F);
             }
         }
     }

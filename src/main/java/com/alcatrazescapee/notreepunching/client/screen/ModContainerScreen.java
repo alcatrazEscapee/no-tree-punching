@@ -11,6 +11,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 /**
@@ -27,32 +28,24 @@ public class ModContainerScreen<C extends Container> extends ContainerScreen<C>
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks)
+    public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks)
     {
-        renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
-        renderHoveredToolTip(mouseX, mouseY);
+        drawBackground(stack, partialTicks, mouseX, mouseY);
+        super.render(stack, mouseX, mouseY, partialTicks);
+        drawMouseoverTooltip(stack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+    protected void drawBackground(MatrixStack stack, float partialTicks, int mouseX, int mouseY)
     {
-        drawDefaultBackground();
+        drawDefaultBackground(stack);
     }
 
-    @SuppressWarnings("ConstantConditions")
-    protected void drawDefaultBackground()
+    @SuppressWarnings({"ConstantConditions", "deprecation"})
+    protected void drawDefaultBackground(MatrixStack stack)
     {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        minecraft.getTextureManager().bindTexture(texture);
-        drawRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-    }
-
-    /**
-     * {@link net.minecraft.client.gui.AbstractGui#blit(int, int, int, int, int, int)} except with sane parameter names
-     */
-    protected void drawRect(int x, int y, int u, int v, int width, int height)
-    {
-        blit(x, y, u, v, width, height);
+        client.getTextureManager().bindTexture(texture);
+        drawTexture(stack, guiLeft, guiTop, 0, 0, xSize, ySize);
     }
 }

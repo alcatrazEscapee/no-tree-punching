@@ -25,7 +25,7 @@ import net.minecraftforge.fml.common.Mod;
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
-import com.alcatrazescapee.notreepunching.util.MaterialHacks;
+import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
@@ -46,11 +46,11 @@ public final class ForgeEventHandler
         {
             if (Config.SERVER.noBlockDropsWithoutCorrectTool.get())
             {
-                canHarvest |= MaterialHacks.canHarvest(event.getTargetBlock(), event.getPlayer());
+                canHarvest |= HarvestBlockHandler.canHarvest(event.getTargetBlock(), event.getPlayer());
             }
             else
             {
-                canHarvest |= MaterialHacks.doesMaterialRequireNoToolByDefault(event.getTargetBlock().getMaterial());
+                canHarvest |= HarvestBlockHandler.doesBlockRequireNoToolByDefault(event.getTargetBlock().getBlock());
             }
         }
         event.setCanHarvest(canHarvest);
@@ -61,7 +61,7 @@ public final class ForgeEventHandler
     {
         if (Config.SERVER.noMiningWithoutCorrectTool.get())
         {
-            if (!MaterialHacks.canHarvest(event.getState(), event.getPlayer()) && !ModTags.Blocks.ALWAYS_BREAKABLE.contains(event.getState().getBlock()))
+            if (!HarvestBlockHandler.canHarvest(event.getState(), event.getPlayer()) && !ModTags.Blocks.ALWAYS_BREAKABLE.contains(event.getState().getBlock()))
             {
                 // Everything except instant breaking things will take basically forever (if enabled)
                 float newSpeed = Config.SERVER.doInstantBreakBlocksRequireTool.get() ? 0 : 1e-10f;

@@ -23,7 +23,7 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public class ModContainers
 {
-    public static final DeferredRegister<ContainerType<?>> CONTAINERS = new DeferredRegister<>(ForgeRegistries.CONTAINERS, MOD_ID);
+    public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, MOD_ID);
 
     public static final RegistryObject<ContainerType<LargeVesselContainer>> LARGE_VESSEL = register("large_vessel", LargeVesselTileEntity.class, LargeVesselContainer::new);
     public static final RegistryObject<ContainerType<SmallVesselContainer>> SMALL_VESSEL = register("small_vessel", (windowId, playerInv, buffer) -> new SmallVesselContainer(windowId, playerInv));

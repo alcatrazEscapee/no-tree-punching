@@ -5,8 +5,15 @@
 
 package com.alcatrazescapee.notreepunching.common.items;
 
-import com.google.common.collect.Sets;
-import net.minecraft.block.*;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CampfireBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -18,18 +25,28 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
+import com.alcatrazescapee.notreepunching.mixin.item.AxeItemAccess;
+import com.alcatrazescapee.notreepunching.mixin.item.HoeItemAccess;
+import com.alcatrazescapee.notreepunching.mixin.item.ShovelItemAccess;
+
 
 public class MattockItem extends ToolItem
 {
+    public static final Set<Block> EFFECTIVE_BLOCKS = Stream.of(
+        AxeItemAccess.getEffectiveBlocks(),
+        ShovelItemAccess.getEffectiveBlocks(),
+        HoeItemAccess.getEffectiveBlocks()
+    ).flatMap(Collection::stream).collect(Collectors.toSet());
+
     public MattockItem(IItemTier tier, float attackDamageIn, float attackSpeedIn, Properties builder)
     {
-        super(attackDamageIn, attackSpeedIn, tier, Sets.union(AxeItem.EFFECTIVE_ON, ShovelItem.EFFECTIVE_ON), builder.addToolType(ToolType.AXE, tier.getHarvestLevel()).addToolType(ToolType.SHOVEL, tier.getHarvestLevel()));
+        super(attackDamageIn, attackSpeedIn, tier, EFFECTIVE_BLOCKS, builder.addToolType(ToolType.AXE, tier.getHarvestLevel()).addToolType(ToolType.SHOVEL, tier.getHarvestLevel()).addToolType(ToolType.HOE, tier.getHarvestLevel()));
     }
 
     public float getDestroySpeed(ItemStack stack, BlockState state)
     {
         Material material = state.getMaterial();
-        return material != Material.WOOD && material != Material.PLANTS && material != Material.TALL_PLANTS && material != Material.BAMBOO ? super.getDestroySpeed(stack, state) : this.efficiency;
+        return AxeItemAccess.getEffectiveMaterials().contains(material) ? efficiency : super.getDestroySpeed(stack, state);
     }
 
     /**
@@ -77,15 +94,15 @@ public class MattockItem extends ToolItem
     {
         World world = context.getWorld();
         BlockPos blockpos = context.getPos();
-        BlockState blockstate = world.getBlockState(blockpos);
-        Block block = AxeItem.BLOCK_STRIPPING_MAP.get(blockstate.getBlock());
-        if (block != null)
+        BlockState stateIn = world.getBlockState(blockpos);
+        BlockState stateOut = stateIn.getToolModifiedState(world, blockpos, context.getPlayer(), context.getItem(), ToolType.AXE);
+        if (stateOut != null)
         {
             PlayerEntity playerentity = context.getPlayer();
             world.playSound(playerentity, blockpos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
             if (!world.isRemote)
             {
-                world.setBlockState(blockpos, block.getDefaultState().with(RotatedPillarBlock.AXIS, blockstate.get(RotatedPillarBlock.AXIS)), 11);
+                world.setBlockState(blockpos, stateOut, 11);
                 if (playerentity != null)
                 {
                     context.getItem().damageItem(1, playerentity, (p_220040_1_) -> {
@@ -114,7 +131,7 @@ public class MattockItem extends ToolItem
         if (hook != 0) return hook > 0 ? ActionResultType.SUCCESS : ActionResultType.FAIL;
         if (context.getFace() != Direction.DOWN && world.isAirBlock(blockpos.up()))
         {
-            BlockState blockstate = HoeItem.HOE_LOOKUP.get(world.getBlockState(blockpos).getBlock());
+            BlockState blockstate = world.getBlockState(blockpos).getToolModifiedState(world, blockpos, context.getPlayer(), context.getItem(), ToolType.HOE);
             if (blockstate != null)
             {
                 PlayerEntity playerentity = context.getPlayer();
@@ -151,7 +168,7 @@ public class MattockItem extends ToolItem
         else
         {
             PlayerEntity playerentity = context.getPlayer();
-            BlockState blockstate1 = ShovelItem.SHOVEL_LOOKUP.get(blockstate.getBlock());
+            BlockState blockstate1 = blockstate.getToolModifiedState(world, context.getPos(), playerentity, context.getItem(), ToolType.SHOVEL);
             BlockState blockstate2 = null;
             if (blockstate1 != null && world.isAirBlock(blockpos.up()))
             {

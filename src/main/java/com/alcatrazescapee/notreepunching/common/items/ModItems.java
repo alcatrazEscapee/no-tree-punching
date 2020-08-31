@@ -20,7 +20,7 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 @SuppressWarnings("unused")
 public final class ModItems
 {
-    public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
 
     public static final RegistryObject<Item> FLINT_SHARD = register("flint_shard");
     public static final RegistryObject<Item> GRASS_FIBER = register("plant_fiber");
@@ -33,7 +33,7 @@ public final class ModItems
 
     public static final RegistryObject<TieredItem> FLINT_AXE = register("flint_axe", () -> new CraftingAxeItem(ModItemTier.FLINT, 3.0f, -3.3f, new Item.Properties().group(ModItemGroup.ITEMS)));
     public static final RegistryObject<TieredItem> FLINT_PICKAXE = register("flint_pickaxe", () -> new PickaxeItem(ModItemTier.FLINT, 1, -2.8f, new Item.Properties().group(ModItemGroup.ITEMS)));
-    public static final RegistryObject<TieredItem> FLINT_HOE = register("flint_hoe", () -> new HoeItem(ModItemTier.FLINT, -3.0f, new Item.Properties().group(ModItemGroup.ITEMS)));
+    public static final RegistryObject<TieredItem> FLINT_HOE = register("flint_hoe", () -> new HoeItem(ModItemTier.FLINT, 0, -3.0f, new Item.Properties().group(ModItemGroup.ITEMS)));
     public static final RegistryObject<TieredItem> FLINT_SHOVEL = register("flint_shovel", () -> new ShovelItem(ModItemTier.FLINT, -1.0f, -3.0f, new Item.Properties().group(ModItemGroup.ITEMS)));
     public static final RegistryObject<SwordItem> MACUAHUITL = register("macuahuitl", () -> new SwordItem(ModItemTier.FLINT, 3, -2.4f, new Item.Properties().group(ModItemGroup.ITEMS)));
 

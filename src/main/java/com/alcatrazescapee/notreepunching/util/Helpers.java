@@ -119,6 +119,21 @@ public final class Helpers
     }
 
     /**
+     * Java 9 {@code Optional#ifPresentOrElse}
+     */
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static <T> void ifPresentOrElse(Optional<T> optional, Consumer<T> ifPresent, Runnable orElse)
+    {
+        optional.map(internal -> {
+            ifPresent.accept(internal);
+            return Unit.INSTANCE;
+        }).orElseGet(() -> {
+            orElse.run();
+            return Unit.INSTANCE;
+        });
+    }
+
+    /**
      * Like {@link Capability#orEmpty(Capability, LazyOptional)} except it properly checks for nulls
      * The method is annotated as {@link Nonnull}, but since there *may* be a case where it is called very early, incorrect handling may permit the capability to be null. So instead of crashing, we gracefully log an error message.
      */
