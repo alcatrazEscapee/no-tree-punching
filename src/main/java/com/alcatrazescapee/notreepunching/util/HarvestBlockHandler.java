@@ -9,8 +9,6 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import com.google.common.collect.ImmutableMap;
@@ -25,7 +23,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.TieredItem;
-import net.minecraft.util.Unit;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -48,24 +45,52 @@ import com.alcatrazescapee.notreepunching.mixin.block.AbstractBlockStateAccess;
  */
 public class HarvestBlockHandler
 {
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final ToolType SWORD = ToolType.get("sword");
+    public static final ToolType MATTOCK = ToolType.get("mattock");
+
     private static final Set<Block> DEFAULT_NO_TOOL_BLOCKS = new HashSet<>();
-    private static final ToolType SWORD = ToolType.get("sword");
+    private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final Field HARVEST_TOOL_FIELD = wrap(() -> {
-        Field field = Block.class.getDeclaredField("harvestTool");
-        field.setAccessible(true);
-        return field;
-    });
-    private static final Field HARVEST_LEVEL_FIELD = wrap(() -> {
-        Field field = Block.class.getDeclaredField("harvestLevel");
-        field.setAccessible(true);
-        return field;
+    private static final Field HARVEST_TOOL_FIELD = Util.make(() -> {
+        try
+        {
+            Field field = Block.class.getDeclaredField("harvestTool");
+            field.setAccessible(true);
+            return field;
+        }
+        catch (NoSuchFieldException e)
+        {
+            throw new RuntimeException("Unable to find Block#harvestTool, please report this to NTP!", e);
+        }
     });
 
+    private static final Field HARVEST_LEVEL_FIELD = Util.make(() -> {
+        try
+        {
+            Field field = Block.class.getDeclaredField("harvestLevel");
+            field.setAccessible(true);
+            return field;
+        }
+        catch (NoSuchFieldException e)
+        {
+            throw new RuntimeException("Unable to find Block#harvestLevel, please report this to NTP!", e);
+        }
+    });
+
+    private static final Field TOOL_CLASSES_FIELD = Util.make(() -> {
+        try
+        {
+            Field field = Item.class.getDeclaredField("toolClasses");
+            field.setAccessible(true);
+            return field;
+        }
+        catch (NoSuchFieldException e)
+        {
+            throw new RuntimeException("Unable to find Item#toolClasses, please report this to NTP!", e);
+        }
+    });
 
     private static final Map<Material, ToolType> EXTRA_MATERIAL_TOOLS = Util.make(new ImmutableMap.Builder<Material, ToolType>(), builder -> {
-
         Stream.of(Material.PLANT, Material.WATER_PLANT, Material.REPLACEABLE_PLANT, Material.REPLACEABLE_WATER_PLANT, Material.BAMBOO, Material.BAMBOO_SAPLING, Material.CACTUS)
             .forEach(material -> builder.put(material, SWORD));
         Stream.of(Material.WOOD, Material.NETHER_WOOD)
@@ -74,10 +99,11 @@ public class HarvestBlockHandler
             .forEach(material -> builder.put(material, ToolType.PICKAXE));
         Stream.of(Material.DIRT, Material.VEGETABLE, Material.SAND, Material.CLAY, Material.TOP_SNOW, Material.SNOW)
             .forEach(material -> builder.put(material, ToolType.SHOVEL));
-        Stream.of(Material.GRASS, Material.REPLACEABLE_FIREPROOF_PLANT /* warped / nether plants */, Material.SPONGE, Material.LEAVES)
+        Stream.of(Material.GRASS, Material.REPLACEABLE_FIREPROOF_PLANT, Material.SPONGE, Material.LEAVES)
             .forEach(material -> builder.put(material, ToolType.HOE));
     }).build();
 
+    @SuppressWarnings("unchecked")
     public static void setup()
     {
         ForgeRegistries.BLOCKS.getValues()
@@ -101,27 +127,37 @@ public class HarvestBlockHandler
 
                 // Add extra harvest levels and types to specific blocks
                 // Apparently we "shouldn't be doing this". But that's kind of the whole point of this mod, so here we go!
-                runReallySafely(() -> {
+                try
+                {
                     if (HARVEST_TOOL_FIELD.get(block) == null && HARVEST_LEVEL_FIELD.getInt(block) == -1 && EXTRA_MATERIAL_TOOLS.containsKey(material))
                     {
                         HARVEST_TOOL_FIELD.set(block, EXTRA_MATERIAL_TOOLS.get(material));
                         HARVEST_LEVEL_FIELD.set(block, 0);
                     }
-                    return Unit.INSTANCE;
-                }, () -> "Failed to add the sword tool type to block: " + block.getRegistryName());
+                }
+                catch (IllegalAccessException e)
+                {
+                    LOGGER.warn("Unable to set harvest tool and level for block: {}. Cause: {}. Please report this to NTP!", block, e.getMessage());
+                }
             });
 
         ForgeRegistries.ITEMS.getValues().forEach(item -> {
             // Directly add sword tool classes to sword items
-            runReallySafely(() -> {
+            try
+            {
                 if (item instanceof SwordItem)
                 {
-                    Field toolClasses = Item.class.getDeclaredField("toolClasses");
-                    toolClasses.setAccessible(true);
-                    castReallySafely(toolClasses.get(item)).put(SWORD, ((SwordItem) item).getTier().getLevel());
+                    Map<ToolType, Integer> toolClasses = (Map<ToolType, Integer>) TOOL_CLASSES_FIELD.get(item);
+                    if (!toolClasses.containsKey(SWORD))
+                    {
+                        toolClasses.put(SWORD, ((SwordItem) item).getTier().getLevel());
+                    }
                 }
-                return Unit.INSTANCE;
-            }, () -> "Failed to add the sword tool class to item: " + item.getRegistryName());
+            }
+            catch (IllegalAccessException e)
+            {
+                LOGGER.warn("Unable to add sword tool class for item: {}. Cause: {}. Please report this to NTP!", item, e.getMessage());
+            }
         });
     }
 
@@ -185,36 +221,5 @@ public class HarvestBlockHandler
             }
         }
         return -1;
-    }
-
-    private static void runReallySafely(Callable<?> dangerousThing, Supplier<String> message)
-    {
-        try
-        {
-            dangerousThing.call();
-        }
-        catch (Exception e)
-        {
-            LOGGER.warn("Oh noes: " + message.get());
-            LOGGER.debug("Stacktrace", e);
-        }
-    }
-
-    private static <T> T wrap(Callable<T> callable)
-    {
-        try
-        {
-            return callable.call();
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <K, V> Map<K, V> castReallySafely(Object whatever)
-    {
-        return (Map<K, V>) whatever;
     }
 }

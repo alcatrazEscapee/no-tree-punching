@@ -19,6 +19,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(HoeItem.class)
 public interface HoeItemAccess
 {
+    /**
+     * Used by mattocks to emulate vanilla block breaking checks.
+     */
     @Accessor("DIGGABLES")
     static Set<Block> getEffectiveBlocks() { return null; }
 }

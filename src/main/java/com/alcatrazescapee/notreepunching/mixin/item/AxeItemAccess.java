@@ -20,9 +20,15 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @SuppressWarnings("ConstantConditions")
 public interface AxeItemAccess
 {
+    /**
+     * Used by mattocks to emulate vanilla block breaking checks.
+     */
     @Accessor("DIGGABLE_MATERIALS")
     static Set<Material> getEffectiveMaterials() { return null; }
 
+    /**
+     * Used by mattocks to emulate vanilla block breaking checks.
+     */
     @Accessor("OTHER_DIGGABLE_BLOCKS")
     static Set<Block> getEffectiveBlocks() { return null; }
 }

@@ -19,6 +19,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(ShovelItem.class)
 public interface ShovelItemAccess
 {
+    /**
+     * Used by mattocks to emulate vanilla block breaking checks
+     */
     @Accessor("DIGGABLES")
     static Set<Block> getEffectiveBlocks() { return null; }
 }

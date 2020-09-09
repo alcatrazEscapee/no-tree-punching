@@ -28,6 +28,7 @@ import net.minecraftforge.common.ToolType;
 import com.alcatrazescapee.notreepunching.mixin.item.AxeItemAccess;
 import com.alcatrazescapee.notreepunching.mixin.item.HoeItemAccess;
 import com.alcatrazescapee.notreepunching.mixin.item.ShovelItemAccess;
+import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 
 public class MattockItem extends ToolItem
 {
@@ -39,7 +40,7 @@ public class MattockItem extends ToolItem
 
     public MattockItem(IItemTier tier, float attackDamageIn, float attackSpeedIn, Properties builder)
     {
-        super(attackDamageIn, attackSpeedIn, tier, EFFECTIVE_BLOCKS, builder.addToolType(ToolType.AXE, tier.getLevel()).addToolType(ToolType.SHOVEL, tier.getLevel()).addToolType(ToolType.HOE, tier.getLevel()));
+        super(attackDamageIn, attackSpeedIn, tier, EFFECTIVE_BLOCKS, builder.addToolType(ToolType.AXE, tier.getLevel()).addToolType(ToolType.SHOVEL, tier.getLevel()).addToolType(ToolType.HOE, tier.getLevel()).addToolType(HarvestBlockHandler.MATTOCK, tier.getLevel()));
     }
 
     public float getDestroySpeed(ItemStack stack, BlockState state)
@@ -51,7 +52,7 @@ public class MattockItem extends ToolItem
     /**
      * If not sneaking, use in order of Axe -> Shovel -> Hoe
      * Otherwise, use in order of Axe -> Hoe -> Shovel
-     * This is done as hoe and shovel have a possibility of conflicting
+     * This is done as hoe and shovel have a possibility of conflicting (within vanilla)
      */
     @Override
     public ActionResultType useOn(ItemUseContext context)
@@ -81,8 +82,7 @@ public class MattockItem extends ToolItem
 
     public boolean isCorrectToolForDrops(BlockState blockIn)
     {
-        Block block = blockIn.getBlock();
-        return block == Blocks.SNOW || block == Blocks.SNOW_BLOCK;
+        return blockIn.is(Blocks.SNOW) || blockIn.is(Blocks.SNOW_BLOCK);
     }
 
     /**
