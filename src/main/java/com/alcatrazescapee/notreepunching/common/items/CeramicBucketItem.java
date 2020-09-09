@@ -56,33 +56,32 @@ public class CeramicBucketItem extends Item
     {
         ItemStack bucketStack = playerIn.getItemInHand(handIn);
         Fluid containedFluid = getFluid(bucketStack);
-        BlockRayTraceResult raytraceresult = getPlayerPOVHitResult(worldIn, playerIn, containedFluid == Fluids.EMPTY ? RayTraceContext.FluidMode.SOURCE_ONLY : RayTraceContext.FluidMode.NONE);
-        ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onBucketUse(playerIn, worldIn, bucketStack, raytraceresult);
+        BlockRayTraceResult rayTraceResult = getPlayerPOVHitResult(worldIn, playerIn, containedFluid == Fluids.EMPTY ? RayTraceContext.FluidMode.SOURCE_ONLY : RayTraceContext.FluidMode.NONE);
+        ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onBucketUse(playerIn, worldIn, bucketStack, rayTraceResult);
         if (ret != null)
         {
             return ret;
         }
-        if (raytraceresult.getType() == RayTraceResult.Type.MISS)
+        if (rayTraceResult.getType() == RayTraceResult.Type.MISS)
         {
             return ActionResult.pass(bucketStack);
         }
-        else if (raytraceresult.getType() != RayTraceResult.Type.BLOCK)
+        else if (rayTraceResult.getType() != RayTraceResult.Type.BLOCK)
         {
             return ActionResult.pass(bucketStack);
         }
         else
         {
-            BlockPos fluidPos = raytraceresult.getBlockPos();
-            Direction direction = raytraceresult.getDirection();
-            BlockPos pos1 = fluidPos.relative(direction);
-            if (worldIn.mayInteract(playerIn, fluidPos) && playerIn.mayUseItemAt(pos1, direction, bucketStack))
+            BlockPos posHit = rayTraceResult.getBlockPos();
+            BlockPos posOffset = posHit.relative(rayTraceResult.getDirection());
+            if (worldIn.mayInteract(playerIn, posHit) && playerIn.mayUseItemAt(posOffset, rayTraceResult.getDirection(), bucketStack))
             {
                 if (containedFluid == Fluids.EMPTY)
                 {
-                    BlockState blockstate1 = worldIn.getBlockState(fluidPos);
+                    BlockState blockstate1 = worldIn.getBlockState(posHit);
                     if (blockstate1.getBlock() instanceof IBucketPickupHandler)
                     {
-                        Fluid fluid = ((IBucketPickupHandler) blockstate1.getBlock()).takeLiquid(worldIn, fluidPos, blockstate1);
+                        Fluid fluid = ((IBucketPickupHandler) blockstate1.getBlock()).takeLiquid(worldIn, posHit, blockstate1);
                         if (fluid != Fluids.EMPTY)
                         {
                             playerIn.awardStat(Stats.ITEM_USED.get(this));
@@ -107,13 +106,13 @@ public class CeramicBucketItem extends Item
                 }
                 else
                 {
-                    BlockState blockstate = worldIn.getBlockState(fluidPos);
-                    BlockPos pos2 = canBlockContainFluid(worldIn, fluidPos, blockstate, containedFluid) ? fluidPos : pos1;
-                    if (this.tryPlaceContainedLiquid(playerIn, worldIn, pos2, raytraceresult, containedFluid))
+                    BlockState hitState = worldIn.getBlockState(posHit);
+                    BlockPos hitPos = canBlockContainFluid(worldIn, posHit, hitState, containedFluid) ? posHit : posOffset;
+                    if (this.emptyBucket(playerIn, worldIn, hitPos, rayTraceResult, containedFluid))
                     {
                         if (playerIn instanceof ServerPlayerEntity)
                         {
-                            CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayerEntity) playerIn, pos2, bucketStack);
+                            CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayerEntity) playerIn, hitPos, bucketStack);
                         }
 
                         playerIn.awardStat(Stats.ITEM_USED.get(this));
@@ -173,7 +172,7 @@ public class CeramicBucketItem extends Item
         }
     }
 
-    public boolean tryPlaceContainedLiquid(@Nullable PlayerEntity player, World worldIn, BlockPos posIn, @Nullable BlockRayTraceResult rayTrace, Fluid containedFluid)
+    public boolean emptyBucket(@Nullable PlayerEntity player, World worldIn, BlockPos posIn, @Nullable BlockRayTraceResult rayTrace, Fluid containedFluid)
     {
         if (!(containedFluid instanceof FlowingFluid))
         {
@@ -186,7 +185,7 @@ public class CeramicBucketItem extends Item
             Material material = blockstate.getMaterial();
             if (!(blockstate.isAir(worldIn, posIn) || blockstate.canBeReplaced(containedFluid) || block instanceof ILiquidContainer && ((ILiquidContainer) block).canPlaceLiquid(worldIn, posIn, blockstate, containedFluid)))
             {
-                return rayTrace != null && tryPlaceContainedLiquid(player, worldIn, rayTrace.getBlockPos().relative(rayTrace.getDirection()), null, containedFluid);
+                return rayTrace != null && emptyBucket(player, worldIn, rayTrace.getBlockPos().relative(rayTrace.getDirection()), null, containedFluid);
             }
             else if (worldIn.dimensionType().ultraWarm() && containedFluid.is(FluidTags.WATER))
             {
@@ -210,7 +209,7 @@ public class CeramicBucketItem extends Item
                     worldIn.destroyBlock(posIn, true);
                 }
 
-                if (worldIn.setBlock(posIn, containedFluid.defaultFluidState().createLegacyBlock(), 11) && !blockstate.getFluidState().isSource())
+                if (!worldIn.setBlock(posIn, containedFluid.defaultFluidState().createLegacyBlock(), 11) && !blockstate.getFluidState().isSource())
                 {
                     return false;
                 }
@@ -247,7 +246,13 @@ public class CeramicBucketItem extends Item
 
     private ItemStack emptyBucket(ItemStack stack, PlayerEntity playerIn)
     {
-        return playerIn.abilities.instabuild ? stack : getContainerItem(stack);
+        if (playerIn.abilities.instabuild)
+        {
+            return stack; // Don't empty in creative
+        }
+        ItemStack emptyStack = stack.copy();
+        emptyStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(handler -> handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE));
+        return emptyStack;
     }
 
     private ItemStack fillBucket(ItemStack emptyBuckets, PlayerEntity player, Fluid fillFluid)
