@@ -77,19 +77,19 @@ public final class ForgeEventHandler
         World world = event.getWorld();
         BlockPos pos = event.getPos();
         BlockState state = world.getBlockState(pos);
-        if (ModTags.Items.FLINT_KNAPPABLE.contains(stack.getItem()) && state.getMaterial() == Material.ROCK)
+        if (ModTags.Items.FLINT_KNAPPABLE.contains(stack.getItem()) && state.getMaterial() == Material.STONE)
         {
-            if (!world.isRemote)
+            if (!world.isClientSide)
             {
                 if (RANDOM.nextFloat() < Config.SERVER.flintKnappingConsumeChance.get())
                 {
                     if (RANDOM.nextFloat() < Config.SERVER.flintKnappingSuccessChance.get())
                     {
                         Direction face = event.getFace() == null ? Direction.UP : event.getFace();
-                        InventoryHelper.spawnItemStack(world, pos.getX() + 0.5 + face.getXOffset() * 0.5, pos.getY() + 0.5 + face.getYOffset() * 0.5, pos.getZ() + 0.5 + face.getZOffset() * 0.5, new ItemStack(ModItems.FLINT_SHARD.get(), 2));
+                        InventoryHelper.dropItemStack(world, pos.getX() + 0.5 + face.getStepX() * 0.5, pos.getY() + 0.5 + face.getStepY() * 0.5, pos.getZ() + 0.5 + face.getStepZ() * 0.5, new ItemStack(ModItems.FLINT_SHARD.get(), 2));
                     }
                     stack.shrink(1);
-                    event.getPlayer().setHeldItem(event.getHand(), stack);
+                    event.getPlayer().setItemInHand(event.getHand(), stack);
                 }
                 world.playSound(null, pos, ModSounds.KNAPPING.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }

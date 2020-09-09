@@ -48,7 +48,7 @@ public final class Helpers
     @SuppressWarnings("unchecked")
     public static <T> Optional<T> getTE(IBlockReader world, BlockPos pos, Class<T> tileClass)
     {
-        TileEntity tile = world.getTileEntity(pos);
+        TileEntity tile = world.getBlockEntity(pos);
         if (tileClass.isInstance(tile))
         {
             return Optional.of((T) tile);
@@ -57,9 +57,9 @@ public final class Helpers
     }
 
     /**
-     * Like {@link InventoryHelper#dropInventoryItems(World, BlockPos, IInventory)} but with item handlers
+     * Like {@link InventoryHelper#dropContents(World, BlockPos, IInventory)} but with item handlers
      */
-    public static void dropInventoryItems(World world, BlockPos pos, IItemHandlerModifiable inventory)
+    public static void dropContents(World world, BlockPos pos, IItemHandlerModifiable inventory)
     {
         for (int i = 0; i < inventory.getSlots(); i++)
         {
@@ -67,22 +67,22 @@ public final class Helpers
             inventory.setStackInSlot(i, ItemStack.EMPTY);
             if (!stack.isEmpty())
             {
-                InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+                InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
             }
         }
     }
 
     /**
-     * A simplification of {@link ItemStack#damageItem(int, LivingEntity, Consumer)} that does not require an entity
+     * A simplification of {@link ItemStack#hurtAndBreak(int, LivingEntity, Consumer)} that does not require an entity
      */
-    public static ItemStack damageItem(ItemStack stack, int amount)
+    public static ItemStack hurtAndBreak(ItemStack stack, int amount)
     {
-        if (stack.isDamageable())
+        if (stack.isDamageableItem())
         {
-            if (stack.attemptDamageItem(amount, RANDOM, null))
+            if (stack.hurt(amount, RANDOM, null))
             {
                 stack.shrink(1);
-                stack.setDamage(0);
+                stack.setDamageValue(0);
             }
         }
         return stack;
@@ -91,16 +91,16 @@ public final class Helpers
     /**
      * Default argument, and allows a null player
      */
-    public static ItemStack damageItem(@Nullable PlayerEntity player, @Nullable Hand hand, ItemStack stack, int amount)
+    public static ItemStack hurtAndBreak(@Nullable PlayerEntity player, @Nullable Hand hand, ItemStack stack, int amount)
     {
         if (player != null && hand != null)
         {
-            stack.damageItem(amount, player, entity -> entity.sendBreakAnimation(hand));
+            stack.hurtAndBreak(amount, player, entity -> entity.broadcastBreakEvent(hand));
             return stack;
         }
         else
         {
-            return Helpers.damageItem(stack, amount);
+            return Helpers.hurtAndBreak(stack, amount);
         }
     }
 
@@ -158,7 +158,7 @@ public final class Helpers
             @Override
             public ITextComponent getDisplayName()
             {
-                return stack.getDisplayName();
+                return stack.getHoverName();
             }
 
             @Nullable

@@ -45,7 +45,7 @@ public class ItemStackItemHandler implements ICapabilitySerializable<CompoundNBT
     public void setAndUpdateSlots(int slot)
     {
         // Update the item stack tag on any change
-        stack.setTagInfo("inventory", inventory.serializeNBT());
+        stack.addTagElement("inventory", inventory.serializeNBT());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ItemStackItemHandler implements ICapabilitySerializable<CompoundNBT
         if (nbt != null)
         {
             inventory.deserializeNBT(nbt);
-            stack.setTagInfo("inventory", nbt);
+            stack.addTagElement("inventory", nbt);
         }
     }
 }

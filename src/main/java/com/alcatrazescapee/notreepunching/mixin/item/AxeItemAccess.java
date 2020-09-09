@@ -20,9 +20,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @SuppressWarnings("ConstantConditions")
 public interface AxeItemAccess
 {
-    @Accessor("field_23139")
+    @Accessor("DIGGABLE_MATERIALS")
     static Set<Material> getEffectiveMaterials() { return null; }
 
-    @Accessor("EFFECTIVE_BLOCKS")
+    @Accessor("OTHER_DIGGABLE_BLOCKS")
     static Set<Block> getEffectiveBlocks() { return null; }
 }

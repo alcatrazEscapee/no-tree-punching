@@ -32,21 +32,21 @@ public class SlotCallback extends SlotItemHandler
     }
 
     @Override
-    public void onSlotChanged()
+    public void setChanged()
     {
         callback.setAndUpdateSlots(getSlotIndex());
-        super.onSlotChanged();
+        super.setChanged();
     }
 
     @Override
-    public boolean isItemValid(ItemStack stack)
+    public boolean mayPlace(ItemStack stack)
     {
-        return callback.isItemValid(getSlotIndex(), stack) && super.isItemValid(stack);
+        return callback.isItemValid(getSlotIndex(), stack) && super.mayPlace(stack);
     }
 
     @Override
-    public int getSlotStackLimit()
+    public int getMaxStackSize()
     {
-        return Math.min(callback.getSlotStackLimit(getSlotIndex()), super.getSlotStackLimit());
+        return Math.min(callback.getSlotStackLimit(getSlotIndex()), super.getMaxStackSize());
     }
 }

@@ -68,25 +68,25 @@ public abstract class InventoryTileEntity extends ModTileEntity implements IName
     }
 
     @Override
-    public void fromTag(BlockState state, CompoundNBT nbt)
+    public void load(BlockState state, CompoundNBT nbt)
     {
         if (nbt.contains("CustomName"))
         {
             customName = ITextComponent.Serializer.fromJson(nbt.getString("CustomName"));
         }
         inventory.deserializeNBT(nbt.getCompound("inventory"));
-        super.fromTag(state, nbt);
+        super.load(state, nbt);
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT nbt)
+    public CompoundNBT save(CompoundNBT nbt)
     {
         if (customName != null)
         {
             nbt.putString("CustomName", ITextComponent.Serializer.toJson(customName));
         }
         nbt.put("inventory", inventory.serializeNBT());
-        return super.write(nbt);
+        return super.save(nbt);
     }
 
     @Override

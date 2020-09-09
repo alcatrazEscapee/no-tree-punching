@@ -66,15 +66,15 @@ public class HarvestBlockHandler
 
     private static final Map<Material, ToolType> EXTRA_MATERIAL_TOOLS = Util.make(new ImmutableMap.Builder<Material, ToolType>(), builder -> {
 
-        Stream.of(Material.PLANTS, Material.OCEAN_PLANT, Material.TALL_PLANTS, Material.SEA_GRASS, Material.BAMBOO, Material.BAMBOO_SAPLING, Material.CACTUS)
+        Stream.of(Material.PLANT, Material.WATER_PLANT, Material.REPLACEABLE_PLANT, Material.REPLACEABLE_WATER_PLANT, Material.BAMBOO, Material.BAMBOO_SAPLING, Material.CACTUS)
             .forEach(material -> builder.put(material, SWORD));
         Stream.of(Material.WOOD, Material.NETHER_WOOD)
             .forEach(material -> builder.put(material, ToolType.AXE));
-        Stream.of(Material.ROCK, Material.IRON, Material.ANVIL, Material.PISTON)
+        Stream.of(Material.STONE, Material.METAL, Material.HEAVY_METAL, Material.PISTON)
             .forEach(material -> builder.put(material, ToolType.PICKAXE));
-        Stream.of(Material.EARTH, Material.GOURD, Material.SAND, Material.CLAY, Material.SNOW, Material.SNOW_BLOCK)
+        Stream.of(Material.DIRT, Material.VEGETABLE, Material.SAND, Material.CLAY, Material.TOP_SNOW, Material.SNOW)
             .forEach(material -> builder.put(material, ToolType.SHOVEL));
-        Stream.of(Material.ORGANIC, Material.field_26708 /* warped / nether plants */, Material.SPONGE, Material.LEAVES)
+        Stream.of(Material.GRASS, Material.REPLACEABLE_FIREPROOF_PLANT /* warped / nether plants */, Material.SPONGE, Material.LEAVES)
             .forEach(material -> builder.put(material, ToolType.HOE));
     }).build();
 
@@ -84,11 +84,11 @@ public class HarvestBlockHandler
             .forEach(block -> {
 
                 AbstractBlockAccess blockAccess = (AbstractBlockAccess) block;
-                AbstractBlock.Properties settings = blockAccess.getSettings();
+                AbstractBlock.Properties settings = blockAccess.getProperties();
                 AbstractBlockPropertiesAccess settingsAccess = (AbstractBlockPropertiesAccess) settings;
                 Material material = blockAccess.getMaterial();
 
-                if (!settingsAccess.isToolRequired())
+                if (!settingsAccess.getRequiresCorrectToolForDrops())
                 {
                     // The block by default has no tool. Flag it so we can refer to it later
                     DEFAULT_NO_TOOL_BLOCKS.add(block);
@@ -96,8 +96,8 @@ public class HarvestBlockHandler
 
                 // Forcefully set everything to require a tool
                 // Need to do both the block settings and the block state wince the value is copied there for every state
-                settings.requiresTool();
-                block.getStateContainer().getValidStates().forEach(state -> ((AbstractBlockStateAccess) state).setToolRequired(true));
+                settings.requiresCorrectToolForDrops();
+                block.getStateDefinition().getPossibleStates().forEach(state -> ((AbstractBlockStateAccess) state).setRequiresCorrectToolForDrops(true));
 
                 // Add extra harvest levels and types to specific blocks
                 // Apparently we "shouldn't be doing this". But that's kind of the whole point of this mod, so here we go!
@@ -118,7 +118,7 @@ public class HarvestBlockHandler
                 {
                     Field toolClasses = Item.class.getDeclaredField("toolClasses");
                     toolClasses.setAccessible(true);
-                    castReallySafely(toolClasses.get(item)).put(SWORD, ((SwordItem) item).getTier().getHarvestLevel());
+                    castReallySafely(toolClasses.get(item)).put(SWORD, ((SwordItem) item).getTier().getLevel());
                 }
                 return Unit.INSTANCE;
             }, () -> "Failed to add the sword tool class to item: " + item.getRegistryName());
@@ -137,7 +137,7 @@ public class HarvestBlockHandler
     {
         if ((Config.SERVER.noBlockDropsWithoutCorrectTool.get() || !doesBlockRequireNoToolByDefault(state.getBlock())) && !ModTags.Blocks.ALWAYS_DROPS.contains(state.getBlock()))
         {
-            ItemStack stack = player.getHeldItemMainhand();
+            ItemStack stack = player.getMainHandItem();
             ToolType tool = state.getHarvestTool();
             if (tool != null)
             {
@@ -158,7 +158,7 @@ public class HarvestBlockHandler
                         return true;
                     }
                 }
-                return player.inventory.getCurrentItem().canHarvestBlock(state);
+                return player.inventory.getSelected().isCorrectToolForDrops(state);
             }
         }
         return true;
@@ -177,7 +177,7 @@ public class HarvestBlockHandler
             // Knives have the "sword" tool type which is used for plant materials
             if (stack.getItem() instanceof TieredItem)
             {
-                return ((TieredItem) stack.getItem()).getTier().getHarvestLevel();
+                return ((TieredItem) stack.getItem()).getTier().getLevel();
             }
             else
             {

@@ -23,7 +23,7 @@ public final class ClientEventHandler
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event)
     {
-        ScreenManager.registerFactory(ModContainers.LARGE_VESSEL.get(), LargeVesselScreen::new);
-        ScreenManager.registerFactory(ModContainers.SMALL_VESSEL.get(), SmallVesselScreen::new);
+        ScreenManager.register(ModContainers.LARGE_VESSEL.get(), LargeVesselScreen::new);
+        ScreenManager.register(ModContainers.SMALL_VESSEL.get(), SmallVesselScreen::new);
     }
 }

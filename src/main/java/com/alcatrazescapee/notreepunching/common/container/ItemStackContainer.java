@@ -30,11 +30,11 @@ public class ItemStackContainer extends ModContainer
         super(containerType, windowId);
         this.player = playerInv.player;
         this.stack = stack;
-        this.itemDragIndex = playerInv.currentItem;
+        this.itemDragIndex = playerInv.selected;
 
-        if (stack == player.getHeldItemMainhand())
+        if (stack == player.getMainHandItem())
         {
-            this.itemIndex = playerInv.currentItem + 27; // Mainhand opened inventory
+            this.itemIndex = playerInv.selected + 27; // Mainhand opened inventory
             this.isOffhand = false;
         }
         else
@@ -49,21 +49,21 @@ public class ItemStackContainer extends ModContainer
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(PlayerEntity player, int index)
+    public ItemStack quickMoveStack(PlayerEntity player, int index)
     {
         // Slot that was clicked
-        Slot slot = inventorySlots.get(index);
-        if (slot != null && slot.getHasStack() && index != itemIndex)
+        Slot slot = slots.get(index);
+        if (slot != null && slot.hasItem() && index != itemIndex)
         {
-            ItemStack stack = slot.getStack();
+            ItemStack stack = slot.getItem();
             ItemStack stackCopy = stack.copy();
 
             // Begin custom transfer code here
-            int containerSlots = inventorySlots.size() - player.inventory.mainInventory.size(); // number of slots in the container
+            int containerSlots = slots.size() - player.inventory.items.size(); // number of slots in the container
             if (index < containerSlots)
             {
                 // Transfer out of the container
-                if (!this.mergeItemStack(stack, containerSlots, inventorySlots.size(), true))
+                if (!this.moveItemStackTo(stack, containerSlots, slots.size(), true))
                 {
                     // Don't transfer anything
                     return ItemStack.EMPTY;
@@ -72,7 +72,7 @@ public class ItemStackContainer extends ModContainer
             // Transfer into the container
             else
             {
-                if (!this.mergeItemStack(stack, 0, containerSlots, false))
+                if (!this.moveItemStackTo(stack, 0, containerSlots, false))
                 {
                     return ItemStack.EMPTY;
                 }
@@ -80,11 +80,11 @@ public class ItemStackContainer extends ModContainer
 
             if (stack.getCount() == 0)
             {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             }
             else
             {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
             if (stack.getCount() == stackCopy.getCount())
             {
@@ -98,7 +98,7 @@ public class ItemStackContainer extends ModContainer
 
     @Override
     @Nonnull
-    public ItemStack slotClick(int slotID, int dragType, ClickType clickType, PlayerEntity player)
+    public ItemStack clicked(int slotID, int dragType, ClickType clickType, PlayerEntity player)
     {
         // Prevent moving of the item stack that is currently open
         if (slotID == itemIndex && (clickType == ClickType.QUICK_MOVE || clickType == ClickType.PICKUP || clickType == ClickType.THROW || clickType == ClickType.SWAP))
@@ -111,7 +111,7 @@ public class ItemStackContainer extends ModContainer
         }
         else
         {
-            return super.slotClick(slotID, dragType, clickType, player);
+            return super.clicked(slotID, dragType, clickType, player);
         }
     }
 }

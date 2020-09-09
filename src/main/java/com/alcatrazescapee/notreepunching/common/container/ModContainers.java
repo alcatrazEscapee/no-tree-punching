@@ -32,7 +32,7 @@ public class ModContainers
     private static <T extends InventoryTileEntity, C extends DeviceContainer<T>> RegistryObject<ContainerType<C>> register(String name, Class<T> tileClass, DeviceContainer.IFactory<T, C> factory)
     {
         return register(name, (windowId, playerInventory, packetBuffer) -> {
-            World world = playerInventory.player.world;
+            World world = playerInventory.player.level;
             BlockPos pos = packetBuffer.readBlockPos();
             return Helpers.getTE(world, pos, tileClass).map(tile -> factory.create(tile, playerInventory, windowId)).orElse(null);
         });

@@ -32,26 +32,26 @@ public abstract class ModTileEntity extends TileEntity
     @Override
     public SUpdateTileEntityPacket getUpdatePacket()
     {
-        return new SUpdateTileEntityPacket(getPos(), 1, write(new CompoundNBT()));
+        return new SUpdateTileEntityPacket(getBlockPos(), 1, save(new CompoundNBT()));
     }
 
 
     @Override
     public CompoundNBT getUpdateTag()
     {
-        return write(super.getUpdateTag());
+        return save(super.getUpdateTag());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
     {
-        fromTag(getBlockState(), pkt.getNbtCompound());
+        load(getBlockState(), pkt.getTag());
     }
 
     @Override
     public void handleUpdateTag(BlockState state, CompoundNBT nbt)
     {
-        fromTag(state, nbt);
+        load(state, nbt);
     }
 
     /**
@@ -61,11 +61,11 @@ public abstract class ModTileEntity extends TileEntity
      */
     public void markForBlockUpdate()
     {
-        if (world != null)
+        if (level != null)
         {
-            BlockState state = world.getBlockState(pos);
-            world.notifyBlockUpdate(pos, state, state, 3);
-            markDirty();
+            BlockState state = level.getBlockState(worldPosition);
+            level.sendBlockUpdated(worldPosition, state, state, 3);
+            setChanged();
         }
     }
 
@@ -78,7 +78,7 @@ public abstract class ModTileEntity extends TileEntity
     public void markForSync()
     {
         sendVanillaUpdatePacket();
-        markDirty();
+        setChanged();
     }
 
     /**
@@ -87,22 +87,21 @@ public abstract class ModTileEntity extends TileEntity
      */
     protected void markDirtyFast()
     {
-        if (world != null)
+        if (level != null)
         {
             getBlockState();
-            world.markChunkDirty(pos, this);
+            level.blockEntityChanged(worldPosition, this);
         }
     }
 
     protected void sendVanillaUpdatePacket()
     {
         SUpdateTileEntityPacket packet = getUpdatePacket();
-        BlockPos pos = getPos();
+        BlockPos pos = getBlockPos();
 
-        if (packet != null && world instanceof ServerWorld)
+        if (packet != null && level instanceof ServerWorld)
         {
-            ((ServerChunkProvider) world.getChunkProvider()).chunkManager.getTrackingPlayers(new ChunkPos(pos), false).forEach(e -> e.connection.sendPacket(packet));
+            ((ServerChunkProvider) level.getChunkSource()).chunkMap.getPlayers(new ChunkPos(pos), false).forEach(e -> e.connection.send(packet));
         }
     }
 }
-

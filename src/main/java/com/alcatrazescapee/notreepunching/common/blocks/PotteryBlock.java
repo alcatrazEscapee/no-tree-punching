@@ -28,47 +28,47 @@ public class PotteryBlock extends Block
 {
     private static final VoxelShape[] SHAPES = new VoxelShape[] {
         // Worked - the only simple one here
-        makeCuboidShape(1, 0, 1, 15, 15, 15),
+        box(1, 0, 1, 15, 15, 15),
         // Large vessel
-        VoxelShapes.combineAndSimplify(
+        VoxelShapes.join(
             VoxelShapes.or(
-                makeCuboidShape(2, 0, 2, 14, 14, 14),
-                makeCuboidShape(1, 2, 1, 15, 12, 15)
+                box(2, 0, 2, 14, 14, 14),
+                box(1, 2, 1, 15, 12, 15)
             ),
-            makeCuboidShape(4, 2, 4, 12, 14, 12),
+            box(4, 2, 4, 12, 14, 12),
             IBooleanFunction.ONLY_FIRST
         ),
         // Small vessel
-        VoxelShapes.combineAndSimplify(
+        VoxelShapes.join(
             VoxelShapes.or(
-                makeCuboidShape(4, 0, 4, 12, 10, 12),
-                makeCuboidShape(3, 2, 4, 13, 8, 12),
-                makeCuboidShape(4, 2, 3, 12, 8, 13),
-                makeCuboidShape(5, 9, 5, 11, 11, 11)
+                box(4, 0, 4, 12, 10, 12),
+                box(3, 2, 4, 13, 8, 12),
+                box(4, 2, 3, 12, 8, 13),
+                box(5, 9, 5, 11, 11, 11)
             ),
             VoxelShapes.or(
-                makeCuboidShape(5, 0, 5, 10, 10, 10),
-                makeCuboidShape(6, 9, 6, 10, 11, 10)
+                box(5, 0, 5, 10, 10, 10),
+                box(6, 9, 6, 10, 11, 10)
             ),
             IBooleanFunction.ONLY_FIRST
         ),
         // Bucket
-        VoxelShapes.combineAndSimplify(
+        VoxelShapes.join(
             VoxelShapes.or(
-                makeCuboidShape(6, 0, 6, 10, 1, 10),
-                makeCuboidShape(5, 1, 5, 11, 7, 11),
-                makeCuboidShape(5, 4, 4, 11, 10, 12),
-                makeCuboidShape(4, 4, 5, 12, 10, 11)
+                box(6, 0, 6, 10, 1, 10),
+                box(5, 1, 5, 11, 7, 11),
+                box(5, 4, 4, 11, 10, 12),
+                box(4, 4, 5, 12, 10, 11)
             ),
             VoxelShapes.or(
-                makeCuboidShape(6, 3, 6, 10, 10, 10),
-                makeCuboidShape(5, 7, 5, 11, 10, 11)
+                box(6, 3, 6, 10, 10, 10),
+                box(5, 7, 5, 11, 10, 11)
             ),
             IBooleanFunction.ONLY_FIRST
         ),
-        VoxelShapes.combineAndSimplify(
-            makeCuboidShape(5, 0, 5, 11, 6, 11),
-            makeCuboidShape(6, 2, 6, 10, 6, 10),
+        VoxelShapes.join(
+            box(5, 0, 5, 11, 6, 11),
+            box(6, 2, 6, 10, 6, 10),
             IBooleanFunction.ONLY_FIRST
         )
     };
@@ -77,7 +77,7 @@ public class PotteryBlock extends Block
 
     public PotteryBlock(Variant variant)
     {
-        super(Properties.create(Material.CLAY).hardnessAndResistance(0.8f - 0.1f * variant.ordinal()).harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND));
+        super(Properties.of(Material.CLAY).strength(0.8f - 0.1f * variant.ordinal()).harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GRAVEL));
 
         this.variant = variant;
     }

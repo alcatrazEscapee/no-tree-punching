@@ -41,14 +41,14 @@ public class SmallVesselItem extends Item
 
     public SmallVesselItem()
     {
-        super(new Properties().group(ModItemGroup.ITEMS).maxStackSize(1));
+        super(new Properties().tab(ModItemGroup.ITEMS).stacksTo(1));
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        ItemStack stack = playerIn.getHeldItem(handIn);
-        if (playerIn instanceof ServerPlayerEntity && !playerIn.isSneaking())
+        ItemStack stack = playerIn.getItemInHand(handIn);
+        if (playerIn instanceof ServerPlayerEntity && !playerIn.isShiftKeyDown())
         {
             stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> NetworkHooks.openGui((ServerPlayerEntity) playerIn, Helpers.getStackContainerProvider(stack, (windowID, playerInventory, player) -> new SmallVesselContainer(windowID, playerInventory))));
         }
@@ -56,10 +56,10 @@ public class SmallVesselItem extends Item
     }
 
     /**
-     * Copy pasta from {@link net.minecraft.block.ShulkerBoxBlock#addInformation(ItemStack, IBlockReader, List, ITooltipFlag)}
+     * Copy pasta from {@link net.minecraft.block.ShulkerBoxBlock#appendHoverText(ItemStack, IBlockReader, List, ITooltipFlag)}
      */
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
     {
         if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY != null)
         {
@@ -76,9 +76,9 @@ public class SmallVesselItem extends Item
                         if (displayCount <= 4)
                         {
                             ++displayCount;
-                            IFormattableTextComponent itextcomponent = contentStack.getDisplayName().copy();
-                            itextcomponent.append(" x").append(String.valueOf(contentStack.getCount()));
-                            tooltip.add(itextcomponent);
+                            IFormattableTextComponent textComponent = contentStack.getHoverName().plainCopy();
+                            textComponent.append(" x").append(String.valueOf(contentStack.getCount()));
+                            tooltip.add(textComponent);
                         }
                     }
                 }
@@ -86,7 +86,7 @@ public class SmallVesselItem extends Item
                 if (totalCount > displayCount)
                 {
                     IFormattableTextComponent textComponent = new TranslationTextComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
-                    textComponent.setStyle(textComponent.getStyle().withFormatting(TextFormatting.ITALIC));
+                    textComponent.setStyle(textComponent.getStyle().applyFormat(TextFormatting.ITALIC));
                     tooltip.add(textComponent);
                 }
             });

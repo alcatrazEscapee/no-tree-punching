@@ -34,7 +34,13 @@ public class KnifeItem extends SwordItem
 {
     public KnifeItem(IItemTier tier, int attackDamageIn, float attackSpeedIn, Properties builder)
     {
-        super(tier, attackDamageIn, attackSpeedIn, builder.setNoRepair().addToolType(ToolType.get("sword"), tier.getHarvestLevel()));
+        super(tier, attackDamageIn, attackSpeedIn, builder.setNoRepair().addToolType(ToolType.get("sword"), tier.getLevel()));
+    }
+
+    @Override
+    public ItemStack getContainerItem(ItemStack stack)
+    {
+        return Helpers.hurtAndBreak(stack.copy(), 1);
     }
 
     @Override
@@ -44,17 +50,17 @@ public class KnifeItem extends SwordItem
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack stack)
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
-        return Helpers.damageItem(stack.copy(), 1);
+        return enchantment.category == EnchantmentType.BREAKABLE || enchantment.category == EnchantmentType.WEAPON;
     }
 
     @Override
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving)
+    public boolean mineBlock(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving)
     {
-        if (!worldIn.isRemote && (state.getBlockHardness(worldIn, pos) != 0.0F || Config.SERVER.doInstantBreakBlocksDamageKnives.get()))
+        if (!worldIn.isClientSide && (state.getDestroySpeed(worldIn, pos) != 0.0F || Config.SERVER.doInstantBreakBlocksDamageKnives.get()))
         {
-            stack.damageItem(1, entityLiving, entityIn -> entityIn.sendBreakAnimation(EquipmentSlotType.MAINHAND));
+            stack.hurtAndBreak(1, entityLiving, entityIn -> entityIn.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
         }
         return true;
     }
@@ -64,31 +70,25 @@ public class KnifeItem extends SwordItem
      */
     @Override
     @SuppressWarnings("ALL")
-    public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity entity, Hand hand)
+    public ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity entity, Hand hand)
     {
-        if (entity.world.isRemote) return net.minecraft.util.ActionResultType.PASS;
+        if (entity.level.isClientSide) return net.minecraft.util.ActionResultType.PASS;
         if (entity instanceof IForgeShearable)
         {
             IForgeShearable target = (IForgeShearable) entity;
             BlockPos pos = new BlockPos(entity.getX(), entity.getY(), entity.getZ());
-            if (target.isShearable(stack, entity.world, pos))
+            if (target.isShearable(stack, entity.level, pos))
             {
-                List<ItemStack> drops = target.onSheared(playerIn, stack, entity.world, pos, EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack));
+                List<ItemStack> drops = target.onSheared(playerIn, stack, entity.level, pos, EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, stack));
                 Random rand = new Random();
                 drops.forEach(d -> {
-                    ItemEntity ent = entity.entityDropItem(d, 1.0F);
-                    ent.setMotion(ent.getMotion().add((double) ((rand.nextFloat() - rand.nextFloat()) * 0.1F), (double) (rand.nextFloat() * 0.05F), (double) ((rand.nextFloat() - rand.nextFloat()) * 0.1F)));
+                    ItemEntity ent = entity.spawnAtLocation(d, 1.0F);
+                    ent.setDeltaMovement(ent.getDeltaMovement().add((double) ((rand.nextFloat() - rand.nextFloat()) * 0.1F), (double) (rand.nextFloat() * 0.05F), (double) ((rand.nextFloat() - rand.nextFloat()) * 0.1F)));
                 });
-                stack.damageItem(1, entity, e -> e.sendBreakAnimation(hand));
+                stack.hurtAndBreak(1, entity, e -> e.broadcastBreakEvent(hand));
             }
             return net.minecraft.util.ActionResultType.SUCCESS;
         }
         return net.minecraft.util.ActionResultType.PASS;
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
-    {
-        return enchantment.type == EnchantmentType.BREAKABLE || enchantment.type == EnchantmentType.WEAPON;
     }
 }

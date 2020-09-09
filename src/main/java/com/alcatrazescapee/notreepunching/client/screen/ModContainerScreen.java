@@ -30,22 +30,22 @@ public class ModContainerScreen<C extends Container> extends ContainerScreen<C>
     @Override
     public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks)
     {
-        drawBackground(stack, partialTicks, mouseX, mouseY);
+        renderBackground(stack);
         super.render(stack, mouseX, mouseY, partialTicks);
-        drawMouseoverTooltip(stack, mouseX, mouseY);
+        renderTooltip(stack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawBackground(MatrixStack stack, float partialTicks, int mouseX, int mouseY)
+    protected void renderBg(MatrixStack stack, float partialTicks, int mouseX, int mouseY)
     {
-        drawDefaultBackground(stack);
+        renderDefaultBackground(stack);
     }
 
     @SuppressWarnings({"ConstantConditions", "deprecation"})
-    protected void drawDefaultBackground(MatrixStack stack)
+    protected void renderDefaultBackground(MatrixStack stack)
     {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        client.getTextureManager().bindTexture(texture);
-        drawTexture(stack, guiLeft, guiTop, 0, 0, xSize, ySize);
+        minecraft.getTextureManager().bind(texture);
+        blit(stack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
     }
 }

@@ -25,11 +25,39 @@ import net.minecraftforge.items.ItemHandlerHelper;
 
 public class LooseRockBlock extends Block
 {
-    public static final VoxelShape SHAPE = makeCuboidShape(6, 0, 6, 10, 1, 10);
+    public static final VoxelShape SHAPE = box(6, 0, 6, 10, 1, 10);
 
     public LooseRockBlock()
     {
-        super(Properties.create(Material.EARTH).sound(SoundType.STONE).hardnessAndResistance(0.15f).doesNotBlockMovement().nonOpaque());
+        super(Properties.of(Material.DIRT).sound(SoundType.STONE).strength(0.15f).noCollission().noOcclusion());
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
+    {
+        if (!state.canSurvive(worldIn, pos) && !worldIn.isClientSide)
+        {
+            worldIn.destroyBlock(pos, true);
+        }
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
+    {
+        ItemStack stack = getPickBlock(state, hit, worldIn, pos, player);
+        ItemHandlerHelper.giveItemToPlayer(player, stack);
+        worldIn.removeBlock(pos, false);
+        return ActionResultType.SUCCESS;
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos)
+    {
+        BlockState stateUnder = worldIn.getBlockState(pos.below());
+        return stateUnder.isFaceSturdy(worldIn, pos.below(), Direction.UP);
     }
 
     @Override
@@ -40,35 +68,7 @@ public class LooseRockBlock extends Block
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
-    {
-        if (!state.isValidPosition(worldIn, pos) && !worldIn.isRemote)
-        {
-            worldIn.destroyBlock(pos, true);
-        }
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public ActionResultType onUse(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
-    {
-        ItemStack stack = getPickBlock(state, hit, worldIn, pos, player);
-        ItemHandlerHelper.giveItemToPlayer(player, stack);
-        worldIn.removeBlock(pos, false);
-        return ActionResultType.SUCCESS;
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
-    {
-        BlockState stateUnder = worldIn.getBlockState(pos.down());
-        return stateUnder.isSideSolidFullSquare(worldIn, pos.down(), Direction.UP);
-    }
-
-    @Override
-    public boolean canSpawnInBlock()
+    public boolean isPossibleToRespawnInThis()
     {
         return true;
     }

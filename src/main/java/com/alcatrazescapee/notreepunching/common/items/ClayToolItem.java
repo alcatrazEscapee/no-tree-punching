@@ -30,25 +30,25 @@ public class ClayToolItem extends TieredItem
 {
     public ClayToolItem()
     {
-        super(ItemTier.WOOD, new Properties().group(ModItemGroup.ITEMS).setNoRepair());
+        super(ItemTier.WOOD, new Properties().tab(ModItemGroup.ITEMS).setNoRepair());
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context)
+    public ActionResultType useOn(ItemUseContext context)
     {
-        IWorld world = context.getWorld();
-        if (!world.isRemote())
+        IWorld world = context.getLevel();
+        if (!world.isClientSide())
         {
-            BlockPos pos = context.getPos();
+            BlockPos pos = context.getClickedPos();
             BlockState state = world.getBlockState(pos);
             PlayerEntity player = context.getPlayer();
-            ItemStack stack = context.getItem();
+            ItemStack stack = context.getItemInHand();
 
             if (state.getBlock() == Blocks.CLAY)
             {
-                world.setBlockState(pos, ModBlocks.POTTERY.get(PotteryBlock.Variant.WORKED).get().getDefaultState(), 3);
-                world.playSound(null, pos, SoundEvents.BLOCK_GRAVEL_PLACE, SoundCategory.BLOCKS, 0.5F, 1.0F);
-                Helpers.damageItem(player, context.getHand(), stack, 1);
+                world.setBlock(pos, ModBlocks.POTTERY.get(PotteryBlock.Variant.WORKED).get().defaultBlockState(), 3);
+                world.playSound(null, pos, SoundEvents.GRAVEL_PLACE, SoundCategory.BLOCKS, 0.5F, 1.0F);
+                Helpers.hurtAndBreak(player, context.getHand(), stack, 1);
             }
             else if (state.getBlock() instanceof PotteryBlock)
             {
@@ -62,11 +62,11 @@ public class ClayToolItem extends TieredItem
                     }
                     else
                     {
-                        world.setBlockState(pos, ModBlocks.POTTERY.get(next).get().getDefaultState(), 3);
+                        world.setBlock(pos, ModBlocks.POTTERY.get(next).get().defaultBlockState(), 3);
                     }
                 }
-                world.playSound(null, pos, SoundEvents.BLOCK_GRAVEL_PLACE, SoundCategory.BLOCKS, 0.5F, 1.0F);
-                Helpers.damageItem(player, context.getHand(), stack, 1);
+                world.playSound(null, pos, SoundEvents.GRAVEL_PLACE, SoundCategory.BLOCKS, 0.5F, 1.0F);
+                Helpers.hurtAndBreak(player, context.getHand(), stack, 1);
             }
         }
         return ActionResultType.SUCCESS;
@@ -75,7 +75,7 @@ public class ClayToolItem extends TieredItem
     @Override
     public ItemStack getContainerItem(ItemStack itemStack)
     {
-        return Helpers.damageItem(itemStack.copy(), 1);
+        return Helpers.hurtAndBreak(itemStack.copy(), 1);
     }
 
     @Override
@@ -87,6 +87,6 @@ public class ClayToolItem extends TieredItem
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
-        return enchantment.type == EnchantmentType.BREAKABLE;
+        return enchantment.category == EnchantmentType.BREAKABLE;
     }
 }

@@ -47,7 +47,7 @@ public class LargeVesselBlockItem extends BlockItem
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
     {
         if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY != null)
         {
@@ -64,7 +64,7 @@ public class LargeVesselBlockItem extends BlockItem
                         if (displayCount <= 4)
                         {
                             ++displayCount;
-                            IFormattableTextComponent textComponent = contentStack.getDisplayName().copy();
+                            IFormattableTextComponent textComponent = contentStack.getHoverName().plainCopy();
                             textComponent.append(" x").append(String.valueOf(contentStack.getCount()));
                             tooltip.add(textComponent);
                         }
@@ -74,7 +74,7 @@ public class LargeVesselBlockItem extends BlockItem
                 if (totalCount > displayCount)
                 {
                     TranslationTextComponent textComponent = new TranslationTextComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
-                    textComponent.setStyle(textComponent.getStyle().withFormatting(TextFormatting.ITALIC));
+                    textComponent.setStyle(textComponent.getStyle().applyFormat(TextFormatting.ITALIC));
                     tooltip.add(textComponent);
                 }
             });

@@ -34,6 +34,6 @@ public class LargeVesselContainer extends DeviceContainer<LargeVesselTileEntity>
                     addSlot(new SlotCallback(tile, handler, x + 5 * y, 44 + x * 18, 20 + y * 18));
                 }
             }
-        }, () -> LOGGER.warn("Missing capability on large vessel at {}?", tile.getPos()));
+        }, () -> LOGGER.warn("Missing capability on large vessel at {}?", tile.getBlockPos()));
     }
 }

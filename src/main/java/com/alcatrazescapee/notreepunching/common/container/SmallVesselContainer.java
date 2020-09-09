@@ -23,7 +23,7 @@ public class SmallVesselContainer extends ItemStackContainer
 
     public SmallVesselContainer(int windowId, PlayerInventory playerInv)
     {
-        this(windowId, playerInv, playerInv.player.getHeldItemMainhand().getItem() == ModItems.CERAMIC_SMALL_VESSEL.get() ? playerInv.player.getHeldItemMainhand() : playerInv.player.getHeldItemOffhand());
+        this(windowId, playerInv, playerInv.player.getMainHandItem().getItem() == ModItems.CERAMIC_SMALL_VESSEL.get() ? playerInv.player.getMainHandItem() : playerInv.player.getOffhandItem());
     }
 
     public SmallVesselContainer(int windowId, PlayerInventory playerInv, ItemStack stack)

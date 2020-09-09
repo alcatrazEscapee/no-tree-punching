@@ -52,11 +52,11 @@ public class CeramicBucketItem extends Item
      * Copy pasta from {@link net.minecraft.item.BucketItem} with modifications to use the capability fluid
      */
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        ItemStack bucketStack = playerIn.getHeldItem(handIn);
+        ItemStack bucketStack = playerIn.getItemInHand(handIn);
         Fluid containedFluid = getFluid(bucketStack);
-        BlockRayTraceResult raytraceresult = rayTrace(worldIn, playerIn, containedFluid == Fluids.EMPTY ? RayTraceContext.FluidMode.SOURCE_ONLY : RayTraceContext.FluidMode.NONE);
+        BlockRayTraceResult raytraceresult = getPlayerPOVHitResult(worldIn, playerIn, containedFluid == Fluids.EMPTY ? RayTraceContext.FluidMode.SOURCE_ONLY : RayTraceContext.FluidMode.NONE);
         ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onBucketUse(playerIn, worldIn, bucketStack, raytraceresult);
         if (ret != null)
         {
@@ -72,34 +72,34 @@ public class CeramicBucketItem extends Item
         }
         else
         {
-            BlockPos fluidPos = raytraceresult.getPos();
-            Direction direction = raytraceresult.getFace();
-            BlockPos pos1 = fluidPos.offset(direction);
-            if (worldIn.isBlockModifiable(playerIn, fluidPos) && playerIn.canPlayerEdit(pos1, direction, bucketStack))
+            BlockPos fluidPos = raytraceresult.getBlockPos();
+            Direction direction = raytraceresult.getDirection();
+            BlockPos pos1 = fluidPos.relative(direction);
+            if (worldIn.mayInteract(playerIn, fluidPos) && playerIn.mayUseItemAt(pos1, direction, bucketStack))
             {
                 if (containedFluid == Fluids.EMPTY)
                 {
                     BlockState blockstate1 = worldIn.getBlockState(fluidPos);
                     if (blockstate1.getBlock() instanceof IBucketPickupHandler)
                     {
-                        Fluid fluid = ((IBucketPickupHandler) blockstate1.getBlock()).pickupFluid(worldIn, fluidPos, blockstate1);
+                        Fluid fluid = ((IBucketPickupHandler) blockstate1.getBlock()).takeLiquid(worldIn, fluidPos, blockstate1);
                         if (fluid != Fluids.EMPTY)
                         {
-                            playerIn.addStat(Stats.ITEM_USED.get(this));
+                            playerIn.awardStat(Stats.ITEM_USED.get(this));
 
                             SoundEvent soundevent = containedFluid.getAttributes().getEmptySound();
                             if (soundevent == null)
                             {
-                                soundevent = fluid.isIn(FluidTags.LAVA) ? SoundEvents.ITEM_BUCKET_FILL_LAVA : SoundEvents.ITEM_BUCKET_FILL;
+                                soundevent = fluid.is(FluidTags.LAVA) ? SoundEvents.BUCKET_FILL_LAVA : SoundEvents.BUCKET_FILL;
                             }
                             playerIn.playSound(soundevent, 1.0F, 1.0F);
                             ItemStack filledBucket = this.fillBucket(bucketStack, playerIn, fluid);
-                            if (!worldIn.isRemote)
+                            if (!worldIn.isClientSide)
                             {
-                                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) playerIn, new ItemStack(fluid.getFilledBucket()));
+                                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) playerIn, new ItemStack(fluid.getBucket()));
                             }
 
-                            return ActionResult.method_29237(filledBucket, worldIn.isRemote());
+                            return ActionResult.sidedSuccess(filledBucket, worldIn.isClientSide());
                         }
                     }
 
@@ -116,8 +116,8 @@ public class CeramicBucketItem extends Item
                             CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayerEntity) playerIn, pos2, bucketStack);
                         }
 
-                        playerIn.addStat(Stats.ITEM_USED.get(this));
-                        return ActionResult.method_29237(this.emptyBucket(bucketStack, playerIn), worldIn.isRemote());
+                        playerIn.awardStat(Stats.ITEM_USED.get(this));
+                        return ActionResult.sidedSuccess(this.emptyBucket(bucketStack, playerIn), worldIn.isClientSide());
                     }
                     else
                     {
@@ -132,75 +132,28 @@ public class CeramicBucketItem extends Item
         }
     }
 
-    private ItemStack emptyBucket(ItemStack stack, PlayerEntity playerIn)
-    {
-        return playerIn.abilities.isCreativeMode ? stack : getContainerItem(stack);
-    }
-
-    private ItemStack fillBucket(ItemStack emptyBuckets, PlayerEntity player, Fluid fillFluid)
-    {
-        if (player.abilities.isCreativeMode)
-        {
-            return emptyBuckets;
-        }
-        else
-        {
-            ItemStack filledStack = emptyBuckets.split(1);
-            filledStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(handler -> {
-                handler.fill(new FluidStack(fillFluid, 1000), IFluidHandler.FluidAction.EXECUTE);
-            });
-            if (emptyBuckets.isEmpty())
-            {
-                return filledStack;
-            }
-            else
-            {
-                if (!player.inventory.addItemStackToInventory(filledStack))
-                {
-                    player.dropItem(filledStack, false);
-                }
-                return emptyBuckets;
-            }
-        }
-    }
-
     @Override
-    public ITextComponent getDisplayName(ItemStack stack)
+    public ITextComponent getName(ItemStack stack)
     {
         if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null)
         {
             return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).map(handler -> {
                 if (handler instanceof FluidHandlerItemStackSimple && !((FluidHandlerItemStackSimple) handler).getFluid().isEmpty())
                 {
-                    IFormattableTextComponent fluidName = ((FluidHandlerItemStackSimple) handler).getFluid().getDisplayName().copy();
-                    fluidName.append(" ").append(super.getDisplayName(stack));
+                    IFormattableTextComponent fluidName = ((FluidHandlerItemStackSimple) handler).getFluid().getDisplayName().plainCopy();
+                    fluidName.append(" ").append(super.getName(stack));
                     return fluidName;
                 }
-                return super.getDisplayName(stack);
+                return super.getName(stack);
             }).orElseThrow(() -> new IllegalStateException("No fluid handler on ceramic bucket?"));
         }
-        return super.getDisplayName(stack);
-    }
-
-    protected void playEmptySound(@Nullable PlayerEntity player, IWorld worldIn, BlockPos pos, Fluid containedFluid)
-    {
-        SoundEvent emptySound = containedFluid.getAttributes().getEmptySound();
-        if (emptySound == null)
-        {
-            emptySound = containedFluid.isIn(FluidTags.LAVA) ? SoundEvents.ITEM_BUCKET_EMPTY_LAVA : SoundEvents.ITEM_BUCKET_EMPTY;
-        }
-        worldIn.playSound(player, pos, emptySound, SoundCategory.BLOCKS, 1.0F, 1.0F);
-    }
-
-    private boolean canBlockContainFluid(World worldIn, BlockPos posIn, BlockState blockstate, Fluid fluid)
-    {
-        return blockstate.getBlock() instanceof ILiquidContainer && ((ILiquidContainer) blockstate.getBlock()).canContainFluid(worldIn, posIn, blockstate, fluid);
+        return super.getName(stack);
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items)
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items)
     {
-        if (isInGroup(group))
+        if (allowdedIn(group))
         {
             items.add(new ItemStack(this));
             if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null)
@@ -231,33 +184,33 @@ public class CeramicBucketItem extends Item
             BlockState blockstate = worldIn.getBlockState(posIn);
             Block block = blockstate.getBlock();
             Material material = blockstate.getMaterial();
-            if (!(blockstate.isAir(worldIn, posIn) || blockstate.canBucketPlace(containedFluid) || block instanceof ILiquidContainer && ((ILiquidContainer) block).canContainFluid(worldIn, posIn, blockstate, containedFluid)))
+            if (!(blockstate.isAir(worldIn, posIn) || blockstate.canBeReplaced(containedFluid) || block instanceof ILiquidContainer && ((ILiquidContainer) block).canPlaceLiquid(worldIn, posIn, blockstate, containedFluid)))
             {
-                return rayTrace != null && tryPlaceContainedLiquid(player, worldIn, rayTrace.getPos().offset(rayTrace.getFace()), null, containedFluid);
+                return rayTrace != null && tryPlaceContainedLiquid(player, worldIn, rayTrace.getBlockPos().relative(rayTrace.getDirection()), null, containedFluid);
             }
-            else if (worldIn.getDimension().isUltrawarm() && containedFluid.isIn(FluidTags.WATER))
+            else if (worldIn.dimensionType().ultraWarm() && containedFluid.is(FluidTags.WATER))
             {
-                worldIn.playSound(player, posIn, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
+                worldIn.playSound(player, posIn, SoundEvents.FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (worldIn.random.nextFloat() - worldIn.random.nextFloat()) * 0.8F);
                 for (int l = 0; l < 8; ++l)
                 {
                     worldIn.addParticle(ParticleTypes.LARGE_SMOKE, (double) posIn.getX() + Math.random(), (double) posIn.getY() + Math.random(), (double) posIn.getZ() + Math.random(), 0.0D, 0.0D, 0.0D);
                 }
                 return true;
             }
-            else if (block instanceof ILiquidContainer && ((ILiquidContainer) block).canContainFluid(worldIn, posIn, blockstate, containedFluid))
+            else if (block instanceof ILiquidContainer && ((ILiquidContainer) block).canPlaceLiquid(worldIn, posIn, blockstate, containedFluid))
             {
-                ((ILiquidContainer) block).receiveFluid(worldIn, posIn, blockstate, ((FlowingFluid) containedFluid).getStillFluidState(false));
+                ((ILiquidContainer) block).placeLiquid(worldIn, posIn, blockstate, ((FlowingFluid) containedFluid).getSource(false));
                 playEmptySound(player, worldIn, posIn, containedFluid);
                 return true;
             }
             else
             {
-                if (!worldIn.isRemote && blockstate.canBucketPlace(containedFluid) && !material.isLiquid())
+                if (!worldIn.isClientSide && blockstate.canBeReplaced(containedFluid) && !material.isLiquid())
                 {
                     worldIn.destroyBlock(posIn, true);
                 }
 
-                if (worldIn.setBlockState(posIn, containedFluid.getDefaultState().getBlockState(), 11) && !blockstate.getFluidState().isSource())
+                if (worldIn.setBlock(posIn, containedFluid.defaultFluidState().createLegacyBlock(), 11) && !blockstate.getFluidState().isSource())
                 {
                     return false;
                 }
@@ -271,15 +224,60 @@ public class CeramicBucketItem extends Item
     }
 
     @Override
+    public ItemStack getContainerItem(ItemStack itemStack)
+    {
+        return new ItemStack(this);
+    }
+
+    @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
     {
         return new FluidHandlerItemStackSimple(stack, 1000);
     }
 
-    @Override
-    public ItemStack getContainerItem(ItemStack itemStack)
+    protected void playEmptySound(@Nullable PlayerEntity player, IWorld worldIn, BlockPos pos, Fluid containedFluid)
     {
-        return new ItemStack(this);
+        SoundEvent emptySound = containedFluid.getAttributes().getEmptySound();
+        if (emptySound == null)
+        {
+            emptySound = containedFluid.is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
+        }
+        worldIn.playSound(player, pos, emptySound, SoundCategory.BLOCKS, 1.0F, 1.0F);
+    }
+
+    private ItemStack emptyBucket(ItemStack stack, PlayerEntity playerIn)
+    {
+        return playerIn.abilities.instabuild ? stack : getContainerItem(stack);
+    }
+
+    private ItemStack fillBucket(ItemStack emptyBuckets, PlayerEntity player, Fluid fillFluid)
+    {
+        if (player.abilities.instabuild)
+        {
+            return emptyBuckets;
+        }
+        else
+        {
+            ItemStack filledStack = emptyBuckets.split(1);
+            filledStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(handler -> handler.fill(new FluidStack(fillFluid, 1000), IFluidHandler.FluidAction.EXECUTE));
+            if (emptyBuckets.isEmpty())
+            {
+                return filledStack;
+            }
+            else
+            {
+                if (!player.inventory.add(filledStack))
+                {
+                    player.drop(filledStack, false);
+                }
+                return emptyBuckets;
+            }
+        }
+    }
+
+    private boolean canBlockContainFluid(World worldIn, BlockPos posIn, BlockState blockstate, Fluid fluid)
+    {
+        return blockstate.getBlock() instanceof ILiquidContainer && ((ILiquidContainer) blockstate.getBlock()).canPlaceLiquid(worldIn, posIn, blockstate, fluid);
     }
 
     /**

@@ -19,6 +19,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(HoeItem.class)
 public interface HoeItemAccess
 {
-    @Accessor("EFFECTIVE_BLOCKS")
+    @Accessor("DIGGABLES")
     static Set<Block> getEffectiveBlocks() { return null; }
 }

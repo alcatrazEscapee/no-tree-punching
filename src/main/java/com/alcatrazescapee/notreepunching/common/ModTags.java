@@ -30,7 +30,7 @@ public final class ModTags
 
         private static ITag.INamedTag<Item> create(String id)
         {
-            return ItemTags.makeWrapperTag(new ResourceLocation(MOD_ID, id).toString());
+            return ItemTags.bind(new ResourceLocation(MOD_ID, id).toString());
         }
     }
 
@@ -43,7 +43,7 @@ public final class ModTags
 
         private static ITag.INamedTag<Block> create(String id)
         {
-            return BlockTags.makeWrapperTag(new ResourceLocation(MOD_ID, id).toString());
+            return BlockTags.bind(new ResourceLocation(MOD_ID, id).toString());
         }
     }
 }

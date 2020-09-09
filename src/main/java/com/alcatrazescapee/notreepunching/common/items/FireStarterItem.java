@@ -35,42 +35,42 @@ public class FireStarterItem extends TieredItem
 {
     public FireStarterItem()
     {
-        super(ItemTier.WOOD, new Properties().group(ModItemGroup.ITEMS).maxDamage(10).setNoRepair());
+        super(ItemTier.WOOD, new Properties().tab(ModItemGroup.ITEMS).durability(10).setNoRepair());
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        playerIn.setActiveHand(handIn);
-        return new ActionResult<>(ActionResultType.PASS, playerIn.getHeldItem(handIn));
+        playerIn.startUsingItem(handIn);
+        return new ActionResult<>(ActionResultType.PASS, playerIn.getItemInHand(handIn));
     }
 
     @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving)
+    public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity entityLiving)
     {
         if (entityLiving instanceof PlayerEntity)
         {
             PlayerEntity player = (PlayerEntity) entityLiving;
-            BlockRayTraceResult result = rayTrace(worldIn, player, RayTraceContext.FluidMode.NONE);
+            BlockRayTraceResult result = getPlayerPOVHitResult(worldIn, player, RayTraceContext.FluidMode.NONE);
 
             if (result.getType() == RayTraceResult.Type.BLOCK)
             {
                 // If looking at a block
-                BlockPos pos = result.getPos();
-                if (!worldIn.isRemote)
+                BlockPos pos = result.getBlockPos();
+                if (!worldIn.isClientSide)
                 {
-                    Helpers.damageItem(player, player.getActiveHand(), stack, 1);
+                    Helpers.hurtAndBreak(player, player.getUsedItemHand(), stack, 1);
 
                     BlockState stateAt = worldIn.getBlockState(pos);
-                    if (CampfireBlock.method_30035(stateAt)) /* canBeLit */
+                    if (CampfireBlock.canLight(stateAt)) /* canBeLit */
                     {
                         // Light campfire
-                        worldIn.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, random.nextFloat() * 0.4F + 0.8F);
-                        worldIn.setBlockState(pos, stateAt.with(BlockStateProperties.LIT, true), 11);
+                        worldIn.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, random.nextFloat() * 0.4F + 0.8F);
+                        worldIn.setBlock(pos, stateAt.setValue(BlockStateProperties.LIT, true), 11);
                     }
                     else
                     {
-                        List<ItemEntity> entities = worldIn.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos.up(), pos.add(1, 2, 1)));
+                        List<ItemEntity> entities = worldIn.getEntitiesOfClass(ItemEntity.class, new AxisAlignedBB(pos.above(), pos.offset(1, 2, 1)));
                         List<ItemEntity> logEntities = new ArrayList<>(), kindlingEntities = new ArrayList<>();
 
                         // Require 1 log, 3 kindling
@@ -95,14 +95,14 @@ public class FireStarterItem extends TieredItem
                             // Commence Fire pit making
                             removeItems(logEntities, logs);
                             removeItems(kindlingEntities, kindling);
-                            worldIn.setBlockState(pos.up(), Blocks.CAMPFIRE.getDefaultState().with(CampfireBlock.LIT, true));
+                            worldIn.setBlockAndUpdate(pos.above(), Blocks.CAMPFIRE.defaultBlockState().setValue(CampfireBlock.LIT, true));
                         }
                         else
                         {
                             // No fire pit to make, try light a fire
                             if (random.nextFloat() < Config.SERVER.fireStarterFireStartChance.get())
                             {
-                                worldIn.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
+                                worldIn.setBlockAndUpdate(pos.above(), Blocks.FIRE.defaultBlockState());
                             }
                         }
                     }
@@ -113,20 +113,7 @@ public class FireStarterItem extends TieredItem
     }
 
     @Override
-    public void onUsingTick(ItemStack stack, LivingEntity player, int count)
-    {
-        if (player.world.isRemote && player instanceof PlayerEntity)
-        {
-            BlockRayTraceResult result = rayTrace(player.world, (PlayerEntity) player, RayTraceContext.FluidMode.NONE);
-            if (random.nextInt(5) == 0)
-            {
-                player.world.addParticle(ParticleTypes.SMOKE, result.getHitVec().x, result.getHitVec().y, result.getHitVec().z, 0.0F, 0.1F, 0.0F);
-            }
-        }
-    }
-
-    @Override
-    public UseAction getUseAction(ItemStack stack)
+    public UseAction getUseAnimation(ItemStack stack)
     {
         return UseAction.BOW;
     }
@@ -135,6 +122,25 @@ public class FireStarterItem extends TieredItem
     public int getUseDuration(ItemStack stack)
     {
         return 30;
+    }
+
+    @Override
+    public void onUsingTick(ItemStack stack, LivingEntity player, int count)
+    {
+        if (player.level.isClientSide && player instanceof PlayerEntity)
+        {
+            BlockRayTraceResult result = getPlayerPOVHitResult(player.level, (PlayerEntity) player, RayTraceContext.FluidMode.NONE);
+            if (random.nextInt(5) == 0)
+            {
+                player.level.addParticle(ParticleTypes.SMOKE, result.getLocation().x, result.getLocation().y, result.getLocation().z, 0.0F, 0.1F, 0.0F);
+            }
+        }
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
+    {
+        return enchantment.category == EnchantmentType.BREAKABLE;
     }
 
     private void removeItems(List<ItemEntity> itemEntities, int removeAmount)
@@ -150,11 +156,5 @@ public class FireStarterItem extends TieredItem
                 logEntity.remove();
             }
         }
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
-    {
-        return enchantment.type == EnchantmentType.BREAKABLE;
     }
 }

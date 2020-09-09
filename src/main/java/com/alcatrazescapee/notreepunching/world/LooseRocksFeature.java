@@ -45,20 +45,20 @@ public class LooseRocksFeature extends Feature<NoFeatureConfig>
     }
 
     @Override
-    public boolean generate(ISeedReader worldIn, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoFeatureConfig config)
+    public boolean place(ISeedReader worldIn, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoFeatureConfig config)
     {
         BlockState stateAt = worldIn.getBlockState(pos);
-        BlockState stateDown = worldIn.getBlockState(pos.down());
+        BlockState stateDown = worldIn.getBlockState(pos.below());
         if (stateAt.isAir(worldIn, pos) && ModTags.Blocks.LOOSE_ROCK_PLACEABLE_ON.contains(stateDown.getBlock()))
         {
             for (int y = 1; y <= 8; y++)
             {
-                BlockPos stonePos = pos.down(y);
+                BlockPos stonePos = pos.below(y);
                 BlockState stoneState = worldIn.getBlockState(stonePos);
                 if (LOOSE_ROCK_STONE_LOOKUP.get().containsKey(stoneState.getBlock()))
                 {
                     Block looseRockBlock = LOOSE_ROCK_STONE_LOOKUP.get().get(stoneState.getBlock()).get();
-                    worldIn.setBlockState(pos, looseRockBlock.getDefaultState(), 3);
+                    worldIn.setBlock(pos, looseRockBlock.defaultBlockState(), 3);
                     return true;
                 }
             }

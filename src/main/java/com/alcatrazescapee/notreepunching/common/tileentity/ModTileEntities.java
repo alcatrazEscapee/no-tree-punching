@@ -27,6 +27,6 @@ public class ModTileEntities
     @SuppressWarnings({"ConstantConditions", "SameParameterValue"})
     private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String name, Supplier<T> tileEntityFactory, Supplier<? extends Block> blockFactory)
     {
-        return TILE_ENTITIES.register(name, () -> TileEntityType.Builder.create(tileEntityFactory, blockFactory.get()).build(null));
+        return TILE_ENTITIES.register(name, () -> TileEntityType.Builder.of(tileEntityFactory, blockFactory.get()).build(null));
     }
 }

@@ -15,52 +15,52 @@ import net.minecraft.util.LazyValue;
  */
 public class ModItemTier implements IItemTier
 {
-    public static final IItemTier FLINT = new ModItemTier(1, 60, 2.5f, 0.5f, 0, () -> Ingredient.fromItems(Items.FLINT));
+    public static final IItemTier FLINT = new ModItemTier(1, 60, 2.5f, 0.5f, 0, () -> Ingredient.of(Items.FLINT));
 
     private final int harvestLevel;
-    private final int maxUses;
-    private final float efficiency;
+    private final int uses;
+    private final float speed;
     private final float attackDamage;
     private final int enchantability;
     private final LazyValue<Ingredient> repairMaterial;
 
-    public ModItemTier(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantability, java.util.function.Supplier<Ingredient> repairMaterial)
+    public ModItemTier(int harvestLevel, int uses, float speed, float attackDamage, int enchantability, java.util.function.Supplier<Ingredient> repairMaterial)
     {
         this.harvestLevel = harvestLevel;
-        this.maxUses = maxUses;
-        this.efficiency = efficiency;
+        this.uses = uses;
+        this.speed = speed;
         this.attackDamage = attackDamage;
         this.enchantability = enchantability;
         this.repairMaterial = new LazyValue<>(repairMaterial);
     }
 
-    public int getMaxUses()
+    public int getUses()
     {
-        return maxUses;
+        return uses;
     }
 
-    public float getEfficiency()
+    public float getSpeed()
     {
-        return efficiency;
+        return speed;
     }
 
-    public float getAttackDamage()
+    public float getAttackDamageBonus()
     {
         return attackDamage;
     }
 
-    public int getHarvestLevel()
+    public int getLevel()
     {
         return harvestLevel;
     }
 
-    public int getEnchantability()
+    public int getEnchantmentValue()
     {
         return enchantability;
     }
 
-    public Ingredient getRepairMaterial()
+    public Ingredient getRepairIngredient()
     {
-        return repairMaterial.getValue();
+        return repairMaterial.get();
     }
 }

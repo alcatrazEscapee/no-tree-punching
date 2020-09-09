@@ -13,6 +13,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(AbstractBlock.Properties.class)
 public interface AbstractBlockPropertiesAccess
 {
-    @Accessor("toolRequired")
-    boolean isToolRequired();
+    @Accessor("requiresCorrectToolForDrops")
+    boolean getRequiresCorrectToolForDrops();
 }

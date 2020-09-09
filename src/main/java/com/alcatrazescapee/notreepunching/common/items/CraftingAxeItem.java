@@ -21,7 +21,7 @@ public class CraftingAxeItem extends AxeItem
     @Override
     public ItemStack getContainerItem(ItemStack itemStack)
     {
-        return Helpers.damageItem(itemStack.copy(), 1);
+        return Helpers.hurtAndBreak(itemStack.copy(), 1);
     }
 
     @Override

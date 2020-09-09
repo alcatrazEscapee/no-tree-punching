@@ -31,15 +31,15 @@ public abstract class DeviceContainer<T extends InventoryTileEntity> extends Mod
     }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index)
+    public ItemStack quickMoveStack(PlayerEntity playerIn, int index)
     {
-        Slot slot = inventorySlots.get(index);
-        if (slot != null && slot.getHasStack())
+        Slot slot = slots.get(index);
+        if (slot != null && slot.hasItem())
         {
-            ItemStack stack = slot.getStack();
+            ItemStack stack = slot.getItem();
             ItemStack stackCopy = stack.copy();
 
-            int containerSlots = inventorySlots.size() - playerIn.inventory.mainInventory.size();
+            int containerSlots = slots.size() - playerIn.inventory.items.size();
             if (index < containerSlots)
             {
                 if (transferStackOutOfContainer(stack, containerSlots))
@@ -57,11 +57,11 @@ public abstract class DeviceContainer<T extends InventoryTileEntity> extends Mod
 
             if (stack.getCount() == 0)
             {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             }
             else
             {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
             if (stack.getCount() == stackCopy.getCount())
             {
@@ -74,7 +74,7 @@ public abstract class DeviceContainer<T extends InventoryTileEntity> extends Mod
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn)
+    public boolean stillValid(PlayerEntity playerIn)
     {
         return tile.canInteractWith(playerIn);
     }
@@ -86,12 +86,12 @@ public abstract class DeviceContainer<T extends InventoryTileEntity> extends Mod
 
     protected boolean transferStackOutOfContainer(ItemStack stack, int containerSlots)
     {
-        return !mergeItemStack(stack, containerSlots, inventorySlots.size(), true);
+        return !moveItemStackTo(stack, containerSlots, slots.size(), true);
     }
 
     protected boolean transferStackIntoContainer(ItemStack stack, int containerSlots)
     {
-        return !mergeItemStack(stack, 0, containerSlots, false);
+        return !moveItemStackTo(stack, 0, containerSlots, false);
     }
 
     @FunctionalInterface

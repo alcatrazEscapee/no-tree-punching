@@ -19,6 +19,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(ShovelItem.class)
 public interface ShovelItemAccess
 {
-    @Accessor("EFFECTIVE_ON")
+    @Accessor("DIGGABLES")
     static Set<Block> getEffectiveBlocks() { return null; }
 }
