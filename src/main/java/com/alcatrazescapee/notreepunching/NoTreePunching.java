@@ -30,8 +30,7 @@ public final class NoTreePunching
 
     public NoTreePunching()
     {
-        LOGGER.info("Hello No Tree Punching!");
-        LOGGER.debug("If you can see this, debug logging is working.");
+        LOGGER.info("I tried to punch tree. It didn't work, my hands are now covered in blood and splinters. Need to try something else ...");
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.register(this);
@@ -41,7 +40,6 @@ public final class NoTreePunching
         ModTileEntities.TILE_ENTITIES.register(modEventBus);
         ModContainers.CONTAINERS.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
-
         ModSounds.SOUNDS.register(modEventBus);
 
         Config.init();
@@ -51,20 +49,6 @@ public final class NoTreePunching
     public void setup(FMLCommonSetupEvent event)
     {
         LOGGER.info("Setup");
-
         HarvestBlockHandler.setup();
-
-        // todo: add feature to biomes
-        /*
-        DeferredWorkQueue.runLater(() -> {
-            if (Config.COMMON.enableLooseRockSpawning.get())
-            {
-                for (Biome biome : ForgeRegistries.BIOMES.getValues())
-                {
-                    biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModFeatures.LOOSE_ROCKS.get().withConfiguration(NoFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(Config.COMMON.looseRockFrequency.get()))));
-                }
-            }
-        });
-         */
     }
 }

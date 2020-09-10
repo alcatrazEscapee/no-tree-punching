@@ -5,39 +5,24 @@
 
 package com.alcatrazescapee.notreepunching;
 
+import java.util.function.Function;
+
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 
 public final class Config
 {
-    public static final ServerConfig SERVER;
-    public static final CommonConfig COMMON;
+    public static final ServerConfig SERVER = register(ModConfig.Type.SERVER, ServerConfig::new);
 
-    private static final ForgeConfigSpec SERVER_SPEC;
-    private static final ForgeConfigSpec COMMON_SPEC;
+    public static void init() {}
 
-    private static final Logger LOGGER = LogManager.getLogger();
-
-    static
+    private static <T> T register(ModConfig.Type type, Function<ForgeConfigSpec.Builder, T> factory)
     {
-        Pair<ServerConfig, ForgeConfigSpec> serverPair = new ForgeConfigSpec.Builder().configure(ServerConfig::new);
-        Pair<CommonConfig, ForgeConfigSpec> commonPair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
-
-        SERVER_SPEC = serverPair.getRight();
-        COMMON_SPEC = commonPair.getRight();
-
-        SERVER = serverPair.getLeft();
-        COMMON = commonPair.getLeft();
-    }
-
-    public static void init()
-    {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_SPEC);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC);
+        Pair<T, ForgeConfigSpec> configPair = new ForgeConfigSpec.Builder().configure(factory);
+        ModLoadingContext.get().registerConfig(type, configPair.getRight());
+        return configPair.getLeft();
     }
 
     public static final class ServerConfig
@@ -61,18 +46,6 @@ public final class Config
             flintKnappingSuccessChance = builder.comment("The chance to produce flint shards if a piece of flint has been consumed while knapping").defineInRange("flintKnappingSuccessChance", 0.7, 0, 1);
 
             fireStarterFireStartChance = builder.comment("The chance for a fire starter to start fires").defineInRange("fireStarterFireStartChance", 0.3, 0, 1);
-        }
-    }
-
-    public static final class CommonConfig
-    {
-        public final ForgeConfigSpec.BooleanValue enableLooseRockSpawning;
-        public final ForgeConfigSpec.IntValue looseRockFrequency;
-
-        private CommonConfig(ForgeConfigSpec.Builder builder)
-        {
-            enableLooseRockSpawning = builder.comment("Enable loose rock spawning. Note: this requires a MC restart to take effect.").define("enableLooseRockSpawning", true);
-            looseRockFrequency = builder.comment("How common loose rocks are.  Note: this requires a MC restart to take effect.").defineInRange("looseRockFrequency", 12, 0, Integer.MAX_VALUE);
         }
     }
 }
