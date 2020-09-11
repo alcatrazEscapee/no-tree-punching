@@ -27,6 +27,7 @@ jobs:
         run: ./gradlew build
         env:
           VERSION: ${{ steps.get_version.outputs.result }}
+          OFFICIAL_MAPPINGS: true
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -54,4 +55,5 @@ jobs:
         run: ./gradlew curseforge
         env:
           VERSION: ${{ steps.get_version.outputs.result }}
+          OFFICIAL_MAPPINGS: true
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
