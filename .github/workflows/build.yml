@@ -35,11 +35,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v${{ steps.get_version.outputs.result }}
-          release_name: No Tree Punching 1.16.3-${{ steps.get_version.outputs.result }}
+          release_name: (Forge) No Tree Punching 1.16.3-${{ steps.get_version.outputs.result }}
           body: |
             [This was an automatic build]
             // todo: add changelog
-          draft: true
+          draft: false
           prerelease: false
       - name: Upload Main Jar
         id: upload_main_jar
