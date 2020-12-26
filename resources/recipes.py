@@ -185,6 +185,12 @@ def generate_vanilla(rm: ResourceManager):
                 'name': 'minecraft:grass',
                 'conditions': loot_tables.match_tool('minecraft:shears')
             }, {
+                'name': 'notreepunching:plant_fiber',
+                'conditions': [
+                    loot_tables.match_tool('tag!notreepunching:knives'),
+                    loot_tables.random_chance(0.25)
+                ]
+            }, {
                 'name': 'minecraft:wheat_seeds',
                 'conditions': [
                     'minecraft:survives_explosion',

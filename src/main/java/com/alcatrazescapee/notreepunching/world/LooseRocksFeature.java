@@ -45,11 +45,12 @@ public class LooseRocksFeature extends Feature<NoFeatureConfig>
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean place(ISeedReader worldIn, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoFeatureConfig config)
     {
         BlockState stateAt = worldIn.getBlockState(pos);
         BlockState stateDown = worldIn.getBlockState(pos.below());
-        if (stateAt.isAir(worldIn, pos) && ModTags.Blocks.LOOSE_ROCK_PLACEABLE_ON.contains(stateDown.getBlock()))
+        if (stateAt.isAir() && ModTags.Blocks.LOOSE_ROCK_PLACEABLE_ON.contains(stateDown.getBlock()))
         {
             for (int y = 1; y <= 8; y++)
             {

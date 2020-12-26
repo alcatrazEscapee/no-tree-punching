@@ -2,7 +2,6 @@
 #  Work under copyright. See the project LICENSE.md for details.
 
 from mcresources import ResourceManager
-from mcresources.block_context import BlockContext
 
 
 def generate(rm: ResourceManager):
@@ -15,44 +14,45 @@ def generate(rm: ResourceManager):
 
     # Stone
     for stone in ('granite', 'andesite', 'diorite'):
-        block = rm.blockstate('%s_cobblestone' % stone) \
-            .with_block_model() \
-            .with_item_model() \
-            .with_tag('cobblestone') \
-            .with_block_loot('notreepunching:%s_cobblestone' % stone) \
-            .with_lang(lang('%s cobblestone', stone)) \
-            .make_stairs() \
-            .make_slab()
-        wall_v2(block)  # todo: for now. we use this as mcresources is not updated for the 1.16.x pack version change here
+        block = rm.blockstate('%s_cobblestone' % stone)
+        block.with_block_model()
+        block.with_item_model()
+        block.with_tag('cobblestone')
+        block.with_block_loot('notreepunching:%s_cobblestone' % stone)
+        block.with_lang(lang('%s cobblestone', stone))
+        block.make_stairs()
+        block.make_slab()
+        block.make_wall()
         for piece in ('stairs', 'slab', 'wall'):
-            rm.block('%s_cobblestone_%s' % (stone, piece)) \
-                .with_lang(lang('%s cobblestone %s', stone, piece)) \
-                .with_tag('minecraft:' + piece + ('s' if not piece.endswith('s') else ''))  # plural tag
+            block = rm.block('%s_cobblestone_%s' % (stone, piece))
+            block.with_lang(lang('%s cobblestone %s', stone, piece))
+            block.with_tag('minecraft:' + piece + ('s' if not piece.endswith('s') else ''))  # plural tag
 
     for stone in ('granite', 'andesite', 'diorite', 'stone', 'sandstone', 'red_sandstone'):
-        rm.blockstate('%s_loose_rock' % stone) \
-            .with_block_model(textures='minecraft:block/%s' % stone, parent='notreepunching:block/loose_rock') \
-            .with_block_loot('notreepunching:%s_loose_rock' % stone) \
-            .with_lang(lang('%s loose rock', stone))
+        block = rm.blockstate('%s_loose_rock' % stone)
+        block.with_block_model(textures='minecraft:block/%s' % stone, parent='notreepunching:block/loose_rock')
+        block.with_block_loot('notreepunching:%s_loose_rock' % stone)
+        block.with_lang(lang('%s loose rock', stone))
+
         # flat item model for the block item
-        rm.item_model('%s_loose_rock' % stone) \
-            .with_tag('loose_rocks')  # item tag is needed for recipes
+        item = rm.item_model('%s_loose_rock' % stone)
+        item.with_tag('loose_rocks')  # item tag is needed for recipes
 
     # Pottery
     for pottery in ('worked', 'large_vessel', 'small_vessel', 'bucket', 'flower_pot'):
-        block = rm.blockstate('clay_%s' % pottery) \
-            .with_block_model(textures='minecraft:block/clay', parent='notreepunching:block/pottery_%s' % pottery) \
-            .with_item_model() \
-            .with_block_loot('notreepunching:clay_%s' % pottery)
+        block = rm.blockstate('clay_%s' % pottery)
+        block.with_block_model(textures='minecraft:block/clay', parent='notreepunching:block/pottery_%s' % pottery)
+        block.with_item_model()
+        block.with_block_loot('notreepunching:clay_%s' % pottery)
         if pottery == 'worked':
             block.with_lang(lang('worked clay'))
         else:
             block.with_lang(lang('clay %s', pottery))
 
-    rm.blockstate('ceramic_large_vessel') \
-        .with_block_model(textures='notreepunching:block/ceramic', parent='notreepunching:block/pottery_large_vessel') \
-        .with_item_model() \
-        .with_block_loot({
+    block = rm.blockstate('ceramic_large_vessel')
+    block.with_block_model(textures='notreepunching:block/ceramic', parent='notreepunching:block/pottery_large_vessel')
+    block.with_item_model()
+    block.with_block_loot({
         'entries': {
             'name': 'notreepunching:ceramic_large_vessel',
             'functions': [
@@ -70,33 +70,38 @@ def generate(rm: ResourceManager):
                 }
             ],
         }
-    }) \
-        .with_lang(lang('ceramic large vessel'))
+    })
+    block.with_lang(lang('ceramic large vessel'))
 
     # Tools
     for tool in ('iron', 'gold', 'diamond'):
-        rm.item_model('%s_mattock' % tool) \
-            .with_lang(lang('%s mattock', tool))
-        rm.item_model('%s_saw' % tool) \
-            .with_lang(lang('%s saw', tool)) \
-            .with_tag('saws')
-        rm.item_model('%s_knife' % tool) \
-            .with_lang(lang('%s knife', tool)) \
-            .with_tag('knives')
+        item = rm.item_model('%s_mattock' % tool, parent='item/handheld')
+        item.with_lang(lang('%s mattock', tool))
+
+        item = rm.item_model('%s_saw' % tool, parent='item/handheld')
+        item.with_lang(lang('%s saw', tool))
+        item.with_tag('saws')
+
+        item = rm.item_model('%s_knife' % tool, parent='item/handheld')
+        item.with_lang(lang('%s knife', tool))
+        item.with_tag('knives')
 
     # Flint
     for tool in ('axe', 'pickaxe', 'shovel', 'hoe', 'knife'):
-        rm.item_model('flint_%s' % tool) \
-            .with_lang(lang('flint %s', tool))
-    rm.item_model('macuahuitl') \
-        .with_lang(lang('macuahuitl'))
+        item = rm.item_model('flint_%s' % tool, parent='item/handheld')
+        item.with_lang(lang('flint %s', tool))
+
+    item = rm.item_model('macuahuitl', parent='item/handheld')
+    item.with_lang(lang('macuahuitl'))
+
     rm.item('flint_knife').with_tag('knives')
 
-    for item in ('flint_shard', 'plant_fiber', 'plant_string', 'clay_brick', 'ceramic_small_vessel', 'clay_tool', 'fire_starter'):
-        rm.item_model(item) \
-            .with_lang(lang(item))
+    for item_name in ('flint_shard', 'plant_fiber', 'plant_string', 'clay_brick', 'ceramic_small_vessel', 'clay_tool', 'fire_starter'):
+        item = rm.item_model(item_name)
+        item.with_lang(lang(item_name))
 
     # ceramic bucket, since it uses a very custom model
+    rm.item('ceramic_bucket').with_lang(lang('ceramic bucket'))
     rm.data(('models', 'item', 'ceramic_bucket'), {
         'parent': 'forge:item/default',
         'textures': {
@@ -106,13 +111,13 @@ def generate(rm: ResourceManager):
         'loader': 'forge:bucket',
         'fluid': 'empty'
     }, root_domain='assets')
-    rm.item('ceramic_bucket').with_lang(lang('ceramic bucket'))
 
     # Misc Tags
     rm.item('plant_string').with_tag('forge:string')
     rm.block('minecraft:gravel').with_tag('always_breakable').with_tag('always_drops')
-    for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce'):
-        rm.block('minecraft:%s_leaves' % wood).with_tag('always_breakable').with_tag('always_drops')
+
+    rm.block_tag('always_breakable', '#minecraft:leaves', 'minecraft:gravel', '#forge:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand')
+    rm.block_tag('always_drops', '#minecraft:leaves', 'minecraft:gravel', '#forge:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand')
 
     rm.item_tag('fire_starter_logs', '#minecraft:logs', '#minecraft:planks')
     rm.item_tag('fire_starter_kindling', '#forge:rods/wooden', '#minecraft:saplings', '#minecraft:leaves', '#forge:string', 'notreepunching:plant_fiber')
@@ -133,32 +138,3 @@ def generate_vanilla(rm: ResourceManager):
 
 def lang(key: str, *args) -> str:
     return ((key % args) if len(args) > 0 else key).replace('_', ' ').replace('/', ' ').title()
-
-
-def wall_v2(ctx: BlockContext, wall_suffix: str = '_wall'):
-    block = ctx.res.join('block/')
-    wall = ctx.res.join() + wall_suffix
-    wall_post = block + wall_suffix + '_post'
-    wall_side = block + wall_suffix + '_side'
-    wall_side_tall = block + wall_suffix + '_side_tall'
-    wall_inv = block + wall_suffix + '_inventory'
-    ctx.rm.blockstate_multipart(wall, wall_multipart_v2(wall_post, wall_side, wall_side_tall))
-    ctx.rm.block_model(wall + '_post', textures={'wall': block}, parent='block/template_wall_post')
-    ctx.rm.block_model(wall + '_side', textures={'wall': block}, parent='block/template_wall_side')
-    ctx.rm.block_model(wall + '_side_tall', textures={'wall': block}, parent='block/template_wall_side_tall')
-    ctx.rm.block_model(wall + '_inventory', textures={'wall': block}, parent='block/wall_inventory')
-    ctx.rm.item_model(wall, parent=wall_inv, no_textures=True)
-
-
-def wall_multipart_v2(wall_post: str, wall_side: str, wall_side_tall: str):
-    return [
-        ({'up': 'true'}, {'model': wall_post}),
-        ({'north': 'low'}, {'model': wall_side, 'uvlock': True}),
-        ({'east': 'low'}, {'model': wall_side, 'y': 90, 'uvlock': True}),
-        ({'south': 'low'}, {'model': wall_side, 'y': 180, 'uvlock': True}),
-        ({'west': 'low'}, {'model': wall_side, 'y': 270, 'uvlock': True}),
-        ({'north': 'tall'}, {'model': wall_side_tall, 'uvlock': True}),
-        ({'east': 'tall'}, {'model': wall_side_tall, 'y': 90, 'uvlock': True}),
-        ({'south': 'tall'}, {'model': wall_side_tall, 'y': 180, 'uvlock': True}),
-        ({'west': 'tall'}, {'model': wall_side_tall, 'y': 270, 'uvlock': True})
-    ]

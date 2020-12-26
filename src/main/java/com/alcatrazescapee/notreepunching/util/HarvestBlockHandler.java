@@ -121,7 +121,7 @@ public class HarvestBlockHandler
                 }
 
                 // Forcefully set everything to require a tool
-                // Need to do both the block settings and the block state wince the value is copied there for every state
+                // Need to do both the block settings and the block state since the value is copied there for every state
                 settings.requiresCorrectToolForDrops();
                 block.getStateDefinition().getPossibleStates().forEach(state -> ((AbstractBlockStateAccess) state).setRequiresCorrectToolForDrops(true));
 

@@ -49,6 +49,8 @@ public final class NoTreePunching
     public void setup(FMLCommonSetupEvent event)
     {
         LOGGER.info("Setup");
+
         HarvestBlockHandler.setup();
+        ModFeatures.setup();
     }
 }

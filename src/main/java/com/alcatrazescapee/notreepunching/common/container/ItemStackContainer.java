@@ -34,7 +34,7 @@ public class ItemStackContainer extends ModContainer
 
         if (stack == player.getMainHandItem())
         {
-            this.itemIndex = playerInv.selected + 27; // Mainhand opened inventory
+            this.itemIndex = playerInv.selected + 36; // Mainhand opened inventory
             this.isOffhand = false;
         }
         else

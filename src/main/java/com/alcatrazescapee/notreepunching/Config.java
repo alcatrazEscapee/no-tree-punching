@@ -14,6 +14,7 @@ import net.minecraftforge.fml.config.ModConfig;
 
 public final class Config
 {
+    public static final CommonConfig COMMON = register(ModConfig.Type.COMMON, CommonConfig::new);
     public static final ServerConfig SERVER = register(ModConfig.Type.SERVER, ServerConfig::new);
 
     public static void init() {}
@@ -23,6 +24,16 @@ public final class Config
         Pair<T, ForgeConfigSpec> configPair = new ForgeConfigSpec.Builder().configure(factory);
         ModLoadingContext.get().registerConfig(type, configPair.getRight());
         return configPair.getLeft();
+    }
+
+    public static final class CommonConfig
+    {
+        public final ForgeConfigSpec.BooleanValue enableLooseRocksWorldGen;
+
+        private CommonConfig(ForgeConfigSpec.Builder builder)
+        {
+            enableLooseRocksWorldGen = builder.comment("Enables loose rock world gen added automatically to biomes.").define("enableLooseRocksWorldGen", true);
+        }
     }
 
     public static final class ServerConfig

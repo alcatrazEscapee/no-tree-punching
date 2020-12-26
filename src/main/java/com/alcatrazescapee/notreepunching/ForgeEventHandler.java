@@ -16,8 +16,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -26,6 +29,7 @@ import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
+import com.alcatrazescapee.notreepunching.world.ModFeatures;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
@@ -57,7 +61,7 @@ public final class ForgeEventHandler
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public static void breakSpeed(PlayerEvent.BreakSpeed event)
+    public static void onBreakSpeed(PlayerEvent.BreakSpeed event)
     {
         if (Config.SERVER.noMiningWithoutCorrectTool.get())
         {
@@ -71,7 +75,7 @@ public final class ForgeEventHandler
     }
 
     @SubscribeEvent
-    public static void playerInteractEvent(PlayerInteractEvent.RightClickBlock event)
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event)
     {
         ItemStack stack = event.getItemStack();
         World world = event.getWorld();
@@ -95,6 +99,15 @@ public final class ForgeEventHandler
             }
             event.setCancellationResult(ActionResultType.SUCCESS);
             event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBiomeLoad(BiomeLoadingEvent event)
+    {
+        if (event.getCategory() != Biome.Category.NONE && event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER && event.getCategory() != Biome.Category.OCEAN)
+        {
+            event.getGeneration().addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.LOOSE_ROCKS_CONFIGURED.get());
         }
     }
 }
