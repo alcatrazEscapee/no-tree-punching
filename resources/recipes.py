@@ -66,14 +66,14 @@ def generate(rm: ResourceManager):
     for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce'):
         # Planks
         rm.crafting_shaped('%s_planks_with_saw' % wood, ('S', 'W'), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:%s_logs' % wood}, (4, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s_log' % wood)
-        rm.crafting_shaped('%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': 'notreepunching:flint_axe', 'W': 'tag!minecraft:%s_logs' % wood}, (2, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s_log' % wood)
+        rm.crafting_shaped('%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:%s_logs' % wood}, (2, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s_log' % wood)
 
     # Sticks
     rm.crafting_shaped('sticks_from_logs_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:logs'}, (8, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
     rm.crafting_shaped('sticks_from_planks_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:planks'}, (2, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
 
-    rm.crafting_shaped('sticks_from_logs_with_flint_axe', ('SW',), {'S': 'notreepunching:flint_axe', 'W': 'tag!minecraft:logs'}, (6, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
-    rm.crafting_shaped('sticks_from_planks_with_flint_axe', ('SW',), {'S': 'notreepunching:flint_axe', 'W': 'tag!minecraft:planks'}, (1, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
+    rm.crafting_shaped('sticks_from_logs_with_flint_axe', ('SW',), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:logs'}, (6, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
+    rm.crafting_shaped('sticks_from_planks_with_flint_axe', ('SW',), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:planks'}, (1, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
 
     # Tools
     for tool in ('iron', 'gold', 'diamond'):

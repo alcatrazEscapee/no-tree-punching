@@ -32,7 +32,7 @@ public final class Config
 
         private CommonConfig(ForgeConfigSpec.Builder builder)
         {
-            enableLooseRocksWorldGen = builder.comment("Enables loose rock world gen added automatically to biomes.").define("enableLooseRocksWorldGen", true);
+            enableLooseRocksWorldGen = builder.comment("Enables loose rock world gen added automatically to biomes.", "Note: Requires a world restart to take effect!").define("enableLooseRocksWorldGen", true);
         }
     }
 

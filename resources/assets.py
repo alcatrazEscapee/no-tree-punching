@@ -95,6 +95,7 @@ def generate(rm: ResourceManager):
     item.with_lang(lang('macuahuitl'))
 
     rm.item('flint_knife').with_tag('knives')
+    rm.item('flint_axe').with_tag('weak_saws')
 
     for item_name in ('flint_shard', 'plant_fiber', 'plant_string', 'clay_brick', 'ceramic_small_vessel', 'clay_tool', 'fire_starter'):
         item = rm.item_model(item_name)

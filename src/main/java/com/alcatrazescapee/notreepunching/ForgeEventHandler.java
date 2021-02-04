@@ -5,7 +5,10 @@
 
 package com.alcatrazescapee.notreepunching;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -37,6 +40,7 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 public final class ForgeEventHandler
 {
     private static final Random RANDOM = new Random();
+    private static final Set<Biome.Category> CATEGORIES_WITHOUT_ROCKS = new HashSet<>(Arrays.asList(Biome.Category.NONE, Biome.Category.THEEND, Biome.Category.NETHER, Biome.Category.OCEAN));
 
     @SubscribeEvent
     public static void onHarvestCheck(PlayerEvent.HarvestCheck event)
@@ -105,7 +109,7 @@ public final class ForgeEventHandler
     @SubscribeEvent
     public static void onBiomeLoad(BiomeLoadingEvent event)
     {
-        if (event.getCategory() != Biome.Category.NONE && event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER && event.getCategory() != Biome.Category.OCEAN)
+        if (Config.COMMON.enableLooseRocksWorldGen.get() && !CATEGORIES_WITHOUT_ROCKS.contains(event.getCategory()))
         {
             event.getGeneration().addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.LOOSE_ROCKS_CONFIGURED.get());
         }
