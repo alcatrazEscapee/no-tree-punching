@@ -18,6 +18,7 @@ def generate(rm: ResourceManager):
         block.with_block_model()
         block.with_item_model()
         block.with_tag('cobblestone')
+        rm.item_tag('cobblestone', '%s_cobblestone' % stone)  # both block and item tag
         block.with_block_loot('notreepunching:%s_cobblestone' % stone)
         block.with_lang(lang('%s cobblestone', stone))
         block.make_stairs()
@@ -122,6 +123,12 @@ def generate(rm: ResourceManager):
 
     rm.item_tag('fire_starter_logs', '#minecraft:logs', '#minecraft:planks')
     rm.item_tag('fire_starter_kindling', '#forge:rods/wooden', '#minecraft:saplings', '#minecraft:leaves', '#forge:string', 'notreepunching:plant_fiber')
+
+    # Add cobblestone to existing similar tags
+    rm.item_tag('minecraft:stone_tool_materials', '#notreepunching:cobblestone')
+    rm.item_tag('minecraft:stone_crafting_materials', '#notreepunching:cobblestone')
+    rm.block_tag('forge:cobblestone', '#notreepunching:cobblestone')
+    rm.item_tag('forge:cobblestone', '#notreepunching:cobblestone')
 
     rm.item('ceramic_small_vessel').with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
     rm.item('ceramic_large_vessel').with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
