@@ -12,8 +12,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -21,8 +19,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
-
-import com.alcatrazescapee.notreepunching.common.items.ModItems;
 
 public class PotteryBlock extends Block
 {
@@ -86,24 +82,6 @@ public class PotteryBlock extends Block
     public Variant getVariant()
     {
         return variant;
-    }
-
-    @Nonnull
-    public ItemStack getFiredType()
-    {
-        switch (variant)
-        {
-            case LARGE_VESSEL:
-                return new ItemStack(ModBlocks.CERAMIC_LARGE_VESSEL.get());
-            case BUCKET:
-                return new ItemStack(ModItems.CERAMIC_BUCKET.get());
-            case SMALL_VESSEL:
-                return new ItemStack(ModItems.CERAMIC_SMALL_VESSEL.get());
-            case FLOWER_POT:
-                return new ItemStack(Items.FLOWER_POT);
-            default:
-                return ItemStack.EMPTY;
-        }
     }
 
     @Override

@@ -62,7 +62,7 @@ public class FireStarterItem extends TieredItem
                     Helpers.hurtAndBreak(player, player.getUsedItemHand(), stack, 1);
 
                     BlockState stateAt = worldIn.getBlockState(pos);
-                    if (CampfireBlock.canLight(stateAt)) /* canBeLit */
+                    if (CampfireBlock.canLight(stateAt))
                     {
                         // Light campfire
                         worldIn.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, random.nextFloat() * 0.4F + 0.8F);

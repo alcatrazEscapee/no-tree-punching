@@ -17,24 +17,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.IContainerProvider;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.util.NonNullFunction;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 /**
  * A collection of helper methods and utilities
@@ -56,22 +47,6 @@ public final class Helpers
             return Optional.of((T) tile);
         }
         return Optional.empty();
-    }
-
-    /**
-     * Like {@link InventoryHelper#dropContents(World, BlockPos, IInventory)} but with item handlers
-     */
-    public static void dropContents(World world, BlockPos pos, IItemHandlerModifiable inventory)
-    {
-        for (int i = 0; i < inventory.getSlots(); i++)
-        {
-            ItemStack stack = inventory.getStackInSlot(i);
-            inventory.setStackInSlot(i, ItemStack.EMPTY);
-            if (!stack.isEmpty())
-            {
-                InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-            }
-        }
     }
 
     /**
@@ -148,28 +123,6 @@ public final class Helpers
             return LazyOptional.empty();
         }
         return capabilityToCheck.orEmpty(capability, instance);
-    }
-
-    /**
-     * Gets a container provider for an item stack, using the item stack's display name as the default name.
-     */
-    public static INamedContainerProvider getStackContainerProvider(ItemStack stack, IContainerProvider simpleContainerProvider)
-    {
-        return new INamedContainerProvider()
-        {
-            @Override
-            public ITextComponent getDisplayName()
-            {
-                return stack.getHoverName();
-            }
-
-            @Nullable
-            @Override
-            public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity player)
-            {
-                return simpleContainerProvider.createMenu(windowId, playerInventory, player);
-            }
-        };
     }
 
     /**

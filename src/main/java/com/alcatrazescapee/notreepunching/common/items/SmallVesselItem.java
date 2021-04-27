@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -30,7 +31,6 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import com.alcatrazescapee.notreepunching.common.ModItemGroup;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.container.SmallVesselContainer;
-import com.alcatrazescapee.notreepunching.util.Helpers;
 import com.alcatrazescapee.notreepunching.util.ItemStackItemHandler;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
@@ -50,7 +50,9 @@ public class SmallVesselItem extends Item
         ItemStack stack = playerIn.getItemInHand(handIn);
         if (playerIn instanceof ServerPlayerEntity && !playerIn.isShiftKeyDown())
         {
-            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> NetworkHooks.openGui((ServerPlayerEntity) playerIn, Helpers.getStackContainerProvider(stack, (windowID, playerInventory, player) -> new SmallVesselContainer(windowID, playerInventory))));
+            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+                NetworkHooks.openGui((ServerPlayerEntity) playerIn, new SimpleNamedContainerProvider((windowID, playerInventory, player) -> new SmallVesselContainer(windowID, playerInventory), stack.getHoverName()));
+            });
         }
         return new ActionResult<>(ActionResultType.SUCCESS, stack);
     }
