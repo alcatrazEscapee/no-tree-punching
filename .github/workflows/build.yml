@@ -39,8 +39,8 @@ jobs:
           VERSION: ${{ steps.get_version.outputs.result }}
       - name: Test
         run: ./gradlew runServerTest
-        env:
-          VERSION: ${{ steps.get_version.outputs.result }}
+      - name: Check Licenses
+        run: ./gradlew checkLicenses
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1

@@ -18,6 +18,7 @@ buildscript {
 
 plugins {
     id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id 'net.minecrell.licenser' version '0.4.1'
     id 'idea'
 }
 
@@ -123,6 +124,13 @@ jar {
 
 mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
+}
+
+// Automatically apply a license header when running checkLicense / updateLicense
+license {
+    header = project.file('HEADER.txt')
+
+    include '**/*.java'
 }
 
 curseforge {
