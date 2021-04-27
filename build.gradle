@@ -55,6 +55,10 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.k-4u.nl"
     }
+    maven {
+        // mcjunitlib
+        url = 'https://jitpack.io'
+    }
 }
 
 minecraft {
@@ -84,6 +88,16 @@ minecraft {
                 }
             }
         }
+
+        serverTest {
+            parent runs.server
+            workingDirectory project.file('run')
+            main 'com.alcatrazescapee.mcjunitlib.DedicatedTestServerLauncher'
+            ideaModule "${project.name}.test"
+            property 'forge.logging.console.level', 'unittest'
+            environment 'MOD_CLASSES', String.join(File.pathSeparator, "${mod_id}%%${sourceSets.main.output.resourcesDir}", "${mod_id}%%${sourceSets.main.output.classesDirs.asPath}", "${mod_id}%%${sourceSets.test.output.resourcesDir}", "${mod_id}%%${sourceSets.test.output.classesDirs.asPath}")
+            environment 'target', 'fmltestserver'
+        }
     }
 }
 
@@ -93,6 +107,8 @@ dependencies {
 
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+
+    testImplementation fg.deobf("com.github.alcatrazEscapee:mcjunitlib:${mcjunitlib_version}-${mc_version}")
 }
 
 // Puts the mod version into the jar for mods.toml to read from
@@ -119,8 +135,7 @@ curseforge {
         changelog = "[Release Notes ${version}](https://github.com/alcatrazEscapee/no-tree-punching/releases/tag/v${version})"
         changelogType = "markdown"
         
-        releaseType = 'release' // Forge versions are marked release
-        
+        releaseType = 'release'
         addGameVersion "${mc_version}"
     }
 }

@@ -6,12 +6,11 @@
 package com.alcatrazescapee.notreepunching.util;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Stream;
 
-import com.google.common.collect.ImmutableMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.block.AbstractBlock;
@@ -19,13 +18,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.TieredItem;
-import net.minecraft.util.Util;
+import net.minecraft.item.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -38,10 +35,17 @@ import com.alcatrazescapee.notreepunching.mixin.block.AbstractBlockStateAccess;
 /**
  * Manager for all block / blockstate / material related modifications in order for this mod to function
  *
+ * How vanilla harvest handling, and forge's modifications to it, work:
+ * - Vanilla tool classes have hardcoded lists of either materials, or blocks, which respect tools
+ * - Forge uses these to apply harvest tools and levels to all blocks, including ones that don't require tools
+ * - We need to detect these inferences and modify them - this is why vanilla plants have the 'axe' tool type
+ *
+ * @see ForgeHooks#initTools()
+ *
  * Invasive modifications:
  * - Modifies the `toolRequired` field of blocks and blockstates to be always true
  * - Adds tool types based on materials to specific blocks if they don't declare one by default
- * - Adds the "sword" tool type to all sword subclasses
+ * - Adds the "sword" tool type to all sword and shears item (using an instanceof check)
  */
 public class HarvestBlockHandler
 {
@@ -49,116 +53,98 @@ public class HarvestBlockHandler
     public static final ToolType MATTOCK = ToolType.get("mattock");
 
     private static final Set<Block> DEFAULT_NO_TOOL_BLOCKS = new HashSet<>();
+    private static final Map<Block, ToolType> ADDITIONAL_TOOL_TYPE_BLOCKS = new HashMap<>();
+
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final Field HARVEST_TOOL_FIELD = Util.make(() -> {
-        try
-        {
-            Field field = Block.class.getDeclaredField("harvestTool");
-            field.setAccessible(true);
-            return field;
-        }
-        catch (NoSuchFieldException e)
-        {
-            throw new RuntimeException("Unable to find Block#harvestTool, please report this to NTP!", e);
-        }
-    });
+    private static final Field HARVEST_TOOL_FIELD = Helpers.findUnobfField(Block.class, "harvestTool");
+    private static final Field HARVEST_LEVEL_FIELD = Helpers.findUnobfField(Block.class, "harvestLevel");
+    private static final Field TOOL_CLASSES_FIELD = Helpers.findUnobfField(Item.class, "toolClasses");
 
-    private static final Field HARVEST_LEVEL_FIELD = Util.make(() -> {
-        try
-        {
-            Field field = Block.class.getDeclaredField("harvestLevel");
-            field.setAccessible(true);
-            return field;
-        }
-        catch (NoSuchFieldException e)
-        {
-            throw new RuntimeException("Unable to find Block#harvestLevel, please report this to NTP!", e);
-        }
-    });
-
-    private static final Field TOOL_CLASSES_FIELD = Util.make(() -> {
-        try
-        {
-            Field field = Item.class.getDeclaredField("toolClasses");
-            field.setAccessible(true);
-            return field;
-        }
-        catch (NoSuchFieldException e)
-        {
-            throw new RuntimeException("Unable to find Item#toolClasses, please report this to NTP!", e);
-        }
-    });
-
-    private static final Map<Material, ToolType> EXTRA_MATERIAL_TOOLS = Util.make(new ImmutableMap.Builder<Material, ToolType>(), builder -> {
-        Stream.of(Material.PLANT, Material.WATER_PLANT, Material.REPLACEABLE_PLANT, Material.REPLACEABLE_WATER_PLANT, Material.BAMBOO, Material.BAMBOO_SAPLING, Material.CACTUS)
-            .forEach(material -> builder.put(material, SWORD));
-        Stream.of(Material.WOOD, Material.NETHER_WOOD)
-            .forEach(material -> builder.put(material, ToolType.AXE));
-        Stream.of(Material.STONE, Material.METAL, Material.HEAVY_METAL, Material.PISTON)
-            .forEach(material -> builder.put(material, ToolType.PICKAXE));
-        Stream.of(Material.DIRT, Material.VEGETABLE, Material.SAND, Material.CLAY, Material.TOP_SNOW, Material.SNOW)
-            .forEach(material -> builder.put(material, ToolType.SHOVEL));
-        Stream.of(Material.GRASS, Material.REPLACEABLE_FIREPROOF_PLANT, Material.SPONGE, Material.LEAVES)
-            .forEach(material -> builder.put(material, ToolType.HOE));
-    }).build();
-
-    @SuppressWarnings("unchecked")
     public static void setup()
     {
-        ForgeRegistries.BLOCKS.getValues()
-            .forEach(block -> {
+        final Map<Material, ToolType> inferredTools = new HashMap<>();
 
-                AbstractBlockAccess blockAccess = (AbstractBlockAccess) block;
-                AbstractBlock.Properties settings = blockAccess.getProperties();
-                AbstractBlockPropertiesAccess settingsAccess = (AbstractBlockPropertiesAccess) settings;
-                Material material = blockAccess.getMaterial();
+        Helpers.putAll(inferredTools, ToolType.AXE, Material.WOOD, Material.NETHER_WOOD);
+        Helpers.putAll(inferredTools, ToolType.PICKAXE, Material.STONE, Material.METAL, Material.HEAVY_METAL, Material.PISTON);
+        Helpers.putAll(inferredTools, ToolType.SHOVEL, Material.DIRT, Material.VEGETABLE, Material.SAND, Material.CLAY, Material.TOP_SNOW, Material.SNOW);
+        Helpers.putAll(inferredTools, ToolType.HOE, Material.GRASS, Material.REPLACEABLE_FIREPROOF_PLANT, Material.SPONGE, Material.LEAVES);
+        Helpers.putAll(inferredTools, SWORD, Material.PLANT, Material.WATER_PLANT, Material.REPLACEABLE_PLANT, Material.REPLACEABLE_WATER_PLANT, Material.BAMBOO, Material.BAMBOO_SAPLING, Material.CACTUS);
 
-                if (!settingsAccess.getRequiresCorrectToolForDrops())
-                {
-                    // The block by default has no tool. Flag it so we can refer to it later
-                    DEFAULT_NO_TOOL_BLOCKS.add(block);
-                }
+        for (Block block : ForgeRegistries.BLOCKS.getValues())
+        {
+            final AbstractBlockAccess blockAccess = (AbstractBlockAccess) block;
+            final AbstractBlock.Properties settings = blockAccess.getProperties();
+            final AbstractBlockPropertiesAccess settingsAccess = (AbstractBlockPropertiesAccess) settings;
+            final Material material = blockAccess.getMaterial();
 
-                // Forcefully set everything to require a tool
-                // Need to do both the block settings and the block state since the value is copied there for every state
-                settings.requiresCorrectToolForDrops();
-                block.getStateDefinition().getPossibleStates().forEach(state -> ((AbstractBlockStateAccess) state).setRequiresCorrectToolForDrops(true));
+            if (!settingsAccess.getRequiresCorrectToolForDrops())
+            {
+                // The block by default has no tool. Flag it so we can refer to it later
+                DEFAULT_NO_TOOL_BLOCKS.add(block);
+            }
 
-                // Add extra harvest levels and types to specific blocks
-                // Apparently we "shouldn't be doing this". But that's kind of the whole point of this mod, so here we go!
-                try
-                {
-                    if (HARVEST_TOOL_FIELD.get(block) == null && HARVEST_LEVEL_FIELD.getInt(block) == -1 && EXTRA_MATERIAL_TOOLS.containsKey(material))
-                    {
-                        HARVEST_TOOL_FIELD.set(block, EXTRA_MATERIAL_TOOLS.get(material));
-                        HARVEST_LEVEL_FIELD.set(block, 0);
-                    }
-                }
-                catch (IllegalAccessException e)
-                {
-                    LOGGER.warn("Unable to set harvest tool and level for block: {}. Cause: {}. Please report this to NTP!", block, e.getMessage());
-                }
-            });
+            // Forcefully set everything to require a tool
+            // Need to do both the block settings and the block state since the value is copied there for every state
+            settings.requiresCorrectToolForDrops();
+            for (BlockState state : block.getStateDefinition().getPossibleStates())
+            {
+                ((AbstractBlockStateAccess) state).setRequiresCorrectToolForDrops(true);
+            }
 
-        ForgeRegistries.ITEMS.getValues().forEach(item -> {
-            // Directly add sword tool classes to sword items
+            // Add extra harvest levels and types to specific blocks
+            // Apparently we "shouldn't be doing this". But that's kind of the whole point of this mod, so here we go!
             try
             {
-                if (item instanceof SwordItem)
+                // We track the 'default' to be the tool type of the block, if it has one, otherwise we default it if possible
+                ToolType harvestTool = (ToolType) HARVEST_TOOL_FIELD.get(block);
+                int harvestLevel = HARVEST_LEVEL_FIELD.getInt(block);
+                if (harvestTool == null)
                 {
-                    Map<ToolType, Integer> toolClasses = (Map<ToolType, Integer>) TOOL_CLASSES_FIELD.get(item);
-                    if (!toolClasses.containsKey(SWORD))
+                    harvestTool = inferredTools.get(material);
+                    if (harvestTool != null)
                     {
-                        toolClasses.put(SWORD, ((SwordItem) item).getTier().getLevel());
+                        HARVEST_TOOL_FIELD.set(block, harvestTool);
+                        HARVEST_LEVEL_FIELD.set(block, Math.max(0, harvestLevel));
+                    }
+                }
+                else
+                {
+                    // Already has a harvest tool set, but we've encountered another one that it should have
+                    // This is most likely caused by bad forge defaulting
+                    final ToolType extraTool = inferredTools.get(material);
+                    if (extraTool != null)
+                    {
+                        ADDITIONAL_TOOL_TYPE_BLOCKS.put(block, extraTool);
                     }
                 }
             }
             catch (IllegalAccessException e)
             {
-                LOGGER.warn("Unable to add sword tool class for item: {}. Cause: {}. Please report this to NTP!", item, e.getMessage());
+                LOGGER.warn("Unable to set harvest tool and level for block: {}. Cause: {}. Please report this to NTP!", block, e.getMessage());
             }
-        });
+        }
+
+        for (Item item : ForgeRegistries.ITEMS.getValues())
+        {
+            try
+            {
+                @SuppressWarnings("unchecked") final Map<ToolType, Integer> toolClasses = (Map<ToolType, Integer>) TOOL_CLASSES_FIELD.get(item);
+                if (item instanceof SwordItem && !toolClasses.containsKey(SWORD))
+                {
+                    toolClasses.put(SWORD, ((SwordItem) item).getTier().getLevel());
+                }
+                if (item instanceof ShearsItem && !toolClasses.containsKey(SWORD))
+                {
+                    // Shears have the sword class as well
+                    toolClasses.put(SWORD, 0);
+                }
+            }
+            catch (IllegalAccessException | IllegalArgumentException e)
+            {
+                LOGGER.warn("Unable to add tool class(es) for item: {}. Cause: {}. Please report this to NTP!", item, e.getMessage());
+            }
+        }
     }
 
     public static boolean doesBlockRequireNoToolByDefault(Block block)
@@ -173,44 +159,51 @@ public class HarvestBlockHandler
     {
         if ((Config.SERVER.noBlockDropsWithoutCorrectTool.get() || !doesBlockRequireNoToolByDefault(state.getBlock())) && !ModTags.Blocks.ALWAYS_DROPS.contains(state.getBlock()))
         {
-            ItemStack stack = player.getMainHandItem();
-            ToolType tool = state.getHarvestTool();
-            if (tool != null)
+            final ItemStack stack = player.getMainHandItem();
+            if (!stack.isEmpty())
             {
-                if (!stack.isEmpty())
+                // In order, try the default tool, and extra tool
+                // If no tool is present, the block is harvestable
+                // If at least one tool is present, it must pass to be harvestable
+                ToolType tool = state.getHarvestTool();
+                if (tool != null && canHarvestWithTool(state, player, stack, tool))
                 {
-                    int toolLevel = stack.getItem().getHarvestLevel(stack, tool, player, state);
-                    if (toolLevel == -1)
-                    {
-                        toolLevel = getExtraHarvestLevel(stack, tool);
-                    }
-                    int harvestLevel = state.getHarvestLevel();
-                    if (harvestLevel == -1)
-                    {
-                        harvestLevel = 0; // Assume, since the state has a harvest tool, that it should also have a harvest level. Careless modders may omit this.
-                    }
-                    if (toolLevel >= harvestLevel)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
-                return player.inventory.getSelected().isCorrectToolForDrops(state);
+                tool = ADDITIONAL_TOOL_TYPE_BLOCKS.get(state.getBlock());
+                return tool == null || canHarvestWithTool(state, player, stack, tool);
             }
+            return player.inventory.getSelected().isCorrectToolForDrops(state);
         }
         return true;
+    }
+
+    private static boolean canHarvestWithTool(BlockState state, PlayerEntity player, ItemStack stack, ToolType tool)
+    {
+        int toolLevel = stack.getItem().getHarvestLevel(stack, tool, player, state);
+        if (toolLevel == -1)
+        {
+            toolLevel = getExtraHarvestLevel(stack, tool);
+        }
+        int harvestLevel = state.getHarvestLevel();
+        if (harvestLevel == -1)
+        {
+            harvestLevel = 0; // Assume, since the state has a harvest tool, that it should also have a harvest level. Careless modders may omit this.
+        }
+        return toolLevel >= harvestLevel;
     }
 
     private static int getExtraHarvestLevel(ItemStack stack, ToolType tool)
     {
         // Extra rules for tools
-        if (stack.getToolTypes().contains(ToolType.PICKAXE) && tool == ToolType.SHOVEL)
+        if (tool == ToolType.SHOVEL && stack.getToolTypes().contains(ToolType.PICKAXE))
         {
             // Pickaxes can function as basic shovels
             return 0;
         }
-        if (ModTags.Items.KNIVES.contains(stack.getItem()) && tool == SWORD)
+        if (tool == SWORD && (ModTags.Items.KNIVES.contains(stack.getItem()) || Tags.Items.SHEARS.contains(stack.getItem())))
         {
-            // Knives have the "sword" tool type which is used for plant materials
+            // Knives and Shears have the "sword" tool type which is used for plant materials
             if (stack.getItem() instanceof TieredItem)
             {
                 return ((TieredItem) stack.getItem()).getTier().getLevel();

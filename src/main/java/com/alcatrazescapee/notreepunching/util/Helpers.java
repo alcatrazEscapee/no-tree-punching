@@ -5,6 +5,8 @@
 
 package com.alcatrazescapee.notreepunching.util;
 
+import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -179,5 +181,27 @@ public final class Helpers
     public static <T> T getNull()
     {
         return null;
+    }
+
+    public static <K, V> void putAll(Map<K, V> map, V value, K... keys)
+    {
+        for (K k : keys)
+        {
+            map.put(k, value);
+        }
+    }
+
+    public static Field findUnobfField(Class<?> clazz, String fieldName)
+    {
+        try
+        {
+            final Field field = clazz.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field;
+        }
+        catch (NoSuchFieldException e)
+        {
+            throw new RuntimeException("Unable to find unobf field for " + clazz.getSimpleName() + "#" + fieldName + ", this is a bug!");
+        }
     }
 }
