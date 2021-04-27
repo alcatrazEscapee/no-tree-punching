@@ -99,7 +99,7 @@ minecraft {
             environment 'MOD_CLASSES', String.join(File.pathSeparator, "${mod_id}%%${sourceSets.main.output.resourcesDir}", "${mod_id}%%${sourceSets.main.output.classesDirs.asPath}", "${mod_id}%%${sourceSets.test.output.resourcesDir}", "${mod_id}%%${sourceSets.test.output.classesDirs.asPath}")
             environment 'target', 'fmltestserver'
             environment 'targetModId', "${mod_id}"
-            arg '--crashOnFailedTests'
+            args '-mixin.config=' + mod_id + '.mixins.json', '--crashOnFailedTests'
             forceExit false
             mods {
                 notreepunching {

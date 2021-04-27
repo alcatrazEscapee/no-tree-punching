@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @MethodsReturnNonnullByDefault
-@SuppressWarnings("ConstantConditions")
 @Mixin(HoeItem.class)
 public interface HoeItemAccess
 {
@@ -23,5 +22,5 @@ public interface HoeItemAccess
      * Used by mattocks to emulate vanilla block breaking checks.
      */
     @Accessor("DIGGABLES")
-    static Set<Block> getEffectiveBlocks() { return null; }
+    static Set<Block> getEffectiveBlocks() { throw new AssertionError("HoeItemAccess mixin not applied"); }
 }

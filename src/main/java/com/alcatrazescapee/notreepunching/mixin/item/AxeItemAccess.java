@@ -17,18 +17,17 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(AxeItem.class)
 @MethodsReturnNonnullByDefault
-@SuppressWarnings("ConstantConditions")
 public interface AxeItemAccess
 {
     /**
      * Used by mattocks to emulate vanilla block breaking checks.
      */
     @Accessor("DIGGABLE_MATERIALS")
-    static Set<Material> getEffectiveMaterials() { return null; }
+    static Set<Material> getEffectiveMaterials() { throw new AssertionError("AxeItemAccess mixin not applied"); }
 
     /**
      * Used by mattocks to emulate vanilla block breaking checks.
      */
     @Accessor("OTHER_DIGGABLE_BLOCKS")
-    static Set<Block> getEffectiveBlocks() { return null; }
+    static Set<Block> getEffectiveBlocks() { throw new AssertionError("AxeItemAccess mixin not applied"); }
 }
