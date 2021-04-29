@@ -59,7 +59,7 @@ public class FireStarterItem extends TieredItem
                 BlockPos pos = result.getBlockPos();
                 if (!worldIn.isClientSide)
                 {
-                    Helpers.hurtAndBreak(player, player.getUsedItemHand(), stack, 1);
+                    stack = Helpers.hurtAndBreak(player, player.getUsedItemHand(), stack, 1);
 
                     BlockState stateAt = worldIn.getBlockState(pos);
                     if (CampfireBlock.canLight(stateAt))

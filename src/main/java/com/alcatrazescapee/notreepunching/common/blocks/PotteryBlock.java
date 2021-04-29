@@ -12,6 +12,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -22,6 +24,8 @@ import net.minecraftforge.common.ToolType;
 
 public class PotteryBlock extends Block
 {
+    public static final Material BREAKABLE_CLAY = new Material(MaterialColor.CLAY, false, false, true, true, false, false, PushReaction.DESTROY);
+
     private static final VoxelShape[] SHAPES = new VoxelShape[] {
         // Worked - the only simple one here
         box(1, 0, 1, 15, 15, 15),
@@ -62,6 +66,7 @@ public class PotteryBlock extends Block
             ),
             IBooleanFunction.ONLY_FIRST
         ),
+        // Flower Pot
         VoxelShapes.join(
             box(5, 0, 5, 11, 6, 11),
             box(6, 2, 6, 10, 6, 10),
@@ -73,7 +78,7 @@ public class PotteryBlock extends Block
 
     public PotteryBlock(Variant variant)
     {
-        super(Properties.of(Material.CLAY).strength(0.8f - 0.1f * variant.ordinal()).harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GRAVEL));
+        super(Properties.of(BREAKABLE_CLAY).strength(0.8f - 0.1f * variant.ordinal()).harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GRAVEL));
 
         this.variant = variant;
     }

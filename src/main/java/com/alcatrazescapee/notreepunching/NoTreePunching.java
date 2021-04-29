@@ -7,6 +7,8 @@ package com.alcatrazescapee.notreepunching;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import net.minecraft.block.DispenserBlock;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -16,6 +18,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.container.ModContainers;
+import com.alcatrazescapee.notreepunching.common.items.ClayToolItem;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.common.tileentity.ModTileEntities;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
@@ -52,5 +55,12 @@ public final class NoTreePunching
 
         HarvestBlockHandler.setup();
         ModFeatures.setup();
+
+        event.enqueueWork(() -> {
+            DispenserBlock.registerBehavior(ModItems.CLAY_TOOL.get(), (context, stack) -> {
+                BlockPos offsetPos = context.getPos().relative(context.getBlockState().getValue(DispenserBlock.FACING));
+                return ClayToolItem.interactWithBlock(context.getLevel(), offsetPos, context.getLevel().getBlockState(offsetPos), null, null, stack);
+            });
+        });
     }
 }
