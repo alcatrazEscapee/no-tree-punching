@@ -1,0 +1,40 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "parent": "notreepunching:story/find_sticks",
+  "criteria": {
+    "damage_clay_tool": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": {
+          "block": {
+            "tag": "notreepunching:pottery"
+          }
+        },
+        "item": {
+          "item": "notreepunching:clay_tool"
+        }
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "item": "notreepunching:clay_large_vessel"
+    },
+    "title": {
+      "translate": "notreepunching.advancements.story.use_clay_tool.title"
+    },
+    "description": {
+      "translate": "notreepunching.advancements.story.use_clay_tool.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "requirements": [
+    [
+      "damage_clay_tool"
+    ]
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "replace": false,
+  "values": [
+    "minecraft:clay",
+    "notreepunching:clay_worked",
+    "notreepunching:clay_large_vessel",
+    "notreepunching:clay_small_vessel",
+    "notreepunching:clay_bucket",
+    "notreepunching:clay_flower_pot"
+  ]
+}

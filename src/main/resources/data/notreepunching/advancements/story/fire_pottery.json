@@ -1,0 +1,37 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "parent": "notreepunching:story/use_clay_tool",
+  "criteria": {
+    "has_ceramics": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "notreepunching:ceramics"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "item": "notreepunching:ceramic_large_vessel"
+    },
+    "title": {
+      "translate": "notreepunching.advancements.story.fire_pottery.title"
+    },
+    "description": {
+      "translate": "notreepunching.advancements.story.fire_pottery.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "requirements": [
+    [
+      "has_ceramics"
+    ]
+  ]
+}

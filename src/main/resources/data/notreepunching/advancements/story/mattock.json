@@ -1,0 +1,37 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "parent": "notreepunching:story/flint_pickaxe",
+  "criteria": {
+    "has_mattock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "notreepunching:mattocks"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "item": "notreepunching:iron_mattock"
+    },
+    "title": {
+      "translate": "notreepunching.advancements.story.mattock.title"
+    },
+    "description": {
+      "translate": "notreepunching.advancements.story.mattock.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "requirements": [
+    [
+      "has_mattock"
+    ]
+  ]
+}

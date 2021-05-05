@@ -1,0 +1,10 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "replace": false,
+  "values": [
+    "notreepunching:ceramic_large_vessel",
+    "notreepunching:ceramic_small_vessel",
+    "notreepunching:ceramic_bucket",
+    "minecraft:flower_pot"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "parent": "notreepunching:story/root",
+  "criteria": {
+    "has_loose_rock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "notreepunching:loose_rocks"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "item": "notreepunching:stone_loose_rock"
+    },
+    "title": {
+      "translate": "notreepunching.advancements.story.find_loose_rock.title"
+    },
+    "description": {
+      "translate": "notreepunching.advancements.story.find_loose_rock.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "requirements": [
+    [
+      "has_loose_rock"
+    ]
+  ]
+}
