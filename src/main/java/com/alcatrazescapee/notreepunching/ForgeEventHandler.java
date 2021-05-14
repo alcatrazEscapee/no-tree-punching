@@ -54,7 +54,7 @@ public final class ForgeEventHandler
         {
             if (Config.SERVER.noBlockDropsWithoutCorrectTool.get())
             {
-                canHarvest |= HarvestBlockHandler.canHarvest(event.getTargetBlock(), event.getPlayer());
+                canHarvest |= HarvestBlockHandler.canHarvest(event.getTargetBlock(), event.getPlayer(), true);
             }
             else
             {
@@ -69,7 +69,7 @@ public final class ForgeEventHandler
     {
         if (Config.SERVER.noMiningWithoutCorrectTool.get())
         {
-            if (!HarvestBlockHandler.canHarvest(event.getState(), event.getPlayer()) && !ModTags.Blocks.ALWAYS_BREAKABLE.contains(event.getState().getBlock()))
+            if (!HarvestBlockHandler.canHarvest(event.getState(), event.getPlayer(), false) && !ModTags.Blocks.ALWAYS_BREAKABLE.contains(event.getState().getBlock()))
             {
                 // Everything except instant breaking things will take basically forever (if enabled)
                 float newSpeed = Config.SERVER.doInstantBreakBlocksRequireTool.get() ? 0 : 1e-10f;

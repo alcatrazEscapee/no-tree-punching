@@ -154,18 +154,23 @@ public class HarvestBlockHandler
 
     /**
      * This is a better version of {@link net.minecraftforge.common.ForgeHooks#canHarvestBlock(BlockState, PlayerEntity, IBlockReader, BlockPos)}
-     * It returns if the block state should drop items.
+     *
+     * @param doDropsChecks If the def'n of harvestability should include if that block will be able to drop items. Otherwise, just use generic harvest checks.
+     * @return If the state can be harvested (broken, and obtain drops) by the current player
      */
-    public static boolean canHarvest(BlockState state, PlayerEntity player)
+    public static boolean canHarvest(BlockState state, PlayerEntity player, boolean doDropsChecks)
     {
-        if (ModTags.Blocks.ALWAYS_DROPS.contains(state.getBlock()))
+        if (doDropsChecks)
         {
-            return true; // Whitelist specific blocks, bypasses all restrictions
-        }
+            if (ModTags.Blocks.ALWAYS_DROPS.contains(state.getBlock()))
+            {
+                return true; // Whitelist specific blocks, bypasses all restrictions
+            }
 
-        if (Config.SERVER.doInstantBreakBlocksDropWithoutCorrectTool.get() && ((AbstractBlockStateAccess) state).getDestroySpeed() == 0)
-        {
-            return true; // Instant break blocks also hardcode to true, if the respective config option is set such that they always drop
+            if (((AbstractBlockStateAccess) state).getDestroySpeed() == 0 && Config.SERVER.doInstantBreakBlocksDropWithoutCorrectTool.get())
+            {
+                return true; // Instant break blocks also hardcode to true, if the respective config option is set such that they always drop
+            }
         }
 
         if (Config.SERVER.noBlockDropsWithoutCorrectTool.get())

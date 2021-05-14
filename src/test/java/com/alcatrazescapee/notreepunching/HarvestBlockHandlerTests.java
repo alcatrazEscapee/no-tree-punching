@@ -85,9 +85,16 @@ public class HarvestBlockHandlerTests
     }
 
     @Test
-    public void testFlowerUnbreakableWithEmptyHand()
+    public void testPoppyWithEmptyHand()
     {
-        doTest(Blocks.POPPY, Items.AIR, false);
+        Config.SERVER.doInstantBreakBlocksDropWithoutCorrectTool.set(true);
+        doTest(Blocks.POPPY, Items.AIR, true, "Should drop if no tool required");
+
+        Config.SERVER.doInstantBreakBlocksDropWithoutCorrectTool.set(false);
+        doTest(Blocks.POPPY, Items.AIR, false, "Shouldn't drop when a tool is required");
+
+        // Reset defaults
+        Config.SERVER.doInstantBreakBlocksDropWithoutCorrectTool.set(true);
     }
 
     @Test
@@ -126,13 +133,18 @@ public class HarvestBlockHandlerTests
         doTest(Blocks.IRON_ORE, ModItems.FLINT_PICKAXE.get(), true);
     }
 
-    private void doTest(Block block, Item item, boolean shouldBreak)
+    private void doTest(Block block, Item item, boolean shouldHarvest)
+    {
+        doTest(block, item, shouldHarvest, "Block " + block.getRegistryName() + " with item " + item.getRegistryName() + " should harvest = " + shouldHarvest);
+    }
+
+    private void doTest(Block block, Item item, boolean shouldHarvest, String message)
     {
         final PlayerEntity player = FakePlayerFactory.getMinecraft(ServerLifecycleHooks.getCurrentServer().overworld());
         final ItemStack stack = new ItemStack(item);
         final BlockState state = block.defaultBlockState();
 
         player.setItemInHand(Hand.MAIN_HAND, stack);
-        assertEquals(shouldBreak, player.hasCorrectToolForDrops(state));
+        assertEquals(shouldHarvest, player.hasCorrectToolForDrops(state), message);
     }
 }
