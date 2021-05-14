@@ -154,32 +154,51 @@ public class HarvestBlockHandler
 
     /**
      * This is a better version of {@link net.minecraftforge.common.ForgeHooks#canHarvestBlock(BlockState, PlayerEntity, IBlockReader, BlockPos)}
+     * It returns if the block state should drop items.
      */
     public static boolean canHarvest(BlockState state, PlayerEntity player)
     {
-        if ((Config.SERVER.noBlockDropsWithoutCorrectTool.get() || !doesBlockRequireNoToolByDefault(state.getBlock())) && !ModTags.Blocks.ALWAYS_DROPS.contains(state.getBlock()))
+        if (ModTags.Blocks.ALWAYS_DROPS.contains(state.getBlock()))
         {
-            final ItemStack stack = player.getMainHandItem();
-            if (!stack.isEmpty())
-            {
-                // In order, try the default tool, and extra tool
-                // If no tool is present, the block is harvestable
-                // If at least one tool is present, it must pass to be harvestable
-                ToolType tool = state.getHarvestTool();
-                if (tool != null && canHarvestWithTool(state, player, stack, tool))
-                {
-                    return true;
-                }
-                tool = ADDITIONAL_TOOL_TYPE_BLOCKS.get(state.getBlock());
-                return tool == null || canHarvestWithTool(state, player, stack, tool);
-            }
-            return player.inventory.getSelected().isCorrectToolForDrops(state);
+            return true; // Whitelist specific blocks, bypasses all restrictions
         }
-        return true;
+
+        if (Config.SERVER.doInstantBreakBlocksDropWithoutCorrectTool.get() && ((AbstractBlockStateAccess) state).getDestroySpeed() == 0)
+        {
+            return true; // Instant break blocks also hardcode to true, if the respective config option is set such that they always drop
+        }
+
+        if (Config.SERVER.noBlockDropsWithoutCorrectTool.get())
+        {
+            final ItemStack stack = player.inventory.getSelected();
+
+            // In order, try the default tool, and extra tool
+            // If no tool is present, the block is harvestable
+            // If at least one tool is present, it must pass to be harvestable
+            ToolType tool = state.getHarvestTool();
+            if (tool != null && canHarvestWithTool(state, player, stack, tool))
+            {
+                return true;
+            }
+            tool = ADDITIONAL_TOOL_TYPE_BLOCKS.get(state.getBlock());
+            return tool == null || canHarvestWithTool(state, player, stack, tool);
+        }
+        else
+        {
+            // Delegate to vanilla handling
+            return doesBlockRequireNoToolByDefault(state.getBlock());
+        }
     }
 
     private static boolean canHarvestWithTool(BlockState state, PlayerEntity player, ItemStack stack, ToolType tool)
     {
+        // Check the default method first, before we go straight to computing harvest levels / tools
+        if (stack.isCorrectToolForDrops(state))
+        {
+            return true;
+        }
+
+        // This should catch forge-added harvest tool / level shenanagains
         int toolLevel = stack.getItem().getHarvestLevel(stack, tool, player, state);
         if (toolLevel == -1)
         {

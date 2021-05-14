@@ -18,4 +18,7 @@ public interface AbstractBlockStateAccess
      */
     @Accessor("requiresCorrectToolForDrops")
     void setRequiresCorrectToolForDrops(boolean value);
+
+    @Accessor("destroySpeed")
+    float getDestroySpeed();
 }

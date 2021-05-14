@@ -41,6 +41,7 @@ public final class Config
         public final ForgeConfigSpec.BooleanValue noMiningWithoutCorrectTool;
         public final ForgeConfigSpec.BooleanValue noBlockDropsWithoutCorrectTool;
         public final ForgeConfigSpec.BooleanValue doInstantBreakBlocksRequireTool;
+        public final ForgeConfigSpec.BooleanValue doInstantBreakBlocksDropWithoutCorrectTool;
         public final ForgeConfigSpec.BooleanValue doInstantBreakBlocksDamageKnives;
         public final ForgeConfigSpec.DoubleValue flintKnappingConsumeChance;
         public final ForgeConfigSpec.DoubleValue flintKnappingSuccessChance;
@@ -50,7 +51,9 @@ public final class Config
         {
             noMiningWithoutCorrectTool = builder.comment("Makes blocks take forever to mine if using the wrong tool").define("noMiningWithoutCorrectTool", true);
             noBlockDropsWithoutCorrectTool = builder.comment("Makes blocks not drop anything when broken with the wrong tool").define("noBlockDropsWithoutCorrectTool", true);
+
             doInstantBreakBlocksRequireTool = builder.comment("Makes blocks that would otherwise be broken instantly unbreakable if using the wrong tool.").define("doInstantBreakBlocksRequireTool", false);
+            doInstantBreakBlocksDropWithoutCorrectTool = builder.comment("Makes blocks that would otherwise be broken instantly still drop, even when using an incorrect tool.").define("doInstantBreakBlocksDropWithoutCorrectTool", true);
             doInstantBreakBlocksDamageKnives = builder.comment("If blocks such as tall grass which break instantly consume durability when broken with a knife (only affects No Tree Punching knives)").define("doInstantBreakBlocksDamageKnives", true);
 
             flintKnappingConsumeChance = builder.comment("The chance to consume a piece of flint when knapping").defineInRange("flintKnappingConsumeChance", 0.4, 0, 1);
