@@ -180,13 +180,18 @@ public class HarvestBlockHandler
             // In order, try the default tool, and extra tool
             // If no tool is present, the block is harvestable
             // If at least one tool is present, it must pass to be harvestable
-            ToolType tool = state.getHarvestTool();
-            if (tool != null && canHarvestWithTool(state, player, stack, tool))
+            ToolType defaultTool = state.getHarvestTool();
+            if (defaultTool != null && canHarvestWithTool(state, player, stack, defaultTool))
             {
-                return true;
+                return true; // Harvestable with default tool
             }
-            tool = ADDITIONAL_TOOL_TYPE_BLOCKS.get(state.getBlock());
-            return tool == null || canHarvestWithTool(state, player, stack, tool);
+
+            ToolType additionalTool = ADDITIONAL_TOOL_TYPE_BLOCKS.get(state.getBlock());
+            if (additionalTool != null && canHarvestWithTool(state, player, stack, additionalTool))
+            {
+                return true; // Harvestable with additional tool
+            }
+            return defaultTool == null && additionalTool == null; // Neither tool is harvestable, so the block is only harvestable if we have no tool for it
         }
         else
         {

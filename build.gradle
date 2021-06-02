@@ -60,6 +60,9 @@ repositories {
         // mcjunitlib
         url = 'https://jitpack.io'
     }
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 minecraft {
@@ -72,6 +75,8 @@ minecraft {
             workingDirectory project.file('run')
             arg '-mixin.config=' + mod_id + '.mixins.json'
             property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 notreepunching {
                     source sourceSets.main
@@ -83,6 +88,8 @@ minecraft {
             workingDirectory project.file('run')
             arg '-mixin.config=' + mod_id + '.mixins.json'
             property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 notreepunching {
                     source sourceSets.main
@@ -118,6 +125,8 @@ dependencies {
 
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+
+    // runtimeOnly fg.deobf("libs:byg:1.2.3") // File: libs/byg-1.2.3.jar
 
     testImplementation fg.deobf("com.github.alcatrazEscapee:mcjunitlib:${mcjunitlib_version}-${mc_version}")
 }

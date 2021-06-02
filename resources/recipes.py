@@ -93,7 +93,7 @@ def generate(rm: ResourceManager):
         rm.recipe('netherite_%s' % tool, 'minecraft:smithing', {
             'base': utils.item_stack('notreepunching:diamond_%s' % tool),
             'addition': utils.item_stack('minecraft:netherite_ingot'),
-            'result': utils.item_stack('notreepunching_netherite_%s' % tool)
+            'result': utils.item_stack('notreepunching:netherite_%s' % tool)
         }).with_advancement('minecraft:netherite_ingot')
 
     # Flint Tools
