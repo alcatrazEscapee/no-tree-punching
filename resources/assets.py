@@ -122,22 +122,16 @@ def generate(rm: ResourceManager):
     rm.item('plant_string').with_tag('forge:string')
     rm.block('minecraft:gravel').with_tag('always_breakable').with_tag('always_drops')
 
-    rm.item_tag('weak_saws', 'minecraft:iron_axe', 'minecraft:golden_axe', 'minecraft:diamond_axe',
-                'minecraft:netherite_axe')
+    rm.item_tag('weak_saws', 'minecraft:iron_axe', 'minecraft:golden_axe', 'minecraft:diamond_axe', 'minecraft:netherite_axe')
 
-    rm.block_tag('always_breakable', '#minecraft:leaves', 'minecraft:gravel', '#forge:dirt', 'minecraft:grass',
-                 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand')
-    rm.block_tag('always_drops', '#minecraft:leaves', 'minecraft:gravel', '#forge:dirt', 'minecraft:grass',
-                 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand')
+    rm.block_tag('always_breakable', '#minecraft:leaves', 'minecraft:gravel', '#forge:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand')
+    rm.block_tag('always_drops', '#minecraft:leaves', 'minecraft:gravel', '#forge:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand')
 
     rm.item_tag('fire_starter_logs', '#minecraft:logs', '#minecraft:planks')
-    rm.item_tag('fire_starter_kindling', '#forge:rods/wooden', '#minecraft:saplings', '#minecraft:leaves',
-                '#forge:string', 'notreepunching:plant_fiber')
+    rm.item_tag('fire_starter_kindling', '#forge:rods/wooden', '#minecraft:saplings', '#minecraft:leaves', '#forge:string', 'notreepunching:plant_fiber')
 
-    ceramics = ['notreepunching:ceramic_large_vessel', 'notreepunching:ceramic_small_vessel',
-                'notreepunching:ceramic_bucket', 'minecraft:flower_pot']
-    pottery = ['minecraft:clay', 'notreepunching:clay_worked', 'notreepunching:clay_large_vessel',
-               'notreepunching:clay_small_vessel', 'notreepunching:clay_bucket', 'notreepunching:clay_flower_pot']
+    ceramics = ['notreepunching:ceramic_large_vessel', 'notreepunching:ceramic_small_vessel', 'notreepunching:ceramic_bucket', 'minecraft:flower_pot']
+    pottery = ['minecraft:clay', 'notreepunching:clay_worked', 'notreepunching:clay_large_vessel', 'notreepunching:clay_small_vessel', 'notreepunching:clay_bucket', 'notreepunching:clay_flower_pot']
 
     rm.item_tag('ceramics', *ceramics)
     rm.item_tag('pottery', *pottery)

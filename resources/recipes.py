@@ -72,22 +72,15 @@ def generate(rm: ResourceManager):
     rm.crafting_shaped('sticks_from_logs_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:logs'}, (8, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
     rm.crafting_shaped('sticks_from_planks_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:planks'}, (2, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
 
-    rm.crafting_shaped('sticks_from_logs_with_flint_axe', ('SW',),
-                       {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:logs'},
-                       (6, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
-    rm.crafting_shaped('sticks_from_planks_with_flint_axe', ('SW',),
-                       {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:planks'},
-                       (1, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
+    rm.crafting_shaped('sticks_from_logs_with_flint_axe', ('SW',), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:logs'}, (6, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
+    rm.crafting_shaped('sticks_from_planks_with_flint_axe', ('SW',), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:planks'}, (1, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
 
     # Tools
     for tool in ('iron', 'gold', 'diamond'):
         ingot = 'tag!forge:ingots/%s' % tool if tool != 'diamond' else 'tag!forge:gems/diamond'
-        rm.crafting_shaped('%s_knife' % tool, ('I', 'S'), {'S': 'tag!forge:rods/wooden', 'I': ingot},
-                           'notreepunching:%s_knife' % tool).with_advancement(ingot)
-        rm.crafting_shaped('%s_mattock' % tool, ('III', ' SI', ' S '), {'S': 'tag!forge:rods/wooden', 'I': ingot},
-                           'notreepunching:%s_mattock' % tool).with_advancement(ingot)
-        rm.crafting_shaped('%s_saw' % tool, ('  S', ' SI', 'SI '), {'S': 'tag!forge:rods/wooden', 'I': ingot},
-                           'notreepunching:%s_saw' % tool).with_advancement(ingot)
+        rm.crafting_shaped('%s_knife' % tool, ('I', 'S'), {'S': 'tag!forge:rods/wooden', 'I': ingot}, 'notreepunching:%s_knife' % tool).with_advancement(ingot)
+        rm.crafting_shaped('%s_mattock' % tool, ('III', ' SI', ' S '), {'S': 'tag!forge:rods/wooden', 'I': ingot}, 'notreepunching:%s_mattock' % tool).with_advancement(ingot)
+        rm.crafting_shaped('%s_saw' % tool, ('  S', ' SI', 'SI '), {'S': 'tag!forge:rods/wooden', 'I': ingot}, 'notreepunching:%s_saw' % tool).with_advancement(ingot)
 
     for tool in ('knife', 'mattock', 'saw'):
         rm.recipe('netherite_%s' % tool, 'minecraft:smithing', {
@@ -97,23 +90,12 @@ def generate(rm: ResourceManager):
         }).with_advancement('minecraft:netherite_ingot')
 
     # Flint Tools
-    rm.crafting_shaped('flint_axe', ('PI', 'S '),
-                       {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'},
-                       'notreepunching:flint_axe').with_advancement('notreepunching:flint_shard')
-    rm.crafting_shaped('flint_hoe', ('PII', 'S  ', 'S  '),
-                       {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'},
-                       'notreepunching:flint_hoe').with_advancement('notreepunching:flint_shard')
-    rm.crafting_shaped('flint_knife', ('I', 'S'), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard'},
-                       'notreepunching:flint_knife').with_advancement('notreepunching:flint_shard')
-    rm.crafting_shaped('flint_pickaxe', ('IPI', 'ISI', ' S '),
-                       {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'},
-                       'notreepunching:flint_pickaxe').with_advancement('notreepunching:flint_shard')
-    rm.crafting_shaped('flint_shovel', (' II', ' PI', 'S  '),
-                       {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'},
-                       'notreepunching:flint_shovel').with_advancement('notreepunching:flint_shard')
-    rm.crafting_shaped('macuahuitl', (' IS', 'ISI', 'SI '),
-                       {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard'},
-                       'notreepunching:macuahuitl').with_advancement('notreepunching:flint_shard')
+    rm.crafting_shaped('flint_axe', ('PI', 'S '), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'}, 'notreepunching:flint_axe').with_advancement('notreepunching:flint_shard')
+    rm.crafting_shaped('flint_hoe', ('PII', 'S  ', 'S  '), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'}, 'notreepunching:flint_hoe').with_advancement('notreepunching:flint_shard')
+    rm.crafting_shaped('flint_knife', ('I', 'S'), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard'}, 'notreepunching:flint_knife').with_advancement('notreepunching:flint_shard')
+    rm.crafting_shaped('flint_pickaxe', ('IPI', 'ISI', ' S '), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'}, 'notreepunching:flint_pickaxe').with_advancement('notreepunching:flint_shard')
+    rm.crafting_shaped('flint_shovel', (' II', ' PI', 'S  '), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard', 'P': 'tag!forge:string'}, 'notreepunching:flint_shovel').with_advancement('notreepunching:flint_shard')
+    rm.crafting_shaped('macuahuitl', (' IS', 'ISI', 'SI '), {'S': 'tag!forge:rods/wooden', 'I': 'notreepunching:flint_shard'}, 'notreepunching:macuahuitl').with_advancement('notreepunching:flint_shard')
 
     # Misc Tools
     rm.crafting_shaped('clay_tool', ('  I', ' II', 'I  '), {'I': 'tag!forge:rods/wooden'}, 'notreepunching:clay_tool').with_advancement('tag!forge:rods/wooden')
