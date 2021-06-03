@@ -1,0 +1,26 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "W"
+  ],
+  "key": {
+    "S": {
+      "tag": "notreepunching:saws"
+    },
+    "W": {
+      "tag": "byg:fir_logs"
+    }
+  },
+  "result": {
+    "count": 4,
+    "item": "byg:fir_planks"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "byg"
+    }
+  ]
+}

@@ -62,11 +62,14 @@ def generate(rm: ResourceManager):
     })
     rm.crafting_shapeless('flint_from_gravel', ['minecraft:gravel'] * 3, (2, 'minecraft:flint')).with_advancement('minecraft:gravel')
 
-    # Wood
-    for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce'):
-        # Planks
-        rm.crafting_shaped('%s_planks_with_saw' % wood, ('S', 'W'), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:%s_logs' % wood}, (4, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s_log' % wood)
-        rm.crafting_shaped('%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:%s_logs' % wood}, (2, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s_log' % wood)
+    # Wood Planks
+    for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce', 'crimson', 'warped'):
+        if wood == 'crimson' or wood == 'warped':
+            name = '%s_stem' % wood
+        else:
+            name = '%s_log' % wood
+        rm.crafting_shaped('%s_planks_with_saw' % wood, ('S', 'W'), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:%ss' % name}, (4, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s' % name)
+        rm.crafting_shaped('%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:%ss' % name}, (2, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s' % name)
 
     # Sticks
     rm.crafting_shaped('sticks_from_logs_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:logs'}, (8, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
@@ -143,24 +146,52 @@ def generate(rm: ResourceManager):
 
     rm.crafting_shapeless('melon_slices_with_knife', ('minecraft:melon', knife), (9, 'minecraft:melon_slice')).with_advancement('minecraft:melon')
 
+    # Compat: BYG
+    # Replace log -> plank recipes, and add weak saw variants
+    condition = mod_loaded('byg')
+    for wood in ('aspen', 'baobab', 'blue_enchanted', 'cherry', 'cika', 'cypress', 'ebony', 'ether', 'fir', 'green_enchanted', 'holly', 'jacaranda', 'lament', 'mahogany', 'mangrove', 'maple', 'nightshade', 'palm', 'pine', 'rainbow_eucalyptus', 'redwood', 'skyris', 'willow', 'witch_hazel', 'zelkova'):
+        rm.crafting_shaped('byg:%s_planks' % wood, ('S', 'W'), {'S': 'tag!notreepunching:saws', 'W': 'tag!byg:%s_logs' % wood}, (4, 'byg:%s_planks' % wood), conditions=condition)
+        rm.crafting_shaped('compat/byg_%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!byg:%s_logs' % wood}, (2, 'byg:%s_planks' % wood), conditions=condition)
+
+    # Compat: Quark
+    # Remove recipes that add alternate stone tool recipes
+    condition = mod_loaded('quark')
+    for tool in ('sword', 'shovel', 'pickaxe', 'axe', 'hoe'):
+        remove_recipe(rm, 'quark:tweaks/crafting/utility/tools/stone_%s' % tool, conditions=condition)
+
+    # Compat: Farmers Delight
+    # Replace a recipe which uses the wooden shovel with one using a stick instead
+    condition = mod_loaded('farmersdelight')
+    rm.crafting_shaped('farmersdelight:cooking_pot', ('bSb', 'iWi', 'iii'), {'b': 'minecraft:brick', 'i': 'minecraft:iron_ingot', 'S': 'minecraft:stick', 'W': 'minecraft:water_bucket'}, 'farmersdelight:cooking_pot', conditions=condition)
+
+
+def mod_loaded(mod_id: str):
+    return {
+        'type': 'forge:mod_loaded',
+        'modid': mod_id
+    }
+
+
+def remove_recipe(rm: ResourceManager, name_parts: utils.ResourceIdentifier, conditions: utils.Json = None):
+    rm.recipe(name_parts, 'forge:conditional', {'recipes': []}, conditions=conditions)
+
 
 def generate_vanilla(rm: ResourceManager):
-    empty = {'type': 'forge:conditional', 'recipes': []}
 
     # Remove wood crafting recipes
-    for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce'):
-        rm.data(('recipes', '%s_planks' % wood), empty)
+    for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce', 'crimson', 'warped'):
+        remove_recipe(rm, '%s_planks' % wood)
 
-    rm.data(('recipes', 'stick'), empty)
+    remove_recipe(rm, 'stick')
 
     # Remove wood and stone tools
     for tool in ('pickaxe', 'shovel', 'hoe', 'sword', 'axe'):
-        rm.data(('recipes', 'wooden_%s' % tool), empty)
-        rm.data(('recipes', 'stone_%s' % tool), empty)
+        remove_recipe(rm, 'wooden_%s' % tool)
+        remove_recipe(rm, 'stone_%s' % tool)
 
-    rm.data(('recipes', 'campfire'), empty)
-    rm.data(('recipes', 'flower_pot'), empty)
-    rm.data(('recipes', 'brick'), empty)
+    remove_recipe(rm, 'campfire')
+    remove_recipe(rm, 'flower_pot')
+    remove_recipe(rm, 'brick')
 
     # Add optional plant fiber to loot tables
     rm.block_loot('grass', [{

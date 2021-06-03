@@ -1,0 +1,26 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "W"
+  ],
+  "key": {
+    "S": {
+      "tag": "notreepunching:weak_saws"
+    },
+    "W": {
+      "tag": "byg:green_enchanted_logs"
+    }
+  },
+  "result": {
+    "count": 2,
+    "item": "byg:green_enchanted_planks"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "byg"
+    }
+  ]
+}

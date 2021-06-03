@@ -1,0 +1,20 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "W"
+  ],
+  "key": {
+    "S": {
+      "tag": "notreepunching:weak_saws"
+    },
+    "W": {
+      "tag": "minecraft:warped_stems"
+    }
+  },
+  "result": {
+    "count": 2,
+    "item": "minecraft:warped_planks"
+  }
+}

@@ -121,12 +121,17 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
+    if (System.getProperty("idea.sync.active") != "true") {
+        annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
+    }
 
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 
     // runtimeOnly fg.deobf("libs:byg:1.2.3") // File: libs/byg-1.2.3.jar
+    // runtimeOnly fg.deobf("libs:FarmersDelight:0.4.3") // File: libs/FarmersDelight-0.4.3.jar
+    // runtimeOnly fg.deobf("libs:AutoRegLib:1.6-49") // File: libs/AutoRegLib-1.6-49.jar Dependency for Quark
+    // runtimeOnly fg.deobf("libs:Quark:r2.4-312") // File: libs/Quark-r2.4-312.jar
 
     testImplementation fg.deobf("com.github.alcatrazEscapee:mcjunitlib:${mcjunitlib_version}-${mc_version}")
 }
