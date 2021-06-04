@@ -82,14 +82,17 @@ def generate(rm: ResourceManager):
         item = rm.item_model('%s_mattock' % tool, parent='item/handheld')
         item.with_lang(lang('%s mattock', tool))
         item.with_tag('mattocks')
+        item.with_tag('forge:tools/mattocks')
 
         item = rm.item_model('%s_saw' % tool, parent='item/handheld')
         item.with_lang(lang('%s saw', tool))
         item.with_tag('saws')
+        item.with_tag('forge:tools/saws')
 
         item = rm.item_model('%s_knife' % tool, parent='item/handheld')
         item.with_lang(lang('%s knife', tool))
         item.with_tag('knives')
+        item.with_tag('forge:tools/knives')
 
     # Flint
     for tool in ('axe', 'pickaxe', 'shovel', 'hoe', 'knife'):
