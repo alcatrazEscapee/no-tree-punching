@@ -9,12 +9,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import com.alcatrazescapee.notreepunching.client.ClientEventHandler;
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.container.ModContainers;
@@ -35,20 +37,21 @@ public final class NoTreePunching
     {
         LOGGER.info("I tried to punch tree. It didn't work, my hands are now covered in blood and splinters. Need to try something else ...");
 
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.register(this);
+        final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(this::setup);
 
-        ModBlocks.BLOCKS.register(modEventBus);
-        ModItems.ITEMS.register(modEventBus);
-        ModTileEntities.TILE_ENTITIES.register(modEventBus);
-        ModContainers.CONTAINERS.register(modEventBus);
-        ModFeatures.FEATURES.register(modEventBus);
-        ModSounds.SOUNDS.register(modEventBus);
+        ModBlocks.BLOCKS.register(bus);
+        ModItems.ITEMS.register(bus);
+        ModTileEntities.TILE_ENTITIES.register(bus);
+        ModContainers.CONTAINERS.register(bus);
+        ModFeatures.FEATURES.register(bus);
+        ModSounds.SOUNDS.register(bus);
 
         Config.init();
+        ForgeEventHandler.init();
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientEventHandler::init);
     }
 
-    @SubscribeEvent
     public void setup(FMLCommonSetupEvent event)
     {
         LOGGER.info("Setup");

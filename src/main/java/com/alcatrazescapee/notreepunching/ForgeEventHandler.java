@@ -21,12 +21,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.ModTags;
@@ -34,15 +34,21 @@ import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import com.alcatrazescapee.notreepunching.world.ModFeatures;
 
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
-
-@Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public final class ForgeEventHandler
 {
     private static final Random RANDOM = new Random();
     private static final Set<Biome.Category> CATEGORIES_WITHOUT_ROCKS = new HashSet<>(Arrays.asList(Biome.Category.NONE, Biome.Category.THEEND, Biome.Category.NETHER, Biome.Category.OCEAN));
 
-    @SubscribeEvent
+    public static void init()
+    {
+        final IEventBus bus = MinecraftForge.EVENT_BUS;
+
+        bus.addListener(ForgeEventHandler::onHarvestCheck);
+        bus.addListener(EventPriority.LOW, ForgeEventHandler::onBreakSpeed);
+        bus.addListener(ForgeEventHandler::onRightClickBlock);
+        bus.addListener(ForgeEventHandler::onBiomeLoad);
+    }
+
     public static void onHarvestCheck(PlayerEvent.HarvestCheck event)
     {
         boolean canHarvest = event.canHarvest();
@@ -64,7 +70,6 @@ public final class ForgeEventHandler
         event.setCanHarvest(canHarvest);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOW)
     public static void onBreakSpeed(PlayerEvent.BreakSpeed event)
     {
         if (Config.SERVER.noMiningWithoutCorrectTool.get())
@@ -78,7 +83,6 @@ public final class ForgeEventHandler
         }
     }
 
-    @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event)
     {
         ItemStack stack = event.getItemStack();
@@ -106,7 +110,6 @@ public final class ForgeEventHandler
         }
     }
 
-    @SubscribeEvent
     public static void onBiomeLoad(BiomeLoadingEvent event)
     {
         if (Config.COMMON.enableLooseRocksWorldGen.get() && !CATEGORIES_WITHOUT_ROCKS.contains(event.getCategory()))
