@@ -31,7 +31,7 @@ public final class ModItems
     public static final RegistryObject<ClayToolItem> CLAY_TOOL = register("clay_tool", ClayToolItem::new);
     public static final RegistryObject<FireStarterItem> FIRE_STARTER = register("fire_starter", FireStarterItem::new);
 
-    public static final RegistryObject<TieredItem> FLINT_AXE = register("flint_axe", () -> new CraftingAxeItem(ModItemTier.FLINT, 3.0f, -3.3f, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryObject<TieredItem> FLINT_AXE = register("flint_axe", () -> new AxeItem(ModItemTier.FLINT, 3.0f, -3.3f, new Item.Properties().tab(ModItemGroup.ITEMS)));
     public static final RegistryObject<TieredItem> FLINT_PICKAXE = register("flint_pickaxe", () -> new PickaxeItem(ModItemTier.FLINT, 1, -2.8f, new Item.Properties().tab(ModItemGroup.ITEMS)));
     public static final RegistryObject<TieredItem> FLINT_HOE = register("flint_hoe", () -> new HoeItem(ModItemTier.FLINT, 0, -3.0f, new Item.Properties().tab(ModItemGroup.ITEMS)));
     public static final RegistryObject<TieredItem> FLINT_SHOVEL = register("flint_shovel", () -> new ShovelItem(ModItemTier.FLINT, -1.0f, -3.0f, new Item.Properties().tab(ModItemGroup.ITEMS)));
@@ -48,10 +48,10 @@ public final class ModItems
     public static final RegistryObject<MattockItem> DIAMOND_MATTOCK = register("diamond_mattock", () -> new MattockItem(ItemTier.DIAMOND, 0.5f, -3.0f, new Item.Properties().tab(ModItemGroup.ITEMS)));
     public static final RegistryObject<MattockItem> NETHERITE_MATTOCK = register("netherite_mattock", () -> new MattockItem(ItemTier.NETHERITE, 0.5f, -3.0f, new Item.Properties().tab(ModItemGroup.ITEMS)));
 
-    public static final RegistryObject<CraftingAxeItem> IRON_SAW = register("iron_saw", () -> new CraftingAxeItem(ItemTier.IRON, 2.0f, -3.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
-    public static final RegistryObject<CraftingAxeItem> GOLD_SAW = register("gold_saw", () -> new CraftingAxeItem(ItemTier.GOLD, 2.0f, -3.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
-    public static final RegistryObject<CraftingAxeItem> DIAMOND_SAW = register("diamond_saw", () -> new CraftingAxeItem(ItemTier.DIAMOND, 2.0f, -3.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
-    public static final RegistryObject<CraftingAxeItem> NETHERITE_SAW = register("netherite_saw", () -> new CraftingAxeItem(ItemTier.NETHERITE, 2.0f, -3.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryObject<AxeItem> IRON_SAW = register("iron_saw", () -> new AxeItem(ItemTier.IRON, 2.0f, -3.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryObject<AxeItem> GOLD_SAW = register("gold_saw", () -> new AxeItem(ItemTier.GOLD, 2.0f, -3.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryObject<AxeItem> DIAMOND_SAW = register("diamond_saw", () -> new AxeItem(ItemTier.DIAMOND, 2.0f, -3.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryObject<AxeItem> NETHERITE_SAW = register("netherite_saw", () -> new AxeItem(ItemTier.NETHERITE, 2.0f, -3.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
 
     private static RegistryObject<Item> register(String name)
     {

@@ -24,7 +24,7 @@ import com.alcatrazescapee.notreepunching.util.ISlotCallback;
 import com.alcatrazescapee.notreepunching.util.ItemStackHandlerCallback;
 
 /**
- * An extension of {@link InventoryTileEntity} which has a custom name
+ * An extension of {@link ModTileEntity} which has a custom name
  */
 public abstract class InventoryTileEntity extends ModTileEntity implements INamedContainerProvider, ISlotCallback
 {

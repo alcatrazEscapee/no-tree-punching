@@ -22,6 +22,7 @@ import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.container.ModContainers;
 import com.alcatrazescapee.notreepunching.common.items.ClayToolItem;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
+import com.alcatrazescapee.notreepunching.common.recipes.ModRecipes;
 import com.alcatrazescapee.notreepunching.common.tileentity.ModTileEntities;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import com.alcatrazescapee.notreepunching.world.ModFeatures;
@@ -46,6 +47,7 @@ public final class NoTreePunching
         ModContainers.CONTAINERS.register(bus);
         ModFeatures.FEATURES.register(bus);
         ModSounds.SOUNDS.register(bus);
+        ModRecipes.RECIPE_SERIALIZERS.register(bus);
 
         Config.init();
         ForgeEventHandler.init();

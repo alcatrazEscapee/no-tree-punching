@@ -1,19 +1,22 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "SW"
-  ],
-  "key": {
-    "S": {
-      "tag": "notreepunching:saws"
+  "type": "notreepunching:tool_damaging",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      "SW"
+    ],
+    "key": {
+      "S": {
+        "tag": "notreepunching:saws"
+      },
+      "W": {
+        "tag": "minecraft:logs"
+      }
     },
-    "W": {
-      "tag": "minecraft:logs"
+    "result": {
+      "count": 8,
+      "item": "minecraft:stick"
     }
-  },
-  "result": {
-    "count": 8,
-    "item": "minecraft:stick"
   }
 }

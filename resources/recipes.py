@@ -1,9 +1,8 @@
 #  Part of the No Tree Punching mod by AlcatrazEscapee.
 #  Work under copyright. See the project LICENSE.md for details.
 
-import mcresources.loot_tables as loot_tables
-import mcresources.utils as utils
-from mcresources import ResourceManager
+from typing import Sequence
+from mcresources import ResourceManager, utils, loot_tables
 
 
 def generate(rm: ResourceManager):
@@ -68,15 +67,15 @@ def generate(rm: ResourceManager):
             name = '%s_stem' % wood
         else:
             name = '%s_log' % wood
-        rm.crafting_shaped('%s_planks_with_saw' % wood, ('S', 'W'), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:%ss' % name}, (4, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s' % name)
-        rm.crafting_shaped('%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:%ss' % name}, (2, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s' % name)
+        tool_damaging_shaped(rm, '%s_planks_with_saw' % wood, ('S', 'W'), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:%ss' % name}, (4, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s' % name)
+        tool_damaging_shaped(rm, '%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:%ss' % name}, (2, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s' % name)
 
     # Sticks
-    rm.crafting_shaped('sticks_from_logs_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:logs'}, (8, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
-    rm.crafting_shaped('sticks_from_planks_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:planks'}, (2, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
+    tool_damaging_shaped(rm, 'sticks_from_logs_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:logs'}, (8, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
+    tool_damaging_shaped(rm, 'sticks_from_planks_with_saw', ('SW',), {'S': 'tag!notreepunching:saws', 'W': 'tag!minecraft:planks'}, (2, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
 
-    rm.crafting_shaped('sticks_from_logs_with_flint_axe', ('SW',), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:logs'}, (6, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
-    rm.crafting_shaped('sticks_from_planks_with_flint_axe', ('SW',), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:planks'}, (1, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
+    tool_damaging_shaped(rm, 'sticks_from_logs_with_flint_axe', ('SW',), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:logs'}, (6, 'minecraft:stick')).with_advancement('tag!minecraft:logs')
+    tool_damaging_shaped(rm, 'sticks_from_planks_with_flint_axe', ('SW',), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!minecraft:planks'}, (1, 'minecraft:stick')).with_advancement('tag!minecraft:planks')
 
     # Tools
     for tool in ('iron', 'gold', 'diamond'):
@@ -172,12 +171,24 @@ def mod_loaded(mod_id: str):
     }
 
 
+def tool_damaging_shaped(rm: ResourceManager, name_parts: utils.ResourceIdentifier, pattern: Sequence[str], ingredients: utils.Json, result: utils.Json, group: str = None, conditions: utils.Json = None):
+    return rm.recipe(name_parts, 'notreepunching:tool_damaging', {
+        'recipe': {
+            'type': 'minecraft:crafting_shaped',
+            'group': group,
+            'pattern': pattern,
+            'key': utils.item_stack_dict(ingredients, ''.join(pattern)[0]),
+            'result': utils.item_stack(result),
+            'conditions': utils.recipe_condition(conditions)
+        }
+    })
+
+
 def remove_recipe(rm: ResourceManager, name_parts: utils.ResourceIdentifier, conditions: utils.Json = None):
     rm.recipe(name_parts, 'forge:conditional', {'recipes': []}, conditions=conditions)
 
 
 def generate_vanilla(rm: ResourceManager):
-
     # Remove wood crafting recipes
     for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce', 'crimson', 'warped'):
         remove_recipe(rm, '%s_planks' % wood)

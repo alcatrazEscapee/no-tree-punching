@@ -1,20 +1,23 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "S",
-    "W"
-  ],
-  "key": {
-    "S": {
-      "tag": "notreepunching:saws"
+  "type": "notreepunching:tool_damaging",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      "S",
+      "W"
+    ],
+    "key": {
+      "S": {
+        "tag": "notreepunching:saws"
+      },
+      "W": {
+        "tag": "minecraft:spruce_logs"
+      }
     },
-    "W": {
-      "tag": "minecraft:spruce_logs"
+    "result": {
+      "count": 4,
+      "item": "minecraft:spruce_planks"
     }
-  },
-  "result": {
-    "count": 4,
-    "item": "minecraft:spruce_planks"
   }
 }
