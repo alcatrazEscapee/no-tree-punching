@@ -16,5 +16,5 @@ public class ModRecipes
 {
     public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, NoTreePunching.MOD_ID);
 
-    public static final RegistryObject<ToolDamagingRecipe.Serializer> TOOL_DAMAGING = RECIPE_SERIALIZERS.register("tool_damaging", ToolDamagingRecipe.Serializer::new);
+    public static final RegistryObject<ShapedToolDamagingRecipe.Serializer> TOOL_DAMAGING = RECIPE_SERIALIZERS.register("tool_damaging", ShapedToolDamagingRecipe.Serializer::new);
 }

@@ -6,9 +6,8 @@
 package com.alcatrazescapee.notreepunching.client;
 
 import net.minecraft.client.gui.ScreenManager;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import com.alcatrazescapee.notreepunching.client.screen.LargeVesselScreen;
 import com.alcatrazescapee.notreepunching.client.screen.SmallVesselScreen;
@@ -18,9 +17,7 @@ public final class ClientEventHandler
 {
     public static void init()
     {
-        final IEventBus bus = MinecraftForge.EVENT_BUS;
-
-        bus.addListener(ClientEventHandler::clientSetup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientEventHandler::clientSetup);
     }
 
     public static void clientSetup(FMLClientSetupEvent event)

@@ -10,7 +10,10 @@ import javax.annotation.Nullable;
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.*;
+import net.minecraft.item.crafting.ICraftingRecipe;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SUpdateRecipesPacket;
 import net.minecraft.util.JSONUtils;
@@ -19,12 +22,12 @@ import net.minecraft.util.ResourceLocation;
 
 import com.alcatrazescapee.notreepunching.util.Helpers;
 
-public class ToolDamagingRecipe implements IDelegateRecipe<CraftingInventory>, ICraftingRecipe
+public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingInventory>, ICraftingRecipe
 {
     private final ResourceLocation id;
     private final IRecipe<?> recipe;
 
-    public ToolDamagingRecipe(ResourceLocation id, IRecipe<?> recipe)
+    public ShapedToolDamagingRecipe(ResourceLocation id, IRecipe<?> recipe)
     {
         this.id = id;
         this.recipe = recipe;
@@ -68,23 +71,23 @@ public class ToolDamagingRecipe implements IDelegateRecipe<CraftingInventory>, I
         return (IRecipe<CraftingInventory>) recipe;
     }
 
-    public static class Serializer extends RecipeSerializer<ToolDamagingRecipe>
+    public static class Serializer extends RecipeSerializer<ShapedToolDamagingRecipe>
     {
         @Override
-        public ToolDamagingRecipe fromJson(ResourceLocation recipeId, JsonObject json)
+        public ShapedToolDamagingRecipe fromJson(ResourceLocation recipeId, JsonObject json)
         {
-            return new ToolDamagingRecipe(recipeId, RecipeManager.fromJson(recipeId, JSONUtils.getAsJsonObject(json, "recipe")));
+            return new ShapedToolDamagingRecipe(recipeId, RecipeManager.fromJson(recipeId, JSONUtils.getAsJsonObject(json, "recipe")));
         }
 
         @Nullable
         @Override
-        public ToolDamagingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer)
+        public ShapedToolDamagingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer)
         {
-            return new ToolDamagingRecipe(recipeId, SUpdateRecipesPacket.fromNetwork(buffer));
+            return new ShapedToolDamagingRecipe(recipeId, SUpdateRecipesPacket.fromNetwork(buffer));
         }
 
         @Override
-        public void toNetwork(PacketBuffer buffer, ToolDamagingRecipe recipe)
+        public void toNetwork(PacketBuffer buffer, ShapedToolDamagingRecipe recipe)
         {
             SUpdateRecipesPacket.toNetwork(recipe.getDelegate(), buffer);
         }

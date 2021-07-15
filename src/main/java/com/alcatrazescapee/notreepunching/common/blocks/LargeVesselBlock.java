@@ -14,6 +14,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -29,7 +30,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 
+import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.tileentity.InventoryTileEntity;
 import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
 import com.alcatrazescapee.notreepunching.util.Helpers;
@@ -47,10 +50,24 @@ public class LargeVesselBlock extends Block
     @SuppressWarnings("deprecation")
     public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving)
     {
-        Helpers.getTE(worldIn, pos, InventoryTileEntity.class).ifPresent(tile -> {
-            tile.onReplaced();
-            worldIn.updateNeighbourForOutputSignal(pos, this);
-        });
+        if (!newState.is(state.getBlock()))
+        {
+            Helpers.getTE(worldIn, pos, InventoryTileEntity.class).ifPresent(tile -> {
+                if (!Config.SERVER.largeVesselKeepsContentsWhenBroken.get())
+                {
+                    tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).map(i -> (ItemStackHandler) i).ifPresent(inventory -> {
+                        for (int i = 0; i < inventory.getSlots(); i++)
+                        {
+                            final ItemStack stack = inventory.getStackInSlot(i);
+                            InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);
+                            inventory.setStackInSlot(i, ItemStack.EMPTY);
+                        }
+                    });
+                }
+                tile.onRemove();
+                worldIn.updateNeighbourForOutputSignal(pos, this);
+            });
+        }
         super.onRemove(state, worldIn, pos, newState, isMoving);
     }
 

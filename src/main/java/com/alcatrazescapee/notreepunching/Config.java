@@ -46,6 +46,7 @@ public final class Config
         public final ForgeConfigSpec.DoubleValue flintKnappingConsumeChance;
         public final ForgeConfigSpec.DoubleValue flintKnappingSuccessChance;
         public final ForgeConfigSpec.DoubleValue fireStarterFireStartChance;
+        public final ForgeConfigSpec.BooleanValue largeVesselKeepsContentsWhenBroken;
 
         private ServerConfig(ForgeConfigSpec.Builder builder)
         {
@@ -60,6 +61,8 @@ public final class Config
             flintKnappingSuccessChance = builder.comment("The chance to produce flint shards if a piece of flint has been consumed while knapping").defineInRange("flintKnappingSuccessChance", 0.7, 0, 1);
 
             fireStarterFireStartChance = builder.comment("The chance for a fire starter to start fires").defineInRange("fireStarterFireStartChance", 0.3, 0, 1);
+
+            largeVesselKeepsContentsWhenBroken = builder.comment("If the large ceramic vessel block keeps it's contents when broken (as opposed to dropping them on the ground").define("largeVesselKeepsContentsWhenBroken", true);
         }
     }
 }

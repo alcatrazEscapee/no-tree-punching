@@ -154,7 +154,7 @@ public final class Helpers
         }
         catch (NoSuchFieldException e)
         {
-            throw new RuntimeException("Unable to find unobf field for " + clazz.getSimpleName() + "#" + fieldName + ", this is a bug!");
+            throw new RuntimeException("Unable to find unobf field for " + clazz.getSimpleName() + "#" + fieldName + ", this is a bug!", e);
         }
     }
 }

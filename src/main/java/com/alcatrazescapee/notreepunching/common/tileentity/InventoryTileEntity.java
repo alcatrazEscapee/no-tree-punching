@@ -41,15 +41,6 @@ public abstract class InventoryTileEntity extends ModTileEntity implements IName
         this.defaultName = defaultName;
     }
 
-    public InventoryTileEntity(TileEntityType<?> type, ItemStackHandler inventory, ITextComponent defaultName)
-    {
-        super(type);
-
-        this.inventory = inventory;
-        this.inventoryCapability = LazyOptional.of(() -> inventory);
-        this.defaultName = defaultName;
-    }
-
     @Override
     public ITextComponent getDisplayName()
     {
@@ -110,7 +101,7 @@ public abstract class InventoryTileEntity extends ModTileEntity implements IName
         return true;
     }
 
-    public void onReplaced()
+    public void onRemove()
     {
         inventoryCapability.invalidate();
     }
