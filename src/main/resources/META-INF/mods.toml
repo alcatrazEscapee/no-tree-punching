@@ -38,16 +38,16 @@ license="MIT"
     modId = "farmersdelight"
     mandatory = false
     ordering = "AFTER"
-versionRange = "NONE"
+    versionRange = "NONE"
 
 [[dependencies.notreepunching]]
     modId = "byg"
     mandatory = false
-ordering = "AFTER"
-versionRange = "NONE"
+    ordering = "AFTER"
+    versionRange = "NONE"
 
 [[dependencies.notreepunching]]
     modId = "quark"
     mandatory = false
-ordering = "AFTER"
-versionRange = "NONE"
+    ordering = "AFTER"
+    versionRange = "NONE"
