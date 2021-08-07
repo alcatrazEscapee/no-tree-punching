@@ -1,21 +1,24 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "S",
-    "W"
-  ],
-  "key": {
-    "S": {
-      "tag": "notreepunching:weak_saws"
+  "type": "notreepunching:tool_damaging",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      "S",
+      "W"
+    ],
+    "key": {
+      "S": {
+        "tag": "notreepunching:weak_saws"
+      },
+      "W": {
+        "tag": "byg:blue_enchanted_logs"
+      }
     },
-    "W": {
-      "tag": "byg:blue_enchanted_logs"
+    "result": {
+      "count": 2,
+      "item": "byg:blue_enchanted_planks"
     }
-  },
-  "result": {
-    "count": 2,
-    "item": "byg:blue_enchanted_planks"
   },
   "conditions": [
     {

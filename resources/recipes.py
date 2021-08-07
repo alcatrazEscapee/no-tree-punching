@@ -149,8 +149,8 @@ def generate(rm: ResourceManager):
     # Replace log -> plank recipes, and add weak saw variants
     condition = mod_loaded('byg')
     for wood in ('aspen', 'baobab', 'blue_enchanted', 'cherry', 'cika', 'cypress', 'ebony', 'ether', 'fir', 'green_enchanted', 'holly', 'jacaranda', 'lament', 'mahogany', 'mangrove', 'maple', 'nightshade', 'palm', 'pine', 'rainbow_eucalyptus', 'redwood', 'skyris', 'willow', 'witch_hazel', 'zelkova'):
-        rm.crafting_shaped('byg:%s_planks' % wood, ('S', 'W'), {'S': 'tag!notreepunching:saws', 'W': 'tag!byg:%s_logs' % wood}, (4, 'byg:%s_planks' % wood), conditions=condition)
-        rm.crafting_shaped('compat/byg_%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!byg:%s_logs' % wood}, (2, 'byg:%s_planks' % wood), conditions=condition)
+        tool_damaging_shaped(rm, 'byg:%s_planks' % wood, ('S', 'W'), {'S': 'tag!notreepunching:saws', 'W': 'tag!byg:%s_logs' % wood}, (4, 'byg:%s_planks' % wood), conditions=condition)
+        tool_damaging_shaped(rm, 'compat/byg_%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': 'tag!notreepunching:weak_saws', 'W': 'tag!byg:%s_logs' % wood}, (2, 'byg:%s_planks' % wood), conditions=condition)
 
     # Compat: Quark
     # Remove recipes that add alternate stone tool recipes
@@ -179,9 +179,8 @@ def tool_damaging_shaped(rm: ResourceManager, name_parts: utils.ResourceIdentifi
             'pattern': pattern,
             'key': utils.item_stack_dict(ingredients, ''.join(pattern)[0]),
             'result': utils.item_stack(result),
-            'conditions': utils.recipe_condition(conditions)
         }
-    })
+    }, conditions=conditions)
 
 
 def remove_recipe(rm: ResourceManager, name_parts: utils.ResourceIdentifier, conditions: utils.Json = None):
