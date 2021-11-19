@@ -133,6 +133,18 @@ public class HarvestBlockHandlerTests
         doTest(Blocks.IRON_ORE, ModItems.FLINT_PICKAXE.get(), true);
     }
 
+    @Test
+    public void testHayBaleUnbreakableWithEmptyHand()
+    {
+        doTest(Blocks.HAY_BLOCK, Items.AIR, false);
+    }
+
+    @Test
+    public void testHayBaleBreaksWithHoe()
+    {
+        doTest(Blocks.HAY_BLOCK, Items.IRON_HOE, true);
+    }
+
     private void doTest(Block block, Item item, boolean shouldHarvest)
     {
         doTest(block, item, shouldHarvest, "Block " + block.getRegistryName() + " with item " + item.getRegistryName() + " should harvest = " + shouldHarvest);
