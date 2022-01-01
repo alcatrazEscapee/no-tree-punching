@@ -8,23 +8,23 @@ package com.alcatrazescapee.notreepunching.common.container;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
-public abstract class ModContainer extends Container
+public abstract class ModContainer extends AbstractContainerMenu
 {
-    protected ModContainer(@Nullable ContainerType<?> type, int id)
+    protected ModContainer(@Nullable MenuType<?> type, int id)
     {
         super(type, id);
     }
 
     @Override
     @Nonnull
-    public ItemStack quickMoveStack(PlayerEntity player, int index)
+    public ItemStack quickMoveStack(Player player, int index)
     {
         ItemStack stackCopy = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
@@ -74,14 +74,14 @@ public abstract class ModContainer extends Container
     }
 
     @Override
-    public boolean stillValid(PlayerEntity playerIn)
+    public boolean stillValid(Player playerIn)
     {
         return true;
     }
 
     protected void addContainerSlots() {}
 
-    protected void addPlayerInventorySlots(PlayerInventory playerInv)
+    protected void addPlayerInventorySlots(Inventory playerInv)
     {
         // Add Player Inventory Slots
         for (int i = 0; i < 3; i++)

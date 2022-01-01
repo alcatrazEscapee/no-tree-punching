@@ -10,19 +10,19 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CampfireBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.item.*;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ToolType;
 
 import com.alcatrazescapee.notreepunching.mixin.item.AxeItemAccess;
@@ -30,7 +30,13 @@ import com.alcatrazescapee.notreepunching.mixin.item.HoeItemAccess;
 import com.alcatrazescapee.notreepunching.mixin.item.ShovelItemAccess;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 
-public class MattockItem extends ToolItem
+import net.minecraft.world.item.DiggerItem;
+import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.context.UseOnContext;
+
+public class MattockItem extends DiggerItem
 {
     public static final Set<Block> EFFECTIVE_BLOCKS = Stream.of(
         AxeItemAccess.getEffectiveBlocks(),
@@ -38,7 +44,7 @@ public class MattockItem extends ToolItem
         HoeItemAccess.getEffectiveBlocks()
     ).flatMap(Collection::stream).collect(Collectors.toSet());
 
-    public MattockItem(IItemTier tier, float attackDamageIn, float attackSpeedIn, Properties builder)
+    public MattockItem(Tier tier, float attackDamageIn, float attackSpeedIn, Properties builder)
     {
         super(attackDamageIn, attackSpeedIn, tier, EFFECTIVE_BLOCKS, builder.addToolType(ToolType.AXE, tier.getLevel()).addToolType(ToolType.SHOVEL, tier.getLevel()).addToolType(ToolType.HOE, tier.getLevel()).addToolType(HarvestBlockHandler.MATTOCK, tier.getLevel()));
     }
@@ -55,15 +61,15 @@ public class MattockItem extends ToolItem
      * This is done as hoe and shovel have a possibility of conflicting (within vanilla)
      */
     @Override
-    public ActionResultType useOn(ItemUseContext context)
+    public InteractionResult useOn(UseOnContext context)
     {
-        ActionResultType result = onAxeItemUse(context);
-        if (result == ActionResultType.PASS)
+        InteractionResult result = onAxeItemUse(context);
+        if (result == InteractionResult.PASS)
         {
             if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown())
             {
                 result = onHoeItemUse(context);
-                if (result == ActionResultType.PASS)
+                if (result == InteractionResult.PASS)
                 {
                     result = onShovelItemUse(context);
                 }
@@ -71,7 +77,7 @@ public class MattockItem extends ToolItem
             else
             {
                 result = onShovelItemUse(context);
-                if (result == ActionResultType.PASS)
+                if (result == InteractionResult.PASS)
                 {
                     result = onHoeItemUse(context);
                 }
@@ -89,16 +95,16 @@ public class MattockItem extends ToolItem
      * Copy pasta from {@link AxeItem}
      */
     @SuppressWarnings("ALL")
-    private ActionResultType onAxeItemUse(ItemUseContext context)
+    private InteractionResult onAxeItemUse(UseOnContext context)
     {
-        World world = context.getLevel();
+        Level world = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         BlockState stateIn = world.getBlockState(blockpos);
         BlockState stateOut = stateIn.getToolModifiedState(world, blockpos, context.getPlayer(), context.getItemInHand(), ToolType.AXE);
         if (stateOut != null)
         {
-            PlayerEntity playerentity = context.getPlayer();
-            world.playSound(playerentity, blockpos, SoundEvents.AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            Player playerentity = context.getPlayer();
+            world.playSound(playerentity, blockpos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (!world.isClientSide)
             {
                 world.setBlock(blockpos, stateOut, 11);
@@ -110,11 +116,11 @@ public class MattockItem extends ToolItem
                 }
             }
 
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         else
         {
-            return ActionResultType.PASS;
+            return InteractionResult.PASS;
         }
     }
 
@@ -122,19 +128,19 @@ public class MattockItem extends ToolItem
      * Copy pasta from {@link HoeItem}
      */
     @SuppressWarnings("ALL")
-    private ActionResultType onHoeItemUse(ItemUseContext context)
+    private InteractionResult onHoeItemUse(UseOnContext context)
     {
-        World world = context.getLevel();
+        Level world = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(context);
-        if (hook != 0) return hook > 0 ? ActionResultType.SUCCESS : ActionResultType.FAIL;
+        if (hook != 0) return hook > 0 ? InteractionResult.SUCCESS : InteractionResult.FAIL;
         if (context.getClickedFace() != Direction.DOWN && world.isEmptyBlock(blockpos.above()))
         {
             BlockState blockstate = world.getBlockState(blockpos).getToolModifiedState(world, blockpos, context.getPlayer(), context.getItemInHand(), ToolType.HOE);
             if (blockstate != null)
             {
-                PlayerEntity playerentity = context.getPlayer();
-                world.playSound(playerentity, blockpos, SoundEvents.HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                Player playerentity = context.getPlayer();
+                world.playSound(playerentity, blockpos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                 if (!world.isClientSide)
                 {
                     world.setBlock(blockpos, blockstate, 11);
@@ -145,38 +151,38 @@ public class MattockItem extends ToolItem
                         });
                     }
                 }
-                return ActionResultType.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         }
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
 
     /**
      * Copy pasta from {@link ShovelItem}
      */
     @SuppressWarnings("ALL")
-    private ActionResultType onShovelItemUse(ItemUseContext context)
+    private InteractionResult onShovelItemUse(UseOnContext context)
     {
-        World world = context.getLevel();
+        Level world = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         BlockState blockstate = world.getBlockState(blockpos);
         if (context.getClickedFace() == Direction.DOWN)
         {
-            return ActionResultType.PASS;
+            return InteractionResult.PASS;
         }
         else
         {
-            PlayerEntity playerentity = context.getPlayer();
+            Player playerentity = context.getPlayer();
             BlockState blockstate1 = blockstate.getToolModifiedState(world, context.getClickedPos(), playerentity, context.getItemInHand(), ToolType.SHOVEL);
             BlockState blockstate2 = null;
             if (blockstate1 != null && world.isEmptyBlock(blockpos.above()))
             {
-                world.playSound(playerentity, blockpos, SoundEvents.SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(playerentity, blockpos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
                 blockstate2 = blockstate1;
             }
             else if (blockstate.getBlock() instanceof CampfireBlock && blockstate.getValue(CampfireBlock.LIT))
             {
-                world.levelEvent((PlayerEntity) null, 1009, blockpos, 0);
+                world.levelEvent((Player) null, 1009, blockpos, 0);
                 blockstate2 = blockstate.setValue(CampfireBlock.LIT, Boolean.valueOf(false));
             }
             if (blockstate2 != null)
@@ -191,11 +197,11 @@ public class MattockItem extends ToolItem
                         });
                     }
                 }
-                return ActionResultType.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
             else
             {
-                return ActionResultType.PASS;
+                return InteractionResult.PASS;
             }
         }
     }

@@ -13,11 +13,11 @@ import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.item.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -31,6 +31,12 @@ import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.mixin.block.AbstractBlockAccess;
 import com.alcatrazescapee.notreepunching.mixin.block.AbstractBlockPropertiesAccess;
 import com.alcatrazescapee.notreepunching.mixin.block.AbstractBlockStateAccess;
+
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.TieredItem;
 
 /**
  * Manager for all block / blockstate / material related modifications in order for this mod to function
@@ -74,7 +80,7 @@ public class HarvestBlockHandler
         for (Block block : ForgeRegistries.BLOCKS.getValues())
         {
             final AbstractBlockAccess blockAccess = (AbstractBlockAccess) block;
-            final AbstractBlock.Properties settings = blockAccess.getProperties();
+            final BlockBehaviour.Properties settings = blockAccess.getProperties();
             final AbstractBlockPropertiesAccess settingsAccess = (AbstractBlockPropertiesAccess) settings;
             final Material material = blockAccess.getMaterial();
 
@@ -158,7 +164,7 @@ public class HarvestBlockHandler
      * @param doDropsChecks If the def'n of harvestability should include if that block will be able to drop items. Otherwise, just use generic harvest checks.
      * @return If the state can be harvested (broken, and obtain drops) by the current player
      */
-    public static boolean canHarvest(BlockState state, PlayerEntity player, boolean doDropsChecks)
+    public static boolean canHarvest(BlockState state, Player player, boolean doDropsChecks)
     {
         if (doDropsChecks)
         {
@@ -200,7 +206,7 @@ public class HarvestBlockHandler
         }
     }
 
-    private static boolean canHarvestWithTool(BlockState state, PlayerEntity player, ItemStack stack, ToolType tool)
+    private static boolean canHarvestWithTool(BlockState state, Player player, ItemStack stack, ToolType tool)
     {
         // Check the default method first, before we go straight to computing harvest levels / tools
         if (stack.isCorrectToolForDrops(state))

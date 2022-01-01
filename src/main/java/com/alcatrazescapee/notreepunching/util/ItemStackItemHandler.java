@@ -7,9 +7,9 @@ package com.alcatrazescapee.notreepunching.util;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -20,13 +20,13 @@ import net.minecraftforge.items.ItemStackHandler;
 /**
  * Like {@link net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple}, this saves everything to the stack NBT.
  */
-public class ItemStackItemHandler implements ICapabilitySerializable<CompoundNBT>, ISlotCallback
+public class ItemStackItemHandler implements ICapabilitySerializable<CompoundTag>, ISlotCallback
 {
     protected final LazyOptional<IItemHandler> capability;
     protected final ItemStackHandler inventory;
     protected final ItemStack stack;
 
-    public ItemStackItemHandler(@Nullable CompoundNBT capNbt, ItemStack stack, int slots)
+    public ItemStackItemHandler(@Nullable CompoundTag capNbt, ItemStack stack, int slots)
     {
         this.stack = stack;
         this.inventory = new ItemStackHandlerCallback(this, slots);
@@ -55,13 +55,13 @@ public class ItemStackItemHandler implements ICapabilitySerializable<CompoundNBT
     }
 
     @Override
-    public CompoundNBT serializeNBT()
+    public CompoundTag serializeNBT()
     {
         return inventory.serializeNBT();
     }
 
     @Override
-    public void deserializeNBT(@Nullable CompoundNBT nbt)
+    public void deserializeNBT(@Nullable CompoundTag nbt)
     {
         if (nbt != null)
         {

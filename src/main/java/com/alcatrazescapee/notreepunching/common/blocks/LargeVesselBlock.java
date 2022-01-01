@@ -7,26 +7,26 @@ package com.alcatrazescapee.notreepunching.common.blocks;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Containers;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -36,6 +36,8 @@ import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.tileentity.InventoryTileEntity;
 import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
 import com.alcatrazescapee.notreepunching.util.Helpers;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class LargeVesselBlock extends Block
 {
@@ -48,7 +50,7 @@ public class LargeVesselBlock extends Block
 
     @Override
     @SuppressWarnings("deprecation")
-    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving)
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving)
     {
         if (!newState.is(state.getBlock()))
         {
@@ -59,7 +61,7 @@ public class LargeVesselBlock extends Block
                         for (int i = 0; i < inventory.getSlots(); i++)
                         {
                             final ItemStack stack = inventory.getStackInSlot(i);
-                            InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);
+                            Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);
                             inventory.setStackInSlot(i, ItemStack.EMPTY);
                         }
                     });
@@ -73,24 +75,24 @@ public class LargeVesselBlock extends Block
 
     @Override
     @SuppressWarnings("deprecation")
-    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
     {
-        if (player instanceof ServerPlayerEntity && !player.isShiftKeyDown())
+        if (player instanceof ServerPlayer && !player.isShiftKeyDown())
         {
-            Helpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> NetworkHooks.openGui((ServerPlayerEntity) player, tile, pos));
+            Helpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> NetworkHooks.openGui((ServerPlayer) player, tile, pos));
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
     {
         return SHAPE;
     }
 
     @Override
-    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack)
+    public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack)
     {
         if (stack.hasCustomHoverName())
         {
@@ -102,13 +104,13 @@ public class LargeVesselBlock extends Block
      * Causes the block to drop with contents in creative
      */
     @Override
-    public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player)
+    public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player)
     {
         Helpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             if (!worldIn.isClientSide && player.isCreative() && !tile.isEmpty())
             {
                 ItemStack stack = new ItemStack(this);
-                CompoundNBT compoundnbt = tile.save(new CompoundNBT());
+                CompoundTag compoundnbt = tile.save(new CompoundTag());
                 if (!compoundnbt.isEmpty())
                 {
                     stack.addTagElement("BlockEntityTag", compoundnbt);
@@ -131,17 +133,17 @@ public class LargeVesselBlock extends Block
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world)
+    public BlockEntity createTileEntity(BlockState state, BlockGetter world)
     {
         return new LargeVesselTileEntity();
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player)
+    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)
     {
         ItemStack stack = super.getPickBlock(state, target, world, pos, player);
         Helpers.getTE(world, pos, LargeVesselTileEntity.class).ifPresent(tile -> {
-            CompoundNBT nbt = tile.save(new CompoundNBT());
+            CompoundTag nbt = tile.save(new CompoundTag());
             if (!nbt.isEmpty())
             {
                 stack.addTagElement("BlockEntityTag", nbt);

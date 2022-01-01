@@ -11,20 +11,20 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraftforge.common.util.Lazy;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 
-public class LooseRocksFeature extends Feature<NoFeatureConfig>
+public class LooseRocksFeature extends Feature<NoneFeatureConfiguration>
 {
     private static final Lazy<Map<Block, Supplier<? extends Block>>> LOOSE_ROCK_STONE_LOOKUP = Lazy.of(() -> new ImmutableMap.Builder<Block, Supplier<? extends Block>>()
         .put(Blocks.STONE, ModBlocks.STONE_LOOSE_ROCK)
@@ -41,12 +41,12 @@ public class LooseRocksFeature extends Feature<NoFeatureConfig>
 
     public LooseRocksFeature()
     {
-        super(NoFeatureConfig.CODEC);
+        super(NoneFeatureConfiguration.CODEC);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public boolean place(ISeedReader worldIn, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoFeatureConfig config)
+    public boolean place(WorldGenLevel worldIn, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoneFeatureConfiguration config)
     {
         BlockState stateAt = worldIn.getBlockState(pos);
         BlockState stateDown = worldIn.getBlockState(pos.below());

@@ -7,12 +7,12 @@ package com.alcatrazescapee.notreepunching.common.tileentity;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.container.LargeVesselContainer;
@@ -25,7 +25,7 @@ public class LargeVesselTileEntity extends InventoryTileEntity
     public static final int SLOT_ROWS = 3;
     public static final int SLOTS = SLOT_COLUMNS * SLOT_ROWS;
 
-    private static final ITextComponent NAME = new TranslationTextComponent(MOD_ID + ".tile_entity.large_vessel");
+    private static final Component NAME = new TranslatableComponent(MOD_ID + ".tile_entity.large_vessel");
 
     public LargeVesselTileEntity()
     {
@@ -34,7 +34,7 @@ public class LargeVesselTileEntity extends InventoryTileEntity
 
     @Nullable
     @Override
-    public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity player)
+    public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player)
     {
         return new LargeVesselContainer(this, playerInventory, windowId);
     }

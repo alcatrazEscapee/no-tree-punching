@@ -12,9 +12,9 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,26 +25,32 @@ import com.alcatrazescapee.notreepunching.common.items.ModItems;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+
 @SuppressWarnings("unused")
 public final class ModBlocks
 {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
 
-    public static final RegistryObject<Block> ANDESITE_COBBLESTONE = register("andesite_cobblestone", () -> new Block(AbstractBlock.Properties.of(Material.STONE).strength(2.0F, 6.0F)));
-    public static final RegistryObject<Block> DIORITE_COBBLESTONE = register("diorite_cobblestone", () -> new Block(AbstractBlock.Properties.of(Material.STONE).strength(2.0F, 6.0F)));
-    public static final RegistryObject<Block> GRANITE_COBBLESTONE = register("granite_cobblestone", () -> new Block(AbstractBlock.Properties.of(Material.STONE).strength(2.0F, 6.0F)));
+    public static final RegistryObject<Block> ANDESITE_COBBLESTONE = register("andesite_cobblestone", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(2.0F, 6.0F)));
+    public static final RegistryObject<Block> DIORITE_COBBLESTONE = register("diorite_cobblestone", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(2.0F, 6.0F)));
+    public static final RegistryObject<Block> GRANITE_COBBLESTONE = register("granite_cobblestone", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(2.0F, 6.0F)));
 
-    public static final RegistryObject<StairsBlock> ANDESITE_COBBLESTONE_STAIRS = register("andesite_cobblestone_stairs", () -> new StairsBlock(() -> ANDESITE_COBBLESTONE.get().defaultBlockState(), AbstractBlock.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
-    public static final RegistryObject<StairsBlock> DIORITE_COBBLESTONE_STAIRS = register("diorite_cobblestone_stairs", () -> new StairsBlock(() -> DIORITE_COBBLESTONE.get().defaultBlockState(), AbstractBlock.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
-    public static final RegistryObject<StairsBlock> GRANITE_COBBLESTONE_STAIRS = register("granite_cobblestone_stairs", () -> new StairsBlock(() -> GRANITE_COBBLESTONE.get().defaultBlockState(), AbstractBlock.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
+    public static final RegistryObject<StairBlock> ANDESITE_COBBLESTONE_STAIRS = register("andesite_cobblestone_stairs", () -> new StairBlock(() -> ANDESITE_COBBLESTONE.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
+    public static final RegistryObject<StairBlock> DIORITE_COBBLESTONE_STAIRS = register("diorite_cobblestone_stairs", () -> new StairBlock(() -> DIORITE_COBBLESTONE.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
+    public static final RegistryObject<StairBlock> GRANITE_COBBLESTONE_STAIRS = register("granite_cobblestone_stairs", () -> new StairBlock(() -> GRANITE_COBBLESTONE.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
 
-    public static final RegistryObject<SlabBlock> ANDESITE_COBBLESTONE_SLAB = register("andesite_cobblestone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
-    public static final RegistryObject<SlabBlock> DIORITE_COBBLESTONE_SLAB = register("diorite_cobblestone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
-    public static final RegistryObject<SlabBlock> GRANITE_COBBLESTONE_SLAB = register("granite_cobblestone_slab", () -> new SlabBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
+    public static final RegistryObject<SlabBlock> ANDESITE_COBBLESTONE_SLAB = register("andesite_cobblestone_slab", () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
+    public static final RegistryObject<SlabBlock> DIORITE_COBBLESTONE_SLAB = register("diorite_cobblestone_slab", () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
+    public static final RegistryObject<SlabBlock> GRANITE_COBBLESTONE_SLAB = register("granite_cobblestone_slab", () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
 
-    public static final RegistryObject<WallBlock> ANDESITE_COBBLESTONE_WALL = register("andesite_cobblestone_wall", () -> new WallBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
-    public static final RegistryObject<WallBlock> DIORITE_COBBLESTONE_WALL = register("diorite_cobblestone_wall", () -> new WallBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
-    public static final RegistryObject<WallBlock> GRANITE_COBBLESTONE_WALL = register("granite_cobblestone_wall", () -> new WallBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
+    public static final RegistryObject<WallBlock> ANDESITE_COBBLESTONE_WALL = register("andesite_cobblestone_wall", () -> new WallBlock(BlockBehaviour.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
+    public static final RegistryObject<WallBlock> DIORITE_COBBLESTONE_WALL = register("diorite_cobblestone_wall", () -> new WallBlock(BlockBehaviour.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
+    public static final RegistryObject<WallBlock> GRANITE_COBBLESTONE_WALL = register("granite_cobblestone_wall", () -> new WallBlock(BlockBehaviour.Properties.of(Material.STONE).strength(2.0f, 6.0f)));
 
     public static final RegistryObject<LooseRockBlock> ANDESITE_LOOSE_ROCK = register("andesite_loose_rock", LooseRockBlock::new);
     public static final RegistryObject<LooseRockBlock> DIORITE_LOOSE_ROCK = register("diorite_loose_rock", LooseRockBlock::new);

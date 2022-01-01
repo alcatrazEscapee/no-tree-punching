@@ -7,49 +7,49 @@ package com.alcatrazescapee.notreepunching.common.tileentity;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.server.ServerChunkProvider;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.server.level.ServerChunkCache;
+import net.minecraft.server.level.ServerLevel;
 
 /**
  * A tile entity that handles saving NBT data and default update packets
  */
-public abstract class ModTileEntity extends TileEntity
+public abstract class ModTileEntity extends BlockEntity
 {
-    public ModTileEntity(TileEntityType<?> type)
+    public ModTileEntity(BlockEntityType<?> type)
     {
         super(type);
     }
 
     @Nullable
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket()
+    public ClientboundBlockEntityDataPacket getUpdatePacket()
     {
-        return new SUpdateTileEntityPacket(getBlockPos(), 1, save(new CompoundNBT()));
+        return new ClientboundBlockEntityDataPacket(getBlockPos(), 1, save(new CompoundTag()));
     }
 
 
     @Override
-    public CompoundNBT getUpdateTag()
+    public CompoundTag getUpdateTag()
     {
         return save(super.getUpdateTag());
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
     {
         load(getBlockState(), pkt.getTag());
     }
 
     @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT nbt)
+    public void handleUpdateTag(BlockState state, CompoundTag nbt)
     {
         load(state, nbt);
     }
@@ -96,12 +96,12 @@ public abstract class ModTileEntity extends TileEntity
 
     protected void sendVanillaUpdatePacket()
     {
-        SUpdateTileEntityPacket packet = getUpdatePacket();
+        ClientboundBlockEntityDataPacket packet = getUpdatePacket();
         BlockPos pos = getBlockPos();
 
-        if (packet != null && level instanceof ServerWorld)
+        if (packet != null && level instanceof ServerLevel)
         {
-            ((ServerChunkProvider) level.getChunkSource()).chunkMap.getPlayers(new ChunkPos(pos), false).forEach(e -> e.connection.send(packet));
+            ((ServerChunkCache) level.getChunkSource()).chunkMap.getPlayers(new ChunkPos(pos), false).forEach(e -> e.connection.send(packet));
         }
     }
 }

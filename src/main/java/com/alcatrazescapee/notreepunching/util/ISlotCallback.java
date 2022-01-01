@@ -5,8 +5,8 @@
 
 package com.alcatrazescapee.notreepunching.util;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * This is a callback for various methods on an ItemStackHandler.
@@ -44,5 +44,5 @@ public interface ISlotCallback
     /**
      * Called when a slot is taken from
      */
-    default void onSlotTake(PlayerEntity player, int slot, ItemStack stack) {}
+    default void onSlotTake(Player player, int slot, ItemStack stack) {}
 }

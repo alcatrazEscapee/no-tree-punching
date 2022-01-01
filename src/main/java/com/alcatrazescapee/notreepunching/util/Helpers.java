@@ -16,13 +16,13 @@ import javax.annotation.Nullable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Hand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.util.Unit;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.util.NonNullFunction;
@@ -39,9 +39,9 @@ public final class Helpers
      * Gets a tile entity and casts it to the required type
      */
     @SuppressWarnings("unchecked")
-    public static <T> Optional<T> getTE(IBlockReader world, BlockPos pos, Class<T> tileClass)
+    public static <T> Optional<T> getTE(BlockGetter world, BlockPos pos, Class<T> tileClass)
     {
-        TileEntity tile = world.getBlockEntity(pos);
+        BlockEntity tile = world.getBlockEntity(pos);
         if (tileClass.isInstance(tile))
         {
             return Optional.of((T) tile);
@@ -68,7 +68,7 @@ public final class Helpers
     /**
      * Default argument, and allows a null player
      */
-    public static ItemStack hurtAndBreak(@Nullable PlayerEntity player, @Nullable Hand hand, ItemStack stack, int amount)
+    public static ItemStack hurtAndBreak(@Nullable Player player, @Nullable InteractionHand hand, ItemStack stack, int amount)
     {
         if (player != null && hand != null)
         {

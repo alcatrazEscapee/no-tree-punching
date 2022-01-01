@@ -8,53 +8,65 @@ package com.alcatrazescapee.notreepunching.common.items;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CampfireBlock;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTier;
-import net.minecraft.item.TieredItem;
-import net.minecraft.item.UseAction;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.ModItemGroup;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.util.Helpers;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+
 public class FireStarterItem extends TieredItem
 {
     public FireStarterItem()
     {
-        super(ItemTier.WOOD, new Properties().tab(ModItemGroup.ITEMS).durability(10).setNoRepair());
+        super(Tiers.WOOD, new Properties().tab(ModItemGroup.ITEMS).durability(10).setNoRepair());
     }
 
     @Override
-    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn)
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
         playerIn.startUsingItem(handIn);
-        return new ActionResult<>(ActionResultType.PASS, playerIn.getItemInHand(handIn));
+        return new InteractionResultHolder<>(InteractionResult.PASS, playerIn.getItemInHand(handIn));
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity entityLiving)
+    public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving)
     {
-        if (entityLiving instanceof PlayerEntity)
+        if (entityLiving instanceof Player)
         {
-            PlayerEntity player = (PlayerEntity) entityLiving;
-            BlockRayTraceResult result = getPlayerPOVHitResult(worldIn, player, RayTraceContext.FluidMode.NONE);
+            Player player = (Player) entityLiving;
+            BlockHitResult result = getPlayerPOVHitResult(worldIn, player, ClipContext.Fluid.NONE);
 
-            if (result.getType() == RayTraceResult.Type.BLOCK)
+            if (result.getType() == HitResult.Type.BLOCK)
             {
                 // If looking at a block
                 BlockPos pos = result.getBlockPos();
@@ -66,12 +78,12 @@ public class FireStarterItem extends TieredItem
                     if (CampfireBlock.canLight(stateAt))
                     {
                         // Light campfire
-                        worldIn.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, random.nextFloat() * 0.4F + 0.8F);
+                        worldIn.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, random.nextFloat() * 0.4F + 0.8F);
                         worldIn.setBlock(pos, stateAt.setValue(BlockStateProperties.LIT, true), 11);
                     }
                     else
                     {
-                        List<ItemEntity> entities = worldIn.getEntitiesOfClass(ItemEntity.class, new AxisAlignedBB(pos.above(), pos.offset(1, 2, 1)));
+                        List<ItemEntity> entities = worldIn.getEntitiesOfClass(ItemEntity.class, new AABB(pos.above(), pos.offset(1, 2, 1)));
                         List<ItemEntity> logEntities = new ArrayList<>(), kindlingEntities = new ArrayList<>(), soulFireEntities = new ArrayList<>();
 
                         // Require 1 log, 3 kindling
@@ -128,9 +140,9 @@ public class FireStarterItem extends TieredItem
     }
 
     @Override
-    public UseAction getUseAnimation(ItemStack stack)
+    public UseAnim getUseAnimation(ItemStack stack)
     {
-        return UseAction.BOW;
+        return UseAnim.BOW;
     }
 
     @Override
@@ -142,9 +154,9 @@ public class FireStarterItem extends TieredItem
     @Override
     public void onUsingTick(ItemStack stack, LivingEntity player, int count)
     {
-        if (player.level.isClientSide && player instanceof PlayerEntity)
+        if (player.level.isClientSide && player instanceof Player)
         {
-            BlockRayTraceResult result = getPlayerPOVHitResult(player.level, (PlayerEntity) player, RayTraceContext.FluidMode.NONE);
+            BlockHitResult result = getPlayerPOVHitResult(player.level, (Player) player, ClipContext.Fluid.NONE);
             if (random.nextInt(5) == 0)
             {
                 player.level.addParticle(ParticleTypes.SMOKE, result.getLocation().x, result.getLocation().y, result.getLocation().z, 0.0F, 0.1F, 0.0F);
@@ -155,7 +167,7 @@ public class FireStarterItem extends TieredItem
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
-        return enchantment.category == EnchantmentType.BREAKABLE;
+        return enchantment.category == EnchantmentCategory.BREAKABLE;
     }
 
     private void removeItems(List<ItemEntity> itemEntities, int removeAmount)

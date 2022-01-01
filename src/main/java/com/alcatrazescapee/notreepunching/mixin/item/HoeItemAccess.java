@@ -7,8 +7,8 @@ package com.alcatrazescapee.notreepunching.mixin.item;
 
 import java.util.Set;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.HoeItem;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.HoeItem;
 
 import mcp.MethodsReturnNonnullByDefault;
 import org.spongepowered.asm.mixin.Mixin;

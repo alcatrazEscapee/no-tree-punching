@@ -7,7 +7,7 @@ package com.alcatrazescapee.notreepunching.common.container;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
@@ -18,7 +18,7 @@ public class LargeVesselContainer extends DeviceContainer<LargeVesselTileEntity>
 {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public LargeVesselContainer(LargeVesselTileEntity tile, PlayerInventory playerInventory, int windowId)
+    public LargeVesselContainer(LargeVesselTileEntity tile, Inventory playerInventory, int windowId)
     {
         super(ModContainers.LARGE_VESSEL.get(), tile, playerInventory, windowId);
     }

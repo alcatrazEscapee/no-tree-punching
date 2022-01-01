@@ -7,8 +7,8 @@ package com.alcatrazescapee.notreepunching;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;

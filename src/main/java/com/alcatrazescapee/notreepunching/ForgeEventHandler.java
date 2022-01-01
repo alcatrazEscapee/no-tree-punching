@@ -10,17 +10,17 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.Containers;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -37,7 +37,7 @@ import com.alcatrazescapee.notreepunching.world.ModFeatures;
 public final class ForgeEventHandler
 {
     private static final Random RANDOM = new Random();
-    private static final Set<Biome.Category> CATEGORIES_WITHOUT_ROCKS = new HashSet<>(Arrays.asList(Biome.Category.NONE, Biome.Category.THEEND, Biome.Category.NETHER, Biome.Category.OCEAN));
+    private static final Set<Biome.BiomeCategory> CATEGORIES_WITHOUT_ROCKS = new HashSet<>(Arrays.asList(Biome.BiomeCategory.NONE, Biome.BiomeCategory.THEEND, Biome.BiomeCategory.NETHER, Biome.BiomeCategory.OCEAN));
 
     public static void init()
     {
@@ -86,7 +86,7 @@ public final class ForgeEventHandler
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event)
     {
         ItemStack stack = event.getItemStack();
-        World world = event.getWorld();
+        Level world = event.getWorld();
         BlockPos pos = event.getPos();
         BlockState state = world.getBlockState(pos);
         if (ModTags.Items.FLINT_KNAPPABLE.contains(stack.getItem()) && state.getMaterial() == Material.STONE)
@@ -98,14 +98,14 @@ public final class ForgeEventHandler
                     if (RANDOM.nextFloat() < Config.SERVER.flintKnappingSuccessChance.get())
                     {
                         Direction face = event.getFace() == null ? Direction.UP : event.getFace();
-                        InventoryHelper.dropItemStack(world, pos.getX() + 0.5 + face.getStepX() * 0.5, pos.getY() + 0.5 + face.getStepY() * 0.5, pos.getZ() + 0.5 + face.getStepZ() * 0.5, new ItemStack(ModItems.FLINT_SHARD.get(), 2));
+                        Containers.dropItemStack(world, pos.getX() + 0.5 + face.getStepX() * 0.5, pos.getY() + 0.5 + face.getStepY() * 0.5, pos.getZ() + 0.5 + face.getStepZ() * 0.5, new ItemStack(ModItems.FLINT_SHARD.get(), 2));
                     }
                     stack.shrink(1);
                     event.getPlayer().setItemInHand(event.getHand(), stack);
                 }
-                world.playSound(null, pos, ModSounds.KNAPPING.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, pos, ModSounds.KNAPPING.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             }
-            event.setCancellationResult(ActionResultType.SUCCESS);
+            event.setCancellationResult(InteractionResult.SUCCESS);
             event.setCanceled(true);
         }
     }
@@ -114,7 +114,7 @@ public final class ForgeEventHandler
     {
         if (Config.COMMON.enableLooseRocksWorldGen.get() && !CATEGORIES_WITHOUT_ROCKS.contains(event.getCategory()))
         {
-            event.getGeneration().addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.LOOSE_ROCKS_CONFIGURED.get());
+            event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.LOOSE_ROCKS_CONFIGURED.get());
         }
     }
 }

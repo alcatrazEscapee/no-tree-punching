@@ -1,8 +1,7 @@
 buildscript {
     repositories {
-        maven {
-            url = 'https://maven.minecraftforge.net'
-        }
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://maven.parchmentmc.org' }
         maven {
             url "https://repo.spongepowered.org/repository/maven-public/"
             content { includeGroup "org.spongepowered" }
@@ -10,18 +9,19 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 
 plugins {
-    id 'com.matthewprenger.cursegradle' version '1.4.0'
-    id 'net.minecrell.licenser' version '0.4.1'
+    id 'org.cadixdev.licenser' version '0.6.1'
     id 'idea'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
 
 // Allow local mappings customization
@@ -31,17 +31,18 @@ localProperties.createNewFile()
 apply from: 'dev.gradle'
 
 def mappingsChannel = project.hasProperty('mappings_channel') ? mappings_channel : 'official'
-def mappingsVersion = project.hasProperty('mappings_version') ? mappings_version : mc_version
+def mappingsVersion = project.hasProperty('mappings_version') ? mappings_version : minecraft_version
+
 println 'Using mappings: ' + mappingsChannel + ' / ' + mappingsVersion
 
 // Use version from environment variable, if set
-def envVersion = System.getenv('VERSION')
-version = envVersion == null ? 'indev' : envVersion
+def env = System.getenv()
+version = env.VERSION == null ? 'indev' : env.VERSION
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 mod_id = 'notreepunching'
 group = "com.alcatrazescapee.${mod_id}"
-archivesBaseName = "${mod_id}-forge-${mc_version}"
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
+archivesBaseName = "${mod_id}-forge-${minecraft_version}"
 
 repositories {
     mavenLocal()
@@ -54,10 +55,6 @@ repositories {
         // Mirror for JEI
         name = "ModMaven"
         url = "https://modmaven.k-4u.nl"
-    }
-    maven {
-        // mcjunitlib
-        url = 'https://jitpack.io'
     }
     flatDir {
         dirs 'libs'
@@ -95,44 +92,22 @@ minecraft {
                 }
             }
         }
-
-        serverTest {
-            parent runs.server
-            workingDirectory project.file('run')
-            main 'com.alcatrazescapee.mcjunitlib.DedicatedTestServerLauncher'
-            ideaModule "${project.name}.test"
-            property 'forge.logging.console.level', 'unittest'
-            environment 'MOD_CLASSES', String.join(File.pathSeparator, "${mod_id}%%${sourceSets.main.output.resourcesDir}", "${mod_id}%%${sourceSets.main.output.classesDirs.asPath}", "${mod_id}%%${sourceSets.test.output.resourcesDir}", "${mod_id}%%${sourceSets.test.output.classesDirs.asPath}")
-            environment 'target', 'fmltestserver'
-            environment 'targetModId', "${mod_id}"
-            args '-mixin.config=' + mod_id + '.mixins.json', '--crashOnFailedTests'
-            forceExit false
-            mods {
-                notreepunching {
-                    sources sourceSets.main, sourceSets.test
-                }
-            }
-        }
     }
 }
 
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    //compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
+    //runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
 
     if (System.getProperty("idea.sync.active") != "true") {
         annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
     }
 
-    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
-
-    // runtimeOnly fg.deobf("libs:byg:1.2.3") // File: libs/byg-1.2.3.jar
-    // runtimeOnly fg.deobf("libs:FarmersDelight:0.4.3") // File: libs/FarmersDelight-0.4.3.jar
-    // runtimeOnly fg.deobf("libs:AutoRegLib:1.6-49") // File: libs/AutoRegLib-1.6-49.jar Dependency for Quark
-    // runtimeOnly fg.deobf("libs:Quark:r2.4-312") // File: libs/Quark-r2.4-312.jar
-
-    testImplementation fg.deobf("com.github.alcatrazEscapee:mcjunitlib:${mcjunitlib_version}-${mc_version}")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
 // Puts the mod version into the jar for mods.toml to read from
@@ -145,6 +120,16 @@ jar {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
+idea {
+    module {
+        excludeDirs.add(file("run"))
+    }
+}
+
 mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
 }
@@ -153,13 +138,12 @@ mixin {
 license {
     header = project.file('HEADER.txt')
 
-    include '**/*.java'
+    include '** /*.java'
 }
 
 curseforge {
     project {
-        def envApiKey = System.getenv('CURSEFORGE_API_KEY')
-        apiKey = envApiKey == null ? 'nope' : envApiKey
+        apiKey = env.CURSEFORGE_API_KEY == null ? 'nope' : env.CURSEFORGE_API_KEY
     
         id = '289043' // No Tree Punching
         
@@ -167,6 +151,6 @@ curseforge {
         changelogType = "markdown"
         
         releaseType = 'release'
-        addGameVersion "${mc_version}"
+        addGameVersion "${minecraft_version}"
     }
 }

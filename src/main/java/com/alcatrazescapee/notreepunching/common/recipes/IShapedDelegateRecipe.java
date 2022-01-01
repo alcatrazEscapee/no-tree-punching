@@ -5,21 +5,21 @@
 
 package com.alcatrazescapee.notreepunching.common.recipes;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.util.NonNullList;
-import net.minecraft.world.World;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 
-public interface IShapedDelegateRecipe<C extends IInventory> extends IRecipe<C>, IShapedRecipe<C>
+public interface IShapedDelegateRecipe<C extends Container> extends Recipe<C>, IShapedRecipe<C>
 {
-    IRecipe<C> getDelegate();
+    Recipe<C> getDelegate();
 
     @Override
-    default boolean matches(C inv, World worldIn)
+    default boolean matches(C inv, Level worldIn)
     {
         return getDelegate().matches(inv, worldIn);
     }

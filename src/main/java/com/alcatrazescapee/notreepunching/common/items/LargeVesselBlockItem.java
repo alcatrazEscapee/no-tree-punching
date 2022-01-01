@@ -8,16 +8,16 @@ package com.alcatrazescapee.notreepunching.common.items;
 import java.util.List;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 
@@ -26,6 +26,8 @@ import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntit
 import com.alcatrazescapee.notreepunching.util.ItemStackItemHandler;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
+
+import net.minecraft.world.item.Item.Properties;
 
 public class LargeVesselBlockItem extends BlockItem
 {
@@ -36,7 +38,7 @@ public class LargeVesselBlockItem extends BlockItem
 
     @Nullable
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt)
     {
         // This tag is used because minecraft expects it
         if (nbt != null && nbt.contains("BlockEntityTag"))
@@ -47,7 +49,7 @@ public class LargeVesselBlockItem extends BlockItem
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn)
     {
         if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY != null)
         {
@@ -64,7 +66,7 @@ public class LargeVesselBlockItem extends BlockItem
                         if (displayCount <= 4)
                         {
                             ++displayCount;
-                            IFormattableTextComponent textComponent = contentStack.getHoverName().plainCopy();
+                            MutableComponent textComponent = contentStack.getHoverName().plainCopy();
                             textComponent.append(" x").append(String.valueOf(contentStack.getCount()));
                             tooltip.add(textComponent);
                         }
@@ -73,8 +75,8 @@ public class LargeVesselBlockItem extends BlockItem
 
                 if (totalCount > displayCount)
                 {
-                    TranslationTextComponent textComponent = new TranslationTextComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
-                    textComponent.setStyle(textComponent.getStyle().applyFormat(TextFormatting.ITALIC));
+                    TranslatableComponent textComponent = new TranslatableComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
+                    textComponent.setStyle(textComponent.getStyle().applyFormat(ChatFormatting.ITALIC));
                     tooltip.add(textComponent);
                 }
             });
@@ -83,7 +85,7 @@ public class LargeVesselBlockItem extends BlockItem
 
     static class LargeVesselItemHandler extends ItemStackItemHandler
     {
-        LargeVesselItemHandler(@Nullable CompoundNBT capNbt, ItemStack stack, int slots)
+        LargeVesselItemHandler(@Nullable CompoundTag capNbt, ItemStack stack, int slots)
         {
             super(capNbt, stack, slots);
         }

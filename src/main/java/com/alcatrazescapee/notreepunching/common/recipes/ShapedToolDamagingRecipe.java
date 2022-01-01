@@ -8,33 +8,33 @@ package com.alcatrazescapee.notreepunching.common.recipes;
 import javax.annotation.Nullable;
 
 import com.google.gson.JsonObject;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ICraftingRecipe;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.server.SUpdateRecipesPacket;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientboundUpdateRecipesPacket;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 
 import com.alcatrazescapee.notreepunching.util.Helpers;
 
-public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingInventory>, ICraftingRecipe
+public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingContainer>, CraftingRecipe
 {
     private final ResourceLocation id;
-    private final IRecipe<?> recipe;
+    private final Recipe<?> recipe;
 
-    public ShapedToolDamagingRecipe(ResourceLocation id, IRecipe<?> recipe)
+    public ShapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
     {
         this.id = id;
         this.recipe = recipe;
     }
 
     @Override
-    public NonNullList<ItemStack> getRemainingItems(CraftingInventory inv)
+    public NonNullList<ItemStack> getRemainingItems(CraftingContainer inv)
     {
         final NonNullList<ItemStack> items = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
         for (int i = 0; i < items.size(); i++)
@@ -59,16 +59,16 @@ public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingI
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer()
+    public RecipeSerializer<?> getSerializer()
     {
         return ModRecipes.TOOL_DAMAGING.get();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public IRecipe<CraftingInventory> getDelegate()
+    public Recipe<CraftingContainer> getDelegate()
     {
-        return (IRecipe<CraftingInventory>) recipe;
+        return (Recipe<CraftingContainer>) recipe;
     }
 
     public static class Serializer extends RecipeSerializer<ShapedToolDamagingRecipe>
@@ -76,20 +76,20 @@ public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingI
         @Override
         public ShapedToolDamagingRecipe fromJson(ResourceLocation recipeId, JsonObject json)
         {
-            return new ShapedToolDamagingRecipe(recipeId, RecipeManager.fromJson(recipeId, JSONUtils.getAsJsonObject(json, "recipe")));
+            return new ShapedToolDamagingRecipe(recipeId, RecipeManager.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe")));
         }
 
         @Nullable
         @Override
-        public ShapedToolDamagingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer)
+        public ShapedToolDamagingRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
         {
-            return new ShapedToolDamagingRecipe(recipeId, SUpdateRecipesPacket.fromNetwork(buffer));
+            return new ShapedToolDamagingRecipe(recipeId, ClientboundUpdateRecipesPacket.fromNetwork(buffer));
         }
 
         @Override
-        public void toNetwork(PacketBuffer buffer, ShapedToolDamagingRecipe recipe)
+        public void toNetwork(FriendlyByteBuf buffer, ShapedToolDamagingRecipe recipe)
         {
-            SUpdateRecipesPacket.toNetwork(recipe.getDelegate(), buffer);
+            ClientboundUpdateRecipesPacket.toNetwork(recipe.getDelegate(), buffer);
         }
     }
 }

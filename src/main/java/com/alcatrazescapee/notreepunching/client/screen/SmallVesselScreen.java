@@ -5,9 +5,9 @@
 
 package com.alcatrazescapee.notreepunching.client.screen;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 
 import com.alcatrazescapee.notreepunching.common.container.SmallVesselContainer;
 
@@ -17,7 +17,7 @@ public class SmallVesselScreen extends ModContainerScreen<SmallVesselContainer>
 {
     private static final ResourceLocation SMALL_VESSEL_BACKGROUND = new ResourceLocation(MOD_ID, "textures/gui/small_vessel.png");
 
-    public SmallVesselScreen(SmallVesselContainer screenContainer, PlayerInventory inv, ITextComponent titleIn)
+    public SmallVesselScreen(SmallVesselContainer screenContainer, Inventory inv, Component titleIn)
     {
         super(screenContainer, inv, titleIn, SMALL_VESSEL_BACKGROUND);
     }

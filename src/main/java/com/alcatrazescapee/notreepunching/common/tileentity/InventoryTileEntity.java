@@ -7,13 +7,13 @@ package com.alcatrazescapee.notreepunching.common.tileentity;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -26,13 +26,13 @@ import com.alcatrazescapee.notreepunching.util.ItemStackHandlerCallback;
 /**
  * An extension of {@link ModTileEntity} which has a custom name
  */
-public abstract class InventoryTileEntity extends ModTileEntity implements INamedContainerProvider, ISlotCallback
+public abstract class InventoryTileEntity extends ModTileEntity implements MenuProvider, ISlotCallback
 {
     protected final ItemStackHandler inventory;
     protected final LazyOptional<IItemHandler> inventoryCapability;
-    protected ITextComponent customName, defaultName;
+    protected Component customName, defaultName;
 
-    public InventoryTileEntity(TileEntityType<?> type, int inventorySlots, ITextComponent defaultName)
+    public InventoryTileEntity(BlockEntityType<?> type, int inventorySlots, Component defaultName)
     {
         super(type);
 
@@ -42,39 +42,39 @@ public abstract class InventoryTileEntity extends ModTileEntity implements IName
     }
 
     @Override
-    public ITextComponent getDisplayName()
+    public Component getDisplayName()
     {
         return customName != null ? customName : defaultName;
     }
 
     @Nullable
-    public ITextComponent getCustomName()
+    public Component getCustomName()
     {
         return customName;
     }
 
-    public void setCustomName(ITextComponent customName)
+    public void setCustomName(Component customName)
     {
         this.customName = customName;
     }
 
     @Override
-    public void load(BlockState state, CompoundNBT nbt)
+    public void load(BlockState state, CompoundTag nbt)
     {
         if (nbt.contains("CustomName"))
         {
-            customName = ITextComponent.Serializer.fromJson(nbt.getString("CustomName"));
+            customName = Component.Serializer.fromJson(nbt.getString("CustomName"));
         }
         inventory.deserializeNBT(nbt.getCompound("inventory"));
         super.load(state, nbt);
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT nbt)
+    public CompoundTag save(CompoundTag nbt)
     {
         if (customName != null)
         {
-            nbt.putString("CustomName", ITextComponent.Serializer.toJson(customName));
+            nbt.putString("CustomName", Component.Serializer.toJson(customName));
         }
         nbt.put("inventory", inventory.serializeNBT());
         return super.save(nbt);
@@ -96,7 +96,7 @@ public abstract class InventoryTileEntity extends ModTileEntity implements IName
         markDirtyFast();
     }
 
-    public boolean canInteractWith(PlayerEntity player)
+    public boolean canInteractWith(Player player)
     {
         return true;
     }

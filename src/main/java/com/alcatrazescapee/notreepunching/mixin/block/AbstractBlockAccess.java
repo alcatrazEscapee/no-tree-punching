@@ -5,20 +5,20 @@
 
 package com.alcatrazescapee.notreepunching.mixin.block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(AbstractBlock.class)
+@Mixin(BlockBehaviour.class)
 public interface AbstractBlockAccess
 {
     /**
      * Gets the properties from the block in order to mutate it
      */
     @Accessor("properties")
-    AbstractBlock.Properties getProperties();
+    BlockBehaviour.Properties getProperties();
 
     /**
      * This is required as when adding tool types to blocks based on material, we cannot discriminate against the individual block state as the tool type field does not allow for that. So we query the original material rather than each block state.

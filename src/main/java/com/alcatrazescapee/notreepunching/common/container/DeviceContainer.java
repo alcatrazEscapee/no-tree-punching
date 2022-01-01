@@ -5,11 +5,11 @@
 
 package com.alcatrazescapee.notreepunching.common.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 import com.alcatrazescapee.notreepunching.common.tileentity.InventoryTileEntity;
 
@@ -20,7 +20,7 @@ public abstract class DeviceContainer<T extends InventoryTileEntity> extends Mod
 {
     protected final T tile;
 
-    protected DeviceContainer(ContainerType<?> containerType, T tile, PlayerInventory playerInventory, int windowId)
+    protected DeviceContainer(MenuType<?> containerType, T tile, Inventory playerInventory, int windowId)
     {
         super(containerType, windowId);
 
@@ -31,7 +31,7 @@ public abstract class DeviceContainer<T extends InventoryTileEntity> extends Mod
     }
 
     @Override
-    public ItemStack quickMoveStack(PlayerEntity playerIn, int index)
+    public ItemStack quickMoveStack(Player playerIn, int index)
     {
         Slot slot = slots.get(index);
         if (slot != null && slot.hasItem())
@@ -74,7 +74,7 @@ public abstract class DeviceContainer<T extends InventoryTileEntity> extends Mod
     }
 
     @Override
-    public boolean stillValid(PlayerEntity playerIn)
+    public boolean stillValid(Player playerIn)
     {
         return tile.canInteractWith(playerIn);
     }
@@ -97,6 +97,6 @@ public abstract class DeviceContainer<T extends InventoryTileEntity> extends Mod
     @FunctionalInterface
     public interface IFactory<T extends InventoryTileEntity, C extends DeviceContainer<T>>
     {
-        C create(T tile, PlayerInventory playerInventory, int windowId);
+        C create(T tile, Inventory playerInventory, int windowId);
     }
 }

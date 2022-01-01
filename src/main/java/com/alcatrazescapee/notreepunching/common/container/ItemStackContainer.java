@@ -7,12 +7,12 @@ package com.alcatrazescapee.notreepunching.common.container;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ClickType;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Container for inventories from item stacks
@@ -20,12 +20,12 @@ import net.minecraft.item.ItemStack;
 public class ItemStackContainer extends ModContainer
 {
     protected final ItemStack stack;
-    protected final PlayerEntity player;
+    protected final Player player;
     protected int itemIndex;
     protected int itemDragIndex;
     protected boolean isOffhand;
 
-    protected ItemStackContainer(ContainerType<?> containerType, PlayerInventory playerInv, ItemStack stack, int windowId)
+    protected ItemStackContainer(MenuType<?> containerType, Inventory playerInv, ItemStack stack, int windowId)
     {
         super(containerType, windowId);
         this.player = playerInv.player;
@@ -49,7 +49,7 @@ public class ItemStackContainer extends ModContainer
 
     @Override
     @Nonnull
-    public ItemStack quickMoveStack(PlayerEntity player, int index)
+    public ItemStack quickMoveStack(Player player, int index)
     {
         // Slot that was clicked
         Slot slot = slots.get(index);
@@ -98,7 +98,7 @@ public class ItemStackContainer extends ModContainer
 
     @Override
     @Nonnull
-    public ItemStack clicked(int slotID, int dragType, ClickType clickType, PlayerEntity player)
+    public ItemStack clicked(int slotID, int dragType, ClickType clickType, Player player)
     {
         // Prevent moving of the item stack that is currently open
         if (slotID == itemIndex && (clickType == ClickType.QUICK_MOVE || clickType == ClickType.PICKUP || clickType == ClickType.THROW || clickType == ClickType.SWAP))
