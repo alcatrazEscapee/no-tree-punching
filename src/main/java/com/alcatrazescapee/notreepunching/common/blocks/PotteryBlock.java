@@ -5,9 +5,6 @@
 
 package com.alcatrazescapee.notreepunching.common.blocks;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -74,26 +71,20 @@ public class PotteryBlock extends Block
         )
     };
 
-    private final Variant variant;
+    private final VoxelShape shape;
 
     public PotteryBlock(Variant variant)
     {
         super(Properties.of(BREAKABLE_CLAY).strength(0.8f - 0.1f * variant.ordinal()).harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GRAVEL));
 
-        this.variant = variant;
-    }
-
-    @Nonnull
-    public Variant getVariant()
-    {
-        return variant;
+        this.shape = SHAPES[variant.ordinal()];
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
     {
-        return SHAPES[variant.ordinal()];
+        return shape;
     }
 
     public enum Variant
@@ -103,17 +94,5 @@ public class PotteryBlock extends Block
         SMALL_VESSEL,
         BUCKET,
         FLOWER_POT;
-
-        private static final Variant[] VALUES = Variant.values();
-
-        @Nullable
-        public Variant next()
-        {
-            if (this == FLOWER_POT)
-            {
-                return null;
-            }
-            return VALUES[this.ordinal() + 1];
-        }
     }
 }

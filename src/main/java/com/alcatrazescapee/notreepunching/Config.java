@@ -5,12 +5,22 @@
 
 package com.alcatrazescapee.notreepunching;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
+import net.minecraft.block.Block;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
+import com.alcatrazescapee.notreepunching.common.blocks.PotteryBlock;
 
 public final class Config
 {
@@ -48,6 +58,8 @@ public final class Config
         public final ForgeConfigSpec.DoubleValue fireStarterFireStartChance;
         public final ForgeConfigSpec.BooleanValue largeVesselKeepsContentsWhenBroken;
 
+        private final ForgeConfigSpec.ConfigValue<List<? extends String>> potteryBlockSequences;
+
         private ServerConfig(ForgeConfigSpec.Builder builder)
         {
             noMiningWithoutCorrectTool = builder.comment("Makes blocks take forever to mine if using the wrong tool").define("noMiningWithoutCorrectTool", true);
@@ -63,6 +75,33 @@ public final class Config
             fireStarterFireStartChance = builder.comment("The chance for a fire starter to start fires").defineInRange("fireStarterFireStartChance", 0.3, 0, 1);
 
             largeVesselKeepsContentsWhenBroken = builder.comment("If the large ceramic vessel block keeps it's contents when broken (as opposed to dropping them on the ground").define("largeVesselKeepsContentsWhenBroken", true);
+
+            potteryBlockSequences = builder.comment(
+                "The sequence of blocks that can be created with the clay tool.",
+                "When the clay tool is used, if the block is present in this list, it may be converted to the next block in the list",
+                "If the next block is minecraft:air, the block will be destroyed (the clay tool will never try and convert air into something)"
+            ).defineList("potteryBlockSequences", defaultPotteryBlockSequence(), e -> e instanceof String && ForgeRegistries.BLOCKS.containsKey(new ResourceLocation((String) e)));
+        }
+
+        public List<Block> getPotteryBlockSequences()
+        {
+            return potteryBlockSequences.get()
+                .stream()
+                .map(id -> ForgeRegistries.BLOCKS.getValue(new ResourceLocation(id)))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        }
+
+        private List<? extends String> defaultPotteryBlockSequence()
+        {
+            final List<String> values = new ArrayList<>();
+            values.add("minecraft:clay");
+            for (PotteryBlock.Variant pottery : PotteryBlock.Variant.values())
+            {
+                values.add(ModBlocks.POTTERY.get(pottery).getId().toString());
+            }
+            values.add("minecraft:air");
+            return values;
         }
     }
 }
