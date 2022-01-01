@@ -56,6 +56,8 @@ public final class Config
         public final ForgeConfigSpec.DoubleValue flintKnappingConsumeChance;
         public final ForgeConfigSpec.DoubleValue flintKnappingSuccessChance;
         public final ForgeConfigSpec.DoubleValue fireStarterFireStartChance;
+        public final ForgeConfigSpec.BooleanValue fireStarterCanMakeCampfire;
+        public final ForgeConfigSpec.BooleanValue fireStarterCanMakeSoulCampfire;
         public final ForgeConfigSpec.BooleanValue largeVesselKeepsContentsWhenBroken;
 
         private final ForgeConfigSpec.ConfigValue<List<? extends String>> potteryBlockSequences;
@@ -73,6 +75,8 @@ public final class Config
             flintKnappingSuccessChance = builder.comment("The chance to produce flint shards if a piece of flint has been consumed while knapping").defineInRange("flintKnappingSuccessChance", 0.7, 0, 1);
 
             fireStarterFireStartChance = builder.comment("The chance for a fire starter to start fires").defineInRange("fireStarterFireStartChance", 0.3, 0, 1);
+            fireStarterCanMakeCampfire = builder.comment("If the fire starter can be used to make a campfire (with one '#notreepunching:fire_starter_logs' and three '#notreepunching:fire_starter_kindling'").define("fireStarterCanMakeCampfire", true);
+            fireStarterCanMakeSoulCampfire = builder.comment("If the fire starter can be used to make a soul campfire (with one '#notreepunching:fire_starter_logs', three '#notreepunching:fire_starter_kindling', and one '#notreepunching:fire_starter_soul_fire_catalyst'").define("fireStarterCanMakeSoulCampfire", true);
 
             largeVesselKeepsContentsWhenBroken = builder.comment("If the large ceramic vessel block keeps it's contents when broken (as opposed to dropping them on the ground").define("largeVesselKeepsContentsWhenBroken", true);
 

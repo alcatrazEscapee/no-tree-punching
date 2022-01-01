@@ -8,6 +8,7 @@ package com.alcatrazescapee.notreepunching.common.items;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CampfireBlock;
@@ -71,10 +72,10 @@ public class FireStarterItem extends TieredItem
                     else
                     {
                         List<ItemEntity> entities = worldIn.getEntitiesOfClass(ItemEntity.class, new AxisAlignedBB(pos.above(), pos.offset(1, 2, 1)));
-                        List<ItemEntity> logEntities = new ArrayList<>(), kindlingEntities = new ArrayList<>();
+                        List<ItemEntity> logEntities = new ArrayList<>(), kindlingEntities = new ArrayList<>(), soulFireEntities = new ArrayList<>();
 
                         // Require 1 log, 3 kindling
-                        int logs = 0, kindling = 0;
+                        int logs = 0, kindling = 0, soulFire = 0;
 
                         for (ItemEntity drop : entities)
                         {
@@ -89,13 +90,27 @@ public class FireStarterItem extends TieredItem
                                 kindling += dropStack.getCount();
                                 kindlingEntities.add(drop);
                             }
+                            else if (ModTags.Items.FIRE_STARTER_SOUL_FIRE_CATALYST.contains(dropStack.getItem()))
+                            {
+                                soulFire += dropStack.getCount();
+                                soulFireEntities.add(drop);
+                            }
                         }
-                        if (logs >= 1 && kindling >= 3)
+                        final boolean canMakeCampfire = Config.SERVER.fireStarterCanMakeCampfire.get();
+                        final boolean canMakeSoulCampfire = Config.SERVER.fireStarterCanMakeSoulCampfire.get() && soulFire >= 1;
+                        if (logs >= 1 && kindling >= 3 && (canMakeCampfire || canMakeSoulCampfire))
                         {
-                            // Commence Fire pit making
-                            removeItems(logEntities, logs);
-                            removeItems(kindlingEntities, kindling);
-                            worldIn.setBlockAndUpdate(pos.above(), Blocks.CAMPFIRE.defaultBlockState().setValue(CampfireBlock.LIT, true));
+                            removeItems(logEntities, 1);
+                            removeItems(kindlingEntities, 3);
+
+                            Block resultBlock = Blocks.CAMPFIRE;
+                            if (canMakeSoulCampfire)
+                            {
+                                resultBlock = Blocks.SOUL_CAMPFIRE;
+                                removeItems(soulFireEntities, 1);
+                            }
+
+                            worldIn.setBlockAndUpdate(pos.above(), resultBlock.defaultBlockState().setValue(CampfireBlock.LIT, true));
                         }
                         else
                         {

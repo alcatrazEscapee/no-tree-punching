@@ -132,6 +132,7 @@ def generate(rm: ResourceManager):
 
     rm.item_tag('fire_starter_logs', '#minecraft:logs', '#minecraft:planks')
     rm.item_tag('fire_starter_kindling', '#forge:rods/wooden', '#minecraft:saplings', '#minecraft:leaves', '#forge:string', 'notreepunching:plant_fiber')
+    rm.item_tag('fire_starter_soul_fire_catalyst', 'minecraft:soul_sand', 'minecraft:soul_soil')
 
     ceramics = ['notreepunching:ceramic_large_vessel', 'notreepunching:ceramic_small_vessel', 'notreepunching:ceramic_bucket', 'minecraft:flower_pot']
     pottery = ['minecraft:clay', 'notreepunching:clay_worked', 'notreepunching:clay_large_vessel', 'notreepunching:clay_small_vessel', 'notreepunching:clay_bucket', 'notreepunching:clay_flower_pot']

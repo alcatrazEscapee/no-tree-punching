@@ -20,6 +20,7 @@ public final class ModTags
     {
         public static final ITag.INamedTag<Item> FIRE_STARTER_LOGS = create("fire_starter_logs");
         public static final ITag.INamedTag<Item> FIRE_STARTER_KINDLING = create("fire_starter_kindling");
+        public static final ITag.INamedTag<Item> FIRE_STARTER_SOUL_FIRE_CATALYST = create("fire_starter_soul_fire_catalyst");
 
         public static final ITag.INamedTag<Item> FLINT_KNAPPABLE = create("flint_knappable");
 

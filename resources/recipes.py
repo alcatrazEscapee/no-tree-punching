@@ -200,6 +200,7 @@ def generate_vanilla(rm: ResourceManager):
         remove_recipe(rm, 'stone_%s' % tool)
 
     remove_recipe(rm, 'campfire')
+    remove_recipe(rm, 'soul_campfire')
     remove_recipe(rm, 'flower_pot')
     remove_recipe(rm, 'brick')
 
