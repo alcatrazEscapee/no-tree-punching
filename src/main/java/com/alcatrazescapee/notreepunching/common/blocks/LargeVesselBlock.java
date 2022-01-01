@@ -33,11 +33,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import com.alcatrazescapee.notreepunching.Config;
-import com.alcatrazescapee.notreepunching.common.tileentity.InventoryTileEntity;
-import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
+import com.alcatrazescapee.notreepunching.common.blockentity.InventoryBlockEntity;
+import com.alcatrazescapee.notreepunching.common.blockentity.LargeVesselBlockEntity;
 import com.alcatrazescapee.notreepunching.util.Helpers;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class LargeVesselBlock extends Block
 {
@@ -54,7 +52,7 @@ public class LargeVesselBlock extends Block
     {
         if (!newState.is(state.getBlock()))
         {
-            Helpers.getTE(worldIn, pos, InventoryTileEntity.class).ifPresent(tile -> {
+            Helpers.getTE(worldIn, pos, InventoryBlockEntity.class).ifPresent(tile -> {
                 if (!Config.SERVER.largeVesselKeepsContentsWhenBroken.get())
                 {
                     tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).map(i -> (ItemStackHandler) i).ifPresent(inventory -> {
@@ -79,7 +77,7 @@ public class LargeVesselBlock extends Block
     {
         if (player instanceof ServerPlayer && !player.isShiftKeyDown())
         {
-            Helpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> NetworkHooks.openGui((ServerPlayer) player, tile, pos));
+            Helpers.getTE(worldIn, pos, LargeVesselBlockEntity.class).ifPresent(tile -> NetworkHooks.openGui((ServerPlayer) player, tile, pos));
         }
         return InteractionResult.SUCCESS;
     }
@@ -96,7 +94,7 @@ public class LargeVesselBlock extends Block
     {
         if (stack.hasCustomHoverName())
         {
-            Helpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> tile.setCustomName(stack.getHoverName()));
+            Helpers.getTE(worldIn, pos, LargeVesselBlockEntity.class).ifPresent(tile -> tile.setCustomName(stack.getHoverName()));
         }
     }
 
@@ -106,7 +104,7 @@ public class LargeVesselBlock extends Block
     @Override
     public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player)
     {
-        Helpers.getTE(worldIn, pos, LargeVesselTileEntity.class).ifPresent(tile -> tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+        Helpers.getTE(worldIn, pos, LargeVesselBlockEntity.class).ifPresent(tile -> tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             if (!worldIn.isClientSide && player.isCreative() && !tile.isEmpty())
             {
                 ItemStack stack = new ItemStack(this);
@@ -135,14 +133,14 @@ public class LargeVesselBlock extends Block
     @Override
     public BlockEntity createTileEntity(BlockState state, BlockGetter world)
     {
-        return new LargeVesselTileEntity();
+        return new LargeVesselBlockEntity();
     }
 
     @Override
     public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)
     {
         ItemStack stack = super.getPickBlock(state, target, world, pos, player);
-        Helpers.getTE(world, pos, LargeVesselTileEntity.class).ifPresent(tile -> {
+        Helpers.getTE(world, pos, LargeVesselBlockEntity.class).ifPresent(tile -> {
             CompoundTag nbt = tile.save(new CompoundTag());
             if (!nbt.isEmpty())
             {

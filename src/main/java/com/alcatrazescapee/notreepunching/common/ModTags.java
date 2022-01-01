@@ -42,6 +42,8 @@ public final class ModTags
 
         public static final Tag.Named<Block> LOOSE_ROCK_PLACEABLE_ON = create("loose_rock_placeable_on");
 
+        public static final Tag.Named<Block> NEEDS_FLINT_TOOL = create("needs_flint_tool");
+
         private static Tag.Named<Block> create(String id)
         {
             return BlockTags.bind(new ResourceLocation(MOD_ID, id).toString());

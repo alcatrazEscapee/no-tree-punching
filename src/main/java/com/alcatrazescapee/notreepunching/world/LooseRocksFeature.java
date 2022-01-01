@@ -18,6 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraftforge.common.util.Lazy;
 
@@ -44,26 +45,29 @@ public class LooseRocksFeature extends Feature<NoneFeatureConfiguration>
         super(NoneFeatureConfiguration.CODEC);
     }
 
+
     @Override
-    @SuppressWarnings("deprecation")
-    public boolean place(WorldGenLevel worldIn, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoneFeatureConfiguration config)
+    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        BlockState stateAt = worldIn.getBlockState(pos);
-        BlockState stateDown = worldIn.getBlockState(pos.below());
+        final WorldGenLevel level = context.level();
+        final BlockPos pos = context.origin();
+
+        final BlockState stateAt = level.getBlockState(pos);
+        final BlockState stateDown = level.getBlockState(pos.below());
         if (stateAt.isAir() && ModTags.Blocks.LOOSE_ROCK_PLACEABLE_ON.contains(stateDown.getBlock()))
         {
             for (int y = 1; y <= 8; y++)
             {
-                BlockPos stonePos = pos.below(y);
-                BlockState stoneState = worldIn.getBlockState(stonePos);
+                final BlockPos stonePos = pos.below(y);
+                final BlockState stoneState = level.getBlockState(stonePos);
                 if (LOOSE_ROCK_STONE_LOOKUP.get().containsKey(stoneState.getBlock()))
                 {
-                    Block looseRockBlock = LOOSE_ROCK_STONE_LOOKUP.get().get(stoneState.getBlock()).get();
-                    worldIn.setBlock(pos, looseRockBlock.defaultBlockState(), 3);
+                    final Block looseRockBlock = LOOSE_ROCK_STONE_LOOKUP.get().get(stoneState.getBlock()).get();
+                    level.setBlock(pos, looseRockBlock.defaultBlockState(), 3);
                     return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 }

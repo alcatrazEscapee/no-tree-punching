@@ -57,15 +57,15 @@ public class CeramicBucketItem extends Item
     }
 
     /**
-     * Copy pasta from {@link net.minecraft.item.BucketItem} with modifications to use the capability fluid
+     * Copy pasta from {@link net.minecraft.world.item.BucketItem} with modifications to use the capability fluid
      */
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public InteractionResultHolder<ItemStack> use(Level level, Player playerIn, InteractionHand handIn)
     {
         ItemStack bucketStack = playerIn.getItemInHand(handIn);
         Fluid containedFluid = getFluid(bucketStack);
-        BlockHitResult rayTraceResult = getPlayerPOVHitResult(worldIn, playerIn, containedFluid == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE);
-        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onBucketUse(playerIn, worldIn, bucketStack, rayTraceResult);
+        BlockHitResult rayTraceResult = getPlayerPOVHitResult(level, playerIn, containedFluid == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE);
+        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onBucketUse(playerIn, level, bucketStack, rayTraceResult);
         if (ret != null)
         {
             return ret;
@@ -82,14 +82,14 @@ public class CeramicBucketItem extends Item
         {
             BlockPos posHit = rayTraceResult.getBlockPos();
             BlockPos posOffset = posHit.relative(rayTraceResult.getDirection());
-            if (worldIn.mayInteract(playerIn, posHit) && playerIn.mayUseItemAt(posOffset, rayTraceResult.getDirection(), bucketStack))
+            if (level.mayInteract(playerIn, posHit) && playerIn.mayUseItemAt(posOffset, rayTraceResult.getDirection(), bucketStack))
             {
                 if (containedFluid == Fluids.EMPTY)
                 {
-                    BlockState blockstate1 = worldIn.getBlockState(posHit);
+                    BlockState blockstate1 = level.getBlockState(posHit);
                     if (blockstate1.getBlock() instanceof BucketPickup)
                     {
-                        Fluid fluid = ((BucketPickup) blockstate1.getBlock()).takeLiquid(worldIn, posHit, blockstate1);
+                        Fluid fluid = ((BucketPickup) blockstate1.getBlock()).pickupBlock(level, posHit, blockstate1);
                         if (fluid != Fluids.EMPTY)
                         {
                             playerIn.awardStat(Stats.ITEM_USED.get(this));
@@ -101,12 +101,12 @@ public class CeramicBucketItem extends Item
                             }
                             playerIn.playSound(soundevent, 1.0F, 1.0F);
                             ItemStack filledBucket = this.fillBucket(bucketStack, playerIn, fluid);
-                            if (!worldIn.isClientSide)
+                            if (!level.isClientSide)
                             {
                                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) playerIn, new ItemStack(fluid.getBucket()));
                             }
 
-                            return InteractionResultHolder.sidedSuccess(filledBucket, worldIn.isClientSide());
+                            return InteractionResultHolder.sidedSuccess(filledBucket, level.isClientSide());
                         }
                     }
 
@@ -114,9 +114,9 @@ public class CeramicBucketItem extends Item
                 }
                 else
                 {
-                    BlockState hitState = worldIn.getBlockState(posHit);
-                    BlockPos hitPos = canBlockContainFluid(worldIn, posHit, hitState, containedFluid) ? posHit : posOffset;
-                    if (this.emptyBucket(playerIn, worldIn, hitPos, rayTraceResult, containedFluid))
+                    BlockState hitState = level.getBlockState(posHit);
+                    BlockPos hitPos = canBlockContainFluid(level, posHit, hitState, containedFluid) ? posHit : posOffset;
+                    if (this.emptyBucket(playerIn, level, hitPos, rayTraceResult, containedFluid))
                     {
                         if (playerIn instanceof ServerPlayer)
                         {
@@ -124,7 +124,7 @@ public class CeramicBucketItem extends Item
                         }
 
                         playerIn.awardStat(Stats.ITEM_USED.get(this));
-                        return InteractionResultHolder.sidedSuccess(this.emptyBucket(bucketStack, playerIn), worldIn.isClientSide());
+                        return InteractionResultHolder.sidedSuccess(this.emptyBucket(bucketStack, playerIn), level.isClientSide());
                     }
                     else
                     {
@@ -191,7 +191,7 @@ public class CeramicBucketItem extends Item
             BlockState blockstate = worldIn.getBlockState(posIn);
             Block block = blockstate.getBlock();
             Material material = blockstate.getMaterial();
-            if (!(blockstate.isAir(worldIn, posIn) || blockstate.canBeReplaced(containedFluid) || block instanceof LiquidBlockContainer && ((LiquidBlockContainer) block).canPlaceLiquid(worldIn, posIn, blockstate, containedFluid)))
+            if (!(blockstate.isAir() || blockstate.canBeReplaced(containedFluid) || block instanceof LiquidBlockContainer && ((LiquidBlockContainer) block).canPlaceLiquid(worldIn, posIn, blockstate, containedFluid)))
             {
                 return rayTrace != null && emptyBucket(player, worldIn, rayTrace.getBlockPos().relative(rayTrace.getDirection()), null, containedFluid);
             }

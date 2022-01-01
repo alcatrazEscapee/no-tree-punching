@@ -97,10 +97,10 @@ public class ItemStackContainer extends ModContainer
     }
 
     @Override
-    @Nonnull
-    public ItemStack clicked(int slotID, int dragType, ClickType clickType, Player player)
+    public void clicked(int slotID, int dragType, ClickType clickType, Player player)
     {
         // Prevent moving of the item stack that is currently open
+        // todo
         if (slotID == itemIndex && (clickType == ClickType.QUICK_MOVE || clickType == ClickType.PICKUP || clickType == ClickType.THROW || clickType == ClickType.SWAP))
         {
             return ItemStack.EMPTY;

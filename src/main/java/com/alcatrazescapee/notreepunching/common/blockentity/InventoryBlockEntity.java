@@ -3,7 +3,7 @@
  * Work under copyright. See the project LICENSE.md for details.
  */
 
-package com.alcatrazescapee.notreepunching.common.tileentity;
+package com.alcatrazescapee.notreepunching.common.blockentity;
 
 import javax.annotation.Nullable;
 
@@ -24,20 +24,20 @@ import com.alcatrazescapee.notreepunching.util.ISlotCallback;
 import com.alcatrazescapee.notreepunching.util.ItemStackHandlerCallback;
 
 /**
- * An extension of {@link ModTileEntity} which has a custom name
+ * An extension of {@link ModBlockEntity} which has a custom name
  */
-public abstract class InventoryTileEntity extends ModTileEntity implements MenuProvider, ISlotCallback
+public abstract class InventoryBlockEntity extends ModBlockEntity implements MenuProvider, ISlotCallback
 {
     protected final ItemStackHandler inventory;
     protected final LazyOptional<IItemHandler> inventoryCapability;
     protected Component customName, defaultName;
 
-    public InventoryTileEntity(BlockEntityType<?> type, int inventorySlots, Component defaultName)
+    public InventoryBlockEntity(BlockEntityType<?> type, int inventorySlots, Component defaultName)
     {
         super(type);
 
         this.inventory = new ItemStackHandlerCallback(this, inventorySlots);
-        this.inventoryCapability = LazyOptional.of(() -> InventoryTileEntity.this.inventory);
+        this.inventoryCapability = LazyOptional.of(() -> InventoryBlockEntity.this.inventory);
         this.defaultName = defaultName;
     }
 

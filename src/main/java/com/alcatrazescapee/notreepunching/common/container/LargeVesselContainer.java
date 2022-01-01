@@ -10,15 +10,15 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
+import com.alcatrazescapee.notreepunching.common.blockentity.LargeVesselBlockEntity;
 import com.alcatrazescapee.notreepunching.util.Helpers;
 import com.alcatrazescapee.notreepunching.util.SlotCallback;
 
-public class LargeVesselContainer extends DeviceContainer<LargeVesselTileEntity>
+public class LargeVesselContainer extends DeviceContainer<LargeVesselBlockEntity>
 {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public LargeVesselContainer(LargeVesselTileEntity tile, Inventory playerInventory, int windowId)
+    public LargeVesselContainer(LargeVesselBlockEntity tile, Inventory playerInventory, int windowId)
     {
         super(ModContainers.LARGE_VESSEL.get(), tile, playerInventory, windowId);
     }
@@ -27,9 +27,9 @@ public class LargeVesselContainer extends DeviceContainer<LargeVesselTileEntity>
     protected void addContainerSlots()
     {
         Helpers.ifPresentOrElse(tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY), handler -> {
-            for (int x = 0; x < LargeVesselTileEntity.SLOT_COLUMNS; x++)
+            for (int x = 0; x < LargeVesselBlockEntity.SLOT_COLUMNS; x++)
             {
-                for (int y = 0; y < LargeVesselTileEntity.SLOT_ROWS; y++)
+                for (int y = 0; y < LargeVesselBlockEntity.SLOT_ROWS; y++)
                 {
                     addSlot(new SlotCallback(tile, handler, x + 5 * y, 44 + x * 18, 20 + y * 18));
                 }

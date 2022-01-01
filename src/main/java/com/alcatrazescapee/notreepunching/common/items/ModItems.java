@@ -7,10 +7,9 @@ package com.alcatrazescapee.notreepunching.common.items;
 
 import java.util.function.Supplier;
 
-import net.minecraft.item.*;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import com.alcatrazescapee.notreepunching.common.ModItemGroup;
 import com.alcatrazescapee.notreepunching.common.ModItemTier;

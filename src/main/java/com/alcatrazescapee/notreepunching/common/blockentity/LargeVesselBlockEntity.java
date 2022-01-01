@@ -3,7 +3,7 @@
  * Work under copyright. See the project LICENSE.md for details.
  */
 
-package com.alcatrazescapee.notreepunching.common.tileentity;
+package com.alcatrazescapee.notreepunching.common.blockentity;
 
 import javax.annotation.Nullable;
 
@@ -19,7 +19,7 @@ import com.alcatrazescapee.notreepunching.common.container.LargeVesselContainer;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
-public class LargeVesselTileEntity extends InventoryTileEntity
+public class LargeVesselBlockEntity extends InventoryBlockEntity
 {
     public static final int SLOT_COLUMNS = 5;
     public static final int SLOT_ROWS = 3;
@@ -27,9 +27,9 @@ public class LargeVesselTileEntity extends InventoryTileEntity
 
     private static final Component NAME = new TranslatableComponent(MOD_ID + ".tile_entity.large_vessel");
 
-    public LargeVesselTileEntity()
+    public LargeVesselBlockEntity()
     {
-        super(ModTileEntities.LARGE_VESSEL.get(), SLOTS, NAME);
+        super(ModBlockEntities.LARGE_VESSEL.get(), SLOTS, NAME);
     }
 
     @Nullable

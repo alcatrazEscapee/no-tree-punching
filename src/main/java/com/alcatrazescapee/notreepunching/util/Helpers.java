@@ -15,7 +15,8 @@ import javax.annotation.Nullable;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -26,6 +27,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.util.NonNullFunction;
+
+import com.alcatrazescapee.notreepunching.NoTreePunching;
 
 /**
  * A collection of helper methods and utilities
@@ -134,6 +137,11 @@ public final class Helpers
     public static <T> T getNull()
     {
         return null;
+    }
+
+    public static ResourceLocation identifier(String path)
+    {
+        return new ResourceLocation(NoTreePunching.MOD_ID, path);
     }
 
     public static <K, V> void putAll(Map<K, V> map, V value, K... keys)

@@ -9,13 +9,14 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.util.LazyLoadedValue;
+import net.minecraftforge.common.ForgeTier;
 
 /**
- * Mod-usable implementation of {@link IItemTier}
+ * Mod-usable implementation of {@link Tier}
  */
 public class ModItemTier implements Tier
 {
-    public static final Tier FLINT = new ModItemTier(1, 60, 2.5f, 0.5f, 0, () -> Ingredient.of(Items.FLINT));
+    public static final Tier FLINT = new ForgeTier(1, 60, 2.5f, 0.5f, 0, ModTags.Blocks.NEEDS_FLINT_TOOL, () -> Ingredient.of(Items.FLINT));
 
     private final int harvestLevel;
     private final int uses;

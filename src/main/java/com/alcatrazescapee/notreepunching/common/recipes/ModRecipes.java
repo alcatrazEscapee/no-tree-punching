@@ -6,9 +6,9 @@
 package com.alcatrazescapee.notreepunching.common.recipes;
 
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import com.alcatrazescapee.notreepunching.NoTreePunching;
 

@@ -11,12 +11,12 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-import com.alcatrazescapee.notreepunching.common.tileentity.InventoryTileEntity;
+import com.alcatrazescapee.notreepunching.common.blockentity.InventoryBlockEntity;
 
 /**
- * Generic container for use with {@link InventoryTileEntity}
+ * Generic container for use with {@link InventoryBlockEntity}
  */
-public abstract class DeviceContainer<T extends InventoryTileEntity> extends ModContainer
+public abstract class DeviceContainer<T extends InventoryBlockEntity> extends ModContainer
 {
     protected final T tile;
 
@@ -95,7 +95,7 @@ public abstract class DeviceContainer<T extends InventoryTileEntity> extends Mod
     }
 
     @FunctionalInterface
-    public interface IFactory<T extends InventoryTileEntity, C extends DeviceContainer<T>>
+    public interface IFactory<T extends InventoryBlockEntity, C extends DeviceContainer<T>>
     {
         C create(T tile, Inventory playerInventory, int windowId);
     }

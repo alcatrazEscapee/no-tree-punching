@@ -5,7 +5,7 @@
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package com.alcatrazescapee.notreepunching.common.tileentity;
+package com.alcatrazescapee.notreepunching.common.blockentity;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

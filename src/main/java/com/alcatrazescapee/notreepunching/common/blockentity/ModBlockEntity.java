@@ -3,7 +3,7 @@
  * Work under copyright. See the project LICENSE.md for details.
  */
 
-package com.alcatrazescapee.notreepunching.common.tileentity;
+package com.alcatrazescapee.notreepunching.common.blockentity;
 
 import javax.annotation.Nullable;
 
@@ -21,9 +21,9 @@ import net.minecraft.server.level.ServerLevel;
 /**
  * A tile entity that handles saving NBT data and default update packets
  */
-public abstract class ModTileEntity extends BlockEntity
+public abstract class ModBlockEntity extends BlockEntity
 {
-    public ModTileEntity(BlockEntityType<?> type)
+    public ModBlockEntity(BlockEntityType<?> type)
     {
         super(type);
     }
@@ -71,7 +71,7 @@ public abstract class ModTileEntity extends BlockEntity
 
     /**
      * Marks a tile entity for syncing without sending a block update.
-     * Use preferentially over {@link InventoryTileEntity#markForBlockUpdate()} if there's no reason to have a block update.
+     * Use preferentially over {@link InventoryBlockEntity#markForBlockUpdate()} if there's no reason to have a block update.
      * For container based integer synchronization, see ITileFields
      * DO NOT call every tick
      */

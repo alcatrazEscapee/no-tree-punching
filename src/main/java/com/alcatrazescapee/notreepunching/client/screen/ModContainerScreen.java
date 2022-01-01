@@ -6,6 +6,7 @@
 package com.alcatrazescapee.notreepunching.client.screen;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.resources.ResourceLocation;
@@ -41,11 +42,12 @@ public class ModContainerScreen<C extends AbstractContainerMenu> extends Abstrac
         renderDefaultBackground(stack);
     }
 
-    @SuppressWarnings({"ConstantConditions", "deprecation"})
     protected void renderDefaultBackground(PoseStack stack)
     {
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        minecraft.getTextureManager().bind(texture);
-        blit(stack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        RenderSystem.setShaderTexture(0, this.texture);
+
+        blit(stack, leftPos, topPos, 0, 0, 0, imageWidth, imageHeight, 256, 256);
     }
 }

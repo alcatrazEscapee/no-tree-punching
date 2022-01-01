@@ -23,7 +23,6 @@ public abstract class ModContainer extends AbstractContainerMenu
     }
 
     @Override
-    @Nonnull
     public ItemStack quickMoveStack(Player player, int index)
     {
         ItemStack stackCopy = ItemStack.EMPTY;

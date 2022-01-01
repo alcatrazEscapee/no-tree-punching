@@ -5,8 +5,10 @@
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
+@FieldsAreNonnullByDefault
 package com.alcatrazescapee.notreepunching.world;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.FieldsAreNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;

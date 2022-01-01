@@ -35,7 +35,7 @@ import net.minecraft.world.item.Item.Properties;
 
 public class ClayToolItem extends TieredItem
 {
-    public static ItemStack interactWithBlock(LevelAccessor world, BlockPos pos, BlockState state, @Nullable Player player, @Nullable InteractionHand hand, ItemStack stack)
+    public static ItemStack interactWithBlock(LevelAccessor level, BlockPos pos, BlockState state, @Nullable Player player, @Nullable InteractionHand hand, ItemStack stack)
     {
         final List<Block> sequence = Config.SERVER.getPotteryBlockSequences();
         for (int i = 0; i < sequence.size() - 1; i++)
@@ -43,8 +43,8 @@ public class ClayToolItem extends TieredItem
             if (state.getBlock() == sequence.get(i) && state.getBlock() != Blocks.AIR)
             {
                 final Block replacement = sequence.get(i + 1);
-                world.setBlock(pos, replacement.defaultBlockState(), 3);
-                world.playSound(null, pos, SoundEvents.GRAVEL_PLACE, SoundSource.BLOCKS, 0.5F, 1.0F);
+                level.setBlock(pos, replacement.defaultBlockState(), 3);
+                level.playSound(null, pos, SoundEvents.GRAVEL_PLACE, SoundSource.BLOCKS, 0.5F, 1.0F);
                 stack = Helpers.hurtAndBreak(player, hand, stack, 1);
                 return stack;
             }
@@ -70,9 +70,9 @@ public class ClayToolItem extends TieredItem
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack itemStack)
+    public ItemStack getContainerItem(ItemStack stack)
     {
-        return Helpers.hurtAndBreak(itemStack.copy(), 1);
+        return Helpers.hurtAndBreak(stack.copy(), 1);
     }
 
     @Override

@@ -8,6 +8,7 @@ package com.alcatrazescapee.notreepunching.common.items;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
@@ -23,8 +24,6 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.util.*;
-import net.minecraft.util.math.*;
 import net.minecraft.world.level.Level;
 
 import com.alcatrazescapee.notreepunching.Config;
@@ -59,31 +58,30 @@ public class FireStarterItem extends TieredItem
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving)
+    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving)
     {
-        if (entityLiving instanceof Player)
+        if (entityLiving instanceof Player player)
         {
-            Player player = (Player) entityLiving;
-            BlockHitResult result = getPlayerPOVHitResult(worldIn, player, ClipContext.Fluid.NONE);
+            BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
 
             if (result.getType() == HitResult.Type.BLOCK)
             {
                 // If looking at a block
                 BlockPos pos = result.getBlockPos();
-                if (!worldIn.isClientSide)
+                if (!level.isClientSide)
                 {
                     stack = Helpers.hurtAndBreak(player, player.getUsedItemHand(), stack, 1);
 
-                    BlockState stateAt = worldIn.getBlockState(pos);
+                    BlockState stateAt = level.getBlockState(pos);
                     if (CampfireBlock.canLight(stateAt))
                     {
                         // Light campfire
-                        worldIn.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, random.nextFloat() * 0.4F + 0.8F);
-                        worldIn.setBlock(pos, stateAt.setValue(BlockStateProperties.LIT, true), 11);
+                        level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
+                        level.setBlock(pos, stateAt.setValue(BlockStateProperties.LIT, true), 11);
                     }
                     else
                     {
-                        List<ItemEntity> entities = worldIn.getEntitiesOfClass(ItemEntity.class, new AABB(pos.above(), pos.offset(1, 2, 1)));
+                        List<ItemEntity> entities = level.getEntitiesOfClass(ItemEntity.class, new AABB(pos.above(), pos.offset(1, 2, 1)));
                         List<ItemEntity> logEntities = new ArrayList<>(), kindlingEntities = new ArrayList<>(), soulFireEntities = new ArrayList<>();
 
                         // Require 1 log, 3 kindling
@@ -122,14 +120,14 @@ public class FireStarterItem extends TieredItem
                                 removeItems(soulFireEntities, 1);
                             }
 
-                            worldIn.setBlockAndUpdate(pos.above(), resultBlock.defaultBlockState().setValue(CampfireBlock.LIT, true));
+                            level.setBlockAndUpdate(pos.above(), resultBlock.defaultBlockState().setValue(CampfireBlock.LIT, true));
                         }
                         else
                         {
                             // No fire pit to make, try light a fire
-                            if (random.nextFloat() < Config.SERVER.fireStarterFireStartChance.get())
+                            if (level.getRandom().nextFloat() < Config.SERVER.fireStarterFireStartChance.get())
                             {
-                                worldIn.setBlockAndUpdate(pos.above(), Blocks.FIRE.defaultBlockState());
+                                level.setBlockAndUpdate(pos.above(), Blocks.FIRE.defaultBlockState());
                             }
                         }
                     }
@@ -157,7 +155,7 @@ public class FireStarterItem extends TieredItem
         if (player.level.isClientSide && player instanceof Player)
         {
             BlockHitResult result = getPlayerPOVHitResult(player.level, (Player) player, ClipContext.Fluid.NONE);
-            if (random.nextInt(5) == 0)
+            if (player.level.getRandom().nextInt(5) == 0)
             {
                 player.level.addParticle(ParticleTypes.SMOKE, result.getLocation().x, result.getLocation().y, result.getLocation().z, 0.0F, 0.1F, 0.0F);
             }
@@ -180,7 +178,7 @@ public class FireStarterItem extends TieredItem
             logStack.shrink(shrink);
             if (logStack.getCount() == 0)
             {
-                logEntity.remove();
+                logEntity.remove(Entity.RemovalReason.KILLED);
             }
         }
     }

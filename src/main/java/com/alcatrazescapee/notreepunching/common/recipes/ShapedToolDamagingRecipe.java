@@ -34,12 +34,12 @@ public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingC
     }
 
     @Override
-    public NonNullList<ItemStack> getRemainingItems(CraftingContainer inv)
+    public NonNullList<ItemStack> getRemainingItems(CraftingContainer container)
     {
-        final NonNullList<ItemStack> items = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
+        final NonNullList<ItemStack> items = NonNullList.withSize(container.getContainerSize(), ItemStack.EMPTY);
         for (int i = 0; i < items.size(); i++)
         {
-            ItemStack stack = inv.getItem(i);
+            ItemStack stack = container.getItem(i);
             if (stack.hasContainerItem())
             {
                 items.set(i, stack.getContainerItem());
@@ -66,12 +66,12 @@ public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingC
 
     @Override
     @SuppressWarnings("unchecked")
-    public Recipe<CraftingContainer> getDelegate()
+    public Recipe<CraftingContainer> delegate()
     {
         return (Recipe<CraftingContainer>) recipe;
     }
 
-    public static class Serializer extends RecipeSerializer<ShapedToolDamagingRecipe>
+    public static class Serializer extends ModRecipeSerializer<ShapedToolDamagingRecipe>
     {
         @Override
         public ShapedToolDamagingRecipe fromJson(ResourceLocation recipeId, JsonObject json)
@@ -89,7 +89,7 @@ public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingC
         @Override
         public void toNetwork(FriendlyByteBuf buffer, ShapedToolDamagingRecipe recipe)
         {
-            ClientboundUpdateRecipesPacket.toNetwork(recipe.getDelegate(), buffer);
+            ClientboundUpdateRecipesPacket.toNetwork(buffer, recipe.delegate());
         }
     }
 }

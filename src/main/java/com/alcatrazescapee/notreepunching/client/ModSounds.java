@@ -7,9 +7,9 @@ package com.alcatrazescapee.notreepunching.client;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 

@@ -114,7 +114,7 @@ public final class ForgeEventHandler
     {
         if (Config.COMMON.enableLooseRocksWorldGen.get() && !CATEGORIES_WITHOUT_ROCKS.contains(event.getCategory()))
         {
-            event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.LOOSE_ROCKS_CONFIGURED.get());
+            event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.LOOSE_ROCKS_PLACED.get());
         }
     }
 }

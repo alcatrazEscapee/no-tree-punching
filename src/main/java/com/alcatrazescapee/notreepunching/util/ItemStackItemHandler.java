@@ -5,6 +5,7 @@
 
 package com.alcatrazescapee.notreepunching.util;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.item.ItemStack;
@@ -48,6 +49,7 @@ public class ItemStackItemHandler implements ICapabilitySerializable<CompoundTag
         stack.addTagElement("inventory", inventory.serializeNBT());
     }
 
+    @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side)
     {

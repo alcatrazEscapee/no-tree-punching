@@ -22,12 +22,10 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
-import com.alcatrazescapee.notreepunching.common.tileentity.LargeVesselTileEntity;
+import com.alcatrazescapee.notreepunching.common.blockentity.LargeVesselBlockEntity;
 import com.alcatrazescapee.notreepunching.util.ItemStackItemHandler;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
-
-import net.minecraft.world.item.Item.Properties;
 
 public class LargeVesselBlockItem extends BlockItem
 {
@@ -45,7 +43,7 @@ public class LargeVesselBlockItem extends BlockItem
         {
             nbt = nbt.getCompound("BlockEntityTag");
         }
-        return new LargeVesselItemHandler(nbt, stack, LargeVesselTileEntity.SLOTS);
+        return new LargeVesselItemHandler(nbt, stack, LargeVesselBlockEntity.SLOTS);
     }
 
     @Override

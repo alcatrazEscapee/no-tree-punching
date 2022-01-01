@@ -16,7 +16,7 @@ import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 /**
- * Simple implementation of {@link ItemGroup} which uses a lazily initialized icon stack.
+ * Simple implementation of {@link CreativeModeTab} which uses a lazily initialized icon stack.
  */
 public class ModItemGroup extends CreativeModeTab
 {
