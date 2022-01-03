@@ -4,12 +4,11 @@
   "package": "com.alcatrazescapee.notreepunching.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "block.AbstractBlockAccess",
-    "block.AbstractBlockPropertiesAccess",
-    "block.AbstractBlockStateAccess",
-    "item.AxeItemAccess",
-    "item.HoeItemAccess",
-    "item.ShovelItemAccess"
+    "accessor.AbstractBlockAccess",
+    "accessor.AbstractBlockPropertiesAccess",
+    "accessor.AbstractBlockStateAccess",
+    "accessor.DiggerItemAccessor",
+    "accessor.HoeItemAccess"
   ],
   "client": [],
   "injectors": {

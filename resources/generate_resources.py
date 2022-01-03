@@ -1,7 +1,7 @@
 #  Part of the No Tree Punching mod by AlcatrazEscapee.
 #  Work under copyright. See the project LICENSE.md for details.
 
-from mcresources import ResourceManager, clean_generated_resources
+from mcresources import ResourceManager, utils
 
 import assets
 import recipes
@@ -10,7 +10,7 @@ import recipes
 def main():
     rm = ResourceManager('notreepunching', resource_dir='../src/main/resources')
     rm_vanilla = ResourceManager(resource_dir='../src/main/resources')
-    clean_generated_resources('../src/main/resources')
+    utils.clean_generated_resources('../src/main/resources')
 
     assets.generate(rm)
     assets.generate_vanilla(rm_vanilla)

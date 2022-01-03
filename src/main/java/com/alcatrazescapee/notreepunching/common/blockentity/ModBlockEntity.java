@@ -18,62 +18,97 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 
-/**
- * A tile entity that handles saving NBT data and default update packets
- */
 public abstract class ModBlockEntity extends BlockEntity
 {
-    public ModBlockEntity(BlockEntityType<?> type)
+    protected ModBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state)
     {
-        super(type);
+        super(type, pos, state);
     }
 
+    /**
+     * @return The packet to send to the client upon block update. This is returned in client in {@link #onDataPacket(Connection, ClientboundBlockEntityDataPacket)}
+     */
     @Nullable
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket()
     {
-        return new ClientboundBlockEntityDataPacket(getBlockPos(), 1, save(new CompoundTag()));
-    }
-
-
-    @Override
-    public CompoundTag getUpdateTag()
-    {
-        return save(super.getUpdateTag());
-    }
-
-    @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-    {
-        load(getBlockState(), pkt.getTag());
-    }
-
-    @Override
-    public void handleUpdateTag(BlockState state, CompoundTag nbt)
-    {
-        load(state, nbt);
+        return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
     }
 
     /**
-     * Syncs the TE data to client via means of a block update
-     * Use for stuff that is updated infrequently, for data that is analogous to changing the state.
-     * DO NOT call every tick
+     * Handle a packet sent from {@link #getUpdatePacket()}. Delegates to {@link #handleUpdateTag(CompoundTag)}.
+     */
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet)
+    {
+        if (packet.getTag() != null)
+        {
+            handleUpdateTag(packet.getTag());
+        }
+    }
+
+    /**
+     * @return The tag containing information needed to send to the client, either on block update or on bulk chunk update. This tag is either returned with the packet in {@link #getUpdatePacket()} or {@link #handleUpdateTag(CompoundTag)} based on where it was called from.
+     */
+    @Override
+    public CompoundTag getUpdateTag()
+    {
+        return saveWithoutMetadata();
+    }
+
+    /**
+     * Handles an update tag sent from the server.
+     */
+    @Override
+    public void handleUpdateTag(CompoundTag tag)
+    {
+        load(tag);
+    }
+
+    /**
+     * In {@link BlockEntity}, this does not call {@link #saveAdditional(CompoundTag)} unlike other save methods.
+     */
+    @Override
+    public final CompoundTag save(CompoundTag tag)
+    {
+        saveAdditional(tag);
+        return super.save(tag);
+    }
+
+    @Override
+    public final void load(CompoundTag tag)
+    {
+        loadAdditional(tag);
+        super.load(tag);
+    }
+
+    /**
+     * Override to save block entity specific data.
+     */
+    @Override
+    protected void saveAdditional(CompoundTag tag) {}
+
+    /**
+     * Override to load block entity specific data.
+     */
+    protected void loadAdditional(CompoundTag tag) {}
+
+    /**
+     * Causes a block update, synchronizes the changes to the client, and marks it as changed (to be saved).
+     *
+     * @see #markForSync() to skip the block update
      */
     public void markForBlockUpdate()
     {
         if (level != null)
         {
-            BlockState state = level.getBlockState(worldPosition);
-            level.sendBlockUpdated(worldPosition, state, state, 3);
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
             setChanged();
         }
     }
 
     /**
-     * Marks a tile entity for syncing without sending a block update.
-     * Use preferentially over {@link InventoryBlockEntity#markForBlockUpdate()} if there's no reason to have a block update.
-     * For container based integer synchronization, see ITileFields
-     * DO NOT call every tick
+     * Syncs the block entity to client, and marks it as changed (to be saved).
      */
     public void markForSync()
     {
@@ -81,27 +116,13 @@ public abstract class ModBlockEntity extends BlockEntity
         setChanged();
     }
 
-    /**
-     * Marks the tile entity dirty without updating comparator output.
-     * Useful when called a lot for TE's that don't have a comparator output
-     */
-    protected void markDirtyFast()
+    protected final void sendVanillaUpdatePacket()
     {
-        if (level != null)
+        final ClientboundBlockEntityDataPacket packet = getUpdatePacket();
+        final BlockPos pos = getBlockPos();
+        if (packet != null && level instanceof ServerLevel serverLevel)
         {
-            getBlockState();
-            level.blockEntityChanged(worldPosition, this);
-        }
-    }
-
-    protected void sendVanillaUpdatePacket()
-    {
-        ClientboundBlockEntityDataPacket packet = getUpdatePacket();
-        BlockPos pos = getBlockPos();
-
-        if (packet != null && level instanceof ServerLevel)
-        {
-            ((ServerChunkCache) level.getChunkSource()).chunkMap.getPlayers(new ChunkPos(pos), false).forEach(e -> e.connection.send(packet));
+            serverLevel.getChunkSource().chunkMap.getPlayers(new ChunkPos(pos), false).forEach(e -> e.connection.send(packet));
         }
     }
 }

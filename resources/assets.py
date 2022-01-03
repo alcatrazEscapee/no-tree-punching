@@ -3,8 +3,7 @@
 
 from typing import Optional
 
-from mcresources import ResourceManager
-from mcresources import utils
+from mcresources import ResourceManager, utils, loot_tables
 
 
 def generate(rm: ResourceManager):
@@ -53,27 +52,17 @@ def generate(rm: ResourceManager):
         else:
             block.with_lang(lang('clay %s', pottery))
 
+    loot_tables.copy_block_entity_name(),
+    loot_tables.copy_block_entity_nbt()
     block = rm.blockstate('ceramic_large_vessel')
     block.with_block_model(textures='notreepunching:block/ceramic', parent='notreepunching:block/pottery_large_vessel')
     block.with_item_model()
     block.with_block_loot({
-        'entries': {
-            'name': 'notreepunching:ceramic_large_vessel',
-            'functions': [
-                {
-                    'function': 'minecraft:copy_name',
-                    'source': 'block_entity'
-                }, {
-                    'function': 'minecraft:copy_nbt',
-                    'source': 'block_entity',
-                    'ops': [{
-                        'source': '',
-                        'target': 'BlockEntityTag',
-                        'op': 'replace'
-                    }]
-                }
-            ],
-        }
+        'name': 'notreepunching:ceramic_large_vessel',
+        'functions': [
+            loot_tables.copy_block_entity_name(),
+            loot_tables.copy_block_entity_nbt()
+        ],
     })
     block.with_lang(lang('ceramic large vessel'))
 

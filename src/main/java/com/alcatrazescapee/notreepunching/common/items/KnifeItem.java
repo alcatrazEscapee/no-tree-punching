@@ -25,7 +25,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.IForgeShearable;
-import net.minecraftforge.common.ToolType;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.util.Helpers;
@@ -36,7 +35,7 @@ public class KnifeItem extends SwordItem
 {
     public KnifeItem(Tier tier, int attackDamageIn, float attackSpeedIn, Properties builder)
     {
-        super(tier, attackDamageIn, attackSpeedIn, builder.setNoRepair().addToolType(ToolType.get("sword"), tier.getLevel()));
+        super(tier, attackDamageIn, attackSpeedIn, builder.setNoRepair());
     }
 
     @Override

@@ -8,6 +8,7 @@ package com.alcatrazescapee.notreepunching.common.blocks;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,23 +28,23 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ToolType;
-import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.network.NetworkHooks;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.blockentity.InventoryBlockEntity;
 import com.alcatrazescapee.notreepunching.common.blockentity.LargeVesselBlockEntity;
+import com.alcatrazescapee.notreepunching.common.blockentity.ModBlockEntities;
 import com.alcatrazescapee.notreepunching.util.Helpers;
 
-public class LargeVesselBlock extends Block
+public class LargeVesselBlock extends Block implements EntityBlock
 {
     private static final VoxelShape SHAPE = box(2, 0, 2, 14, 14, 14);
 
     public LargeVesselBlock()
     {
-        super(Properties.of(Material.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0).strength(1.0f));
+        super(Properties.of(Material.STONE).strength(1.0f));
     }
 
     @Override
@@ -73,11 +74,11 @@ public class LargeVesselBlock extends Block
 
     @Override
     @SuppressWarnings("deprecation")
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
     {
-        if (player instanceof ServerPlayer && !player.isShiftKeyDown())
+        if (player instanceof ServerPlayer serverPlayer && !player.isShiftKeyDown())
         {
-            Helpers.getTE(worldIn, pos, LargeVesselBlockEntity.class).ifPresent(tile -> NetworkHooks.openGui((ServerPlayer) player, tile, pos));
+            level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(tile -> NetworkHooks.openGui(serverPlayer, tile, pos));
         }
         return InteractionResult.SUCCESS;
     }
@@ -90,11 +91,11 @@ public class LargeVesselBlock extends Block
     }
 
     @Override
-    public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack)
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack)
     {
         if (stack.hasCustomHoverName())
         {
-            Helpers.getTE(worldIn, pos, LargeVesselBlockEntity.class).ifPresent(tile -> tile.setCustomName(stack.getHoverName()));
+            level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(tile -> tile.setCustomName(stack.getHoverName()));
         }
     }
 
@@ -102,10 +103,10 @@ public class LargeVesselBlock extends Block
      * Causes the block to drop with contents in creative
      */
     @Override
-    public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player)
+    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
     {
-        Helpers.getTE(worldIn, pos, LargeVesselBlockEntity.class).ifPresent(tile -> tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-            if (!worldIn.isClientSide && player.isCreative() && !tile.isEmpty())
+        level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(tile -> tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+            if (!level.isClientSide && player.isCreative() && !tile.isEmpty())
             {
                 ItemStack stack = new ItemStack(this);
                 CompoundTag compoundnbt = tile.save(new CompoundTag());
@@ -115,38 +116,26 @@ public class LargeVesselBlock extends Block
                 }
 
                 stack.setHoverName(tile.getDisplayName());
-                ItemEntity itemEntity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);
+                ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stack);
                 itemEntity.setDefaultPickUpDelay();
-                worldIn.addFreshEntity(itemEntity);
+                level.addFreshEntity(itemEntity);
             }
         }));
-        super.playerWillDestroy(worldIn, pos, state, player);
+        super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state)
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player)
     {
-        return true;
+        final ItemStack stack = super.getCloneItemStack(state, target, level, pos, player);
+        level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(tile -> tile.saveToItem(stack));
+        return stack;
     }
 
     @Nullable
     @Override
-    public BlockEntity createTileEntity(BlockState state, BlockGetter world)
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
     {
-        return new LargeVesselBlockEntity();
-    }
-
-    @Override
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)
-    {
-        ItemStack stack = super.getPickBlock(state, target, world, pos, player);
-        Helpers.getTE(world, pos, LargeVesselBlockEntity.class).ifPresent(tile -> {
-            CompoundTag nbt = tile.save(new CompoundTag());
-            if (!nbt.isEmpty())
-            {
-                stack.addTagElement("BlockEntityTag", nbt);
-            }
-        });
-        return stack;
+        return new LargeVesselBlockEntity(pos, state);
     }
 }

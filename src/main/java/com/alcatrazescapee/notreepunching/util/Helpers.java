@@ -41,6 +41,7 @@ public final class Helpers
     /**
      * Gets a tile entity and casts it to the required type
      */
+    @Deprecated
     @SuppressWarnings("unchecked")
     public static <T> Optional<T> getTE(BlockGetter world, BlockPos pos, Class<T> tileClass)
     {
@@ -121,48 +122,13 @@ public final class Helpers
     {
         if (capabilityToCheck == null || capability == null)
         {
-            LOGGER.warn("Something called getCapability with a null capability! This is illegal");
-            LOGGER.debug(new RuntimeException("Stacktrace"));
             return LazyOptional.empty();
         }
         return capabilityToCheck.orEmpty(capability, instance);
     }
 
-    /**
-     * Used for public static final fields that are injected by forge
-     * Stops IDE warnings
-     */
-    @Nonnull
-    @SuppressWarnings("ConstantConditions")
-    public static <T> T getNull()
-    {
-        return null;
-    }
-
     public static ResourceLocation identifier(String path)
     {
         return new ResourceLocation(NoTreePunching.MOD_ID, path);
-    }
-
-    public static <K, V> void putAll(Map<K, V> map, V value, K... keys)
-    {
-        for (K k : keys)
-        {
-            map.put(k, value);
-        }
-    }
-
-    public static Field findUnobfField(Class<?> clazz, String fieldName)
-    {
-        try
-        {
-            final Field field = clazz.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return field;
-        }
-        catch (NoSuchFieldException e)
-        {
-            throw new RuntimeException("Unable to find unobf field for " + clazz.getSimpleName() + "#" + fieldName + ", this is a bug!", e);
-        }
     }
 }

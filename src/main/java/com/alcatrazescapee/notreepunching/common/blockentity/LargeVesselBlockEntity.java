@@ -7,12 +7,14 @@ package com.alcatrazescapee.notreepunching.common.blockentity;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.block.state.BlockState;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.container.LargeVesselContainer;
@@ -27,9 +29,9 @@ public class LargeVesselBlockEntity extends InventoryBlockEntity
 
     private static final Component NAME = new TranslatableComponent(MOD_ID + ".tile_entity.large_vessel");
 
-    public LargeVesselBlockEntity()
+    public LargeVesselBlockEntity(BlockPos pos, BlockState state)
     {
-        super(ModBlockEntities.LARGE_VESSEL.get(), SLOTS, NAME);
+        super(ModBlockEntities.LARGE_VESSEL.get(), pos, state, SLOTS, NAME);
     }
 
     @Nullable

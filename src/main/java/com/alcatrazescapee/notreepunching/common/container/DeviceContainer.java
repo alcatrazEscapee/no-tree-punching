@@ -18,80 +18,27 @@ import com.alcatrazescapee.notreepunching.common.blockentity.InventoryBlockEntit
  */
 public abstract class DeviceContainer<T extends InventoryBlockEntity> extends ModContainer
 {
-    protected final T tile;
+    protected final T entity;
 
-    protected DeviceContainer(MenuType<?> containerType, T tile, Inventory playerInventory, int windowId)
+    protected DeviceContainer(MenuType<?> containerType, T entity, Inventory playerInventory, int windowId)
     {
         super(containerType, windowId);
 
-        this.tile = tile;
+        this.entity = entity;
 
         addContainerSlots();
         addPlayerInventorySlots(playerInventory);
     }
 
     @Override
-    public ItemStack quickMoveStack(Player playerIn, int index)
-    {
-        Slot slot = slots.get(index);
-        if (slot != null && slot.hasItem())
-        {
-            ItemStack stack = slot.getItem();
-            ItemStack stackCopy = stack.copy();
-
-            int containerSlots = slots.size() - playerIn.inventory.items.size();
-            if (index < containerSlots)
-            {
-                if (transferStackOutOfContainer(stack, containerSlots))
-                {
-                    return ItemStack.EMPTY;
-                }
-            }
-            else
-            {
-                if (transferStackIntoContainer(stack, containerSlots))
-                {
-                    return ItemStack.EMPTY;
-                }
-            }
-
-            if (stack.getCount() == 0)
-            {
-                slot.set(ItemStack.EMPTY);
-            }
-            else
-            {
-                slot.setChanged();
-            }
-            if (stack.getCount() == stackCopy.getCount())
-            {
-                return ItemStack.EMPTY;
-            }
-            slot.onTake(playerIn, stackCopy);
-            return stackCopy;
-        }
-        return ItemStack.EMPTY;
-    }
-
-    @Override
     public boolean stillValid(Player playerIn)
     {
-        return tile.canInteractWith(playerIn);
+        return entity.canInteractWith(playerIn);
     }
 
-    public T getTileEntity()
+    public T getBlockEntity()
     {
-        return tile;
-    }
-
-    protected boolean transferStackOutOfContainer(ItemStack stack, int containerSlots)
-    {
-        return !moveItemStackTo(stack, containerSlots, slots.size(), true);
-    }
-
-    protected boolean transferStackIntoContainer(ItemStack stack, int containerSlots)
-    {
-        return !moveItemStackTo(stack, 0, containerSlots, false);
+        return entity;
     }
 
     @FunctionalInterface

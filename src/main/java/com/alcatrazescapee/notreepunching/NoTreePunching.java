@@ -11,10 +11,10 @@ import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import com.alcatrazescapee.notreepunching.client.ClientEventHandler;
 import com.alcatrazescapee.notreepunching.client.ModSounds;
@@ -43,7 +43,7 @@ public final class NoTreePunching
 
         ModBlocks.BLOCKS.register(bus);
         ModItems.ITEMS.register(bus);
-        ModBlockEntities.TILE_ENTITIES.register(bus);
+        ModBlockEntities.BLOCK_ENTITIES.register(bus);
         ModContainers.CONTAINERS.register(bus);
         ModFeatures.FEATURES.register(bus);
         ModSounds.SOUNDS.register(bus);
@@ -51,7 +51,11 @@ public final class NoTreePunching
 
         Config.init();
         ForgeEventHandler.init();
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientEventHandler::init);
+
+        if (FMLEnvironment.dist == Dist.CLIENT)
+        {
+            ClientEventHandler.init();
+        }
     }
 
     public void setup(FMLCommonSetupEvent event)

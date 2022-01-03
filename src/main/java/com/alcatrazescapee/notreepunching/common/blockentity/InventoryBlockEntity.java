@@ -5,8 +5,10 @@
 
 package com.alcatrazescapee.notreepunching.common.blockentity;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.MenuProvider;
@@ -30,11 +32,12 @@ public abstract class InventoryBlockEntity extends ModBlockEntity implements Men
 {
     protected final ItemStackHandler inventory;
     protected final LazyOptional<IItemHandler> inventoryCapability;
-    protected Component customName, defaultName;
+    @Nullable protected Component customName;
+    protected Component defaultName;
 
-    public InventoryBlockEntity(BlockEntityType<?> type, int inventorySlots, Component defaultName)
+    public InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int inventorySlots, Component defaultName)
     {
-        super(type);
+        super(type, pos, state);
 
         this.inventory = new ItemStackHandlerCallback(this, inventorySlots);
         this.inventoryCapability = LazyOptional.of(() -> InventoryBlockEntity.this.inventory);
@@ -59,27 +62,27 @@ public abstract class InventoryBlockEntity extends ModBlockEntity implements Men
     }
 
     @Override
-    public void load(BlockState state, CompoundTag nbt)
+    public void loadAdditional(CompoundTag tag)
     {
-        if (nbt.contains("CustomName"))
+        if (tag.contains("CustomName"))
         {
-            customName = Component.Serializer.fromJson(nbt.getString("CustomName"));
+            customName = Component.Serializer.fromJson(tag.getString("CustomName"));
         }
-        inventory.deserializeNBT(nbt.getCompound("inventory"));
-        super.load(state, nbt);
+        inventory.deserializeNBT(tag.getCompound("inventory"));
+        super.load(tag);
     }
 
     @Override
-    public CompoundTag save(CompoundTag nbt)
+    public void saveAdditional(CompoundTag nbt)
     {
         if (customName != null)
         {
             nbt.putString("CustomName", Component.Serializer.toJson(customName));
         }
         nbt.put("inventory", inventory.serializeNBT());
-        return super.save(nbt);
     }
 
+    @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side)
     {
@@ -93,7 +96,7 @@ public abstract class InventoryBlockEntity extends ModBlockEntity implements Men
     @Override
     public void setAndUpdateSlots(int slot)
     {
-        markDirtyFast();
+        setChanged();
     }
 
     public boolean canInteractWith(Player player)

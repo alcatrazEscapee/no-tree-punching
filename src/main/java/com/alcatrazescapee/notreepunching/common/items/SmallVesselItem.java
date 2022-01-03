@@ -47,14 +47,15 @@ public class SmallVesselItem extends Item
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
     {
-        ItemStack stack = playerIn.getItemInHand(handIn);
-        if (playerIn instanceof ServerPlayer && !playerIn.isShiftKeyDown())
+        final ItemStack stack = player.getItemInHand(hand);
+        if (player instanceof ServerPlayer serverPlayer && !player.isShiftKeyDown())
         {
-            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                NetworkHooks.openGui((ServerPlayer) playerIn, new SimpleMenuProvider((windowID, playerInventory, player) -> new SmallVesselContainer(windowID, playerInventory), stack.getHoverName()));
-            });
+            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler ->
+                NetworkHooks.openGui(serverPlayer,
+                    new SimpleMenuProvider((windowID, playerInventory, playerIn) -> new SmallVesselContainer(windowID, playerInventory, hand), stack.getHoverName()),
+                    buffer -> buffer.writeBoolean(hand == InteractionHand.MAIN_HAND)));
         }
         return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
     }

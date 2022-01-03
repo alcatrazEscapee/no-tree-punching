@@ -5,7 +5,6 @@
 
 package com.alcatrazescapee.notreepunching.common.container;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.entity.player.Player;
@@ -17,37 +16,32 @@ import net.minecraft.world.item.ItemStack;
 
 public abstract class ModContainer extends AbstractContainerMenu
 {
-    protected ModContainer(@Nullable MenuType<?> type, int id)
+    protected int containerSlots; // The number of slots in the container (not including the player inventory)
+
+    protected ModContainer(MenuType<?> type, int windowId)
     {
-        super(type, id);
+        super(type, windowId);
     }
 
     @Override
     public ItemStack quickMoveStack(Player player, int index)
     {
-        ItemStack stackCopy = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
-
-        if (slot != null && slot.hasItem())
+        final Slot slot = slots.get(index);
+        if (slot.hasItem()) // Only move an item when the index clicked has any contents
         {
-            ItemStack stack = slot.getItem();
-            stackCopy = stack.copy();
-
-            if (index < 27)
+            final ItemStack stack = slot.getItem(); // The item in the current slot
+            final ItemStack original = stack.copy(); // The original amount in the slot
+            if (moveStack(stack, index))
             {
-                if (!this.moveItemStackTo(stack, 27, 36, false))
-                {
-                    return ItemStack.EMPTY;
-                }
-            }
-            else
-            {
-                if (!this.moveItemStackTo(stack, 0, 27, false))
-                {
-                    return ItemStack.EMPTY;
-                }
+                return ItemStack.EMPTY;
             }
 
+            if (stack.getCount() == original.getCount())
+            {
+                return ItemStack.EMPTY;
+            }
+
+            // Handle updates
             if (stack.isEmpty())
             {
                 slot.set(ItemStack.EMPTY);
@@ -57,19 +51,10 @@ public abstract class ModContainer extends AbstractContainerMenu
                 slot.setChanged();
             }
 
-            if (stack.getCount() == stackCopy.getCount())
-            {
-                return ItemStack.EMPTY;
-            }
-
-            ItemStack stackTake = slot.onTake(player, stack);
-            if (index == 0)
-            {
-                player.drop(stackTake, false);
-            }
+            slot.onTake(player, stack);
+            return original;
         }
-
-        return stackCopy;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -78,11 +63,41 @@ public abstract class ModContainer extends AbstractContainerMenu
         return true;
     }
 
+    /**
+     * Handles the actual movement of stacks in {@link #quickMoveStack(Player, int)} with as little boilerplate as possible.
+     * The default implementation only moves stacks between the main inventory and the hotbar.
+     *
+     * @return {@code true} if no movement is possible, or the result of {@code !moveItemStackTo(...) || ...}
+     */
+    protected boolean moveStack(ItemStack stack, int slotIndex)
+    {
+        return switch (typeOf(slotIndex))
+            {
+                case CONTAINER -> true;
+                case HOTBAR -> !moveItemStackTo(stack, containerSlots, containerSlots + 27, false);
+                case MAIN_INVENTORY -> !moveItemStackTo(stack, containerSlots + 27, containerSlots + 36, false);
+            };
+    }
+
+    protected void init(Inventory playerInventory)
+    {
+        addContainerSlots();
+        containerSlots = slots.size();
+        addPlayerInventorySlots(playerInventory);
+    }
+
+    /**
+     * Adds container slots.
+     * These are added before the player inventory (and as such, the player inventory will be shifted upwards by the number of slots added here.
+     */
     protected void addContainerSlots() {}
 
-    protected void addPlayerInventorySlots(Inventory playerInv)
+    /**
+     * Adds the player inventory slots to the container.
+     */
+    protected final void addPlayerInventorySlots(Inventory playerInv)
     {
-        // Add Player Inventory Slots
+        // Main Inventory. Indexes [0, 27)
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 9; j++)
@@ -91,9 +106,30 @@ public abstract class ModContainer extends AbstractContainerMenu
             }
         }
 
+        // Hotbar. Indexes [27, 36)
         for (int k = 0; k < 9; k++)
         {
             addSlot(new Slot(playerInv, k, 8 + k * 18, 142));
         }
+    }
+
+    protected final IndexType typeOf(int index)
+    {
+        if (index < containerSlots)
+        {
+            return IndexType.CONTAINER;
+        }
+        else if (index < containerSlots + 27)
+        {
+            return IndexType.MAIN_INVENTORY;
+        }
+        return IndexType.HOTBAR;
+    }
+
+    public enum IndexType
+    {
+        CONTAINER,
+        MAIN_INVENTORY,
+        HOTBAR
     }
 }

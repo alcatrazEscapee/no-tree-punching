@@ -5,13 +5,11 @@
 
 package com.alcatrazescapee.notreepunching.common.container;
 
-import javax.annotation.Nonnull;
-
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -19,99 +17,61 @@ import net.minecraft.world.item.ItemStack;
  */
 public class ItemStackContainer extends ModContainer
 {
-    protected final ItemStack stack;
     protected final Player player;
-    protected int itemIndex;
-    protected int itemDragIndex;
-    protected boolean isOffhand;
+    protected final InteractionHand hand;
+    protected final int hotbarIndex;
 
-    protected ItemStackContainer(MenuType<?> containerType, Inventory playerInv, ItemStack stack, int windowId)
+    protected int itemIndex;
+
+    protected ItemStackContainer(MenuType<?> containerType, int windowId, Inventory playerInv, InteractionHand hand)
     {
         super(containerType, windowId);
-        this.player = playerInv.player;
-        this.stack = stack;
-        this.itemDragIndex = playerInv.selected;
 
-        if (stack == player.getMainHandItem())
+        this.player = playerInv.player;
+        this.hand = hand;
+
+        this.hotbarIndex = playerInv.selected;
+    }
+
+    @Override
+    protected void init(Inventory playerInventory)
+    {
+        super.init(playerInventory);
+
+        // Must run after slots are initialized
+        if (hand == InteractionHand.MAIN_HAND)
         {
-            this.itemIndex = playerInv.selected + 36; // Mainhand opened inventory
-            this.isOffhand = false;
+            this.itemIndex = containerSlots + playerInventory.selected + 27; // Main hand opened inventory
         }
         else
         {
             this.itemIndex = -100; // Offhand, so ignore this rule
-            this.isOffhand = true;
         }
-
-        addContainerSlots();
-        addPlayerInventorySlots(playerInv);
     }
 
-    @Override
-    @Nonnull
-    public ItemStack quickMoveStack(Player player, int index)
+    /**
+     * Note: on a server side container, the target stack is never overwritten (in general).
+     * However, on a client side container, the target stack can be overwritten due to synchronization, for example, as triggered from a NBT change, which was caused by a capability instance. As a result, we cannot cache the stack in a way visible to the client side container, or screen. So we need to re-query it.
+     *
+     * <strong>Do not cache the result of this function!</strong> It may not be valid!
+     *
+     * @return the target {@link ItemStack} of this container.
+     */
+    public ItemStack getTargetStack()
     {
-        // Slot that was clicked
-        Slot slot = slots.get(index);
-        if (slot != null && slot.hasItem() && index != itemIndex)
-        {
-            ItemStack stack = slot.getItem();
-            ItemStack stackCopy = stack.copy();
-
-            // Begin custom transfer code here
-            int containerSlots = slots.size() - player.inventory.items.size(); // number of slots in the container
-            if (index < containerSlots)
-            {
-                // Transfer out of the container
-                if (!this.moveItemStackTo(stack, containerSlots, slots.size(), true))
-                {
-                    // Don't transfer anything
-                    return ItemStack.EMPTY;
-                }
-            }
-            // Transfer into the container
-            else
-            {
-                if (!this.moveItemStackTo(stack, 0, containerSlots, false))
-                {
-                    return ItemStack.EMPTY;
-                }
-            }
-
-            if (stack.getCount() == 0)
-            {
-                slot.set(ItemStack.EMPTY);
-            }
-            else
-            {
-                slot.setChanged();
-            }
-            if (stack.getCount() == stackCopy.getCount())
-            {
-                return ItemStack.EMPTY;
-            }
-            slot.onTake(player, stack);
-            return stackCopy;
-        }
-        return ItemStack.EMPTY;
+        return hand == InteractionHand.MAIN_HAND ? slots.get(itemIndex).getItem() : player.getOffhandItem();
     }
 
+    /**
+     * Prevent any movement of the item stack from which this container was opened.
+     */
     @Override
-    public void clicked(int slotID, int dragType, ClickType clickType, Player player)
+    public void clicked(int slot, int dragType, ClickType clickType, Player player)
     {
-        // Prevent moving of the item stack that is currently open
-        // todo
-        if (slotID == itemIndex && (clickType == ClickType.QUICK_MOVE || clickType == ClickType.PICKUP || clickType == ClickType.THROW || clickType == ClickType.SWAP))
+        if (slot == itemIndex || (dragType == hotbarIndex && clickType == ClickType.SWAP))
         {
-            return ItemStack.EMPTY;
+            return;
         }
-        else if ((dragType == itemDragIndex) && clickType == ClickType.SWAP)
-        {
-            return ItemStack.EMPTY;
-        }
-        else
-        {
-            return super.clicked(slotID, dragType, clickType, player);
-        }
+        super.clicked(slot, dragType, clickType, player);
     }
 }

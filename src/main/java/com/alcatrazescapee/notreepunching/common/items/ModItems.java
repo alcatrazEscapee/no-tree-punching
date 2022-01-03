@@ -12,7 +12,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import com.alcatrazescapee.notreepunching.common.ModItemGroup;
-import com.alcatrazescapee.notreepunching.common.ModItemTier;
+import com.alcatrazescapee.notreepunching.common.ModTiers;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
@@ -39,13 +39,13 @@ public final class ModItems
     public static final RegistryObject<ClayToolItem> CLAY_TOOL = register("clay_tool", ClayToolItem::new);
     public static final RegistryObject<FireStarterItem> FIRE_STARTER = register("fire_starter", FireStarterItem::new);
 
-    public static final RegistryObject<TieredItem> FLINT_AXE = register("flint_axe", () -> new AxeItem(ModItemTier.FLINT, 3.0f, -3.3f, new Item.Properties().tab(ModItemGroup.ITEMS)));
-    public static final RegistryObject<TieredItem> FLINT_PICKAXE = register("flint_pickaxe", () -> new PickaxeItem(ModItemTier.FLINT, 1, -2.8f, new Item.Properties().tab(ModItemGroup.ITEMS)));
-    public static final RegistryObject<TieredItem> FLINT_HOE = register("flint_hoe", () -> new HoeItem(ModItemTier.FLINT, 0, -3.0f, new Item.Properties().tab(ModItemGroup.ITEMS)));
-    public static final RegistryObject<TieredItem> FLINT_SHOVEL = register("flint_shovel", () -> new ShovelItem(ModItemTier.FLINT, -1.0f, -3.0f, new Item.Properties().tab(ModItemGroup.ITEMS)));
-    public static final RegistryObject<SwordItem> MACUAHUITL = register("macuahuitl", () -> new SwordItem(ModItemTier.FLINT, 3, -2.4f, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryObject<TieredItem> FLINT_AXE = register("flint_axe", () -> new AxeItem(ModTiers.FLINT, 3.0f, -3.3f, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryObject<TieredItem> FLINT_PICKAXE = register("flint_pickaxe", () -> new PickaxeItem(ModTiers.FLINT, 1, -2.8f, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryObject<TieredItem> FLINT_HOE = register("flint_hoe", () -> new HoeItem(ModTiers.FLINT, 0, -3.0f, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryObject<TieredItem> FLINT_SHOVEL = register("flint_shovel", () -> new ShovelItem(ModTiers.FLINT, -1.0f, -3.0f, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryObject<SwordItem> MACUAHUITL = register("macuahuitl", () -> new SwordItem(ModTiers.FLINT, 3, -2.4f, new Item.Properties().tab(ModItemGroup.ITEMS)));
 
-    public static final RegistryObject<KnifeItem> FLINT_KNIFE = register("flint_knife", () -> new KnifeItem(ModItemTier.FLINT, 1, -2.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryObject<KnifeItem> FLINT_KNIFE = register("flint_knife", () -> new KnifeItem(ModTiers.FLINT, 1, -2.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
     public static final RegistryObject<KnifeItem> IRON_KNIFE = register("iron_knife", () -> new KnifeItem(Tiers.IRON, 1, -2.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
     public static final RegistryObject<KnifeItem> GOLD_KNIFE = register("gold_knife", () -> new KnifeItem(Tiers.GOLD, 1, -2.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));
     public static final RegistryObject<KnifeItem> DIAMOND_KNIFE = register("diamond_knife", () -> new KnifeItem(Tiers.DIAMOND, 1, -2.2f, new Item.Properties().tab(ModItemGroup.ITEMS)));

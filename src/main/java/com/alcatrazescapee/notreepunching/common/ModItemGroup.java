@@ -18,7 +18,7 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 /**
  * Simple implementation of {@link CreativeModeTab} which uses a lazily initialized icon stack.
  */
-public class ModItemGroup extends CreativeModeTab
+public final class ModItemGroup extends CreativeModeTab
 {
     public static final CreativeModeTab ITEMS = new ModItemGroup(MOD_ID + ".items", () -> new ItemStack(ModItems.FLINT_SHARD.get()));
 

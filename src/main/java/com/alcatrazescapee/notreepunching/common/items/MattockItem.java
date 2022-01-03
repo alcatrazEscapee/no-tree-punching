@@ -5,54 +5,42 @@
 
 package com.alcatrazescapee.notreepunching.common.items;
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-import net.minecraft.world.level.block.Block;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.item.*;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ToolType;
 
-import com.alcatrazescapee.notreepunching.mixin.item.AxeItemAccess;
-import com.alcatrazescapee.notreepunching.mixin.item.HoeItemAccess;
-import com.alcatrazescapee.notreepunching.mixin.item.ShovelItemAccess;
-import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
+import com.alcatrazescapee.notreepunching.common.ModTags;
+import com.alcatrazescapee.notreepunching.mixin.accessor.HoeItemAccess;
+import com.alcatrazescapee.notreepunching.util.Helpers;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.world.item.DiggerItem;
-import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 public class MattockItem extends DiggerItem
 {
-    public static final Set<Block> EFFECTIVE_BLOCKS = Stream.of(
-        AxeItemAccess.getEffectiveBlocks(),
-        ShovelItemAccess.getEffectiveBlocks(),
-        HoeItemAccess.getEffectiveBlocks()
-    ).flatMap(Collection::stream).collect(Collectors.toSet());
-
     public MattockItem(Tier tier, float attackDamageIn, float attackSpeedIn, Properties builder)
     {
-        super(attackDamageIn, attackSpeedIn, tier, EFFECTIVE_BLOCKS, builder.addToolType(ToolType.AXE, tier.getLevel()).addToolType(ToolType.SHOVEL, tier.getLevel()).addToolType(ToolType.HOE, tier.getLevel()).addToolType(HarvestBlockHandler.MATTOCK, tier.getLevel()));
-    }
-
-    public float getDestroySpeed(ItemStack stack, BlockState state)
-    {
-        Material material = state.getMaterial();
-        return AxeItemAccess.getEffectiveMaterials().contains(material) ? speed : super.getDestroySpeed(stack, state);
+        super(attackDamageIn, attackSpeedIn, tier, ModTags.Blocks.MINEABLE_WITH_MATTOCK, builder);
     }
 
     /**
@@ -86,37 +74,55 @@ public class MattockItem extends DiggerItem
         return result;
     }
 
-    public boolean isCorrectToolForDrops(BlockState blockIn)
-    {
-        return blockIn.is(Blocks.SNOW) || blockIn.is(Blocks.SNOW_BLOCK);
-    }
-
     /**
-     * Copy pasta from {@link AxeItem}
+     * Copy pasta from {@link net.minecraft.world.item.AxeItem}
      */
     @SuppressWarnings("ALL")
     private InteractionResult onAxeItemUse(UseOnContext context)
     {
-        Level world = context.getLevel();
+        Level level = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
-        BlockState stateIn = world.getBlockState(blockpos);
-        BlockState stateOut = stateIn.getToolModifiedState(world, blockpos, context.getPlayer(), context.getItemInHand(), ToolType.AXE);
-        if (stateOut != null)
+        Player player = context.getPlayer();
+        BlockState blockstate = level.getBlockState(blockpos);
+        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, context.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_STRIP));
+        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, context.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_SCRAPE));
+        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, context.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_WAX_OFF));
+        ItemStack itemstack = context.getItemInHand();
+        Optional<BlockState> optional3 = Optional.empty();
+        if (optional.isPresent())
         {
-            Player playerentity = context.getPlayer();
-            world.playSound(playerentity, blockpos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
-            if (!world.isClientSide)
+            level.playSound(player, blockpos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
+            optional3 = optional;
+        }
+        else if (optional1.isPresent())
+        {
+            level.playSound(player, blockpos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.levelEvent(player, 3005, blockpos, 0);
+            optional3 = optional1;
+        }
+        else if (optional2.isPresent())
+        {
+            level.playSound(player, blockpos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.levelEvent(player, 3004, blockpos, 0);
+            optional3 = optional2;
+        }
+
+        if (optional3.isPresent())
+        {
+            if (player instanceof ServerPlayer)
             {
-                world.setBlock(blockpos, stateOut, 11);
-                if (playerentity != null)
-                {
-                    context.getItemInHand().hurtAndBreak(1, playerentity, (p_220040_1_) -> {
-                        p_220040_1_.broadcastBreakEvent(context.getHand());
-                    });
-                }
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, blockpos, itemstack);
             }
 
-            return InteractionResult.SUCCESS;
+            level.setBlock(blockpos, optional3.get(), 11);
+            if (player != null)
+            {
+                itemstack.hurtAndBreak(1, player, (player_) -> {
+                    player_.broadcastBreakEvent(context.getHand());
+                });
+            }
+
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         else
         {
@@ -125,79 +131,97 @@ public class MattockItem extends DiggerItem
     }
 
     /**
-     * Copy pasta from {@link HoeItem}
+     * Copy pasta from {@link net.minecraft.world.item.HoeItem}
      */
     @SuppressWarnings("ALL")
     private InteractionResult onHoeItemUse(UseOnContext context)
     {
-        Level world = context.getLevel();
+        Level level = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
+        Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = HoeItemAccess.accessor$getTillables().get(level.getBlockState(blockpos).getBlock());
         int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(context);
         if (hook != 0) return hook > 0 ? InteractionResult.SUCCESS : InteractionResult.FAIL;
-        if (context.getClickedFace() != Direction.DOWN && world.isEmptyBlock(blockpos.above()))
+        // Don't include the forge patch (which is a bug), see https://github.com/MinecraftForge/MinecraftForge/issues/8347
+        if (pair == null)
         {
-            BlockState blockstate = world.getBlockState(blockpos).getToolModifiedState(world, blockpos, context.getPlayer(), context.getItemInHand(), ToolType.HOE);
-            if (blockstate != null)
+            return InteractionResult.PASS;
+        }
+        else
+        {
+            Predicate<UseOnContext> predicate = pair.getFirst();
+            Consumer<UseOnContext> consumer = pair.getSecond();
+            if (predicate.test(context))
             {
-                Player playerentity = context.getPlayer();
-                world.playSound(playerentity, blockpos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-                if (!world.isClientSide)
+                Player player = context.getPlayer();
+                level.playSound(player, blockpos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                if (!level.isClientSide)
                 {
-                    world.setBlock(blockpos, blockstate, 11);
-                    if (playerentity != null)
+                    consumer.accept(context);
+                    if (player != null)
                     {
-                        context.getItemInHand().hurtAndBreak(1, playerentity, (p_220043_1_) -> {
-                            p_220043_1_.broadcastBreakEvent(context.getHand());
+                        context.getItemInHand().hurtAndBreak(1, player, (contextEntity_) -> {
+                            contextEntity_.broadcastBreakEvent(context.getHand());
                         });
                     }
                 }
-                return InteractionResult.SUCCESS;
+
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+            else
+            {
+                return InteractionResult.PASS;
             }
         }
-        return InteractionResult.PASS;
     }
 
     /**
-     * Copy pasta from {@link ShovelItem}
+     * Copy pasta from {@link net.minecraft.world.item.ShovelItem}
      */
     @SuppressWarnings("ALL")
     private InteractionResult onShovelItemUse(UseOnContext context)
     {
-        Level world = context.getLevel();
+        Level level = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
-        BlockState blockstate = world.getBlockState(blockpos);
+        BlockState blockstate = level.getBlockState(blockpos);
         if (context.getClickedFace() == Direction.DOWN)
         {
             return InteractionResult.PASS;
         }
         else
         {
-            Player playerentity = context.getPlayer();
-            BlockState blockstate1 = blockstate.getToolModifiedState(world, context.getClickedPos(), playerentity, context.getItemInHand(), ToolType.SHOVEL);
+            Player player = context.getPlayer();
+            BlockState blockstate1 = blockstate.getToolModifiedState(level, blockpos, player, context.getItemInHand(), net.minecraftforge.common.ToolActions.SHOVEL_FLATTEN);
             BlockState blockstate2 = null;
-            if (blockstate1 != null && world.isEmptyBlock(blockpos.above()))
+            if (blockstate1 != null && level.isEmptyBlock(blockpos.above()))
             {
-                world.playSound(playerentity, blockpos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(player, blockpos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
                 blockstate2 = blockstate1;
             }
             else if (blockstate.getBlock() instanceof CampfireBlock && blockstate.getValue(CampfireBlock.LIT))
             {
-                world.levelEvent((Player) null, 1009, blockpos, 0);
+                if (!level.isClientSide())
+                {
+                    level.levelEvent((Player) null, 1009, blockpos, 0);
+                }
+
+                CampfireBlock.dowse(context.getPlayer(), level, blockpos, blockstate);
                 blockstate2 = blockstate.setValue(CampfireBlock.LIT, Boolean.valueOf(false));
             }
+
             if (blockstate2 != null)
             {
-                if (!world.isClientSide)
+                if (!level.isClientSide)
                 {
-                    world.setBlock(blockpos, blockstate2, 11);
-                    if (playerentity != null)
+                    level.setBlock(blockpos, blockstate2, 11);
+                    if (player != null)
                     {
-                        context.getItemInHand().hurtAndBreak(1, playerentity, (p_220041_1_) -> {
-                            p_220041_1_.broadcastBreakEvent(context.getHand());
+                        context.getItemInHand().hurtAndBreak(1, player, (contextEntity_) -> {
+                            contextEntity_.broadcastBreakEvent(context.getHand());
                         });
                     }
                 }
-                return InteractionResult.SUCCESS;
+
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
             else
             {

@@ -3,7 +3,7 @@
  * Work under copyright. See the project LICENSE.md for details.
  */
 
-package com.alcatrazescapee.notreepunching.mixin.block;
+package com.alcatrazescapee.notreepunching.mixin.accessor;
 
 import net.minecraft.world.level.block.state.BlockBehaviour;
 

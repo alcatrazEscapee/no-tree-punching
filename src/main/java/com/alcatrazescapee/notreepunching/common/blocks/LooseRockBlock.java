@@ -48,7 +48,7 @@ public class LooseRockBlock extends Block
     @SuppressWarnings("deprecation")
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
     {
-        ItemStack stack = getPickBlock(state, hit, worldIn, pos, player);
+        ItemStack stack = getCloneItemStack(state, hit, worldIn, pos, player);
         ItemHandlerHelper.giveItemToPlayer(player, stack);
         worldIn.removeBlock(pos, false);
         return InteractionResult.SUCCESS;

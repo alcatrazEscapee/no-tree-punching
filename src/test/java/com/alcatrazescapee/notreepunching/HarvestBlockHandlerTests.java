@@ -5,16 +5,16 @@
 
 package com.alcatrazescapee.notreepunching;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import org.junit.jupiter.api.Test;
@@ -87,14 +87,14 @@ public class HarvestBlockHandlerTests
     @Test
     public void testPoppyWithEmptyHand()
     {
-        Config.SERVER.doInstantBreakBlocksDropWithoutCorrectTool.set(true);
+        Config.SERVER.doInstantBreakBlocksMineWithoutCorrectTool.set(true);
         doTest(Blocks.POPPY, Items.AIR, true, "Should drop if no tool required");
 
-        Config.SERVER.doInstantBreakBlocksDropWithoutCorrectTool.set(false);
+        Config.SERVER.doInstantBreakBlocksMineWithoutCorrectTool.set(false);
         doTest(Blocks.POPPY, Items.AIR, false, "Shouldn't drop when a tool is required");
 
         // Reset defaults
-        Config.SERVER.doInstantBreakBlocksDropWithoutCorrectTool.set(true);
+        Config.SERVER.doInstantBreakBlocksMineWithoutCorrectTool.set(true);
     }
 
     @Test
@@ -152,11 +152,11 @@ public class HarvestBlockHandlerTests
 
     private void doTest(Block block, Item item, boolean shouldHarvest, String message)
     {
-        final PlayerEntity player = FakePlayerFactory.getMinecraft(ServerLifecycleHooks.getCurrentServer().overworld());
+        final Player player = FakePlayerFactory.getMinecraft(ServerLifecycleHooks.getCurrentServer().overworld());
         final ItemStack stack = new ItemStack(item);
         final BlockState state = block.defaultBlockState();
 
-        player.setItemInHand(Hand.MAIN_HAND, stack);
+        player.setItemInHand(InteractionHand.MAIN_HAND, stack);
         assertEquals(shouldHarvest, player.hasCorrectToolForDrops(state), message);
     }
 }

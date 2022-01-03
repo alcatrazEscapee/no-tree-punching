@@ -24,10 +24,14 @@ public final class ModTags
 
         public static final Tag.Named<Item> FLINT_KNAPPABLE = create("flint_knappable");
 
-        public static final Tag.Named<Item> KNIVES = create("knives");
-
         public static final Tag.Named<Item> SMALL_VESSEL_BLACKLIST = create("small_vessel_blacklist");
         public static final Tag.Named<Item> LARGE_VESSEL_BLACKLIST = create("large_vessel_blacklist");
+
+        public static final Tag.Named<Item> PICKAXE_TOOLS = create("pickaxe_tools");
+        public static final Tag.Named<Item> AXE_TOOLS = create("axe_tools");
+        public static final Tag.Named<Item> SHOVEL_TOOLS = create("shovel_tools");
+        public static final Tag.Named<Item> HOE_TOOLS = create("hoe_tools");
+        public static final Tag.Named<Item> SHARP_TOOLS = create("sharp_tools");
 
         private static Tag.Named<Item> create(String id)
         {
@@ -42,6 +46,7 @@ public final class ModTags
 
         public static final Tag.Named<Block> LOOSE_ROCK_PLACEABLE_ON = create("loose_rock_placeable_on");
 
+        public static final Tag.Named<Block> MINEABLE_WITH_MATTOCK = create("mineable_with_mattock");
         public static final Tag.Named<Block> NEEDS_FLINT_TOOL = create("needs_flint_tool");
 
         private static Tag.Named<Block> create(String id)

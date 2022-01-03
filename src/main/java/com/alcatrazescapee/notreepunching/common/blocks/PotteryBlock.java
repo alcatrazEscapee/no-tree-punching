@@ -17,9 +17,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraftforge.common.ToolType;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class PotteryBlock extends Block
 {
@@ -77,7 +74,7 @@ public class PotteryBlock extends Block
 
     public PotteryBlock(Variant variant)
     {
-        super(Properties.of(BREAKABLE_CLAY).strength(0.8f - 0.1f * variant.ordinal()).harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GRAVEL));
+        super(Properties.of(BREAKABLE_CLAY).strength(0.8f - 0.1f * variant.ordinal()).sound(SoundType.GRAVEL));
 
         this.shape = SHAPES[variant.ordinal()];
     }
