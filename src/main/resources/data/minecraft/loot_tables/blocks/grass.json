@@ -10,42 +10,42 @@
           "type": "minecraft:alternatives",
           "children": [
             {
-              "type": "item",
+              "type": "minecraft:item",
+              "name": "minecraft:grass",
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "item": "minecraft:shears"
+                    "tag": "minecraft:shears"
                   }
                 }
-              ],
-              "name": "minecraft:grass"
+              ]
             },
             {
-              "type": "item",
+              "type": "minecraft:item",
+              "name": "notreepunching:plant_fiber",
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "tag": "notreepunching:knives"
+                    "tag": "#notreepunching:knives"
                   }
                 },
                 {
                   "condition": "minecraft:random_chance",
                   "chance": 0.25
                 }
-              ],
-              "name": "notreepunching:plant_fiber"
+              ]
             },
             {
-              "type": "item",
+              "type": "minecraft:item",
+              "name": "minecraft:wheat_seeds",
               "conditions": [
                 {
                   "condition": "minecraft:random_chance",
                   "chance": 0.125
                 }
               ],
-              "name": "minecraft:wheat_seeds",
               "functions": [
                 {
                   "function": "minecraft:apply_bonus",
@@ -61,6 +61,11 @@
               ]
             }
           ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
         }
       ]
     }

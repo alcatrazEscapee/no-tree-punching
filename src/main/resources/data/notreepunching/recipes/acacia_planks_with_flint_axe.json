@@ -16,8 +16,8 @@
       }
     },
     "result": {
-      "count": 2,
-      "item": "minecraft:acacia_planks"
+      "item": "minecraft:acacia_planks",
+      "count": 2
     }
   }
 }

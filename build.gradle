@@ -57,6 +57,10 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.k-4u.nl"
     }
+    maven {
+        // Cyanide
+        url = 'https://alcatrazescapee.jfrog.io/artifactory/mods'
+    }
     flatDir {
         dirs 'libs'
     }
@@ -99,6 +103,8 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    runtimeOnly fg.deobf("com.alcatrazescapee:cyanide-forge-1.18:2.0.2") { transitive = false }
 
     //compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     //runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")

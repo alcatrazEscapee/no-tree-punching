@@ -35,22 +35,11 @@ import com.alcatrazescapee.notreepunching.NoTreePunching;
  */
 public final class Helpers
 {
-    private static final Logger LOGGER = LogManager.getLogger();
     private static final Random RANDOM = new Random();
 
-    /**
-     * Gets a tile entity and casts it to the required type
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public static <T> Optional<T> getTE(BlockGetter world, BlockPos pos, Class<T> tileClass)
+    public static ResourceLocation identifier(String path)
     {
-        BlockEntity tile = world.getBlockEntity(pos);
-        if (tileClass.isInstance(tile))
-        {
-            return Optional.of((T) tile);
-        }
-        return Optional.empty();
+        return new ResourceLocation(NoTreePunching.MOD_ID, path);
     }
 
     /**
@@ -86,49 +75,15 @@ public final class Helpers
     }
 
     /**
-     * This is useful for when we want to use {@link LazyOptional#map(NonNullFunction)} but not require a return value.
-     */
-    public static <T> void ifPresentOrElse(LazyOptional<T> lazyOptional, Consumer<T> ifPresent, Runnable orElse)
-    {
-        lazyOptional.map(internal -> {
-            ifPresent.accept(internal);
-            return Unit.INSTANCE;
-        }).orElseGet(() -> {
-            orElse.run();
-            return Unit.INSTANCE;
-        });
-    }
-
-    /**
-     * Java 9 {@code Optional#ifPresentOrElse}
-     */
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static <T> void ifPresentOrElse(Optional<T> optional, Consumer<T> ifPresent, Runnable orElse)
-    {
-        optional.map(internal -> {
-            ifPresent.accept(internal);
-            return Unit.INSTANCE;
-        }).orElseGet(() -> {
-            orElse.run();
-            return Unit.INSTANCE;
-        });
-    }
-
-    /**
      * Like {@link Capability#orEmpty(Capability, LazyOptional)} except it properly checks for nulls
      * The method is annotated as {@link Nonnull}, but since there *may* be a case where it is called very early, incorrect handling may permit the capability to be null. So instead of crashing, we gracefully log an error message.
      */
-    public static <T, R> LazyOptional<R> getCapabilityOrElse(@Nullable Capability<R> capability, @Nullable Capability<T> capabilityToCheck, LazyOptional<T> instance)
+    public static <T, R> LazyOptional<R> getCapabilityWithNullChecks(@Nullable Capability<R> capability, @Nullable Capability<T> capabilityToCheck, LazyOptional<T> instance)
     {
         if (capabilityToCheck == null || capability == null)
         {
             return LazyOptional.empty();
         }
         return capabilityToCheck.orEmpty(capability, instance);
-    }
-
-    public static ResourceLocation identifier(String path)
-    {
-        return new ResourceLocation(NoTreePunching.MOD_ID, path);
     }
 }

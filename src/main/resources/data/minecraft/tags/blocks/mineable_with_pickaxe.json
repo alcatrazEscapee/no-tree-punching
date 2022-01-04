@@ -1,0 +1,15 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "replace": false,
+  "values": [
+    "notreepunching:granite_cobblestone",
+    "notreepunching:andesite_cobblestone",
+    "notreepunching:diorite_cobblestone",
+    "notreepunching:clay_worked",
+    "notreepunching:clay_large_vessel",
+    "notreepunching:clay_small_vessel",
+    "notreepunching:clay_bucket",
+    "notreepunching:clay_flower_pot",
+    "notreepunching:ceramic_large_vessel"
+  ]
+}

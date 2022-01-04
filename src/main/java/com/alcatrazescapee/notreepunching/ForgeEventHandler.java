@@ -50,7 +50,7 @@ public final class ForgeEventHandler
 
     public static void onHarvestCheck(PlayerEvent.HarvestCheck event)
     {
-        event.setCanHarvest(event.canHarvest() || HarvestBlockHandler.isUsingCorrectToolToMine(event.getTargetBlock(), event.getPlayer()));
+        event.setCanHarvest(event.canHarvest() || HarvestBlockHandler.isUsingCorrectToolForDrops(event.getTargetBlock(), event.getPlayer()));
     }
 
     public static void onBreakSpeed(PlayerEvent.BreakSpeed event)

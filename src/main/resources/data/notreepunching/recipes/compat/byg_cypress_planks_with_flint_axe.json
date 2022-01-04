@@ -16,8 +16,8 @@
       }
     },
     "result": {
-      "count": 2,
-      "item": "byg:cypress_planks"
+      "item": "byg:cypress_planks",
+      "count": 2
     }
   },
   "conditions": [

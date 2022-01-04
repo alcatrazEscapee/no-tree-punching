@@ -10,7 +10,7 @@
     }
   ],
   "result": {
-    "count": 4,
-    "item": "minecraft:leather"
+    "item": "minecraft:leather",
+    "count": 4
   }
 }

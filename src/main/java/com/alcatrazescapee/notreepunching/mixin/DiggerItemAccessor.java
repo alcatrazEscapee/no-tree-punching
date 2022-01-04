@@ -1,4 +1,4 @@
-package com.alcatrazescapee.notreepunching.mixin.accessor;
+package com.alcatrazescapee.notreepunching.mixin;
 
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.DiggerItem;
@@ -11,5 +11,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface DiggerItemAccessor
 {
     @Accessor("blocks")
-    Tag<Block> accessor$getBlocks();
+    Tag<Block> getBlocks();
 }

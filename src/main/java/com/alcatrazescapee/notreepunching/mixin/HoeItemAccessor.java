@@ -1,4 +1,4 @@
-package com.alcatrazescapee.notreepunching.mixin.accessor;
+package com.alcatrazescapee.notreepunching.mixin;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -13,10 +13,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(HoeItem.class)
-public interface HoeItemAccess
+public interface HoeItemAccessor
 {
     @Accessor("TILLABLES")
-    static Map<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>> accessor$getTillables()
+    static Map<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>> getTillables()
     {
         throw new AssertionError();
     }

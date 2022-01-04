@@ -16,8 +16,8 @@
       }
     },
     "result": {
-      "count": 4,
-      "item": "minecraft:crimson_planks"
+      "item": "minecraft:crimson_planks",
+      "count": 4
     }
   }
 }

@@ -16,8 +16,8 @@
       }
     },
     "result": {
-      "count": 4,
-      "item": "byg:mangrove_planks"
+      "item": "byg:mangrove_planks",
+      "count": 4
     }
   },
   "conditions": [

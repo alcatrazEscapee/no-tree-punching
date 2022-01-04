@@ -10,7 +10,7 @@
     }
   ],
   "result": {
-    "count": 4,
-    "item": "minecraft:string"
+    "item": "minecraft:string",
+    "count": 4
   }
 }

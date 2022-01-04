@@ -16,8 +16,8 @@
       }
     },
     "result": {
-      "count": 4,
-      "item": "minecraft:spruce_planks"
+      "item": "minecraft:spruce_planks",
+      "count": 4
     }
   }
 }

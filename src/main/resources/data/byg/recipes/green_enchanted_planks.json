@@ -16,8 +16,8 @@
       }
     },
     "result": {
-      "count": 4,
-      "item": "byg:green_enchanted_planks"
+      "item": "byg:green_enchanted_planks",
+      "count": 4
     }
   },
   "conditions": [

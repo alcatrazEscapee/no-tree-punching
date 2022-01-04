@@ -16,8 +16,8 @@
       }
     },
     "result": {
-      "count": 2,
-      "item": "byg:ether_planks"
+      "item": "byg:ether_planks",
+      "count": 2
     }
   },
   "conditions": [

@@ -16,8 +16,8 @@
       }
     },
     "result": {
-      "count": 4,
-      "item": "byg:maple_planks"
+      "item": "byg:maple_planks",
+      "count": 4
     }
   },
   "conditions": [

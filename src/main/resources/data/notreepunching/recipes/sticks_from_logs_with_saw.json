@@ -15,8 +15,8 @@
       }
     },
     "result": {
-      "count": 8,
-      "item": "minecraft:stick"
+      "item": "minecraft:stick",
+      "count": 8
     }
   }
 }

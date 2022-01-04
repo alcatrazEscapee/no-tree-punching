@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.google.common.collect.ImmutableMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.tags.BlockTags;
@@ -27,33 +26,33 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.ModTags;
-import com.alcatrazescapee.notreepunching.mixin.accessor.AbstractBlockAccess;
-import com.alcatrazescapee.notreepunching.mixin.accessor.AbstractBlockPropertiesAccess;
-import com.alcatrazescapee.notreepunching.mixin.accessor.AbstractBlockStateAccess;
-import com.alcatrazescapee.notreepunching.mixin.accessor.DiggerItemAccessor;
+import com.alcatrazescapee.notreepunching.common.blocks.PotteryBlock;
+import com.alcatrazescapee.notreepunching.mixin.AbstractBlockAccessor;
+import com.alcatrazescapee.notreepunching.mixin.AbstractBlockStateAccessor;
+import com.alcatrazescapee.notreepunching.mixin.DiggerItemAccessor;
 
 
-public class HarvestBlockHandler
+public final class HarvestBlockHandler
 {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final Map<Material, ToolType> PRIMARY_TOOL_TYPES = ImmutableMap.<Material, ToolType>builder()
-        .putAll(all(ToolType.PICKAXE, Material.DECORATION, Material.BUILDABLE_GLASS, Material.ICE_SOLID, Material.SHULKER_SHELL, Material.GLASS, Material.ICE, Material.STONE, Material.METAL, Material.HEAVY_METAL, Material.PISTON, Material.AMETHYST))
-        .putAll(all(ToolType.AXE, Material.WOOD, Material.NETHER_WOOD, Material.BAMBOO, Material.CACTUS, Material.MOSS, Material.VEGETABLE))
-        .putAll(all(ToolType.SHOVEL, Material.TOP_SNOW, Material.CLAY, Material.DIRT, Material.GRASS, Material.SAND, Material.SNOW, Material.POWDER_SNOW))
-        .putAll(all(ToolType.HOE, Material.PLANT, Material.WATER_PLANT, Material.REPLACEABLE_PLANT, Material.REPLACEABLE_WATER_PLANT, Material.REPLACEABLE_FIREPROOF_PLANT, Material.SCULK, Material.SHULKER_SHELL, Material.BAMBOO_SAPLING, Material.LEAVES))
-        .putAll(all(ToolType.SHARP, Material.CLOTH_DECORATION, Material.WEB, Material.WOOL, Material.CAKE))
-        .putAll(all(ToolType.NONE, Material.AIR, Material.STRUCTURAL_AIR, Material.PORTAL, Material.WATER, Material.BUBBLE_COLUMN, Material.LAVA, Material.FIRE, Material.EXPLOSIVE, Material.BARRIER, Material.EGG))
-        .build();
-
+    private static final Map<Material, ToolType> PRIMARY_TOOL_TYPES = new HashMap<>();
     private static final Map<Block, ToolType> BLOCK_TOOL_TYPES = new HashMap<>();
     private static final Map<Item, ToolType> ITEM_TOOL_TYPES = new HashMap<>();
-    private static final Set<Block> DEFAULT_NO_TOOL_BLOCKS = new HashSet<>();
 
-    @SafeVarargs
-    private static <K, V> Map<K, V> all(V value, K... keys)
+    static
     {
-        return Stream.of(keys).collect(Collectors.toMap(k -> k, k -> value));
+        add(ToolType.PICKAXE, Material.DECORATION, Material.BUILDABLE_GLASS, Material.ICE_SOLID, Material.SHULKER_SHELL, Material.GLASS, Material.ICE, Material.STONE, Material.METAL, Material.HEAVY_METAL, Material.PISTON, Material.AMETHYST);
+        add(ToolType.AXE, Material.WOOD, Material.NETHER_WOOD, Material.BAMBOO, Material.CACTUS, Material.MOSS, Material.VEGETABLE);
+        add(ToolType.SHOVEL, Material.TOP_SNOW, Material.CLAY, Material.DIRT, Material.GRASS, Material.SAND, Material.SNOW, Material.POWDER_SNOW, PotteryBlock.BREAKABLE_CLAY);
+        add(ToolType.HOE, Material.PLANT, Material.WATER_PLANT, Material.REPLACEABLE_PLANT, Material.REPLACEABLE_WATER_PLANT, Material.REPLACEABLE_FIREPROOF_PLANT, Material.SCULK, Material.SPONGE, Material.BAMBOO_SAPLING, Material.LEAVES);
+        add(ToolType.SHARP, Material.CLOTH_DECORATION, Material.WEB, Material.WOOL, Material.CAKE);
+        add(ToolType.NONE, Material.AIR, Material.STRUCTURAL_AIR, Material.PORTAL, Material.WATER, Material.BUBBLE_COLUMN, Material.LAVA, Material.FIRE, Material.EXPLOSIVE, Material.BARRIER, Material.EGG);
+    }
+
+    private static void add(ToolType value, Material... keys)
+    {
+        Stream.of(keys).forEach(key -> PRIMARY_TOOL_TYPES.put(key, value));
     }
 
     public static void setup()
@@ -63,22 +62,15 @@ public class HarvestBlockHandler
         final Map<Material, List<Block>> unknownMaterialBlocks = new HashMap<>();
         for (Block block : ForgeRegistries.BLOCKS.getValues())
         {
-            final AbstractBlockAccess blockAccess = (AbstractBlockAccess) block;
+            final AbstractBlockAccessor blockAccess = (AbstractBlockAccessor) block;
             final BlockBehaviour.Properties settings = blockAccess.getProperties();
-            final AbstractBlockPropertiesAccess settingsAccess = (AbstractBlockPropertiesAccess) settings;
-
-            if (!settingsAccess.getRequiresCorrectToolForDrops())
-            {
-                // The block by default has no tool. Flag it so we can refer to it later
-                DEFAULT_NO_TOOL_BLOCKS.add(block);
-            }
 
             // Forcefully set everything to require a tool
             // Need to do both the block settings and the block state since the value is copied there for every state
             settings.requiresCorrectToolForDrops();
             for (BlockState state : block.getStateDefinition().getPossibleStates())
             {
-                ((AbstractBlockStateAccess) state).setRequiresCorrectToolForDrops(true);
+                ((AbstractBlockStateAccessor) state).setRequiresCorrectToolForDrops(true);
             }
 
             // Infer a primary tool type for the block.
@@ -98,7 +90,7 @@ public class HarvestBlockHandler
         {
             if (item instanceof DiggerItem digger)
             {
-                final ToolType toolType = toolTypeForMineableTag(((DiggerItemAccessor) digger).accessor$getBlocks());
+                final ToolType toolType = toolTypeForMineableTag(((DiggerItemAccessor) digger).getBlocks());
                 if (toolType != ToolType.NONE)
                 {
                     ITEM_TOOL_TYPES.put(item, toolType);
@@ -145,11 +137,6 @@ public class HarvestBlockHandler
         return ToolType.NONE;
     }
 
-    public static boolean doesBlockRequireNoToolByDefault(Block block)
-    {
-        return DEFAULT_NO_TOOL_BLOCKS.contains(block);
-    }
-
     public static boolean isUsingCorrectToolToMine(BlockState state, Player player)
     {
         return isUsingCorrectTool(state, player, ModTags.Blocks.ALWAYS_BREAKABLE, Config.SERVER.doBlocksMineWithoutCorrectTool, Config.SERVER.doInstantBreakBlocksMineWithoutCorrectTool);
@@ -167,7 +154,7 @@ public class HarvestBlockHandler
             return true; // Feature is disabled, always allow
         }
 
-        if (((AbstractBlockStateAccess) state).getDestroySpeed() == 0 && instantBreakBlocksWithoutCorrectTool.get())
+        if (((AbstractBlockStateAccessor) state).getDestroySpeed() == 0 && instantBreakBlocksWithoutCorrectTool.get())
         {
             return true; // Feature is conditionally disabled for instant break blocks, always allow
         }

@@ -16,8 +16,8 @@
       }
     },
     "result": {
-      "count": 2,
-      "item": "byg:fir_planks"
+      "item": "byg:fir_planks",
+      "count": 2
     }
   },
   "conditions": [

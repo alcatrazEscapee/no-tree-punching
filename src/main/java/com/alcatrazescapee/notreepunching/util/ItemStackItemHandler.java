@@ -53,7 +53,7 @@ public class ItemStackItemHandler implements ICapabilitySerializable<CompoundTag
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side)
     {
-        return Helpers.getCapabilityOrElse(cap, CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, capability);
+        return Helpers.getCapabilityWithNullChecks(cap, CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, capability);
     }
 
     @Override

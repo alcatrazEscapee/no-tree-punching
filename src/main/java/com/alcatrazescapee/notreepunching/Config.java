@@ -66,11 +66,12 @@ public final class Config
 
         private ServerConfig(ForgeConfigSpec.Builder builder)
         {
-            doBlocksMineWithoutCorrectTool = builder.comment("Makes blocks take forever to mine if using the wrong tool").define("noMiningWithoutCorrectTool", true);
-            doBlocksDropWithoutCorrectTool = builder.comment("Makes blocks not drop anything when broken with the wrong tool").define("noBlockDropsWithoutCorrectTool", true);
+            doBlocksMineWithoutCorrectTool = builder.comment("If blocks are mineable without the correct tool.").define("doBlocksMineWithoutCorrectTool", false);
+            doBlocksDropWithoutCorrectTool = builder.comment("If blocks drop their items without the correct tool.").define("doBlocksDropWithoutCorrectTool", false);
 
-            doInstantBreakBlocksDropWithoutCorrectTool = builder.comment("Makes blocks that would otherwise be broken instantly unbreakable if using the wrong tool.").define("doInstantBreakBlocksRequireTool", false);
-            doInstantBreakBlocksMineWithoutCorrectTool = builder.comment("Makes blocks that would otherwise be broken instantly still drop, even when using an incorrect tool.").define("doInstantBreakBlocksDropWithoutCorrectTool", true);
+            doInstantBreakBlocksDropWithoutCorrectTool = builder.comment("If blocks that break instantly are mineable without the correct tool.").define("doInstantBreakBlocksDropWithoutCorrectTool", false);
+            doInstantBreakBlocksMineWithoutCorrectTool = builder.comment("If blocks that break instantly drop their items without the correct tool.").define("doInstantBreakBlocksMineWithoutCorrectTool", true);
+
             doInstantBreakBlocksDamageKnives = builder.comment("If blocks such as tall grass which break instantly consume durability when broken with a knife (only affects No Tree Punching knives)").define("doInstantBreakBlocksDamageKnives", true);
 
             flintKnappingConsumeChance = builder.comment("The chance to consume a piece of flint when knapping").defineInRange("flintKnappingConsumeChance", 0.4, 0, 1);
@@ -86,7 +87,7 @@ public final class Config
                 "The sequence of blocks that can be created with the clay tool.",
                 "When the clay tool is used, if the block is present in this list, it may be converted to the next block in the list",
                 "If the next block is minecraft:air, the block will be destroyed (the clay tool will never try and convert air into something)"
-            ).defineList("potteryBlockSequences", defaultPotteryBlockSequence(), e -> e instanceof String && ForgeRegistries.BLOCKS.containsKey(new ResourceLocation((String) e)));
+            ).defineList("potteryBlockSequences", defaultPotteryBlockSequence(), e -> e instanceof String);
         }
 
         public List<Block> getPotteryBlockSequences()

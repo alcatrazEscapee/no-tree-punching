@@ -11,11 +11,8 @@ import java.util.function.Predicate;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
@@ -25,16 +22,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
-import com.alcatrazescapee.notreepunching.mixin.accessor.HoeItemAccess;
-import com.alcatrazescapee.notreepunching.util.Helpers;
+import com.alcatrazescapee.notreepunching.mixin.HoeItemAccessor;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
 
 public class MattockItem extends DiggerItem
 {
@@ -138,7 +132,7 @@ public class MattockItem extends DiggerItem
     {
         Level level = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
-        Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = HoeItemAccess.accessor$getTillables().get(level.getBlockState(blockpos).getBlock());
+        Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = HoeItemAccessor.getTillables().get(level.getBlockState(blockpos).getBlock());
         int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(context);
         if (hook != 0) return hook > 0 ? InteractionResult.SUCCESS : InteractionResult.FAIL;
         // Don't include the forge patch (which is a bug), see https://github.com/MinecraftForge/MinecraftForge/issues/8347

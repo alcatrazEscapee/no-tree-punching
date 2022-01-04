@@ -12,6 +12,8 @@ import net.minecraft.tags.Tag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.resources.ResourceLocation;
 
+import com.alcatrazescapee.notreepunching.util.Helpers;
+
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public final class ModTags
@@ -35,7 +37,7 @@ public final class ModTags
 
         private static Tag.Named<Item> create(String id)
         {
-            return ItemTags.bind(new ResourceLocation(MOD_ID, id).toString());
+            return ItemTags.createOptional(Helpers.identifier(id));
         }
     }
 
@@ -51,7 +53,7 @@ public final class ModTags
 
         private static Tag.Named<Block> create(String id)
         {
-            return BlockTags.bind(new ResourceLocation(MOD_ID, id).toString());
+            return BlockTags.createOptional(Helpers.identifier(id));
         }
     }
 }

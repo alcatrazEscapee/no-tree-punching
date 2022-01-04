@@ -20,6 +20,7 @@ def generate(rm: ResourceManager):
         block.with_block_model()
         block.with_item_model()
         block.with_tag('cobblestone')
+        block.with_tag('minecraft:mineable_with_pickaxe')
         rm.item_tag('cobblestone', '%s_cobblestone' % stone)  # both block and item tag
         block.with_block_loot('notreepunching:%s_cobblestone' % stone)
         block.with_lang(lang('%s cobblestone', stone))
@@ -47,6 +48,7 @@ def generate(rm: ResourceManager):
         block.with_block_model(textures='minecraft:block/clay', parent='notreepunching:block/pottery_%s' % pottery)
         block.with_item_model()
         block.with_block_loot('notreepunching:clay_%s' % pottery)
+        block.with_tag('minecraft:mineable_with_pickaxe')
         if pottery == 'worked':
             block.with_lang(lang('worked clay'))
         else:
@@ -64,6 +66,7 @@ def generate(rm: ResourceManager):
             loot_tables.copy_block_entity_nbt()
         ],
     })
+    block.with_tag('minecraft:mineable_with_pickaxe')
     block.with_lang(lang('ceramic large vessel'))
 
     # Tools
@@ -111,6 +114,14 @@ def generate(rm: ResourceManager):
     }, root_domain='assets')
 
     # Misc Tags
+    rm.block_tag('needs_with_flint_tool')
+    rm.block_tag('mineable_with_mattock', '#minecraft:mineable_with_shovel', '#minecraft:mineable_with_hoe', '#minecraft:mineable_with_axe')
+    rm.item_tag('pickaxe_tools')
+    rm.item_tag('axe_tools', '#notreepunching:mattocks')
+    rm.item_tag('shovel_tools', '#notreepunching:mattocks')
+    rm.item_tag('hoe_tools', '#notreepunching:mattocks')
+    rm.item_tag('sharp_tools')
+
     rm.item('plant_string').with_tag('forge:string')
     rm.block('minecraft:gravel').with_tag('always_breakable').with_tag('always_drops')
 
@@ -147,12 +158,12 @@ def generate(rm: ResourceManager):
     story = AdvancementBuilder(rm, 'story', 'minecraft:textures/gui/advancements/backgrounds/stone.png')
 
     story.advancement('root', 'notreepunching:flint_pickaxe', 'No Tree Punching', 'I tried to punch tree. It didn\'t work and now my fingers are covered in splinters...', None, {
-        'has_loose_rock': inventory_changed('tag!notreepunching:loose_rocks'),
+        'has_loose_rock': inventory_changed('#notreepunching:loose_rocks'),
         'has_gravel': inventory_changed('minecraft:gravel'),
         'has_sticks': inventory_changed('minecraft:stick'),
     }, requirements=[['has_loose_rock', 'has_gravel', 'has_sticks']], toast=False, chat=False)
 
-    story.advancement('find_loose_rock', 'notreepunching:stone_loose_rock', 'Dull Rocks', 'Pick up a loose rock.', 'root', {'has_loose_rock': inventory_changed('tag!notreepunching:loose_rocks')})
+    story.advancement('find_loose_rock', 'notreepunching:stone_loose_rock', 'Dull Rocks', 'Pick up a loose rock.', 'root', {'has_loose_rock': inventory_changed('#notreepunching:loose_rocks')})
     story.advancement('find_gravel', 'minecraft:gravel', 'Discount Cobblestone', 'Find some gravel, it may come in handy.', 'root', {
         'has_gravel': inventory_changed('minecraft:gravel'),
         'has_flint': inventory_changed('minecraft:flint')
@@ -171,9 +182,9 @@ def generate(rm: ResourceManager):
     story.advancement('flint_pickaxe', 'notreepunching:flint_pickaxe', 'My First Pickaxe', 'Craft your first pickaxe from flint, plant fiber, and sticks!', 'flint_axe', {'has_flint_pickaxe': inventory_changed('notreepunching:flint_pickaxe')})
 
     story.advancement('use_clay_tool', 'notreepunching:clay_large_vessel', 'You\'re a Potter, Harry', 'Use a clay tool on a block of clay to create pottery of various kinds.', 'find_sticks', {'damage_clay_tool': use_item_on_block('notreepunching:clay_tool', 'notreepunching:pottery')})
-    story.advancement('fire_pottery', 'notreepunching:ceramic_large_vessel', 'Ceramics', 'Fire some pottery into useful devices!', 'use_clay_tool', {'has_ceramics': inventory_changed('tag!notreepunching:ceramics')})
+    story.advancement('fire_pottery', 'notreepunching:ceramic_large_vessel', 'Ceramics', 'Fire some pottery into useful devices!', 'use_clay_tool', {'has_ceramics': inventory_changed('#notreepunching:ceramics')})
 
-    story.advancement('mattock', 'notreepunching:iron_mattock', 'Getting a Better Upgrade', 'Craft a mattock, a hoe-axe-shovel-all-in-one multitool!', 'flint_pickaxe', {'has_mattock': inventory_changed('tag!notreepunching:mattocks')})
+    story.advancement('mattock', 'notreepunching:iron_mattock', 'Getting a Better Upgrade', 'Craft a mattock, a hoe-axe-shovel-all-in-one multitool!', 'flint_pickaxe', {'has_mattock': inventory_changed('#notreepunching:mattocks')})
 
 
 def use_item_on_block(item, block):

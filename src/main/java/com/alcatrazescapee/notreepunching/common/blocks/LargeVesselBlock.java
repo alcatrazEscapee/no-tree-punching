@@ -49,27 +49,27 @@ public class LargeVesselBlock extends Block implements EntityBlock
 
     @Override
     @SuppressWarnings("deprecation")
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving)
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving)
     {
         if (!newState.is(state.getBlock()))
         {
-            Helpers.getTE(worldIn, pos, InventoryBlockEntity.class).ifPresent(tile -> {
+            level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(vessel -> {
                 if (!Config.SERVER.largeVesselKeepsContentsWhenBroken.get())
                 {
-                    tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).map(i -> (ItemStackHandler) i).ifPresent(inventory -> {
+                    vessel.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).map(i -> (ItemStackHandler) i).ifPresent(inventory -> {
                         for (int i = 0; i < inventory.getSlots(); i++)
                         {
                             final ItemStack stack = inventory.getStackInSlot(i);
-                            Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);
+                            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
                             inventory.setStackInSlot(i, ItemStack.EMPTY);
                         }
                     });
                 }
-                tile.onRemove();
-                worldIn.updateNeighbourForOutputSignal(pos, this);
+                vessel.onRemove();
+                level.updateNeighbourForOutputSignal(pos, this);
             });
         }
-        super.onRemove(state, worldIn, pos, newState, isMoving);
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 
     @Override

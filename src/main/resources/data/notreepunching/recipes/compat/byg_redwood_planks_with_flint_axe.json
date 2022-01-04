@@ -16,8 +16,8 @@
       }
     },
     "result": {
-      "count": 2,
-      "item": "byg:redwood_planks"
+      "item": "byg:redwood_planks",
+      "count": 2
     }
   },
   "conditions": [

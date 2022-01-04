@@ -16,8 +16,8 @@
       }
     },
     "result": {
-      "count": 2,
-      "item": "minecraft:warped_planks"
+      "item": "minecraft:warped_planks",
+      "count": 2
     }
   }
 }
