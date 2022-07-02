@@ -7,27 +7,25 @@ package com.alcatrazescapee.notreepunching.world;
 
 
 import java.util.Map;
-import java.util.Random;
 import java.util.function.Supplier;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraftforge.common.util.Lazy;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 
 public class LooseRocksFeature extends Feature<NoneFeatureConfiguration>
 {
-    private static final Lazy<Map<Block, Supplier<? extends Block>>> LOOSE_ROCK_STONE_LOOKUP = Lazy.of(() -> new ImmutableMap.Builder<Block, Supplier<? extends Block>>()
+    private static final Supplier<Map<Block, Supplier<? extends Block>>> LOOSE_ROCK_STONE_LOOKUP = Suppliers.memoize(() -> new ImmutableMap.Builder<Block, Supplier<? extends Block>>()
         .put(Blocks.STONE, ModBlocks.STONE_LOOSE_ROCK)
         .put(Blocks.ANDESITE, ModBlocks.ANDESITE_LOOSE_ROCK)
         .put(Blocks.DIORITE, ModBlocks.DIORITE_LOOSE_ROCK)

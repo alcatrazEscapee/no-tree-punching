@@ -8,6 +8,8 @@ package com.alcatrazescapee.notreepunching.util;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,7 +17,6 @@ import net.minecraft.tags.TagKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
@@ -140,15 +141,15 @@ public final class HarvestBlockHandler
 
     public static boolean isUsingCorrectToolToMine(BlockState state, Player player)
     {
-        return isUsingCorrectTool(state, player, ModTags.Blocks.ALWAYS_BREAKABLE, Config.SERVER.doBlocksMineWithoutCorrectTool, Config.SERVER.doInstantBreakBlocksMineWithoutCorrectTool);
+        return isUsingCorrectTool(state, player, ModTags.Blocks.ALWAYS_BREAKABLE, Config.INSTANCE.doBlocksMineWithoutCorrectTool, Config.INSTANCE.doInstantBreakBlocksMineWithoutCorrectTool);
     }
 
     public static boolean isUsingCorrectToolForDrops(BlockState state, Player player)
     {
-        return isUsingCorrectTool(state, player, ModTags.Blocks.ALWAYS_DROPS, Config.SERVER.doBlocksMineWithoutCorrectTool, Config.SERVER.doInstantBreakBlocksDropWithoutCorrectTool);
+        return isUsingCorrectTool(state, player, ModTags.Blocks.ALWAYS_DROPS, Config.INSTANCE.doBlocksMineWithoutCorrectTool, Config.INSTANCE.doInstantBreakBlocksDropWithoutCorrectTool);
     }
 
-    private static boolean isUsingCorrectTool(BlockState state, Player player, TagKey<Block> alwaysAllowTag, ForgeConfigSpec.BooleanValue withoutCorrectTool, ForgeConfigSpec.BooleanValue instantBreakBlocksWithoutCorrectTool)
+    private static boolean isUsingCorrectTool(BlockState state, Player player, TagKey<Block> alwaysAllowTag, Supplier<Boolean> withoutCorrectTool, Supplier<Boolean> instantBreakBlocksWithoutCorrectTool)
     {
         if (withoutCorrectTool.get())
         {

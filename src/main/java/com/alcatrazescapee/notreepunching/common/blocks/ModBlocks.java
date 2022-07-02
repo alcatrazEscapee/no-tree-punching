@@ -16,7 +16,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 
-import com.alcatrazescapee.notreepunching.common.ModItemGroup;
 import com.alcatrazescapee.notreepunching.common.items.LargeVesselBlockItem;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.platform.RegistryHolder;
@@ -59,11 +58,11 @@ public final class ModBlocks
 
     public static final Map<PotteryBlock.Variant, RegistryHolder<PotteryBlock>> POTTERY = Arrays.stream(PotteryBlock.Variant.values()).collect(Collectors.toMap(Function.identity(), pottery -> register("clay_" + pottery.name().toLowerCase(), () -> new PotteryBlock(pottery))));
 
-    public static final RegistryHolder<LargeVesselBlock> CERAMIC_LARGE_VESSEL = register("ceramic_large_vessel", LargeVesselBlock::new, block -> new LargeVesselBlockItem(block, new Item.Properties().tab(ModItemGroup.ITEMS)));
+    public static final RegistryHolder<LargeVesselBlock> CERAMIC_LARGE_VESSEL = register("ceramic_large_vessel", LargeVesselBlock::new, block -> new LargeVesselBlockItem(block, new Item.Properties().tab(ModItems.Tab.ITEMS)));
 
     private static <T extends Block> RegistryHolder<T> register(String name, Supplier<T> blockFactory)
     {
-        return register(name, blockFactory, block -> new BlockItem(block, new Item.Properties().tab(ModItemGroup.ITEMS)));
+        return register(name, blockFactory, block -> new BlockItem(block, new Item.Properties().tab(ModItems.Tab.ITEMS)));
     }
 
     private static <T extends Block> RegistryHolder<T> register(String name, Supplier<T> blockFactory, Function<T, BlockItem> blockItemFactory)

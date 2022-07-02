@@ -19,25 +19,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.TieredItem;
-import net.minecraft.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
 
 import com.alcatrazescapee.notreepunching.Config;
-import com.alcatrazescapee.notreepunching.common.ModItemGroup;
 import com.alcatrazescapee.notreepunching.util.Helpers;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.Item.Properties;
 
 public class ClayToolItem extends TieredItem
 {
     public static ItemStack interactWithBlock(LevelAccessor level, BlockPos pos, BlockState state, @Nullable Player player, @Nullable InteractionHand hand, ItemStack stack)
     {
-        final List<Block> sequence = Config.SERVER.getPotteryBlockSequences();
+        final List<Block> sequence = Config.INSTANCE.getPotteryBlockSequences();
         for (int i = 0; i < sequence.size() - 1; i++)
         {
             if (state.getBlock() == sequence.get(i) && state.getBlock() != Blocks.AIR)
@@ -54,7 +51,7 @@ public class ClayToolItem extends TieredItem
 
     public ClayToolItem()
     {
-        super(Tiers.WOOD, new Properties().tab(ModItemGroup.ITEMS).setNoRepair());
+        super(Tiers.WOOD, new Properties().tab(ModItems.Tab.ITEMS).setNoRepair());
     }
 
     @Override

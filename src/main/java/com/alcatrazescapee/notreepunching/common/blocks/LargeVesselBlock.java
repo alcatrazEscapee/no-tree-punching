@@ -17,7 +17,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
@@ -33,10 +32,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 
 import com.alcatrazescapee.notreepunching.Config;
-import com.alcatrazescapee.notreepunching.common.blockentity.InventoryBlockEntity;
 import com.alcatrazescapee.notreepunching.common.blockentity.LargeVesselBlockEntity;
 import com.alcatrazescapee.notreepunching.common.blockentity.ModBlockEntities;
-import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public class LargeVesselBlock extends Block implements EntityBlock
 {
@@ -54,7 +51,7 @@ public class LargeVesselBlock extends Block implements EntityBlock
         if (!newState.is(state.getBlock()))
         {
             level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(vessel -> {
-                if (!Config.SERVER.largeVesselKeepsContentsWhenBroken.get())
+                if (!Config.INSTANCE.largeVesselKeepsContentsWhenBroken.get())
                 {
                     vessel.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).map(i -> (ItemStackHandler) i).ifPresent(inventory -> {
                         for (int i = 0; i < inventory.getSlots(); i++)

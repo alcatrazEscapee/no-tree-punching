@@ -6,8 +6,6 @@
 package com.alcatrazescapee.notreepunching.client;
 
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import com.alcatrazescapee.notreepunching.client.screen.LargeVesselScreen;
 import com.alcatrazescapee.notreepunching.client.screen.SmallVesselScreen;
@@ -15,11 +13,6 @@ import com.alcatrazescapee.notreepunching.common.container.ModContainers;
 
 public final class ClientEventHandler
 {
-    public static void init()
-    {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener((FMLClientSetupEvent event) -> event.enqueueWork(ClientEventHandler::clientSetup));
-    }
-
     public static void clientSetup()
     {
         MenuScreens.register(ModContainers.LARGE_VESSEL.get(), LargeVesselScreen::new);

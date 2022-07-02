@@ -28,7 +28,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.network.NetworkHooks;
 
-import com.alcatrazescapee.notreepunching.common.ModItemGroup;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.container.SmallVesselContainer;
 import com.alcatrazescapee.notreepunching.util.Helpers;
@@ -42,7 +41,7 @@ public class SmallVesselItem extends Item
 
     public SmallVesselItem()
     {
-        super(new Properties().tab(ModItemGroup.ITEMS).stacksTo(1));
+        super(new Properties().tab(ModItems.Tab.ITEMS).stacksTo(1));
     }
 
     @Override

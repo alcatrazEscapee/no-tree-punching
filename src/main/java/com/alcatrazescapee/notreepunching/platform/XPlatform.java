@@ -15,6 +15,8 @@ import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
+import com.alcatrazescapee.notreepunching.Config;
+
 public interface XPlatform
 {
     XPlatform INSTANCE = find(XPlatform.class);
@@ -28,11 +30,11 @@ public interface XPlatform
 
     <T> RegistryInterface<T> registryInterface(Registry<T> registry);
 
-   // Config createConfig();
+   Config createConfig();
 
     CreativeModeTab creativeTab(ResourceLocation id, Supplier<ItemStack> icon);
 
-    //Tier toolTier(int uses, float speed, float attackDamageBonus, int level, int enchantmentValue, TagKey<Block> tag, Supplier<Ingredient> repairIngredient);
+    Tier toolTier(int uses, float speed, float attackDamageBonus, int level, int enchantmentValue, TagKey<Block> tag, Supplier<Ingredient> repairIngredient);
 
     //StairBlock stairBlock(Supplier<BlockState> state, BlockBehaviour.Properties properties);
 
