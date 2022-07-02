@@ -37,7 +37,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -90,17 +89,17 @@ public class FireStarterItem extends TieredItem
                         for (ItemEntity drop : entities)
                         {
                             ItemStack dropStack = drop.getItem();
-                            if (ModTags.Items.FIRE_STARTER_LOGS.contains(dropStack.getItem()))
+                            if (Helpers.isItem(dropStack.getItem(), ModTags.Items.FIRE_STARTER_LOGS))
                             {
                                 logs += dropStack.getCount();
                                 logEntities.add(drop);
                             }
-                            else if (ModTags.Items.FIRE_STARTER_KINDLING.contains(dropStack.getItem()))
+                            else if (Helpers.isItem(dropStack.getItem(), ModTags.Items.FIRE_STARTER_KINDLING))
                             {
                                 kindling += dropStack.getCount();
                                 kindlingEntities.add(drop);
                             }
-                            else if (ModTags.Items.FIRE_STARTER_SOUL_FIRE_CATALYST.contains(dropStack.getItem()))
+                            else if (Helpers.isItem(dropStack.getItem(), ModTags.Items.FIRE_STARTER_SOUL_FIRE_CATALYST))
                             {
                                 soulFire += dropStack.getCount();
                                 soulFireEntities.add(drop);

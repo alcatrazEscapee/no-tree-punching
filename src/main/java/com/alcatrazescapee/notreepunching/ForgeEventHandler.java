@@ -7,7 +7,6 @@ package com.alcatrazescapee.notreepunching;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,6 +31,7 @@ import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 import com.alcatrazescapee.notreepunching.world.ModFeatures;
 
 public final class ForgeEventHandler
@@ -67,7 +67,7 @@ public final class ForgeEventHandler
         final Level level = event.getWorld();
         final BlockPos pos = event.getPos();
         final BlockState state = level.getBlockState(pos);
-        if (ModTags.Items.FLINT_KNAPPABLE.contains(stack.getItem()) && state.getMaterial() == Material.STONE)
+        if (Helpers.isItem(stack.getItem(), ModTags.Items.FLINT_KNAPPABLE) && state.getMaterial() == Material.STONE)
         {
             if (!level.isClientSide)
             {
@@ -92,7 +92,7 @@ public final class ForgeEventHandler
     {
         if (Config.COMMON.enableLooseRocksWorldGen.get() && !CATEGORIES_WITHOUT_ROCKS.contains(event.getCategory()))
         {
-            event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.LOOSE_ROCKS_PLACED.get());
+            event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.PLACED_LOOSE_ROCKS.holder());
         }
     }
 }

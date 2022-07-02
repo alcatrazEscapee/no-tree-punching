@@ -34,6 +34,32 @@ public final class NoTreePunching
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    public static void earlySetup()
+    {
+        ModBlocks.BLOCKS.earlySetup();
+        ModItems.ITEMS.earlySetup();
+        ModBlockEntities.BLOCK_ENTITIES.earlySetup();
+        ModContainers.CONTAINERS.earlySetup();
+        ModRecipes.RECIPE_SERIALIZERS.earlySetup();
+
+        ModFeatures.FEATURES.earlySetup();
+        ModFeatures.CONFIGURED_FEATURES.earlySetup();
+        ModFeatures.PLACED_FEATURES.earlySetup();
+    }
+
+    public static void lateSetup()
+    {
+        ModBlocks.BLOCKS.lateSetup();
+        ModItems.ITEMS.lateSetup();
+        ModBlockEntities.BLOCK_ENTITIES.lateSetup();
+        ModContainers.CONTAINERS.lateSetup();
+        ModRecipes.RECIPE_SERIALIZERS.lateSetup();
+
+        ModFeatures.FEATURES.lateSetup();
+        ModFeatures.CONFIGURED_FEATURES.lateSetup();
+        ModFeatures.PLACED_FEATURES.lateSetup();
+    }
+
     public NoTreePunching()
     {
         LOGGER.info("I tried to punch tree. It didn't work, my hands are now covered in blood and splinters. Need to try something else ...");
@@ -41,13 +67,7 @@ public final class NoTreePunching
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
 
-        ModBlocks.BLOCKS.register(bus);
-        ModItems.ITEMS.register(bus);
-        ModBlockEntities.BLOCK_ENTITIES.register(bus);
-        ModContainers.CONTAINERS.register(bus);
-        ModFeatures.FEATURES.register(bus);
-        ModSounds.SOUNDS.register(bus);
-        ModRecipes.RECIPE_SERIALIZERS.register(bus);
+        NoTreePunching.earlySetup();
 
         Config.init();
         ForgeEventHandler.init();
@@ -62,8 +82,8 @@ public final class NoTreePunching
     {
         LOGGER.info("Setup");
 
+        NoTreePunching.lateSetup();
         HarvestBlockHandler.setup();
-        ModFeatures.setup();
 
         event.enqueueWork(() -> {
             DispenserBlock.registerBehavior(ModItems.CLAY_TOOL.get(), (context, stack) -> {

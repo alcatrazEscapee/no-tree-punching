@@ -31,11 +31,10 @@ import net.minecraftforge.network.NetworkHooks;
 import com.alcatrazescapee.notreepunching.common.ModItemGroup;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.container.SmallVesselContainer;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 import com.alcatrazescapee.notreepunching.util.ItemStackItemHandler;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
-
-import net.minecraft.world.item.Item.Properties;
 
 public class SmallVesselItem extends Item
 {
@@ -115,7 +114,7 @@ public class SmallVesselItem extends Item
         @Override
         public boolean isItemValid(int slot, ItemStack stack)
         {
-            return !ModTags.Items.SMALL_VESSEL_BLACKLIST.contains(stack.getItem());
+            return !Helpers.isItem(stack.getItem(), ModTags.Items.SMALL_VESSEL_BLACKLIST);
         }
     }
 }

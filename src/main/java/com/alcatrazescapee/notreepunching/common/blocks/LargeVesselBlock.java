@@ -109,11 +109,7 @@ public class LargeVesselBlock extends Block implements EntityBlock
             if (!level.isClientSide && player.isCreative() && !tile.isEmpty())
             {
                 ItemStack stack = new ItemStack(this);
-                CompoundTag compoundnbt = tile.save(new CompoundTag());
-                if (!compoundnbt.isEmpty())
-                {
-                    stack.addTagElement("BlockEntityTag", compoundnbt);
-                }
+                tile.saveToItem(stack);
 
                 stack.setHoverName(tile.getDisplayName());
                 ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stack);

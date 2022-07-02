@@ -1,7 +1,7 @@
 # Reverse gitignore - explicitly include files
 *
 !*/
-!.gitignore
+!/.gitignore
 
 # Source code and build script
 !.github/**

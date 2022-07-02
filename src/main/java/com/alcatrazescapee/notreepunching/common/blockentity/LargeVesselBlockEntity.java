@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.container.LargeVesselContainer;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
@@ -44,7 +45,7 @@ public class LargeVesselBlockEntity extends InventoryBlockEntity
     @Override
     public boolean isItemValid(int slot, ItemStack stack)
     {
-        return !ModTags.Items.LARGE_VESSEL_BLACKLIST.contains(stack.getItem());
+        return !Helpers.isItem(stack.getItem(), ModTags.Items.LARGE_VESSEL_BLACKLIST);
     }
 
     public boolean isEmpty()

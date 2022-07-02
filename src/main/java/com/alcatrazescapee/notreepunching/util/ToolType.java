@@ -3,6 +3,7 @@ package com.alcatrazescapee.notreepunching.util;
 import javax.annotation.Nullable;
 
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
@@ -22,15 +23,15 @@ public enum ToolType
     SHARP(ModTags.Items.SHARP_TOOLS), // (Of Swords and Axes) Plants
     NONE(null);
 
-    @Nullable private final Tag.Named<Item> tag;
+    @Nullable private final TagKey<Item> tag;
 
-    ToolType(@Nullable Tag.Named<Item> tag)
+    ToolType(@Nullable TagKey<Item> tag)
     {
         this.tag = tag;
     }
 
     public boolean is(Item item)
     {
-        return this.tag != null && this.tag.contains(item);
+        return tag != null && Helpers.isItem(item, tag);
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.minecraft.tags.TagKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.tags.BlockTags;
@@ -116,7 +117,7 @@ public final class HarvestBlockHandler
         }
     }
 
-    private static ToolType toolTypeForMineableTag(Tag<Block> tag)
+    private static ToolType toolTypeForMineableTag(TagKey<Block> tag)
     {
         if (tag == BlockTags.MINEABLE_WITH_PICKAXE)
         {
@@ -147,7 +148,7 @@ public final class HarvestBlockHandler
         return isUsingCorrectTool(state, player, ModTags.Blocks.ALWAYS_DROPS, Config.SERVER.doBlocksMineWithoutCorrectTool, Config.SERVER.doInstantBreakBlocksDropWithoutCorrectTool);
     }
 
-    private static boolean isUsingCorrectTool(BlockState state, Player player, Tag.Named<Block> alwaysAllowTag, ForgeConfigSpec.BooleanValue withoutCorrectTool, ForgeConfigSpec.BooleanValue instantBreakBlocksWithoutCorrectTool)
+    private static boolean isUsingCorrectTool(BlockState state, Player player, TagKey<Block> alwaysAllowTag, ForgeConfigSpec.BooleanValue withoutCorrectTool, ForgeConfigSpec.BooleanValue instantBreakBlocksWithoutCorrectTool)
     {
         if (withoutCorrectTool.get())
         {
@@ -159,7 +160,7 @@ public final class HarvestBlockHandler
             return true; // Feature is conditionally disabled for instant break blocks, always allow
         }
 
-        if (alwaysAllowTag.contains(state.getBlock()))
+        if (state.is(alwaysAllowTag))
         {
             return true; // Block is set to always allow
         }

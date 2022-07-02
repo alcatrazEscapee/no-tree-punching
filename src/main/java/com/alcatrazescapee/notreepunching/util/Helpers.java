@@ -13,6 +13,9 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.resources.ResourceLocation;
@@ -56,6 +59,16 @@ public final class Helpers
             }
         }
         return stack;
+    }
+
+    public static boolean isItem(Item item, TagKey<Item> tag)
+    {
+        return item.builtInRegistryHolder().is(tag);
+    }
+
+    public static boolean isBlock(Block block, TagKey<Block> tag)
+    {
+        return block.builtInRegistryHolder().is(tag);
     }
 
     /**

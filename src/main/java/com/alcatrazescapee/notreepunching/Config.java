@@ -105,7 +105,7 @@ public final class Config
             values.add("minecraft:clay");
             for (PotteryBlock.Variant pottery : PotteryBlock.Variant.values())
             {
-                values.add(ModBlocks.POTTERY.get(pottery).getId().toString());
+                values.add(ModBlocks.POTTERY.get(pottery).id().toString());
             }
             values.add("minecraft:air");
             return values;

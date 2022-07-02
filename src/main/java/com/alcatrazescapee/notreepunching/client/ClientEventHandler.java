@@ -17,10 +17,10 @@ public final class ClientEventHandler
 {
     public static void init()
     {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientEventHandler::clientSetup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener((FMLClientSetupEvent event) -> event.enqueueWork(ClientEventHandler::clientSetup));
     }
 
-    public static void clientSetup(FMLClientSetupEvent event)
+    public static void clientSetup()
     {
         MenuScreens.register(ModContainers.LARGE_VESSEL.get(), LargeVesselScreen::new);
         MenuScreens.register(ModContainers.SMALL_VESSEL.get(), SmallVesselScreen::new);

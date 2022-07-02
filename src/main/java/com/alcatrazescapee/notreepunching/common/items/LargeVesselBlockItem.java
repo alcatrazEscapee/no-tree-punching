@@ -23,6 +23,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.blockentity.LargeVesselBlockEntity;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 import com.alcatrazescapee.notreepunching.util.ItemStackItemHandler;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
@@ -91,7 +92,7 @@ public class LargeVesselBlockItem extends BlockItem
         @Override
         public boolean isItemValid(int slot, ItemStack stack)
         {
-            return ModTags.Items.LARGE_VESSEL_BLACKLIST.contains(stack.getItem());
+            return Helpers.isItem(stack.getItem(), ModTags.Items.LARGE_VESSEL_BLACKLIST);
         }
     }
 }

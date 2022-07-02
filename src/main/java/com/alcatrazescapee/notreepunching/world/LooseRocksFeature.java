@@ -54,7 +54,7 @@ public class LooseRocksFeature extends Feature<NoneFeatureConfiguration>
 
         final BlockState stateAt = level.getBlockState(pos);
         final BlockState stateDown = level.getBlockState(pos.below());
-        if (stateAt.isAir() && ModTags.Blocks.LOOSE_ROCK_PLACEABLE_ON.contains(stateDown.getBlock()))
+        if (stateAt.isAir() && stateDown.is(ModTags.Blocks.LOOSE_ROCK_PLACEABLE_ON))
         {
             for (int y = 1; y <= 8; y++)
             {
