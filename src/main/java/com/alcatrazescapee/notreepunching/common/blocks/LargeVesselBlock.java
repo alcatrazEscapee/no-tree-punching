@@ -21,13 +21,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.network.NetworkHooks;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.blockentity.LargeVesselBlockEntity;
 import com.alcatrazescapee.notreepunching.common.blockentity.ModBlockEntities;
+import com.alcatrazescapee.notreepunching.platform.XPlatform;
 
 public class LargeVesselBlock extends Block implements EntityBlock
 {
@@ -47,16 +45,13 @@ public class LargeVesselBlock extends Block implements EntityBlock
             level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(vessel -> {
                 if (!Config.INSTANCE.largeVesselKeepsContentsWhenBroken.get())
                 {
-                    vessel.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).map(i -> (ItemStackHandler) i).ifPresent(inventory -> {
-                        for (int i = 0; i < inventory.getSlots(); i++)
-                        {
-                            final ItemStack stack = inventory.getStackInSlot(i);
-                            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
-                            inventory.setStackInSlot(i, ItemStack.EMPTY);
-                        }
-                    });
+                    for (int i = 0; i < vessel.size(); i++)
+                    {
+                        final ItemStack stack = vessel.get(i);
+                        Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
+                        vessel.set(i, ItemStack.EMPTY);
+                    }
                 }
-                vessel.onRemove();
                 level.updateNeighbourForOutputSignal(pos, this);
             });
         }
@@ -69,7 +64,7 @@ public class LargeVesselBlock extends Block implements EntityBlock
     {
         if (player instanceof ServerPlayer serverPlayer && !player.isShiftKeyDown())
         {
-            level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(tile -> NetworkHooks.openGui(serverPlayer, tile, pos));
+            level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(tile -> XPlatform.INSTANCE.openScreen(serverPlayer, tile, pos));
         }
         return InteractionResult.SUCCESS;
     }
@@ -96,18 +91,18 @@ public class LargeVesselBlock extends Block implements EntityBlock
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
     {
-        level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(tile -> tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-            if (!level.isClientSide && player.isCreative() && !tile.isEmpty())
+        level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(vessel -> {
+            if (!level.isClientSide && player.isCreative() && !vessel.isEmpty())
             {
                 ItemStack stack = new ItemStack(this);
-                tile.saveToItem(stack);
+                vessel.saveToItem(stack);
 
-                stack.setHoverName(tile.getDisplayName());
+                stack.setHoverName(vessel.getDisplayName());
                 ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stack);
                 itemEntity.setDefaultPickUpDelay();
                 level.addFreshEntity(itemEntity);
             }
-        }));
+        });
         super.playerWillDestroy(level, pos, state, player);
     }
 

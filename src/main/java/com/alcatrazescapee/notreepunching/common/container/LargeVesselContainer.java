@@ -5,26 +5,28 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 import com.alcatrazescapee.notreepunching.common.blockentity.LargeVesselBlockEntity;
 import com.alcatrazescapee.notreepunching.util.SlotCallback;
+import com.alcatrazescapee.notreepunching.util.inventory.InventorySlot;
 
-public final class LargeVesselContainer extends DeviceContainer<LargeVesselBlockEntity>
+public final class LargeVesselContainer extends ModContainer
 {
-    public LargeVesselContainer(LargeVesselBlockEntity tile, Inventory playerInventory, int windowId)
+    private final LargeVesselBlockEntity vessel;
+
+    public LargeVesselContainer(LargeVesselBlockEntity vessel, Inventory playerInventory, int windowId)
     {
-        super(ModContainers.LARGE_VESSEL.get(), tile, playerInventory, windowId);
+        super(ModContainers.LARGE_VESSEL.get(), windowId);
+        this.vessel = vessel;
         init(playerInventory);
     }
 
     @Override
     protected void addContainerSlots()
     {
-        entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-            for (int x = 0; x < LargeVesselBlockEntity.SLOT_COLUMNS; x++)
+        for (int x = 0; x < LargeVesselBlockEntity.SLOT_COLUMNS; x++)
+        {
+            for (int y = 0; y < LargeVesselBlockEntity.SLOT_ROWS; y++)
             {
-                for (int y = 0; y < LargeVesselBlockEntity.SLOT_ROWS; y++)
-                {
-                    addSlot(new SlotCallback(entity, handler, x + 5 * y, 44 + x * 18, 20 + y * 18));
-                }
+                addSlot(new InventorySlot(vessel, x + 5 * y, 44 + x * 18, 20 + y * 18));
             }
-        });
+        }
     }
 }

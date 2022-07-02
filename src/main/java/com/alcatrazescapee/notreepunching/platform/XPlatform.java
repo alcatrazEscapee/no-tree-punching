@@ -3,6 +3,7 @@ package com.alcatrazescapee.notreepunching.platform;
 import java.util.ServiceLoader;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -46,6 +47,11 @@ public interface XPlatform
 
     // todo: default, return impl
     <T extends Recipe<?>> RecipeSerializer<T> recipeSerializer(RecipeSerializerImpl<T> impl);
+
+    default void openScreen(ServerPlayer serverPlayer, MenuProvider provider, BlockPos pos)
+    {
+        openScreen(serverPlayer, provider, buffer -> buffer.writeBlockPos(pos));
+    }
 
     void openScreen(ServerPlayer serverPlayer, MenuProvider provider, Consumer<FriendlyByteBuf> buffer);
 
