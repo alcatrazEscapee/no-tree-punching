@@ -1,8 +1,8 @@
 package com.alcatrazescapee.notreepunching.util;
 
-import javax.annotation.Nullable;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
 

@@ -12,7 +12,8 @@ import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.common.recipes.RecipeSerializerImpl;
 
-public final class ForgeRecipeSerializer<T extends Recipe<?>> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
+public final class ForgeRecipeSerializer<T extends Recipe<?>> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+{
 
     private final RecipeSerializerImpl<T> impl;
 

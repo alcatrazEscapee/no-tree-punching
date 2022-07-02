@@ -1,10 +1,8 @@
 package com.alcatrazescapee.notreepunching.common.container;
 
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 import com.alcatrazescapee.notreepunching.common.blockentity.LargeVesselBlockEntity;
-import com.alcatrazescapee.notreepunching.util.SlotCallback;
 import com.alcatrazescapee.notreepunching.util.inventory.InventorySlot;
 
 public final class LargeVesselContainer extends ModContainer

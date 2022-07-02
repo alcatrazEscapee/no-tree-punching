@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class ModBlockEntity extends BlockEntity
 {
-    @javax.annotation.Nullable
     protected ModBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state)
     {
         super(type, pos, state);

@@ -2,7 +2,6 @@ package com.alcatrazescapee.notreepunching.common.items;
 
 
 import java.util.List;
-import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -19,6 +18,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.util.Helpers;

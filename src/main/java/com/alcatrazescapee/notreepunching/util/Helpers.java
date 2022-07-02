@@ -2,8 +2,6 @@ package com.alcatrazescapee.notreepunching.util;
 
 import java.util.Random;
 import java.util.function.Consumer;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -14,6 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.NoTreePunching;
 
@@ -73,7 +73,7 @@ public final class Helpers
 
     /**
      * Like {@link Capability#orEmpty(Capability, LazyOptional)} except it properly checks for nulls
-     * The method is annotated as {@link Nonnull}, but since there *may* be a case where it is called very early, incorrect handling may permit the capability to be null. So instead of crashing, we gracefully log an error message.
+     * The method is annotated as {@link NotNull}, but since there *may* be a case where it is called very early, incorrect handling may permit the capability to be null. So instead of crashing, we gracefully log an error message.
      */
     public static <T, R> LazyOptional<R> getCapabilityWithNullChecks(@Nullable Capability<R> capability, @Nullable Capability<T> capabilityToCheck, LazyOptional<T> instance)
     {
