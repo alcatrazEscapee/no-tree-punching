@@ -1,4 +1,4 @@
-package com.alcatrazescapee.notreepunching.platform.forge;
+package com.alcatrazescapee.notreepunching.platform;
 
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;

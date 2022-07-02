@@ -1,4 +1,4 @@
-package com.alcatrazescapee.notreepunching.platform.forge;
+package com.alcatrazescapee.notreepunching.platform;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

@@ -1,4 +1,4 @@
-package com.alcatrazescapee.notreepunching.platform.forge;
+package com.alcatrazescapee.notreepunching.platform;
 
 import java.util.List;
 import net.minecraftforge.common.ForgeConfigSpec;
