@@ -2,11 +2,7 @@ package com.alcatrazescapee.notreepunching.common.recipes;
 
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 
-import com.alcatrazescapee.notreepunching.NoTreePunching;
 import com.alcatrazescapee.notreepunching.platform.RegistryHolder;
 import com.alcatrazescapee.notreepunching.platform.RegistryInterface;
 import com.alcatrazescapee.notreepunching.platform.XPlatform;

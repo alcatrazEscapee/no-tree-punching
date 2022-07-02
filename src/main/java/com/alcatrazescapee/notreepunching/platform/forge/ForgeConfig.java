@@ -13,7 +13,8 @@ public final class ForgeConfig
     {
         final ForgeConfigSpec.Builder common = new ForgeConfigSpec.Builder();
         final ForgeConfigSpec.Builder client = new ForgeConfigSpec.Builder();
-        final Config config = new Config() {
+        final Config config = new Config()
+        {
 
             @Override
             protected BooleanValue build(Type configType, String name, boolean defaultValue, String comment)

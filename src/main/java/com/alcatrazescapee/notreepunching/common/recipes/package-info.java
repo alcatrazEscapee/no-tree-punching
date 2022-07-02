@@ -4,6 +4,5 @@
 package com.alcatrazescapee.notreepunching.common.recipes;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import net.minecraft.FieldsAreNonnullByDefault;
 import net.minecraft.MethodsReturnNonnullByDefault;

@@ -1,7 +1,6 @@
 package com.alcatrazescapee.notreepunching.platform.forge;
 
 import java.util.function.Supplier;
-
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;

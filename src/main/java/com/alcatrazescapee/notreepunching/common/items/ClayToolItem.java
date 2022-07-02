@@ -3,27 +3,25 @@ package com.alcatrazescapee.notreepunching.common.items;
 
 import java.util.List;
 import javax.annotation.Nullable;
-
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tiers;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.TieredItem;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelAccessor;
-
-import com.alcatrazescapee.notreepunching.Config;
-import com.alcatrazescapee.notreepunching.util.Helpers;
-
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+
+import com.alcatrazescapee.notreepunching.Config;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public class ClayToolItem extends TieredItem
 {

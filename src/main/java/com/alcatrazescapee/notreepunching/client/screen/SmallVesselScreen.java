@@ -1,8 +1,8 @@
 package com.alcatrazescapee.notreepunching.client.screen;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 
 import com.alcatrazescapee.notreepunching.common.container.SmallVesselContainer;
 

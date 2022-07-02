@@ -1,15 +1,16 @@
 package com.alcatrazescapee.notreepunching;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.DispenserBlock;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraft.core.BlockPos;
+
+import com.alcatrazescapee.notreepunching.common.blockentity.ModBlockEntities;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.container.ModContainers;
 import com.alcatrazescapee.notreepunching.common.items.ClayToolItem;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.common.recipes.ModRecipes;
-import com.alcatrazescapee.notreepunching.common.blockentity.ModBlockEntities;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import com.alcatrazescapee.notreepunching.world.ModFeatures;
 

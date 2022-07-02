@@ -1,13 +1,12 @@
 package com.alcatrazescapee.notreepunching.common.items;
 
-import net.minecraft.world.item.Items;
 import net.minecraft.world.InteractionResult;
-
-import com.alcatrazescapee.notreepunching.common.ModTags;
-
 import net.minecraft.world.item.DiggerItem;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.context.UseOnContext;
+
+import com.alcatrazescapee.notreepunching.common.ModTags;
 
 public class MattockItem extends DiggerItem
 {

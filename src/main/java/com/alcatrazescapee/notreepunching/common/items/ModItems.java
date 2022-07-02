@@ -1,13 +1,6 @@
 package com.alcatrazescapee.notreepunching.common.items;
 
 import java.util.function.Supplier;
-
-import com.alcatrazescapee.notreepunching.common.ModTiers;
-import com.alcatrazescapee.notreepunching.platform.RegistryHolder;
-import com.alcatrazescapee.notreepunching.platform.RegistryInterface;
-import com.alcatrazescapee.notreepunching.platform.XPlatform;
-import com.alcatrazescapee.notreepunching.util.Helpers;
-
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -19,6 +12,12 @@ import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.Tiers;
+
+import com.alcatrazescapee.notreepunching.common.ModTiers;
+import com.alcatrazescapee.notreepunching.platform.RegistryHolder;
+import com.alcatrazescapee.notreepunching.platform.RegistryInterface;
+import com.alcatrazescapee.notreepunching.platform.XPlatform;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 
 @SuppressWarnings("unused")
 public final class ModItems

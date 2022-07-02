@@ -1,16 +1,16 @@
 package com.alcatrazescapee.notreepunching.common.container;
 
 import java.util.function.Supplier;
-
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.network.IContainerFactory;
+
 import com.alcatrazescapee.notreepunching.common.blockentity.InventoryBlockEntity;
 import com.alcatrazescapee.notreepunching.common.blockentity.ModBlockEntities;
 import com.alcatrazescapee.notreepunching.platform.RegistryHolder;

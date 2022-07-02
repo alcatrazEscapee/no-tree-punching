@@ -1,14 +1,15 @@
 package com.alcatrazescapee.notreepunching.world;
 
 import java.util.List;
-
-import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraft.world.level.levelgen.placement.CountPlacement;
+import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import com.alcatrazescapee.notreepunching.platform.RegistryHolder;
 import com.alcatrazescapee.notreepunching.platform.RegistryInterface;

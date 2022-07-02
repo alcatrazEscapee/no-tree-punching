@@ -1,7 +1,6 @@
 package com.alcatrazescapee.notreepunching.common.blockentity;
 
 import java.util.function.Supplier;
-
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;

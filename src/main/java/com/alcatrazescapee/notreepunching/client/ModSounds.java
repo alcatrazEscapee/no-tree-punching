@@ -4,11 +4,11 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
-
 import com.alcatrazescapee.notreepunching.platform.RegistryHolder;
 import com.alcatrazescapee.notreepunching.platform.RegistryInterface;
 import com.alcatrazescapee.notreepunching.platform.XPlatform;
+
+import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public final class ModSounds
 {
