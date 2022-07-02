@@ -18,20 +18,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.network.NetworkHooks;
 
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.container.SmallVesselContainer;
+import com.alcatrazescapee.notreepunching.platform.XPlatform;
 import com.alcatrazescapee.notreepunching.util.Helpers;
-import com.alcatrazescapee.notreepunching.util.ItemStackItemHandler;
+import com.alcatrazescapee.notreepunching.util.inventory.ItemStackAttachedInventory;
 
 import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
 
 public class SmallVesselItem extends Item
 {
     public static final int SLOT_ROWS = 3, SLOT_COLUMNS = 3, SLOTS = SLOT_ROWS * SLOT_COLUMNS;
+    public static final ItemStackAttachedInventory.Factory INVENTORY = ItemStackAttachedInventory.create(SLOTS, stack -> !Helpers.isItem(stack.getItem(), ModTags.Items.SMALL_VESSEL_BLACKLIST));
 
     public SmallVesselItem()
     {
@@ -44,10 +43,11 @@ public class SmallVesselItem extends Item
         final ItemStack stack = player.getItemInHand(hand);
         if (player instanceof ServerPlayer serverPlayer && !player.isShiftKeyDown())
         {
-            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler ->
-                NetworkHooks.openGui(serverPlayer,
-                    new SimpleMenuProvider((windowID, playerInventory, playerIn) -> new SmallVesselContainer(windowID, playerInventory, hand), stack.getHoverName()),
-                    buffer -> buffer.writeBoolean(hand == InteractionHand.MAIN_HAND)));
+            XPlatform.INSTANCE.openScreen(
+                serverPlayer,
+                new SimpleMenuProvider((windowID, playerInventory, playerIn) -> new SmallVesselContainer(windowID, playerInventory, hand), stack.getHoverName()),
+                buffer -> buffer.writeBoolean(hand == InteractionHand.MAIN_HAND)
+            );
         }
         return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
     }
@@ -58,56 +58,35 @@ public class SmallVesselItem extends Item
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag)
     {
-        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY != null)
+        final CompoundTag tag = stack.getTag();
+        if (tag != null)
         {
-            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(handler -> {
-                int displayCount = 0;
-                int totalCount = 0;
+            final ItemStackAttachedInventory inventory = INVENTORY.create(stack);
 
-                for (int i = 0; i < handler.getSlots(); i++)
+            int displayCount = 0;
+            int totalCount = 0;
+            for (int i = 0; i < inventory.size(); i++)
+            {
+                final ItemStack contentStack = inventory.get(i);
+                if (!contentStack.isEmpty())
                 {
-                    ItemStack contentStack = handler.getStackInSlot(i);
-                    if (!contentStack.isEmpty())
+                    ++totalCount;
+                    if (displayCount <= 4)
                     {
-                        ++totalCount;
-                        if (displayCount <= 4)
-                        {
-                            ++displayCount;
-                            MutableComponent textComponent = contentStack.getHoverName().plainCopy();
-                            textComponent.append(" x").append(String.valueOf(contentStack.getCount()));
-                            tooltip.add(textComponent);
-                        }
+                        ++displayCount;
+                        MutableComponent textComponent = contentStack.getHoverName().plainCopy();
+                        textComponent.append(" x").append(String.valueOf(contentStack.getCount()));
+                        tooltip.add(textComponent);
                     }
                 }
+            }
 
-                if (totalCount > displayCount)
-                {
-                    MutableComponent textComponent = new TranslatableComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
-                    textComponent.setStyle(textComponent.getStyle().applyFormat(ChatFormatting.ITALIC));
-                    tooltip.add(textComponent);
-                }
-            });
-        }
-    }
-
-    @Nullable
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt)
-    {
-        return new SmallVesselItemStackHandler(nbt, stack, SLOTS);
-    }
-
-    static final class SmallVesselItemStackHandler extends ItemStackItemHandler
-    {
-        SmallVesselItemStackHandler(@Nullable CompoundTag capNbt, ItemStack stack, int slots)
-        {
-            super(capNbt, stack, slots);
-        }
-
-        @Override
-        public boolean isItemValid(int slot, ItemStack stack)
-        {
-            return !Helpers.isItem(stack.getItem(), ModTags.Items.SMALL_VESSEL_BLACKLIST);
+            if (totalCount > displayCount)
+            {
+                MutableComponent textComponent = new TranslatableComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
+                textComponent.setStyle(textComponent.getStyle().applyFormat(ChatFormatting.ITALIC));
+                tooltip.add(textComponent);
+            }
         }
     }
 }

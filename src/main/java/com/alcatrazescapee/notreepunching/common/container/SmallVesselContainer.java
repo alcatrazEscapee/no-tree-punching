@@ -2,11 +2,10 @@ package com.alcatrazescapee.notreepunching.common.container;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 import com.alcatrazescapee.notreepunching.common.items.SmallVesselItem;
-import com.alcatrazescapee.notreepunching.util.ISlotCallback;
-import com.alcatrazescapee.notreepunching.util.SlotCallback;
+import com.alcatrazescapee.notreepunching.util.inventory.InventorySlot;
+import com.alcatrazescapee.notreepunching.util.inventory.ItemStackAttachedInventory;
 
 public final class SmallVesselContainer extends ItemStackContainer
 {
@@ -19,17 +18,13 @@ public final class SmallVesselContainer extends ItemStackContainer
     @Override
     protected void addContainerSlots()
     {
-        getTargetStack().getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-            if (handler instanceof ISlotCallback callback)
+        final ItemStackAttachedInventory inventory = SmallVesselItem.INVENTORY.create(player.getItemInHand(hand));
+        for (int x = 0; x < SmallVesselItem.SLOT_COLUMNS; x++)
+        {
+            for (int y = 0; y < SmallVesselItem.SLOT_ROWS; y++)
             {
-                for (int x = 0; x < SmallVesselItem.SLOT_COLUMNS; x++)
-                {
-                    for (int y = 0; y < SmallVesselItem.SLOT_ROWS; y++)
-                    {
-                        addSlot(new SlotCallback(callback, handler, x + SmallVesselItem.SLOT_COLUMNS * y, 62 + x * 18, 20 + y * 18));
-                    }
-                }
+                addSlot(new InventorySlot(inventory, x + SmallVesselItem.SLOT_COLUMNS * y, 62 + x * 18, 20 + y * 18));
             }
-        });
+        }
     }
 }

@@ -11,5 +11,5 @@ public class ModRecipes
 {
     public static final RegistryInterface<RecipeSerializer<?>> RECIPE_SERIALIZERS = XPlatform.INSTANCE.registryInterface(Registry.RECIPE_SERIALIZER);
 
-    public static final RegistryHolder<ShapedToolDamagingRecipe.Serializer> TOOL_DAMAGING = RECIPE_SERIALIZERS.register("tool_damaging", ShapedToolDamagingRecipe.Serializer::new);
+    public static final RegistryHolder<RecipeSerializer<?>> TOOL_DAMAGING = RECIPE_SERIALIZERS.register("tool_damaging", () -> XPlatform.INSTANCE.recipeSerializer(ShapedToolDamagingRecipe.Serializer.INSTANCE));
 }

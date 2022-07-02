@@ -1,7 +1,6 @@
 package com.alcatrazescapee.notreepunching.common.recipes;
 
 import com.google.gson.JsonObject;
-import javax.annotation.Nullable;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundUpdateRecipesPacket;
@@ -65,15 +64,16 @@ public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingC
         return (Recipe<CraftingContainer>) recipe;
     }
 
-    public static class Serializer extends ModRecipeSerializer<ShapedToolDamagingRecipe>
+    public enum Serializer implements RecipeSerializerImpl<ShapedToolDamagingRecipe>
     {
+        INSTANCE;
+
         @Override
-        public ShapedToolDamagingRecipe fromJson(ResourceLocation recipeId, JsonObject json)
+        public ShapedToolDamagingRecipe fromJson(ResourceLocation recipeId, JsonObject json, RecipeSerializerImpl.Context context)
         {
             return new ShapedToolDamagingRecipe(recipeId, RecipeManager.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe")));
         }
 
-        @Nullable
         @Override
         public ShapedToolDamagingRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
         {
