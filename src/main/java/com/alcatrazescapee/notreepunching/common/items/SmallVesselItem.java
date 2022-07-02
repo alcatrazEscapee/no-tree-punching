@@ -62,31 +62,7 @@ public class SmallVesselItem extends Item
         if (tag != null)
         {
             final ItemStackAttachedInventory inventory = INVENTORY.create(stack);
-
-            int displayCount = 0;
-            int totalCount = 0;
-            for (int i = 0; i < inventory.size(); i++)
-            {
-                final ItemStack contentStack = inventory.get(i);
-                if (!contentStack.isEmpty())
-                {
-                    ++totalCount;
-                    if (displayCount <= 4)
-                    {
-                        ++displayCount;
-                        MutableComponent textComponent = contentStack.getHoverName().plainCopy();
-                        textComponent.append(" x").append(String.valueOf(contentStack.getCount()));
-                        tooltip.add(textComponent);
-                    }
-                }
-            }
-
-            if (totalCount > displayCount)
-            {
-                MutableComponent textComponent = new TranslatableComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
-                textComponent.setStyle(textComponent.getStyle().applyFormat(ChatFormatting.ITALIC));
-                tooltip.add(textComponent);
-            }
+            Helpers.addInventoryTooltip(inventory, tooltip);
         }
     }
 }

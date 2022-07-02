@@ -1,26 +1,20 @@
 package com.alcatrazescapee.notreepunching.common.items;
 
 import java.util.List;
-import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.Nullable;
 
-import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.blockentity.LargeVesselBlockEntity;
 import com.alcatrazescapee.notreepunching.util.Helpers;
-import com.alcatrazescapee.notreepunching.util.ItemStackItemHandler;
-
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
+import com.alcatrazescapee.notreepunching.util.inventory.ItemStackInventory;
+import com.alcatrazescapee.notreepunching.util.inventory.ItemStackListInventory;
 
 public class LargeVesselBlockItem extends BlockItem
 {
@@ -29,64 +23,15 @@ public class LargeVesselBlockItem extends BlockItem
         super(blockIn, builder);
     }
 
-    @Nullable
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag tag)
-    {
-        // This tag is used because minecraft expects it
-        if (tag != null && tag.contains("BlockEntityTag"))
-        {
-            tag = tag.getCompound("BlockEntityTag");
-        }
-        return new LargeVesselItemHandler(tag, stack, LargeVesselBlockEntity.SLOTS);
-    }
-
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag)
     {
-        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY != null)
+        final CompoundTag rootTag = stack.getTag();
+        if (rootTag != null && rootTag.contains("BlockEntityTag", Tag.TAG_COMPOUND))
         {
-            stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(handler -> {
-                int displayCount = 0;
-                int totalCount = 0;
-
-                for (int i = 0; i < handler.getSlots(); i++)
-                {
-                    ItemStack contentStack = handler.getStackInSlot(i);
-                    if (!contentStack.isEmpty())
-                    {
-                        ++totalCount;
-                        if (displayCount <= 4)
-                        {
-                            ++displayCount;
-                            MutableComponent textComponent = contentStack.getHoverName().plainCopy();
-                            textComponent.append(" x").append(String.valueOf(contentStack.getCount()));
-                            tooltip.add(textComponent);
-                        }
-                    }
-                }
-
-                if (totalCount > displayCount)
-                {
-                    TranslatableComponent textComponent = new TranslatableComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
-                    textComponent.setStyle(textComponent.getStyle().applyFormat(ChatFormatting.ITALIC));
-                    tooltip.add(textComponent);
-                }
-            });
-        }
-    }
-
-    static class LargeVesselItemHandler extends ItemStackItemHandler
-    {
-        LargeVesselItemHandler(@Nullable CompoundTag capNbt, ItemStack stack, int slots)
-        {
-            super(capNbt, stack, slots);
-        }
-
-        @Override
-        public boolean isItemValid(int slot, ItemStack stack)
-        {
-            return Helpers.isItem(stack.getItem(), ModTags.Items.LARGE_VESSEL_BLACKLIST);
+            final CompoundTag blockEntityTag = rootTag.getCompound("BlockEntityTag");
+            final ItemStackInventory inventory = ItemStackListInventory.create(LargeVesselBlockEntity.SLOTS, blockEntityTag);
+            Helpers.addInventoryTooltip(inventory, tooltip);
         }
     }
 }
