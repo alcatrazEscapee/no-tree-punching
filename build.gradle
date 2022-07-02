@@ -1,163 +1,45 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://maven.parchmentmc.org' }
-        maven {
-            url "https://repo.spongepowered.org/repository/maven-public/"
-            content { includeGroup "org.spongepowered" }
-        }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-        classpath 'org.parchmentmc:librarian:1.+'
-    }
-}
-
-plugins {
-    id 'com.matthewprenger.cursegradle' version '1.4.0'
-    id 'org.cadixdev.licenser' version '0.6.1'
-    id 'idea'
-}
-
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'org.spongepowered.mixin'
-
-// Allow local mappings customization
-def localProperties = new File('./dev.gradle')
-localProperties.createNewFile()
-
-apply from: 'dev.gradle'
-
-def mappingsChannel = project.hasProperty('mappings_channel') ? mappings_channel : 'official'
-def mappingsVersion = project.hasProperty('mappings_version') ? mappings_version : minecraft_version
-
-println 'Using mappings: ' + mappingsChannel + ' / ' + mappingsVersion
-
-// Use version from environment variable, if set
-def env = System.getenv()
-version = env.VERSION == null ? 'indev' : env.VERSION
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
-mod_id = 'notreepunching'
-group = "com.alcatrazescapee.${mod_id}"
-archivesBaseName = "${mod_id}-forge-${minecraft_version}"
-
-repositories {
-    mavenLocal()
-    maven {
-        // JEI
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-    }
-    maven {
-        // Mirror for JEI
-        name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
-    }
-    maven {
-        // Cyanide
-        url = 'https://alcatrazescapee.jfrog.io/artifactory/mods'
-    }
-    flatDir {
-        dirs 'libs'
-    }
-}
-
-minecraft {
-    mappings channel: mappingsChannel, version: mappingsVersion
-    //accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-    // Run configurations
-    runs {
-        client {
-            workingDirectory project.file('run')
-            arg '-mixin.config=' + mod_id + '.mixins.json'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            mods {
-                notreepunching {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        server {
-            workingDirectory project.file('run')
-            arg '-mixin.config=' + mod_id + '.mixins.json'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            mods {
-                notreepunching {
-                    source sourceSets.main
-                }
-            }
-        }
-    }
-}
-
-
-dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-    //runtimeOnly fg.deobf("com.alcatrazescapee:cyanide-forge-1.18:2.0.2") { transitive = false }
-
-    //compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
-    //runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
-
-    if (System.getProperty("idea.sync.active") != "true") {
-        annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
-    }
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-}
-
-// Puts the mod version into the jar for mods.toml to read from
-jar {
-    manifest {
-        attributes ([
-            "Implementation-Version": "${project.version}",
-            "MixinConfigs": "${mod_id}.mixins.json"
-        ])
-    }
-}
-
-test {
-    useJUnitPlatform()
-}
-
-idea {
-    module {
-        excludeDirs.add(file("run"))
-    }
-}
-
-mixin {
-    add sourceSets.main, "${mod_id}.refmap.json"
-}
-
-// Automatically apply a license header when running checkLicense / updateLicense
-license {
-    header = project.file('HEADER.txt')
-
-    include '** /*.java'
-}
-
-curseforge {
-    project {
-        apiKey = env.CURSEFORGE_API_KEY == null ? 'nope' : env.CURSEFORGE_API_KEY
+subprojects {
     
-        id = '289043' // No Tree Punching
+    apply plugin: 'java'
+
+    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+    java.withSourcesJar()
+    java.withJavadocJar()
         
-        changelog = "[Release Notes ${version}](https://github.com/alcatrazEscapee/no-tree-punching/releases/tag/v${version})"
-        changelogType = "markdown"
-        
-        releaseType = 'release'
-        addGameVersion "${minecraft_version}"
+    jar {
+        manifest {
+            attributes([
+                'Specification-Title'     : mod_name,
+                'Specification-Vendor'    : mod_author,
+                'Specification-Version'   : project.jar.archiveVersion,
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : mod_author,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'Timestampe'              : System.currentTimeMillis(),
+                'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                'Build-On-Minecraft'      : minecraft_version
+            ])
+        }
+    }
+    
+    repositories {
+        mavenCentral()
+        maven {
+            name = 'Sponge / Mixin'
+            url = 'https://repo.spongepowered.org/repository/maven-public/'
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = 'UTF-8'
+        it.options.release = 17
+    }
+
+    // Disables Gradle's custom module metadata from being published to maven. The
+    // metadata includes mapped dependencies which are not reasonably consumable by
+    // other mod developers.
+    tasks.withType(GenerateModuleMetadata) {
+        enabled = false
     }
 }

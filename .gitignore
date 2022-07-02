@@ -1,20 +1,22 @@
-# Reverse gitignore - explicitly include files
 *
 !*/
+
+!/.github/**/*.yml
+!/.idea/scopes/*_sources.xml
+
+!/gradle/wrapper/gradle-wrapper.jar
+!/gradle/wrapper/gradle-wrapper.properties
+
+!/**/build.gradle
+!/**/src/**/*.*
+!/Data/main.py
+
+!/img/**/*.png
+
 !/.gitignore
-
-# Source code and build script
-!.github/**
-!gradle/**
-!src/**
-!resources/**/*.py
-!img/**/*.png
-
-# Metadata
-!build.gradle
-!gradle.properties
-!gradlew
-!gradlew.bat
-!LICENSE.md
-!HEADER.txt
-!README.md
+!/gradle.properties
+!/settings.gradle
+!/gradlew
+!/gradlew.bat
+!/LICENSE
+!/README.md

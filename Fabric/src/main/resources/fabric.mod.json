@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": " This is a minecraft mod meant to add a little more believability to your first few minutes of minecraft play. It was initially inspired by features from TerraFirmaCraft, but has since been refocused around the titular idea: Blocks don't drop anything if broken with the incorrect tool.",
+  "authors": [
+    "${mod_author}"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/no-tree-punching",
+    "sources": "https://github.com/alcatrazEscapee/no-tree-punching"
+  },
+  "license": "MIT",
+  "icon": "assets/notreepunching/logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+    ],
+    "client": [
+    ]
+  },
+  "mixins": [
+    "notreepunching.mixins.json",
+    "notreepunching.common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.13",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  }
+}
+  
