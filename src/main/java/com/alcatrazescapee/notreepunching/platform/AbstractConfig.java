@@ -1,7 +1,6 @@
 package com.alcatrazescapee.notreepunching.platform;
 
 import java.util.List;
-import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 public abstract class AbstractConfig
