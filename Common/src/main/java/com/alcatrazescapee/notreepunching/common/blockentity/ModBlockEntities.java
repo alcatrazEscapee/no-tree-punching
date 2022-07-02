@@ -10,6 +10,7 @@ import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.platform.RegistryHolder;
 import com.alcatrazescapee.notreepunching.platform.RegistryInterface;
 import com.alcatrazescapee.notreepunching.platform.XPlatform;
+import com.alcatrazescapee.notreepunching.platform.event.BlockEntityFactory;
 
 public class ModBlockEntities
 {
@@ -17,9 +18,8 @@ public class ModBlockEntities
 
     public static final RegistryHolder<BlockEntityType<LargeVesselBlockEntity>> LARGE_VESSEL = register("large_vessel", LargeVesselBlockEntity::new, ModBlocks.CERAMIC_LARGE_VESSEL);
 
-    @SuppressWarnings({"ConstantConditions", "SameParameterValue"})
-    private static <T extends BlockEntity> RegistryHolder<BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, Supplier<? extends Block> block)
+    private static <T extends BlockEntity> RegistryHolder<BlockEntityType<T>> register(String name, BlockEntityFactory<T> factory, Supplier<? extends Block> block)
     {
-        return BLOCK_ENTITIES.register(name, () -> BlockEntityType.Builder.of(factory, block.get()).build(null));
+        return BLOCK_ENTITIES.register(name, () -> XPlatform.INSTANCE.blockEntityType(factory, block));
     }
 }

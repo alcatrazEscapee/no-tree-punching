@@ -4,6 +4,7 @@ plugins {
 }
 
 minecraft {
+    accessWideners(project.file("src/main/resources/notreepunching.common.accesswidener"))
     version(minecraft_version)
 }
 

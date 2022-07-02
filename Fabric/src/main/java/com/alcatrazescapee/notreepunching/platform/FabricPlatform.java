@@ -2,6 +2,10 @@ package com.alcatrazescapee.notreepunching.platform;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -20,93 +24,64 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.ForgeTier;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.network.NetworkHooks;
 
 import com.alcatrazescapee.notreepunching.Config;
-import com.alcatrazescapee.notreepunching.common.recipes.ForgeShapedToolDamagingRecipe;
 import com.alcatrazescapee.notreepunching.common.recipes.RecipeSerializerImpl;
-import com.alcatrazescapee.notreepunching.common.recipes.ShapedToolDamagingRecipe;
 import com.alcatrazescapee.notreepunching.platform.event.BlockEntityFactory;
 
-public final class ForgePlatform implements XPlatform
+public final class FabricPlatform implements XPlatform
 {
     @Override
     public <T> RegistryInterface<T> registryInterface(Registry<T> registry)
     {
-        return new ForgeRegistryInterface<>(registry);
+        return new FabricRegistryInterface<>(registry);
     }
 
     @Override
     public Config createConfig()
     {
-        return ForgeConfig.create();
+        return FabricConfig.create();
     }
 
     @Override
     public CreativeModeTab creativeTab(ResourceLocation id, Supplier<ItemStack> icon)
     {
-        return new CreativeModeTab(id.toString())
-        {
-            @Override
-            public ItemStack makeIcon()
-            {
-                return icon.get();
-            }
-        };
+        return FabricItemGroupBuilder.build(id, icon);
     }
 
     @Override
     public Tier toolTier(int uses, float speed, float attackDamageBonus, int level, int enchantmentValue, TagKey<Block> tag, Supplier<Ingredient> repairIngredient)
     {
-        return new ForgeTier(level, uses, speed, attackDamageBonus, enchantmentValue, tag, repairIngredient);
+        return new FabricTier(uses, speed, attackDamageBonus, level, enchantmentValue, repairIngredient);
     }
 
     @Override
     public StairBlock stairBlock(Supplier<BlockState> state, BlockBehaviour.Properties properties)
     {
-        return new StairBlock(state, properties);
+        return new StairBlock(state.get(), properties);
     }
 
     @Override
     public <T extends Recipe<?>> RecipeSerializer<T> recipeSerializer(RecipeSerializerImpl<T> impl)
     {
-        return new ForgeRecipeSerializer<>(impl);
+        return new FabricRecipeSerializer<>(impl);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityType<T> blockEntityType(BlockEntityFactory<T> factory, Supplier<? extends Block> block)
     {
-        return BlockEntityType.Builder.of(factory::create, block.get()).build(null);
-    }
-
-    @Override
-    public ShapedToolDamagingRecipe shapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
-    {
-        return new ForgeShapedToolDamagingRecipe(id, recipe);
+        return FabricBlockEntityTypeBuilder.create(factory::create, block.get()).build();
     }
 
     @Override
     public void openScreen(ServerPlayer serverPlayer, MenuProvider provider, Consumer<FriendlyByteBuf> buffer)
     {
-        NetworkHooks.openGui(serverPlayer, provider, buffer);
-    }
-
-    @Override
-    public ItemStack getCraftingRemainder(ItemStack stack)
-    {
-        if (stack.hasContainerItem())
-        {
-            return stack.getContainerItem();
-        }
-        return ItemStack.EMPTY;
+        // todo: fabric screens
     }
 
     @Override
     public boolean isDedicatedClient()
     {
-        return FMLLoader.getDist() == Dist.CLIENT;
+        return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
     }
 }

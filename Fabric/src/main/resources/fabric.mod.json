@@ -16,8 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
+      "com.alcatrazescapee.notreepunching.FabricNoTreePunching"
     ],
     "client": [
+      "com.alcatrazescapee.notreepunching.client.FabricNoTreePunchingClient"
     ]
   },
   "mixins": [

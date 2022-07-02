@@ -5,11 +5,9 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.crafting.IShapedRecipe;
 
-public interface IShapedDelegateRecipe<C extends Container> extends Recipe<C>, IShapedRecipe<C>
+public interface IShapedDelegateRecipe<C extends Container> extends Recipe<C>
 {
     Recipe<C> delegate();
 
@@ -71,17 +69,5 @@ public interface IShapedDelegateRecipe<C extends Container> extends Recipe<C>, I
     default ItemStack getToastSymbol()
     {
         return delegate().getToastSymbol();
-    }
-
-    @Override
-    default int getRecipeWidth()
-    {
-        return ((ShapedRecipe) delegate()).getWidth();
-    }
-
-    @Override
-    default int getRecipeHeight()
-    {
-        return ((ShapedRecipe) delegate()).getHeight();
     }
 }

@@ -52,9 +52,6 @@ public class SmallVesselItem extends Item
         return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
     }
 
-    /**
-     * Copy pasta from {@link net.minecraft.world.level.block.ShulkerBoxBlock#appendHoverText(ItemStack, BlockGetter, List, TooltipFlag)}
-     */
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag)
     {

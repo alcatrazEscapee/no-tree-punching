@@ -14,10 +14,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.NoTreePunching;
@@ -79,6 +78,9 @@ public final class Helpers
         return block.builtInRegistryHolder().is(tag);
     }
 
+    /**
+     * Copy pasta from {@link net.minecraft.world.level.block.ShulkerBoxBlock#appendHoverText(ItemStack, BlockGetter, List, TooltipFlag)}
+     */
     public static void addInventoryTooltip(ItemStackInventory inventory, List<Component> tooltip)
     {
         int displayCount = 0;
@@ -106,18 +108,5 @@ public final class Helpers
             textComponent.setStyle(textComponent.getStyle().applyFormat(ChatFormatting.ITALIC));
             tooltip.add(textComponent);
         }
-    }
-
-    /**
-     * Like {@link Capability#orEmpty(Capability, LazyOptional)} except it properly checks for nulls
-     * The method is annotated as {@link NotNull}, but since there *may* be a case where it is called very early, incorrect handling may permit the capability to be null. So instead of crashing, we gracefully log an error message.
-     */
-    public static <T, R> LazyOptional<R> getCapabilityWithNullChecks(@Nullable Capability<R> capability, @Nullable Capability<T> capabilityToCheck, LazyOptional<T> instance)
-    {
-        if (capabilityToCheck == null || capability == null)
-        {
-            return LazyOptional.empty();
-        }
-        return capabilityToCheck.orEmpty(capability, instance);
     }
 }

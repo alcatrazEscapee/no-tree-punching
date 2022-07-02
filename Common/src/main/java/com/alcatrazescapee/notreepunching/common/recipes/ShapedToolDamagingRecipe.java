@@ -13,6 +13,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
+import com.alcatrazescapee.notreepunching.platform.XPlatform;
 import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingContainer>, CraftingRecipe
@@ -32,10 +33,11 @@ public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingC
         final NonNullList<ItemStack> items = NonNullList.withSize(container.getContainerSize(), ItemStack.EMPTY);
         for (int i = 0; i < items.size(); i++)
         {
-            ItemStack stack = container.getItem(i);
-            if (stack.hasContainerItem())
+            final ItemStack stack = container.getItem(i);
+            final ItemStack remainder = XPlatform.INSTANCE.getCraftingRemainder(stack);
+            if (!remainder.isEmpty())
             {
-                items.set(i, stack.getContainerItem());
+                items.set(i, remainder);
             }
             else if (stack.isDamageableItem())
             {
@@ -71,13 +73,13 @@ public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingC
         @Override
         public ShapedToolDamagingRecipe fromJson(ResourceLocation recipeId, JsonObject json, RecipeSerializerImpl.Context context)
         {
-            return new ShapedToolDamagingRecipe(recipeId, RecipeManager.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe")));
+            return XPlatform.INSTANCE.shapedToolDamagingRecipe(recipeId, RecipeManager.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe")));
         }
 
         @Override
         public ShapedToolDamagingRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
         {
-            return new ShapedToolDamagingRecipe(recipeId, ClientboundUpdateRecipesPacket.fromNetwork(buffer));
+            return XPlatform.INSTANCE.shapedToolDamagingRecipe(recipeId, ClientboundUpdateRecipesPacket.fromNetwork(buffer));
         }
 
         @Override

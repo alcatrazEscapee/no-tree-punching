@@ -10,10 +10,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Platform independent implementation of {@link net.minecraft.world.item.crafting.RecipeSerializer}.
  */
-public interface RecipeSerializerImpl<T extends Recipe<?>>// extends RecipeSerializer<T> // todo: extend once IForgeRegistry not in hierarchy
+public interface RecipeSerializerImpl<T extends Recipe<?>>
 {
-    // todo: add override
-    //@Override
     default T fromJson(ResourceLocation recipeId, JsonObject json)
     {
         return fromJson(recipeId, json, Context.EMPTY);
@@ -21,7 +19,6 @@ public interface RecipeSerializerImpl<T extends Recipe<?>>// extends RecipeSeria
 
     T fromJson(ResourceLocation recipeId, JsonObject json, Context context);
 
-    // todo: remove overrides
     @Nullable
     T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer);
 
