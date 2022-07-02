@@ -5,15 +5,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 import com.alcatrazescapee.notreepunching.common.container.LargeVesselContainer;
-
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public class LargeVesselScreen extends ModContainerScreen<LargeVesselContainer>
 {
-    private static final ResourceLocation LARGE_VESSEL_BACKGROUND = new ResourceLocation(MOD_ID, "textures/gui/large_vessel.png");
+    private static final ResourceLocation LARGE_VESSEL_BACKGROUND = Helpers.identifier("textures/gui/large_vessel.png");
 
-    public LargeVesselScreen(LargeVesselContainer screenContainer, Inventory inv, Component titleIn)
+    public LargeVesselScreen(LargeVesselContainer container, Inventory inventory, Component title)
     {
-        super(screenContainer, inv, titleIn, LARGE_VESSEL_BACKGROUND);
+        super(container, inventory, title, LARGE_VESSEL_BACKGROUND);
     }
 }

@@ -25,9 +25,9 @@ public class MattockItem extends DiggerItem
         return Items.DIAMOND_SHOVEL.useOn(context);
     }
 
-    public MattockItem(Tier tier, float attackDamageIn, float attackSpeedIn, Properties builder)
+    public MattockItem(Tier tier, float attackDamage, float attackSpeed, Properties properties)
     {
-        super(attackDamageIn, attackSpeedIn, tier, ModTags.Blocks.MINEABLE_WITH_MATTOCK, builder);
+        super(attackDamage, attackSpeed, tier, ModTags.Blocks.MINEABLE_WITH_MATTOCK, properties);
     }
 
     /**

@@ -31,18 +31,18 @@ public class LargeVesselBlockItem extends BlockItem
 
     @Nullable
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt)
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag tag)
     {
         // This tag is used because minecraft expects it
-        if (nbt != null && nbt.contains("BlockEntityTag"))
+        if (tag != null && tag.contains("BlockEntityTag"))
         {
-            nbt = nbt.getCompound("BlockEntityTag");
+            tag = tag.getCompound("BlockEntityTag");
         }
-        return new LargeVesselItemHandler(nbt, stack, LargeVesselBlockEntity.SLOTS);
+        return new LargeVesselItemHandler(tag, stack, LargeVesselBlockEntity.SLOTS);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag)
     {
         if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY != null)
         {

@@ -32,7 +32,7 @@ public abstract class ModBlockEntity extends BlockEntity
      * Handle a packet sent from {@link #getUpdatePacket()}. Delegates to {@link #handleUpdateTag(CompoundTag)}.
      */
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet)
+    public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet)
     {
         if (packet.getTag() != null)
         {

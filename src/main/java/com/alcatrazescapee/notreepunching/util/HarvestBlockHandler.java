@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
@@ -21,7 +23,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -61,7 +62,7 @@ public final class HarvestBlockHandler
         BLOCK_TOOL_TYPES.clear();
 
         final Map<Material, List<Block>> unknownMaterialBlocks = new HashMap<>();
-        for (Block block : ForgeRegistries.BLOCKS.getValues())
+        Registry.BLOCK.stream().forEach(block ->
         {
             final AbstractBlockAccessor blockAccess = (AbstractBlockAccessor) block;
             final BlockBehaviour.Properties settings = blockAccess.getProperties();
@@ -85,9 +86,9 @@ public final class HarvestBlockHandler
                 // Unknown tool type. Collect and log it later
                 unknownMaterialBlocks.computeIfAbsent(blockAccess.getMaterial(), k -> new ArrayList<>()).add(block);
             }
-        }
+        });
 
-        for (Item item : ForgeRegistries.ITEMS.getValues())
+        Registry.ITEM.stream().forEach(item ->
         {
             if (item instanceof DiggerItem digger)
             {
@@ -101,7 +102,7 @@ public final class HarvestBlockHandler
             {
                 ITEM_TOOL_TYPES.put(item, ToolType.SHARP);
             }
-        }
+        });
 
         if (!unknownMaterialBlocks.isEmpty())
         {
@@ -113,7 +114,7 @@ public final class HarvestBlockHandler
             final List<Block> blocks = entry.getValue();
             LOGGER.warn("Material: [isLiquid={}, isSolid={}, blocksMotion={}, isFlammable={}, isReplaceable={}, isSolidBlocking={}, getPushReaction={}, getColor=[id={}, col={}]] | Blocks: {}",
                 material.isLiquid(), material.isSolid(), material.blocksMotion(), material.isFlammable(), material.isReplaceable(), material.isSolidBlocking(), material.getPushReaction(), material.getColor().id, new Color(material.getColor().col),
-                blocks.stream().map(b -> b.getRegistryName().toString()).collect(Collectors.joining(", ")));
+                blocks.stream().map(Registry.BLOCK::getKey).map(ResourceLocation::toString).collect(Collectors.joining(", ")));
         }
     }
 

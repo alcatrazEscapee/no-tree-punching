@@ -16,9 +16,9 @@ public class ModContainerScreen<C extends AbstractContainerMenu> extends Abstrac
 {
     protected final ResourceLocation texture;
 
-    public ModContainerScreen(C screenContainer, Inventory inv, Component titleIn, ResourceLocation texture)
+    public ModContainerScreen(C container, Inventory inventory, Component title, ResourceLocation texture)
     {
-        super(screenContainer, inv, titleIn);
+        super(container, inventory, title);
         this.texture = texture;
     }
 

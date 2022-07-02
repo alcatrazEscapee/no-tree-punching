@@ -20,9 +20,9 @@ import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public class KnifeItem extends SwordItem
 {
-    public KnifeItem(Tier tier, int attackDamageIn, float attackSpeedIn, Properties builder)
+    public KnifeItem(Tier tier, int attackDamage, float attackSpeed, Properties properties)
     {
-        super(tier, attackDamageIn, attackSpeedIn, builder.setNoRepair());
+        super(tier, attackDamage, attackSpeed, properties.setNoRepair());
     }
 
     @Override
@@ -44,18 +44,18 @@ public class KnifeItem extends SwordItem
     }
 
     @Override
-    public boolean mineBlock(ItemStack stack, Level worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving)
+    public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity entity)
     {
-        if (!worldIn.isClientSide && (state.getDestroySpeed(worldIn, pos) != 0.0F || Config.INSTANCE.doInstantBreakBlocksDamageKnives.get()))
+        if (!level.isClientSide && (state.getDestroySpeed(level, pos) != 0.0F || Config.INSTANCE.doInstantBreakBlocksDamageKnives.get()))
         {
-            stack.hurtAndBreak(1, entityLiving, entityIn -> entityIn.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+            stack.hurtAndBreak(1, entity, entityIn -> entityIn.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         }
         return true;
     }
 
     @Override
-    public InteractionResult interactLivingEntity(ItemStack stack, Player playerIn, LivingEntity entity, InteractionHand hand)
+    public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity entity, InteractionHand hand)
     {
-        return Items.SHEARS.interactLivingEntity(stack, playerIn, entity, hand);
+        return Items.SHEARS.interactLivingEntity(stack, player, entity, hand);
     }
 }

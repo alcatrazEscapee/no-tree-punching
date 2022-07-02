@@ -10,10 +10,10 @@ import com.alcatrazescapee.notreepunching.util.SlotCallback;
 
 public final class SmallVesselContainer extends ItemStackContainer
 {
-    public SmallVesselContainer(int windowId, Inventory playerInv, InteractionHand hand)
+    public SmallVesselContainer(int windowId, Inventory playerInventory, InteractionHand hand)
     {
-        super(ModContainers.SMALL_VESSEL.get(), windowId, playerInv, hand);
-        init(playerInv);
+        super(ModContainers.SMALL_VESSEL.get(), windowId, playerInventory, hand);
+        init(playerInventory);
     }
 
     @Override

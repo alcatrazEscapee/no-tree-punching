@@ -29,35 +29,35 @@ public class LooseRockBlock extends Block
 
     @Override
     @SuppressWarnings("deprecation")
-    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving)
     {
-        if (!state.canSurvive(worldIn, pos) && !worldIn.isClientSide)
+        if (!state.canSurvive(level, pos) && !level.isClientSide)
         {
-            worldIn.destroyBlock(pos, true);
+            level.destroyBlock(pos, true);
         }
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
     {
-        ItemStack stack = getCloneItemStack(state, hit, worldIn, pos, player);
+        ItemStack stack = getCloneItemStack(state, hit, level, pos, player);
         ItemHandlerHelper.giveItemToPlayer(player, stack);
-        worldIn.removeBlock(pos, false);
+        level.removeBlock(pos, false);
         return InteractionResult.SUCCESS;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos)
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
     {
-        BlockState stateUnder = worldIn.getBlockState(pos.below());
-        return stateUnder.isFaceSturdy(worldIn, pos.below(), Direction.UP);
+        BlockState stateUnder = level.getBlockState(pos.below());
+        return stateUnder.isFaceSturdy(level, pos.below(), Direction.UP);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
     {
         return SHAPE;
     }

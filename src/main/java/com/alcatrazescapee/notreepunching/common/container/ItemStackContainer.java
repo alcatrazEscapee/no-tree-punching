@@ -18,14 +18,14 @@ public class ItemStackContainer extends ModContainer
 
     protected int itemIndex;
 
-    protected ItemStackContainer(MenuType<?> containerType, int windowId, Inventory playerInv, InteractionHand hand)
+    protected ItemStackContainer(MenuType<?> containerType, int windowId, Inventory playerInventory, InteractionHand hand)
     {
         super(containerType, windowId);
 
-        this.player = playerInv.player;
+        this.player = playerInventory.player;
         this.hand = hand;
 
-        this.hotbarIndex = playerInv.selected;
+        this.hotbarIndex = playerInventory.selected;
     }
 
     @Override

@@ -67,24 +67,24 @@ public abstract class InventoryBlockEntity extends ModBlockEntity implements Men
     }
 
     @Override
-    public void saveAdditional(CompoundTag nbt)
+    public void saveAdditional(CompoundTag tag)
     {
         if (customName != null)
         {
-            nbt.putString("CustomName", Component.Serializer.toJson(customName));
+            tag.putString("CustomName", Component.Serializer.toJson(customName));
         }
-        nbt.put("inventory", inventory.serializeNBT());
+        tag.put("inventory", inventory.serializeNBT());
     }
 
     @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side)
+    public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction side)
     {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && side == null)
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && side == null)
         {
             return inventoryCapability.cast();
         }
-        return super.getCapability(cap, side);
+        return super.getCapability(capability, side);
     }
 
     @Override

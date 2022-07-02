@@ -33,6 +33,8 @@ public final class NoTreePunching
         ModFeatures.FEATURES.earlySetup();
         ModFeatures.CONFIGURED_FEATURES.earlySetup();
         ModFeatures.PLACED_FEATURES.earlySetup();
+
+        Config.INSTANCE.earlySetup();
     }
 
     public static void lateSetup()

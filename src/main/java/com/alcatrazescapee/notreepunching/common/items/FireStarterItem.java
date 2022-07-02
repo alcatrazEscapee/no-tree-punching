@@ -42,16 +42,16 @@ public class FireStarterItem extends TieredItem
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
     {
-        playerIn.startUsingItem(handIn);
-        return new InteractionResultHolder<>(InteractionResult.PASS, playerIn.getItemInHand(handIn));
+        player.startUsingItem(hand);
+        return new InteractionResultHolder<>(InteractionResult.PASS, player.getItemInHand(hand));
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving)
+    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity)
     {
-        if (entityLiving instanceof Player player)
+        if (entity instanceof Player player)
         {
             BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
 
