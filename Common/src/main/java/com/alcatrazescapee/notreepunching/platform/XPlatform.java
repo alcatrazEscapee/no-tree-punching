@@ -11,6 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -24,11 +27,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.recipes.RecipeSerializerImpl;
 import com.alcatrazescapee.notreepunching.common.recipes.ShapedToolDamagingRecipe;
 import com.alcatrazescapee.notreepunching.platform.event.BlockEntityFactory;
+import com.alcatrazescapee.notreepunching.platform.event.ContainerFactory;
 
 public interface XPlatform
 {
@@ -53,9 +58,13 @@ public interface XPlatform
 
     StairBlock stairBlock(Supplier<BlockState> state, BlockBehaviour.Properties properties);
 
+    BucketItem bucketItem(Supplier<Fluid> fluid, Item.Properties properties);
+
     <T extends Recipe<?>> RecipeSerializer<T> recipeSerializer(RecipeSerializerImpl<T> impl);
 
     <T extends BlockEntity> BlockEntityType<T> blockEntityType(BlockEntityFactory<T> factory, Supplier<? extends Block> block);
+
+    <T extends AbstractContainerMenu> MenuType<T> containerType(ContainerFactory<T> factory);
 
     default ShapedToolDamagingRecipe shapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
     {

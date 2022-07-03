@@ -19,7 +19,8 @@ public abstract class ModBlockEntity extends BlockEntity
     }
 
     /**
-     * @return The packet to send to the client upon block update. This is returned in client in {@link #onDataPacket(Connection, ClientboundBlockEntityDataPacket)}
+     * @return The packet to send to the client upon block update.
+     * Forge patches this to go through {@code IForgeBlockEntity#onDataPacket()}, which calls {@link #load(CompoundTag)}. On Fabric, this goes straight to {@link #load(CompoundTag)}
      */
     @Nullable
     @Override
@@ -29,19 +30,7 @@ public abstract class ModBlockEntity extends BlockEntity
     }
 
     /**
-     * Handle a packet sent from {@link #getUpdatePacket()}. Delegates to {@link #handleUpdateTag(CompoundTag)}.
-     */
-    @Override
-    public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet)
-    {
-        if (packet.getTag() != null)
-        {
-            handleUpdateTag(packet.getTag());
-        }
-    }
-
-    /**
-     * @return The tag containing information needed to send to the client, either on block update or on bulk chunk update. This tag is either returned with the packet in {@link #getUpdatePacket()} or {@link #handleUpdateTag(CompoundTag)} based on where it was called from.
+     * @return The tag containing information needed to send to the client, either on block update or on bulk chunk update. This tag gets returned in {@link #load(CompoundTag)}
      */
     @Override
     public CompoundTag getUpdateTag()
@@ -49,20 +38,11 @@ public abstract class ModBlockEntity extends BlockEntity
         return saveWithoutMetadata();
     }
 
-    /**
-     * Handles an update tag sent from the server.
-     */
-    @Override
-    public void handleUpdateTag(CompoundTag tag)
-    {
-        load(tag);
-    }
-
     @Override
     public final void load(CompoundTag tag)
     {
-        loadAdditional(tag);
         super.load(tag);
+        loadAdditional(tag);
     }
 
     /**

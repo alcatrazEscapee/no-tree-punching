@@ -1,0 +1,39 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "parent": "notreepunching:story/plant_fiber",
+  "criteria": {
+    "has_flint_axe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "notreepunching:flint_axe"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "item": "notreepunching:flint_axe"
+    },
+    "title": {
+      "translate": "notreepunching.advancements.story.flint_axe.title"
+    },
+    "description": {
+      "translate": "notreepunching.advancements.story.flint_axe.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "requirements": [
+    [
+      "has_flint_axe"
+    ]
+  ]
+}

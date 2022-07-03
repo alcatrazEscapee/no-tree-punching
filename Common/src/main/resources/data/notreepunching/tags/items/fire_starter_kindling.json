@@ -1,0 +1,12 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "replace": false,
+  "values": [
+    "#notreepunching:sticks",
+    "#minecraft:saplings",
+    "#minecraft:leaves",
+    "minecraft:string",
+    "#notreepunching:string",
+    "notreepunching:plant_fiber"
+  ]
+}

@@ -11,11 +11,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,11 +31,15 @@ import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
  */
 public final class Helpers
 {
-    private static final Random RANDOM = new Random();
-
     public static ResourceLocation identifier(String path)
     {
         return new ResourceLocation(NoTreePunching.MOD_ID, path);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T cast(Object o)
+    {
+        return (T) o;
     }
 
     /**
@@ -43,7 +49,7 @@ public final class Helpers
     {
         if (stack.isDamageableItem())
         {
-            if (stack.hurt(amount, RANDOM, null))
+            if (stack.hurt(amount, new Random(), null))
             {
                 stack.shrink(1);
                 stack.setDamageValue(0);
@@ -76,6 +82,16 @@ public final class Helpers
     public static boolean isBlock(Block block, TagKey<Block> tag)
     {
         return block.builtInRegistryHolder().is(tag);
+    }
+
+    public static void giveItemToPlayer(Level level, Player player, ItemStack stack)
+    {
+        if (!stack.isEmpty() && !level.isClientSide)
+        {
+            final ItemEntity entity = new ItemEntity(level, player.getX(), player.getY() + 0.5, player.getZ(), stack);
+            entity.setPickUpDelay(0);
+            level.addFreshEntity(entity);
+        }
     }
 
     /**

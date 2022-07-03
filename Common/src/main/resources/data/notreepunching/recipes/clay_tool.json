@@ -1,0 +1,17 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  I",
+    " II",
+    "I  "
+  ],
+  "key": {
+    "I": {
+      "tag": "notreepunching:sticks"
+    }
+  },
+  "result": {
+    "item": "notreepunching:clay_tool"
+  }
+}

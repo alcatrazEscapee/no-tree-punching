@@ -1,0 +1,13 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "replace": false,
+  "values": [
+    "minecraft:gravel",
+    "#minecraft:leaves",
+    "#minecraft:dirt",
+    "minecraft:grass",
+    "minecraft:podzol",
+    "minecraft:coarse_dirt",
+    "#minecraft:sand"
+  ]
+}

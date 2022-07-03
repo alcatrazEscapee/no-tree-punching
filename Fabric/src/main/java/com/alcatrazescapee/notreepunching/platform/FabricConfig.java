@@ -55,7 +55,7 @@ public final class FabricConfig
         final JanksonValueSerializer serializer = new JanksonValueSerializer(false);
         final boolean dedicatedClient = XPlatform.INSTANCE.isDedicatedClient();
         final ConfigTreeBuilder common = ConfigTree.builder();
-        final @Nullable ConfigTreeBuilder client = dedicatedClient ? ConfigTree.builder() : null;
+        final ConfigTreeBuilder server = ConfigTree.builder();
 
         final Config config = new Config()
         {
@@ -80,23 +80,17 @@ public final class FabricConfig
 
             private <T> Supplier<T> builder(Type configType, String name, Function<ConfigTreeBuilder, ConfigLeafBuilder<?, ?>> factory, ConfigType<T, ?, ?> converter)
             {
-                final @Nullable ConfigTreeBuilder builder = configType == Type.COMMON ? common : client;
-                if (builder != null)
-                {
-                    final PropertyMirror<T> mirror = PropertyMirror.create(converter);
-                    factory.apply(builder).finishValue(mirror::mirror);
-                    return mirror::getValue;
-                }
-                return () -> {
-                    throw new IllegalStateException("Tried to access client config option: " + name + " on common side");
-                };
+                final ConfigTreeBuilder builder = configType == Type.COMMON ? common : server;
+                final PropertyMirror<T> mirror = PropertyMirror.create(converter);
+                factory.apply(builder).finishValue(mirror::mirror);
+                return mirror::getValue;
             }
         };
 
         setupConfig(common, Paths.get("config", NoTreePunching.MOD_ID + "-common.json5"), serializer);
         if (dedicatedClient)
         {
-            setupConfig(client, Paths.get("config", NoTreePunching.MOD_ID + "-client.json5"), serializer);
+            setupConfig(server, Paths.get("config", NoTreePunching.MOD_ID + "-server.json5"), serializer);
         }
 
         return config;

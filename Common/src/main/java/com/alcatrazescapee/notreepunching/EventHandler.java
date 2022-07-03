@@ -17,29 +17,24 @@ import org.jetbrains.annotations.Nullable;
 import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
-import com.alcatrazescapee.notreepunching.platform.event.BreakSpeedCallback;
-import com.alcatrazescapee.notreepunching.platform.event.CanHarvestCallback;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public final class EventHandler
 {
-    public static boolean isCategoryWithoutRocks(Biome.BiomeCategory category)
+    public static boolean hasLooseRocks(Biome.BiomeCategory category)
     {
-        return category == Biome.BiomeCategory.NONE || category == Biome.BiomeCategory.THEEND || category == Biome.BiomeCategory.NETHER || category == Biome.BiomeCategory.OCEAN;
+        return category != Biome.BiomeCategory.NONE && category != Biome.BiomeCategory.THEEND && category != Biome.BiomeCategory.NETHER && category != Biome.BiomeCategory.OCEAN;
     }
 
-    public static void onHarvestCheck(Player player, BlockState state, CanHarvestCallback callback)
+    public static boolean modifyHarvestCheck(Player player, BlockState state, boolean canHarvest)
     {
-        callback.accept(HarvestBlockHandler.isUsingCorrectToolForDrops(state, player));
+        return canHarvest || HarvestBlockHandler.isUsingCorrectToolForDrops(state, player);
     }
 
-    public static void onBreakSpeed(Player player, BlockState state, BreakSpeedCallback callback)
+    public static float modifyBreakSpeed(Player player, BlockState state, float speed)
     {
-        if (!HarvestBlockHandler.isUsingCorrectToolToMine(state, player))
-        {
-            callback.accept(0);
-        }
+        return HarvestBlockHandler.isUsingCorrectToolToMine(state, player) ? speed : 0;
     }
 
     /**

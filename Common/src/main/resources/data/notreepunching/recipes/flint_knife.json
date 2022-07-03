@@ -1,0 +1,19 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I",
+    "S"
+  ],
+  "key": {
+    "S": {
+      "tag": "notreepunching:sticks"
+    },
+    "I": {
+      "item": "notreepunching:flint_shard"
+    }
+  },
+  "result": {
+    "item": "notreepunching:flint_knife"
+  }
+}

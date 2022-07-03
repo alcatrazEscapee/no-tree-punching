@@ -107,9 +107,9 @@ public class LargeVesselBlock extends Block implements EntityBlock
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player)
+    public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state)
     {
-        final ItemStack stack = super.getCloneItemStack(state, target, level, pos, player);
+        final ItemStack stack = super.getCloneItemStack(level, pos, state);
         level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(tile -> tile.saveToItem(stack));
         return stack;
     }

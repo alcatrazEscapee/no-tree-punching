@@ -1,6 +1,8 @@
 package com.alcatrazescapee.notreepunching;
 
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,6 +16,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import com.alcatrazescapee.notreepunching.client.ForgeNoTreePunchingClient;
+import com.alcatrazescapee.notreepunching.util.inventory.ForgeInventoryCapabilities;
 import com.alcatrazescapee.notreepunching.world.ModFeatures;
 
 @Mod(value = NoTreePunching.MOD_ID)
@@ -33,13 +36,12 @@ public final class ForgeNoTreePunching
                 event.setCancellationResult(result);
             }
         });
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOW, (PlayerEvent.BreakSpeed event) -> EventHandler.onBreakSpeed(event.getPlayer(), event.getState(), event::setNewSpeed));
-        MinecraftForge.EVENT_BUS.addListener((PlayerEvent.HarvestCheck event) -> {
-            if (!event.canHarvest())
-            {
-                EventHandler.onHarvestCheck(event.getPlayer(), event.getTargetBlock(), event::setCanHarvest);
-            }
-        });
+
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOW, (PlayerEvent.BreakSpeed event) -> event.setNewSpeed(EventHandler.modifyBreakSpeed(event.getPlayer(), event.getState(), event.getNewSpeed())));
+        MinecraftForge.EVENT_BUS.addListener((PlayerEvent.HarvestCheck event) -> event.setCanHarvest(EventHandler.modifyHarvestCheck(event.getPlayer(), event.getTargetBlock(), event.canHarvest())));
+
+        MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, ForgeInventoryCapabilities::attachItemStackCapabilities);
+        MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, ForgeInventoryCapabilities::attachBlockEntityCapabilities);
 
         if (FMLEnvironment.dist == Dist.CLIENT)
         {
@@ -49,7 +51,7 @@ public final class ForgeNoTreePunching
 
     private void onBiomeLoad(BiomeLoadingEvent event)
     {
-        if (Config.INSTANCE.enableLooseRocksWorldGen.get() && !EventHandler.isCategoryWithoutRocks(event.getCategory()))
+        if (Config.INSTANCE.enableLooseRocksWorldGen.get() && EventHandler.hasLooseRocks(event.getCategory()))
         {
             event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.PLACED_LOOSE_ROCKS.holder());
         }

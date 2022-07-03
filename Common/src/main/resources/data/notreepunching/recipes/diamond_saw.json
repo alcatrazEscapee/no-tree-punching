@@ -1,0 +1,20 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  S",
+    " SI",
+    "SI "
+  ],
+  "key": {
+    "S": {
+      "tag": "notreepunching:sticks"
+    },
+    "I": {
+      "tag": "forge:gems/diamond"
+    }
+  },
+  "result": {
+    "item": "notreepunching:diamond_saw"
+  }
+}

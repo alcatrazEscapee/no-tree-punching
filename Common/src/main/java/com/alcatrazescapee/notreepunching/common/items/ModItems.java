@@ -13,6 +13,8 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.Tiers;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 
 import com.alcatrazescapee.notreepunching.common.ModTiers;
 import com.alcatrazescapee.notreepunching.platform.RegistryHolder;
@@ -29,8 +31,11 @@ public final class ModItems
     public static final RegistryHolder<Item> GRASS_FIBER = register("plant_fiber");
     public static final RegistryHolder<Item> GRASS_STRING = register("plant_string");
     public static final RegistryHolder<Item> CLAY_BRICK = register("clay_brick");
+
     public static final RegistryHolder<SmallVesselItem> CERAMIC_SMALL_VESSEL = register("ceramic_small_vessel", SmallVesselItem::new);
-    public static final RegistryHolder<CeramicBucketItem> CERAMIC_BUCKET = register("ceramic_bucket", () -> new CeramicBucketItem(new Item.Properties().tab(Tab.ITEMS).stacksTo(1)));
+    public static final RegistryHolder<CeramicBucketItem> CERAMIC_BUCKET = register("ceramic_bucket", () -> new CeramicBucketItem(Fluids.EMPTY, new Item.Properties().tab(Tab.ITEMS).stacksTo(1)));
+    public static final RegistryHolder<CeramicBucketItem> CERAMIC_WATER_BUCKET = register("ceramic_water_bucket", () -> new CeramicBucketItem(Fluids.WATER, new Item.Properties().tab(Tab.ITEMS).stacksTo(1).craftRemainder(CERAMIC_BUCKET.get())));
+
     public static final RegistryHolder<ClayToolItem> CLAY_TOOL = register("clay_tool", ClayToolItem::new);
     public static final RegistryHolder<FireStarterItem> FIRE_STARTER = register("fire_starter", FireStarterItem::new);
 

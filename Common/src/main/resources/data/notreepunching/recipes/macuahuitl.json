@@ -1,0 +1,20 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " IS",
+    "ISI",
+    "SI "
+  ],
+  "key": {
+    "S": {
+      "tag": "notreepunching:sticks"
+    },
+    "I": {
+      "item": "notreepunching:flint_shard"
+    }
+  },
+  "result": {
+    "item": "notreepunching:macuahuitl"
+  }
+}

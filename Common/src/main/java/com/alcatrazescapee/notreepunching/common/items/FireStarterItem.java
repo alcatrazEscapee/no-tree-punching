@@ -33,12 +33,14 @@ import net.minecraft.world.phys.HitResult;
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.ModTags;
 import com.alcatrazescapee.notreepunching.util.Helpers;
+import com.alcatrazescapee.notreepunching.platform.Platform;
+import com.alcatrazescapee.notreepunching.platform.PlatformOverride;
 
 public class FireStarterItem extends TieredItem
 {
     public FireStarterItem()
     {
-        super(Tiers.WOOD, new Properties().tab(ModItems.Tab.ITEMS).durability(10).setNoRepair());
+        super(Tiers.WOOD, new Properties().tab(ModItems.Tab.ITEMS).durability(10));
     }
 
     @Override
@@ -141,11 +143,11 @@ public class FireStarterItem extends TieredItem
     }
 
     @Override
-    public void onUsingTick(ItemStack stack, LivingEntity player, int count)
+    public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int remainingTicks)
     {
-        if (player.level.isClientSide && player instanceof Player)
+        if (level.isClientSide && entity instanceof Player player)
         {
-            BlockHitResult result = getPlayerPOVHitResult(player.level, (Player) player, ClipContext.Fluid.NONE);
+            BlockHitResult result = getPlayerPOVHitResult(player.level, player, ClipContext.Fluid.NONE);
             if (player.level.getRandom().nextInt(5) == 0)
             {
                 player.level.addParticle(ParticleTypes.SMOKE, result.getLocation().x, result.getLocation().y, result.getLocation().z, 0.0F, 0.1F, 0.0F);
@@ -153,7 +155,7 @@ public class FireStarterItem extends TieredItem
         }
     }
 
-    @Override
+    @PlatformOverride(Platform.FORGE)
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
         return enchantment.category == EnchantmentCategory.BREAKABLE;

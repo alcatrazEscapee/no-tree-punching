@@ -8,7 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -20,16 +24,20 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeTier;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.network.NetworkHooks;
 
 import com.alcatrazescapee.notreepunching.Config;
+import com.alcatrazescapee.notreepunching.common.items.ForgeBucketItem;
 import com.alcatrazescapee.notreepunching.common.recipes.ForgeShapedToolDamagingRecipe;
 import com.alcatrazescapee.notreepunching.common.recipes.RecipeSerializerImpl;
 import com.alcatrazescapee.notreepunching.common.recipes.ShapedToolDamagingRecipe;
 import com.alcatrazescapee.notreepunching.platform.event.BlockEntityFactory;
+import com.alcatrazescapee.notreepunching.platform.event.ContainerFactory;
 
 public final class ForgePlatform implements XPlatform
 {
@@ -71,6 +79,12 @@ public final class ForgePlatform implements XPlatform
     }
 
     @Override
+    public BucketItem bucketItem(Supplier<Fluid> fluid, Item.Properties properties)
+    {
+        return new ForgeBucketItem(fluid, properties);
+    }
+
+    @Override
     public <T extends Recipe<?>> RecipeSerializer<T> recipeSerializer(RecipeSerializerImpl<T> impl)
     {
         return new ForgeRecipeSerializer<>(impl);
@@ -80,6 +94,12 @@ public final class ForgePlatform implements XPlatform
     public <T extends BlockEntity> BlockEntityType<T> blockEntityType(BlockEntityFactory<T> factory, Supplier<? extends Block> block)
     {
         return BlockEntityType.Builder.of(factory::create, block.get()).build(null);
+    }
+
+    @Override
+    public <T extends AbstractContainerMenu> MenuType<T> containerType(ContainerFactory<T> factory)
+    {
+        return IForgeMenuType.create(factory::create);
     }
 
     @Override

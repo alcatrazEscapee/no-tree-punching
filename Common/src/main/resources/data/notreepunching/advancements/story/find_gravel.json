@@ -1,0 +1,52 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "parent": "notreepunching:story/root",
+  "criteria": {
+    "has_gravel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:gravel"
+            ]
+          }
+        ]
+      }
+    },
+    "has_flint": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:flint"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "item": "minecraft:gravel"
+    },
+    "title": {
+      "translate": "notreepunching.advancements.story.find_gravel.title"
+    },
+    "description": {
+      "translate": "notreepunching.advancements.story.find_gravel.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "requirements": [
+    [
+      "has_gravel",
+      "has_flint"
+    ]
+  ]
+}

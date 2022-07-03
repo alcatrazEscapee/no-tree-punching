@@ -1,0 +1,62 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "criteria": {
+    "has_loose_rock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "notreepunching:loose_rocks"
+          }
+        ]
+      }
+    },
+    "has_gravel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:gravel"
+            ]
+          }
+        ]
+      }
+    },
+    "has_sticks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:stick"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "item": "notreepunching:flint_pickaxe"
+    },
+    "title": {
+      "translate": "notreepunching.advancements.story.root.title"
+    },
+    "description": {
+      "translate": "notreepunching.advancements.story.root.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "requirements": [
+    [
+      "has_loose_rock",
+      "has_gravel",
+      "has_sticks"
+    ]
+  ]
+}

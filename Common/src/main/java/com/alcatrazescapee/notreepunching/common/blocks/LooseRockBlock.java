@@ -2,7 +2,6 @@ package com.alcatrazescapee.notreepunching.common.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +16,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.items.ItemHandlerHelper;
+
+import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public class LooseRockBlock extends Block
 {
@@ -42,8 +42,8 @@ public class LooseRockBlock extends Block
     @SuppressWarnings("deprecation")
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
     {
-        ItemStack stack = getCloneItemStack(state, hit, level, pos, player);
-        ItemHandlerHelper.giveItemToPlayer(player, stack);
+        final ItemStack stack = getCloneItemStack(level, pos, state);
+        Helpers.giveItemToPlayer(level, player, stack);
         level.removeBlock(pos, false);
         return InteractionResult.SUCCESS;
     }

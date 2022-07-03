@@ -16,28 +16,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import com.alcatrazescapee.notreepunching.Config;
-import com.alcatrazescapee.notreepunching.util.Helpers;
+import com.alcatrazescapee.notreepunching.platform.Platform;
+import com.alcatrazescapee.notreepunching.platform.PlatformOverride;
 
 public class KnifeItem extends SwordItem
 {
     public KnifeItem(Tier tier, int attackDamage, float attackSpeed, Properties properties)
     {
-        super(tier, attackDamage, attackSpeed, properties.setNoRepair());
+        super(tier, attackDamage, attackSpeed, properties);
     }
 
-    @Override
-    public ItemStack getContainerItem(ItemStack stack)
-    {
-        return Helpers.hurtAndBreak(stack.copy(), 1);
-    }
-
-    @Override
-    public boolean hasContainerItem(ItemStack stack)
-    {
-        return true;
-    }
-
-    @Override
+    @PlatformOverride(Platform.FORGE)
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
         return enchantment.category == EnchantmentCategory.BREAKABLE || enchantment.category == EnchantmentCategory.WEAPON;

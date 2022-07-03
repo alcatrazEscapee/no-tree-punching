@@ -22,6 +22,8 @@ import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.util.Helpers;
+import com.alcatrazescapee.notreepunching.platform.Platform;
+import com.alcatrazescapee.notreepunching.platform.PlatformOverride;
 
 public class ClayToolItem extends TieredItem
 {
@@ -44,7 +46,7 @@ public class ClayToolItem extends TieredItem
 
     public ClayToolItem()
     {
-        super(Tiers.WOOD, new Properties().tab(ModItems.Tab.ITEMS).setNoRepair());
+        super(Tiers.WOOD, new Properties().tab(ModItems.Tab.ITEMS));
     }
 
     @Override
@@ -59,19 +61,7 @@ public class ClayToolItem extends TieredItem
         return InteractionResult.SUCCESS;
     }
 
-    @Override
-    public ItemStack getContainerItem(ItemStack stack)
-    {
-        return Helpers.hurtAndBreak(stack.copy(), 1);
-    }
-
-    @Override
-    public boolean hasContainerItem(ItemStack stack)
-    {
-        return true;
-    }
-
-    @Override
+    @PlatformOverride(Platform.FORGE)
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
         return enchantment.category == EnchantmentCategory.BREAKABLE;
