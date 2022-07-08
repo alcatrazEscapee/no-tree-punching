@@ -3,6 +3,7 @@ package com.alcatrazescapee.notreepunching.common.items;
 import java.util.function.Supplier;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
@@ -33,8 +34,8 @@ public final class ModItems
     public static final RegistryHolder<Item> CLAY_BRICK = register("clay_brick");
 
     public static final RegistryHolder<SmallVesselItem> CERAMIC_SMALL_VESSEL = register("ceramic_small_vessel", SmallVesselItem::new);
-    public static final RegistryHolder<CeramicBucketItem> CERAMIC_BUCKET = register("ceramic_bucket", () -> new CeramicBucketItem(Fluids.EMPTY, new Item.Properties().tab(Tab.ITEMS).stacksTo(1)));
-    public static final RegistryHolder<CeramicBucketItem> CERAMIC_WATER_BUCKET = register("ceramic_water_bucket", () -> new CeramicBucketItem(Fluids.WATER, new Item.Properties().tab(Tab.ITEMS).stacksTo(1).craftRemainder(CERAMIC_BUCKET.get())));
+    public static final RegistryHolder<CeramicBucketItem> CERAMIC_BUCKET = register("ceramic_bucket", () -> bucket(Fluids.EMPTY, new Item.Properties().tab(Tab.ITEMS).stacksTo(1)));
+    public static final RegistryHolder<CeramicBucketItem> CERAMIC_WATER_BUCKET = register("ceramic_water_bucket", () -> bucket(Fluids.WATER, new Item.Properties().tab(Tab.ITEMS).stacksTo(1).craftRemainder(CERAMIC_BUCKET.get())));
 
     public static final RegistryHolder<ClayToolItem> CLAY_TOOL = register("clay_tool", ClayToolItem::new);
     public static final RegistryHolder<FireStarterItem> FIRE_STARTER = register("fire_starter", FireStarterItem::new);
@@ -51,10 +52,10 @@ public final class ModItems
     public static final RegistryHolder<KnifeItem> DIAMOND_KNIFE = register("diamond_knife", () -> new KnifeItem(Tiers.DIAMOND, 1, -2.2f, new Item.Properties().tab(Tab.ITEMS)));
     public static final RegistryHolder<KnifeItem> NETHERTE_KNIFE = register("netherite_knife", () -> new KnifeItem(Tiers.NETHERITE, 1, -2.2f, new Item.Properties().tab(Tab.ITEMS)));
 
-    public static final RegistryHolder<MattockItem> IRON_MATTOCK = register("iron_mattock", () -> new MattockItem(Tiers.IRON, 0.5f, -3.0f, new Item.Properties().tab(Tab.ITEMS)));
-    public static final RegistryHolder<MattockItem> GOLD_MATTOCK = register("gold_mattock", () -> new MattockItem(Tiers.GOLD, 0.5f, -3.0f, new Item.Properties().tab(Tab.ITEMS)));
-    public static final RegistryHolder<MattockItem> DIAMOND_MATTOCK = register("diamond_mattock", () -> new MattockItem(Tiers.DIAMOND, 0.5f, -3.0f, new Item.Properties().tab(Tab.ITEMS)));
-    public static final RegistryHolder<MattockItem> NETHERITE_MATTOCK = register("netherite_mattock", () -> new MattockItem(Tiers.NETHERITE, 0.5f, -3.0f, new Item.Properties().tab(Tab.ITEMS)));
+    public static final RegistryHolder<MattockItem> IRON_MATTOCK = register("iron_mattock", () -> mattock(Tiers.IRON, 0.5f, -3.0f, new Item.Properties().tab(Tab.ITEMS)));
+    public static final RegistryHolder<MattockItem> GOLD_MATTOCK = register("gold_mattock", () -> mattock(Tiers.GOLD, 0.5f, -3.0f, new Item.Properties().tab(Tab.ITEMS)));
+    public static final RegistryHolder<MattockItem> DIAMOND_MATTOCK = register("diamond_mattock", () -> mattock(Tiers.DIAMOND, 0.5f, -3.0f, new Item.Properties().tab(Tab.ITEMS)));
+    public static final RegistryHolder<MattockItem> NETHERITE_MATTOCK = register("netherite_mattock", () -> mattock(Tiers.NETHERITE, 0.5f, -3.0f, new Item.Properties().tab(Tab.ITEMS)));
 
     public static final RegistryHolder<AxeItem> IRON_SAW = register("iron_saw", () -> axe(Tiers.IRON, 2.0f, -3.2f, new Item.Properties().tab(Tab.ITEMS)));
     public static final RegistryHolder<AxeItem> GOLD_SAW = register("gold_saw", () -> axe(Tiers.GOLD, 2.0f, -3.2f, new Item.Properties().tab(Tab.ITEMS)));
@@ -64,6 +65,16 @@ public final class ModItems
     private static AxeItem axe(Tier tier, float attackDamage, float attackSpeed, Item.Properties properties)
     {
         return new AxeItem(tier, attackDamage, attackSpeed, properties) {};
+    }
+
+    private static CeramicBucketItem bucket(Fluid fluid, Item.Properties properties)
+    {
+        return XPlatform.INSTANCE.bucketItem(fluid, properties);
+    }
+
+    private static MattockItem mattock(Tier tier, float attackDamage, float attackSpeed, Item.Properties properties)
+    {
+        return XPlatform.INSTANCE.mattockItem(tier, attackDamage, attackSpeed, properties);
     }
 
     private static RegistryHolder<Item> register(String name)

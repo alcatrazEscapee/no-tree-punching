@@ -1,10 +1,8 @@
 package com.alcatrazescapee.notreepunching.common.items;
 
-import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MilkBucketItem;
 import net.minecraft.world.level.material.Fluid;
@@ -18,11 +16,11 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.Nullable;
 
-public class ForgeBucketItem extends BucketItem
+public class ForgeBucketItem extends CeramicBucketItem
 {
-    public ForgeBucketItem(Supplier<? extends Fluid> supplier, Properties properties)
+    public ForgeBucketItem(Fluid fluid, Properties properties)
     {
-        super(supplier, properties);
+        super(fluid, properties);
     }
 
     @Override
@@ -151,7 +149,7 @@ public class ForgeBucketItem extends BucketItem
 
         private void setFluid(Fluid fluid)
         {
-            container = new ItemStack(fluid == Fluids.WATER ? ModItems.CERAMIC_WATER_BUCKET.get() : ModItems.CERAMIC_BUCKET.get());
+            container = CeramicBucketItem.convert(fluid.getBucket());
         }
     }
 }

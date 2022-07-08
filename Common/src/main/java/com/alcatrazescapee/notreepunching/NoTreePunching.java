@@ -29,6 +29,7 @@ public final class NoTreePunching
         ModBlockEntities.BLOCK_ENTITIES.earlySetup();
         ModContainers.CONTAINERS.earlySetup();
         ModRecipes.RECIPE_SERIALIZERS.earlySetup();
+        ModRecipes.RECIPE_TYPES.earlySetup();
 
         ModFeatures.FEATURES.earlySetup();
         ModFeatures.CONFIGURED_FEATURES.earlySetup();
@@ -44,6 +45,7 @@ public final class NoTreePunching
         ModBlockEntities.BLOCK_ENTITIES.lateSetup();
         ModContainers.CONTAINERS.lateSetup();
         ModRecipes.RECIPE_SERIALIZERS.lateSetup();
+        ModRecipes.RECIPE_TYPES.lateSetup();
 
         ModFeatures.FEATURES.lateSetup();
         ModFeatures.CONFIGURED_FEATURES.lateSetup();

@@ -16,7 +16,6 @@ def main():
 
     # Link tags and lang, generate them to common
     fabric.lang_buffer = forge.lang_buffer = common.lang_buffer
-    fabric.tags_buffer = forge.tags_buffer = common.tags_buffer
 
     for rm in each:
         utils.clean_generated_resources('/'.join(rm.resource_dir))
@@ -29,6 +28,8 @@ def main():
 
     # Only flush common
     common.flush()
+    forge.flush()
+    fabric.flush()
 
 
 def do_assets(common: ResourceManager):
@@ -45,7 +46,7 @@ def do_assets(common: ResourceManager):
         block.with_block_model()
         block.with_item_model()
         block.with_tag('cobblestone')
-        block.with_tag('minecraft:mineable_with_pickaxe')
+        block.with_tag('minecraft:mineable/pickaxe')
         common.item_tag('cobblestone', '%s_cobblestone' % stone)  # both block and item tag
         block.with_block_loot('notreepunching:%s_cobblestone' % stone)
         block.with_lang(lang('%s cobblestone', stone))
@@ -62,6 +63,8 @@ def do_assets(common: ResourceManager):
         block.with_block_model(textures='minecraft:block/%s' % stone, parent='notreepunching:block/loose_rock')
         block.with_block_loot('notreepunching:%s_loose_rock' % stone)
         block.with_lang(lang('%s loose rock', stone))
+        block.with_tag('loose_rocks')
+        block.with_tag('minecraft:mineable/pickaxe')
 
         # flat item model for the block item
         item = common.item_model('%s_loose_rock' % stone)
@@ -73,7 +76,7 @@ def do_assets(common: ResourceManager):
         block.with_block_model(textures='minecraft:block/clay', parent='notreepunching:block/pottery_%s' % pottery)
         block.with_item_model()
         block.with_block_loot('notreepunching:clay_%s' % pottery)
-        block.with_tag('minecraft:mineable_with_pickaxe')
+        block.with_tag('minecraft:mineable/pickaxe')
         if pottery == 'worked':
             block.with_lang(lang('worked clay'))
         else:
@@ -91,7 +94,7 @@ def do_assets(common: ResourceManager):
             loot_tables.copy_block_entity_nbt()
         ],
     })
-    block.with_tag('minecraft:mineable_with_pickaxe')
+    block.with_tag('minecraft:mineable/pickaxe')
     block.with_lang(lang('ceramic large vessel'))
 
     # Tools
@@ -160,11 +163,10 @@ def do_advancements(common: ResourceManager):
     story.advancement('mattock', 'notreepunching:iron_mattock', 'Getting a Better Upgrade', 'Craft a mattock, a hoe-axe-shovel-all-in-one multitool!', 'flint_pickaxe', {'has_mattock': advancements.inventory_changed('#notreepunching:mattocks')})
 
 
-
 def do_tags(forge: ResourceManager, common: ResourceManager):
     # Misc Tags
     common.block_tag('needs_with_flint_tool')
-    common.block_tag('mineable_with_mattock', '#minecraft:mineable_with_shovel', '#minecraft:mineable_with_hoe', '#minecraft:mineable_with_axe')
+    common.block_tag('mineable_with_mattock', '#minecraft:mineable/shovel', '#minecraft:mineable/hoe', '#minecraft:mineable/axe')
     common.item_tag('pickaxe_tools')
     common.item_tag('axe_tools', '#notreepunching:mattocks')
     common.item_tag('shovel_tools', '#notreepunching:mattocks')
@@ -178,8 +180,8 @@ def do_tags(forge: ResourceManager, common: ResourceManager):
     common.item_tag('sticks', '#forge:rods/wooden?', 'minecraft:stick')
     common.item_tag('string', '#forge:string?', 'minecraft:string')
 
-    common.block_tag('always_breakable', '#minecraft:leaves', 'minecraft:gravel', '#minecraft:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand')
-    common.block_tag('always_drops', '#minecraft:leaves', 'minecraft:gravel', '#minecraft:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand')
+    common.block_tag('always_breakable', '#minecraft:leaves', 'minecraft:gravel', '#minecraft:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand', '#notreepunching:loose_rocks')
+    common.block_tag('always_drops', '#minecraft:leaves', 'minecraft:gravel', '#minecraft:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand', '#notreepunching:loose_rocks')
 
     common.item_tag('fire_starter_logs', '#minecraft:logs', '#minecraft:planks')
     common.item_tag('fire_starter_kindling', '#notreepunching:sticks', '#minecraft:saplings', '#minecraft:leaves', 'minecraft:string', '#notreepunching:string', 'notreepunching:plant_fiber')
@@ -395,7 +397,7 @@ def do_loot_tables(common: ResourceManager):
     }, {
         'name': 'notreepunching:plant_fiber',
         'conditions': [
-            loot_tables.match_tag('#notreepunching:knives'),
+            loot_tables.match_tag('notreepunching:knives'),
             loot_tables.random_chance(0.25)
         ]
     }, {
@@ -412,7 +414,7 @@ def do_loot_tables(common: ResourceManager):
      }, {
          'name': 'notreepunching:plant_fiber',
          'conditions': [
-             loot_tables.match_tag('#notreepunching:knives'),
+             loot_tables.match_tag('notreepunching:knives'),
              loot_tables.random_chance(0.25)
          ]
      }, {

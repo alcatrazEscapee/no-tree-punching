@@ -32,7 +32,10 @@ import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.network.NetworkHooks;
 
 import com.alcatrazescapee.notreepunching.Config;
+import com.alcatrazescapee.notreepunching.common.items.CeramicBucketItem;
 import com.alcatrazescapee.notreepunching.common.items.ForgeBucketItem;
+import com.alcatrazescapee.notreepunching.common.items.ForgeMattockItem;
+import com.alcatrazescapee.notreepunching.common.items.MattockItem;
 import com.alcatrazescapee.notreepunching.common.recipes.ForgeShapedToolDamagingRecipe;
 import com.alcatrazescapee.notreepunching.common.recipes.RecipeSerializerImpl;
 import com.alcatrazescapee.notreepunching.common.recipes.ShapedToolDamagingRecipe;
@@ -56,7 +59,7 @@ public final class ForgePlatform implements XPlatform
     @Override
     public CreativeModeTab creativeTab(ResourceLocation id, Supplier<ItemStack> icon)
     {
-        return new CreativeModeTab(id.toString())
+        return new CreativeModeTab(id.getPath() + "." + id.getNamespace())
         {
             @Override
             public ItemStack makeIcon()
@@ -79,9 +82,15 @@ public final class ForgePlatform implements XPlatform
     }
 
     @Override
-    public BucketItem bucketItem(Supplier<Fluid> fluid, Item.Properties properties)
+    public CeramicBucketItem bucketItem(Fluid fluid, Item.Properties properties)
     {
         return new ForgeBucketItem(fluid, properties);
+    }
+
+    @Override
+    public MattockItem mattockItem(Tier tier, float attackDamage, float attackSpeed, Item.Properties properties)
+    {
+        return new ForgeMattockItem(tier, attackDamage, attackSpeed, properties);
     }
 
     @Override

@@ -30,6 +30,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 
 import com.alcatrazescapee.notreepunching.Config;
+import com.alcatrazescapee.notreepunching.common.items.CeramicBucketItem;
+import com.alcatrazescapee.notreepunching.common.items.MattockItem;
 import com.alcatrazescapee.notreepunching.common.recipes.RecipeSerializerImpl;
 import com.alcatrazescapee.notreepunching.common.recipes.ShapedToolDamagingRecipe;
 import com.alcatrazescapee.notreepunching.platform.event.BlockEntityFactory;
@@ -58,7 +60,15 @@ public interface XPlatform
 
     StairBlock stairBlock(Supplier<BlockState> state, BlockBehaviour.Properties properties);
 
-    BucketItem bucketItem(Supplier<Fluid> fluid, Item.Properties properties);
+    default CeramicBucketItem bucketItem(Fluid fluid, Item.Properties properties)
+    {
+        return new CeramicBucketItem(fluid, properties);
+    }
+
+    default MattockItem mattockItem(Tier tier, float attackDamage, float attackSpeed, Item.Properties properties)
+    {
+        return new MattockItem(tier, attackDamage, attackSpeed, properties);
+    }
 
     <T extends Recipe<?>> RecipeSerializer<T> recipeSerializer(RecipeSerializerImpl<T> impl);
 

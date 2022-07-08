@@ -28,7 +28,7 @@
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "tag": "#notreepunching:knives"
+                    "tag": "notreepunching:knives"
                   }
                 },
                 {

@@ -8,6 +8,7 @@
     "minecraft:grass",
     "minecraft:podzol",
     "minecraft:coarse_dirt",
-    "#minecraft:sand"
+    "#minecraft:sand",
+    "#notreepunching:loose_rocks"
   ]
 }

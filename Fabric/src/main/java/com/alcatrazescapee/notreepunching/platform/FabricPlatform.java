@@ -73,12 +73,6 @@ public final class FabricPlatform implements XPlatform
     }
 
     @Override
-    public BucketItem bucketItem(Supplier<Fluid> fluid, Item.Properties properties)
-    {
-        return new BucketItem(fluid.get(), properties);
-    }
-
-    @Override
     public <T extends Recipe<?>> RecipeSerializer<T> recipeSerializer(RecipeSerializerImpl<T> impl)
     {
         return new FabricRecipeSerializer<>(impl);

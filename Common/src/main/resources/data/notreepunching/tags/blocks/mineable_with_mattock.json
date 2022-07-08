@@ -2,8 +2,8 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "values": [
-    "#minecraft:mineable_with_shovel",
-    "#minecraft:mineable_with_hoe",
-    "#minecraft:mineable_with_axe"
+    "#minecraft:mineable/shovel",
+    "#minecraft:mineable/hoe",
+    "#minecraft:mineable/axe"
   ]
 }
