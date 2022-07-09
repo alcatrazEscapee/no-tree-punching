@@ -4,6 +4,10 @@
   "package": "com.alcatrazescapee.notreepunching.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AbstractBlockAccessor",
+    "AbstractBlockStateAccessor",
+    "DiggerItemAccessor",
+    "HoeItemAccessor"
   ],
   "client": [
   ],

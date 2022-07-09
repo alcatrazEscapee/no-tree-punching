@@ -59,7 +59,7 @@ public final class ForgePlatform implements XPlatform
     @Override
     public CreativeModeTab creativeTab(ResourceLocation id, Supplier<ItemStack> icon)
     {
-        return new CreativeModeTab(id.getPath() + "." + id.getNamespace())
+        return new CreativeModeTab(id.getNamespace() + "." + id.getPath())
         {
             @Override
             public ItemStack makeIcon()

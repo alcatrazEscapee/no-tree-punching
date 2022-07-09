@@ -28,7 +28,15 @@ public class CeramicBucketItem extends BucketItem
 {
     public static ItemStack convert(Item bucket)
     {
-        return new ItemStack(bucket == Items.BUCKET ? ModItems.CERAMIC_BUCKET.get() : ModItems.CERAMIC_WATER_BUCKET.get());
+        if (bucket == Items.BUCKET || bucket == ModItems.CERAMIC_BUCKET.get())
+        {
+            return new ItemStack(ModItems.CERAMIC_BUCKET.get());
+        }
+        if (bucket == Items.WATER_BUCKET || bucket == ModItems.CERAMIC_WATER_BUCKET.get())
+        {
+            return new ItemStack(ModItems.CERAMIC_WATER_BUCKET.get());
+        }
+        return ItemStack.EMPTY;
     }
 
     private final Fluid content;
@@ -64,7 +72,7 @@ public class CeramicBucketItem extends BucketItem
             else if (this.content == Fluids.EMPTY)
             {
                 final BlockState state = level.getBlockState(pos);
-                if (state.getBlock() instanceof BucketPickup pickup)
+                if (state.getBlock() instanceof BucketPickup pickup && state.getFluidState().getType() == Fluids.WATER)
                 {
                     final ItemStack filled = convert(pickup.pickupBlock(level, pos, state).getItem());
                     if (!filled.isEmpty())

@@ -1,5 +1,7 @@
 package com.alcatrazescapee.notreepunching.common.container;
 
+import java.util.EnumSet;
+import java.util.Set;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -12,11 +14,13 @@ import net.minecraft.world.item.ItemStack;
  */
 public class ItemStackContainer extends ModContainer
 {
+    private static final Set<ClickType> ILLEGAL_ITEM_CLICKS = EnumSet.of(ClickType.QUICK_MOVE, ClickType.PICKUP, ClickType.THROW, ClickType.SWAP);
+
     protected final Player player;
     protected final InteractionHand hand;
-    protected final int hotbarIndex;
 
-    protected int itemIndex;
+    protected final int hotbarIndex; // Index in the hotbar. Between [0, 9)
+    protected int itemIndex; // Index into the slot for the hotbar slot. Hotbar is at the end of the inventory.
 
     protected ItemStackContainer(MenuType<?> containerType, int windowId, Inventory playerInventory, InteractionHand hand)
     {
@@ -50,7 +54,14 @@ public class ItemStackContainer extends ModContainer
     @Override
     public void clicked(int slot, int dragType, ClickType clickType, Player player)
     {
-        if (slot == itemIndex || (dragType == hotbarIndex && clickType == ClickType.SWAP))
+        // We can't move if:
+        // the slot is the item index, and it's an illegal action (like, swapping the items)
+        // the hotbar item is being swapped out
+        // the action is "pickup all" (this ignores every slot, so we cannot allow it)
+        if ((slot == itemIndex && ILLEGAL_ITEM_CLICKS.contains(clickType)) ||
+            (dragType == hotbarIndex && clickType == ClickType.SWAP) ||
+            (dragType == 40 && clickType == ClickType.SWAP && hand == InteractionHand.OFF_HAND) ||
+            clickType == ClickType.PICKUP_ALL)
         {
             return;
         }

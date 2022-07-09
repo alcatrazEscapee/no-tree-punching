@@ -37,7 +37,7 @@ def do_assets(common: ResourceManager):
     common.lang({
         'itemGroup.notreepunching.items': 'No Tree Punching',
         'notreepunching.tooltip.small_vessel_more': '%d More...',
-        'notreepunching.tile_entity.large_vessel': 'Large Vessel'
+        'notreepunching.block_entity.large_vessel': 'Large Vessel'
     })
 
     # Stone
