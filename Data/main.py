@@ -173,12 +173,12 @@ def do_tags(forge: ResourceManager, common: ResourceManager):
     common.item_tag('hoe_tools', '#notreepunching:mattocks')
     common.item_tag('sharp_tools')
 
-    forge.item('plant_string').with_tag('forge:string')
     common.block('minecraft:gravel').with_tag('always_breakable').with_tag('always_drops')
 
     common.item_tag('weak_saws', 'minecraft:iron_axe', 'minecraft:golden_axe', 'minecraft:diamond_axe', 'minecraft:netherite_axe')
     common.item_tag('sticks', '#forge:rods/wooden?', 'minecraft:stick')
-    common.item_tag('string', '#forge:string?', 'minecraft:string')
+    common.item_tag('string', '#forge:string?', 'minecraft:string', 'notreepunching:plant_string')
+    forge.item_tag('forge:string', 'notreepunching:plant_string')
 
     common.block_tag('always_breakable', '#minecraft:leaves', 'minecraft:gravel', '#minecraft:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand', '#notreepunching:loose_rocks')
     common.block_tag('always_drops', '#minecraft:leaves', 'minecraft:gravel', '#minecraft:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand', '#notreepunching:loose_rocks')
@@ -194,6 +194,7 @@ def do_tags(forge: ResourceManager, common: ResourceManager):
     common.item_tag('pottery', *pottery)
 
     common.block_tag('pottery', *pottery)
+    common.block_tag('minecraft:mineable/shovel', *pottery)
 
     # Add cobblestone to existing similar tags
     common.item_tag('minecraft:stone_tool_materials', '#notreepunching:cobblestone')

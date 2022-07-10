@@ -27,4 +27,4 @@ I hope you enjoy :)
 
  ~ AlcatrazEscapee
 
-![No Tree Punching Banner Image](https://github.com/alcatrazEscapee/no-tree-punching/blob/1.15.x/img/splash.png?raw=true)
+![No Tree Punching Splash Image](https://github.com/alcatrazEscapee/no-tree-punching/blob/1.15.x/img/splash.png?raw=true)

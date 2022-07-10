@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -85,10 +86,9 @@ public final class FabricPlatform implements XPlatform
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     public <T extends AbstractContainerMenu> MenuType<T> containerType(ContainerFactory<T> factory)
     {
-        return new MenuType<>((windowId, inventory) -> factory.create(windowId, inventory, null));
+        return new ExtendedScreenHandlerType<>(factory::create);
     }
 
     @Override

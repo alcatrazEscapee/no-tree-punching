@@ -6,6 +6,7 @@
       "id": "#forge:string",
       "required": false
     },
-    "minecraft:string"
+    "minecraft:string",
+    "notreepunching:plant_string"
   ]
 }

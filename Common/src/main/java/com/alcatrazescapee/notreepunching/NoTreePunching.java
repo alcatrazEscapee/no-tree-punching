@@ -5,6 +5,7 @@ import net.minecraft.world.level.block.DispenserBlock;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.alcatrazescapee.notreepunching.client.ModSounds;
 import com.alcatrazescapee.notreepunching.common.blockentity.ModBlockEntities;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.container.ModContainers;
@@ -26,6 +27,7 @@ public final class NoTreePunching
 
         ModBlocks.BLOCKS.earlySetup();
         ModItems.ITEMS.earlySetup();
+        ModSounds.SOUNDS.earlySetup();
         ModBlockEntities.BLOCK_ENTITIES.earlySetup();
         ModContainers.CONTAINERS.earlySetup();
         ModRecipes.RECIPE_SERIALIZERS.earlySetup();
@@ -42,6 +44,7 @@ public final class NoTreePunching
     {
         ModBlocks.BLOCKS.lateSetup();
         ModItems.ITEMS.lateSetup();
+        ModSounds.SOUNDS.lateSetup();
         ModBlockEntities.BLOCK_ENTITIES.lateSetup();
         ModContainers.CONTAINERS.lateSetup();
         ModRecipes.RECIPE_SERIALIZERS.lateSetup();
