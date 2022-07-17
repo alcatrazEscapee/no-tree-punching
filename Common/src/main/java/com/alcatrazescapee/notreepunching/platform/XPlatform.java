@@ -1,7 +1,6 @@
 package com.alcatrazescapee.notreepunching.platform;
 
 import java.util.ServiceLoader;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
@@ -13,7 +12,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +31,7 @@ import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.items.CeramicBucketItem;
 import com.alcatrazescapee.notreepunching.common.items.MattockItem;
 import com.alcatrazescapee.notreepunching.common.recipes.RecipeSerializerImpl;
-import com.alcatrazescapee.notreepunching.common.recipes.ShapedToolDamagingRecipe;
+import com.alcatrazescapee.notreepunching.common.recipes.ToolDamagingRecipe;
 import com.alcatrazescapee.notreepunching.platform.event.BlockEntityFactory;
 import com.alcatrazescapee.notreepunching.platform.event.ContainerFactory;
 
@@ -76,9 +74,14 @@ public interface XPlatform
 
     <T extends AbstractContainerMenu> MenuType<T> containerType(ContainerFactory<T> factory);
 
-    default ShapedToolDamagingRecipe shapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
+    default ToolDamagingRecipe shapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
     {
-        return new ShapedToolDamagingRecipe(id, recipe);
+        return new ToolDamagingRecipe.Shaped(id, recipe);
+    }
+
+    default ToolDamagingRecipe shapelessToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
+    {
+        return new ToolDamagingRecipe.Shapeless(id, recipe);
     }
 
     // APIs

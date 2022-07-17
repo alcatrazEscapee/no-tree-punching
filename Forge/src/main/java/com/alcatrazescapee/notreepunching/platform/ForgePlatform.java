@@ -10,7 +10,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,7 +37,7 @@ import com.alcatrazescapee.notreepunching.common.items.ForgeMattockItem;
 import com.alcatrazescapee.notreepunching.common.items.MattockItem;
 import com.alcatrazescapee.notreepunching.common.recipes.ForgeShapedToolDamagingRecipe;
 import com.alcatrazescapee.notreepunching.common.recipes.RecipeSerializerImpl;
-import com.alcatrazescapee.notreepunching.common.recipes.ShapedToolDamagingRecipe;
+import com.alcatrazescapee.notreepunching.common.recipes.ToolDamagingRecipe;
 import com.alcatrazescapee.notreepunching.platform.event.BlockEntityFactory;
 import com.alcatrazescapee.notreepunching.platform.event.ContainerFactory;
 
@@ -100,6 +99,7 @@ public final class ForgePlatform implements XPlatform
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public <T extends BlockEntity> BlockEntityType<T> blockEntityType(BlockEntityFactory<T> factory, Supplier<? extends Block> block)
     {
         return BlockEntityType.Builder.of(factory::create, block.get()).build(null);
@@ -112,7 +112,7 @@ public final class ForgePlatform implements XPlatform
     }
 
     @Override
-    public ShapedToolDamagingRecipe shapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
+    public ToolDamagingRecipe shapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
     {
         return new ForgeShapedToolDamagingRecipe(id, recipe);
     }

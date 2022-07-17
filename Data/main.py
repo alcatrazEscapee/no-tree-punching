@@ -2,6 +2,7 @@
 #  Work under copyright. See the project LICENSE.md for details.
 
 from mcresources import ResourceManager, utils, loot_tables, advancements
+from mcresources.type_definitions import ResourceIdentifier, Json
 from typing import Optional, Sequence
 
 
@@ -257,8 +258,8 @@ def do_recipes(forge: ResourceManager, common: ResourceManager):
         })
 
     # Clay tool
-    common.crafting_shapeless('clay_brick_from_balls', ('notreepunching:clay_tool', 'minecraft:clay_ball'), 'notreepunching:clay_brick').with_advancement('minecraft:clay_ball')
-    common.crafting_shapeless('clay_brick_from_blocks', ('notreepunching:clay_tool', 'minecraft:clay'), (4, 'notreepunching:clay_brick')).with_advancement('minecraft:clay')
+    tool_damaging_shapeless(common, 'clay_brick_from_balls', ('notreepunching:clay_tool', 'minecraft:clay_ball'), 'notreepunching:clay_brick').with_advancement('minecraft:clay_ball')
+    tool_damaging_shapeless(common, 'clay_brick_from_blocks', ('notreepunching:clay_tool', 'minecraft:clay'), (4, 'notreepunching:clay_brick')).with_advancement('minecraft:clay')
 
     # Misc
     common.crafting_shapeless('plant_string', ['notreepunching:plant_fiber'] * 3, 'notreepunching:plant_string').with_advancement('notreepunching:plant_fiber')
@@ -435,16 +436,29 @@ def forge_mod_loaded(mod_id: str):
     }
 
 
-def tool_damaging_shaped(rm: ResourceManager, name_parts: utils.ResourceIdentifier, pattern: Sequence[str], ingredients: utils.Json, result: utils.Json, group: str = None, conditions: utils.Json = None):
-    return rm.recipe(name_parts, 'notreepunching:tool_damaging', {
+def tool_damaging_shaped(rm: ResourceManager, name_parts: ResourceIdentifier, pattern: Sequence[str], ingredients: Json, result: utils.Json, group: str = None, conditions: Optional[Json] = None):
+    return rm.recipe(name_parts, 'notreepunching:tool_damaging_shaped', {
         'recipe': {
             'type': 'minecraft:crafting_shaped',
             'group': group,
             'pattern': pattern,
             'key': utils.item_stack_dict(ingredients, ''.join(pattern)[0]),
             'result': utils.item_stack(result),
+            'conditions': utils.recipe_condition(conditions)
         }
-    }, conditions=conditions)
+    })
+
+
+def tool_damaging_shapeless(rm: ResourceManager, name_parts: ResourceIdentifier, ingredients: Json, result: Json, group: str = None, conditions: Optional[Json] = None):
+    return rm.recipe(name_parts, 'notreepunching:tool_damaging_shapeless', {
+        'recipe': {
+            'type': 'minecraft:crafting_shapeless',
+            'group': group,
+            'ingredients': utils.item_stack_list(ingredients),
+            'result': utils.item_stack(result),
+            'conditions': utils.recipe_condition(conditions)
+        }
+    })
 
 
 def remove_recipe(rm: ResourceManager, name_parts: utils.ResourceIdentifier):

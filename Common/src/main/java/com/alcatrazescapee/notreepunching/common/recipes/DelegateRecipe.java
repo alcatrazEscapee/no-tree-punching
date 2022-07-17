@@ -7,7 +7,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 
-public interface IShapedDelegateRecipe<C extends Container> extends Recipe<C>
+public interface DelegateRecipe<C extends Container> extends Recipe<C>
 {
     Recipe<C> delegate();
 

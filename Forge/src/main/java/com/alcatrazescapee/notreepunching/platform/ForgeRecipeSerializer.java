@@ -14,7 +14,6 @@ import com.alcatrazescapee.notreepunching.common.recipes.RecipeSerializerImpl;
 
 public final class ForgeRecipeSerializer<T extends Recipe<?>> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
 {
-
     private final RecipeSerializerImpl<T> impl;
 
     public ForgeRecipeSerializer(RecipeSerializerImpl<T> impl)
@@ -25,7 +24,7 @@ public final class ForgeRecipeSerializer<T extends Recipe<?>> extends ForgeRegis
     @Override
     public T fromJson(ResourceLocation recipeId, JsonObject json)
     {
-        return fromJson(recipeId, json, ICondition.IContext.EMPTY);
+        return impl.fromJson(recipeId, json, Context.EMPTY);
     }
 
     @Override

@@ -1,7 +1,17 @@
 package com.alcatrazescapee.notreepunching;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -59,6 +69,36 @@ public final class NoTreePunching
         DispenserBlock.registerBehavior(ModItems.CLAY_TOOL.get(), (context, stack) -> {
             BlockPos offsetPos = context.getPos().relative(context.getBlockState().getValue(DispenserBlock.FACING));
             return ClayToolItem.interactWithBlock(context.getLevel(), offsetPos, context.getLevel().getBlockState(offsetPos), null, null, stack);
+        });
+
+        CauldronInteraction.WATER.put(ModItems.CERAMIC_BUCKET.get(), (state, level, pos, player, hand, stack) -> {
+            if (state.getValue(LayeredCauldronBlock.LEVEL) == 3)
+            {
+                if (!level.isClientSide)
+                {
+                    player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, new ItemStack(ModItems.CERAMIC_WATER_BUCKET.get())));
+                    player.awardStat(Stats.USE_CAULDRON);
+                    player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                    level.setBlockAndUpdate(pos, Blocks.CAULDRON.defaultBlockState());
+                    level.playSound(null, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    level.gameEvent(null, GameEvent.FLUID_PICKUP, pos);
+                }
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+            return InteractionResult.PASS;
+        });
+
+        CauldronInteraction.EMPTY.put(ModItems.CERAMIC_WATER_BUCKET.get(), (state, level, pos, player, hand, stack) -> {
+            if (!level.isClientSide)
+            {
+                player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, new ItemStack(ModItems.CERAMIC_BUCKET.get())));
+                player.awardStat(Stats.FILL_CAULDRON);
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                level.setBlockAndUpdate(pos, Blocks.WATER_CAULDRON.defaultBlockState());
+                level.playSound(null, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.gameEvent(null, GameEvent.FLUID_PLACE, pos);
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
         });
     }
 }

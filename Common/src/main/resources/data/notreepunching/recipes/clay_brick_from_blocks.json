@@ -1,16 +1,19 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "notreepunching:clay_tool"
-    },
-    {
-      "item": "minecraft:clay"
+  "type": "notreepunching:tool_damaging_shapeless",
+  "recipe": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+      {
+        "item": "notreepunching:clay_tool"
+      },
+      {
+        "item": "minecraft:clay"
+      }
+    ],
+    "result": {
+      "item": "notreepunching:clay_brick",
+      "count": 4
     }
-  ],
-  "result": {
-    "item": "notreepunching:clay_brick",
-    "count": 4
   }
 }

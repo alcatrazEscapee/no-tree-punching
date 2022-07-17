@@ -9,7 +9,7 @@ import net.minecraftforge.common.crafting.IShapedRecipe;
 /**
  * Extend to implement {@link net.minecraftforge.common.crafting.IShapedRecipe}
  */
-public final class ForgeShapedToolDamagingRecipe extends ShapedToolDamagingRecipe implements IShapedRecipe<CraftingContainer>
+public final class ForgeShapedToolDamagingRecipe extends ToolDamagingRecipe.Shaped implements IShapedRecipe<CraftingContainer>
 {
     public ForgeShapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
     {

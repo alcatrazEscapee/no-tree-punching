@@ -1,5 +1,6 @@
 package com.alcatrazescapee.notreepunching.common.recipes;
 
+import java.util.function.BiFunction;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,12 +17,12 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import com.alcatrazescapee.notreepunching.platform.XPlatform;
 import com.alcatrazescapee.notreepunching.util.Helpers;
 
-public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingContainer>, CraftingRecipe
+public abstract class ToolDamagingRecipe implements DelegateRecipe<CraftingContainer>, CraftingRecipe
 {
     private final ResourceLocation id;
     private final Recipe<?> recipe;
 
-    public ShapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
+    protected ToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
     {
         this.id = id;
         this.recipe = recipe;
@@ -54,36 +55,56 @@ public class ShapedToolDamagingRecipe implements IShapedDelegateRecipe<CraftingC
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer()
-    {
-        return ModRecipes.TOOL_DAMAGING.get();
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
     public Recipe<CraftingContainer> delegate()
     {
         return (Recipe<CraftingContainer>) recipe;
     }
 
-    public enum Serializer implements RecipeSerializerImpl<ShapedToolDamagingRecipe>
+    public static class Shaped extends ToolDamagingRecipe
     {
-        INSTANCE;
-
-        @Override
-        public ShapedToolDamagingRecipe fromJson(ResourceLocation recipeId, JsonObject json, RecipeSerializerImpl.Context context)
+        public Shaped(ResourceLocation id, Recipe<?> recipe)
         {
-            return XPlatform.INSTANCE.shapedToolDamagingRecipe(recipeId, RecipeManager.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe")));
+            super(id, recipe);
         }
 
         @Override
-        public ShapedToolDamagingRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
+        public RecipeSerializer<?> getSerializer()
         {
-            return XPlatform.INSTANCE.shapedToolDamagingRecipe(recipeId, ClientboundUpdateRecipesPacket.fromNetwork(buffer));
+            return ModRecipes.SHAPED_TOOL_DAMAGING.get();
+        }
+    }
+
+    public static class Shapeless extends ToolDamagingRecipe
+    {
+        public Shapeless(ResourceLocation id, Recipe<?> recipe)
+        {
+            super(id, recipe);
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buffer, ShapedToolDamagingRecipe recipe)
+        public RecipeSerializer<?> getSerializer()
+        {
+            return ModRecipes.SHAPELESS_TOOL_DAMAGING.get();
+        }
+    }
+
+    public record Serializer<T extends ToolDamagingRecipe>(BiFunction<ResourceLocation, Recipe<?>, T> factory) implements RecipeSerializerImpl<T>
+    {
+        @Override
+        public T fromJson(ResourceLocation recipeId, JsonObject json, RecipeSerializerImpl.Context context)
+        {
+            return factory.apply(recipeId, context.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe")));
+        }
+
+        @Override
+        public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
+        {
+            return factory.apply(recipeId, ClientboundUpdateRecipesPacket.fromNetwork(buffer));
+        }
+
+        @Override
+        public void toNetwork(FriendlyByteBuf buffer, ToolDamagingRecipe recipe)
         {
             ClientboundUpdateRecipesPacket.toNetwork(buffer, recipe.delegate());
         }
