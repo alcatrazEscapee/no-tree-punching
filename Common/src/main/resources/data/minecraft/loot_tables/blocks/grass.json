@@ -16,7 +16,7 @@
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "tag": "minecraft:shears"
+                    "tag": "notreepunching:shears"
                   }
                 }
               ]

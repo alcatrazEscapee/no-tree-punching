@@ -2,11 +2,15 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "values": [
+    "minecraft:string",
+    "#notreepunching:h/string",
+    {
+      "id": "#c:string",
+      "required": false
+    },
     {
       "id": "#forge:string",
       "required": false
-    },
-    "minecraft:string",
-    "notreepunching:plant_string"
+    }
   ]
 }

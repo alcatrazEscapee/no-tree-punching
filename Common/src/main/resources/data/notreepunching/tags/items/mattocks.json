@@ -2,9 +2,14 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "values": [
-    "notreepunching:iron_mattock",
-    "notreepunching:gold_mattock",
-    "notreepunching:diamond_mattock",
-    "notreepunching:netherite_mattock"
+    "#notreepunching:h/mattocks",
+    {
+      "id": "#c:mattocks",
+      "required": false
+    },
+    {
+      "id": "#forge:tools/mattocks",
+      "required": false
+    }
   ]
 }

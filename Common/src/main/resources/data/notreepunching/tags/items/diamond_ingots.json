@@ -2,17 +2,13 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "values": [
-    "minecraft:stick",
+    "minecraft:diamond",
     {
-      "id": "#c:wood_sticks",
+      "id": "#c:diamonds",
       "required": false
     },
     {
-      "id": "#c:wooden_rods",
-      "required": false
-    },
-    {
-      "id": "#forge:rods/wooden",
+      "id": "#forge:ingots/diamond",
       "required": false
     }
   ]

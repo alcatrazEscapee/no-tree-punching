@@ -2,17 +2,13 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "values": [
-    "minecraft:stick",
+    "minecraft:iron_ingot",
     {
-      "id": "#c:wood_sticks",
+      "id": "#c:iron_ingots",
       "required": false
     },
     {
-      "id": "#c:wooden_rods",
-      "required": false
-    },
-    {
-      "id": "#forge:rods/wooden",
+      "id": "#forge:ingots/iron",
       "required": false
     }
   ]

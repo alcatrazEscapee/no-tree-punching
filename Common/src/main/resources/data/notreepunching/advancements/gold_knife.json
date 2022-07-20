@@ -7,7 +7,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/gold"
+            "tag": "notreepunching:gold_ingots"
           }
         ]
       }

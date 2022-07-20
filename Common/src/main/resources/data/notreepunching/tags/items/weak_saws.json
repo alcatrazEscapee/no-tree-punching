@@ -2,7 +2,7 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "values": [
-    "notreepunching:flint_axe",
+    "#notreepunching:h/weak_saws",
     "minecraft:iron_axe",
     "minecraft:golden_axe",
     "minecraft:diamond_axe",

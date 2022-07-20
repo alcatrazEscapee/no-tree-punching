@@ -2,17 +2,13 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "values": [
-    "minecraft:stick",
+    "minecraft:shears",
     {
-      "id": "#c:wood_sticks",
+      "id": "#c:shears",
       "required": false
     },
     {
-      "id": "#c:wooden_rods",
-      "required": false
-    },
-    {
-      "id": "#forge:rods/wooden",
+      "id": "#forge:shears",
       "required": false
     }
   ]

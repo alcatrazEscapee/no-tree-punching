@@ -23,7 +23,7 @@ def main():
 
     do_assets(common)
     do_advancements(common)
-    do_tags(forge, common)
+    do_tags(forge, fabric, common)
     do_recipes(forge, common)
     do_loot_tables(common)
 
@@ -46,9 +46,7 @@ def do_assets(common: ResourceManager):
         block = common.blockstate('%s_cobblestone' % stone)
         block.with_block_model()
         block.with_item_model()
-        block.with_tag('cobblestone')
         block.with_tag('minecraft:mineable/pickaxe')
-        common.item_tag('cobblestone', '%s_cobblestone' % stone)  # both block and item tag
         block.with_block_loot('notreepunching:%s_cobblestone' % stone)
         block.with_lang(lang('%s cobblestone', stone))
         block.make_stairs()
@@ -102,18 +100,12 @@ def do_assets(common: ResourceManager):
     for tool in ('iron', 'gold', 'diamond', 'netherite'):
         item = common.item_model('%s_mattock' % tool, parent='item/handheld')
         item.with_lang(lang('%s mattock', tool))
-        item.with_tag('mattocks')
-        item.with_tag('forge:tools/mattocks')
 
         item = common.item_model('%s_saw' % tool, parent='item/handheld')
         item.with_lang(lang('%s saw', tool))
-        item.with_tag('saws')
-        item.with_tag('forge:tools/saws')
 
         item = common.item_model('%s_knife' % tool, parent='item/handheld')
         item.with_lang(lang('%s knife', tool))
-        item.with_tag('knives')
-        item.with_tag('forge:tools/knives')
 
     # Flint
     for tool in ('axe', 'pickaxe', 'shovel', 'hoe', 'knife'):
@@ -122,9 +114,6 @@ def do_assets(common: ResourceManager):
 
     item = common.item_model('macuahuitl', parent='item/handheld')
     item.with_lang(lang('macuahuitl'))
-
-    common.item('flint_knife').with_tag('knives')
-    common.item('flint_axe').with_tag('weak_saws')
 
     for item_name in ('flint_shard', 'plant_fiber', 'plant_string', 'clay_brick', 'ceramic_small_vessel', 'ceramic_bucket', 'ceramic_water_bucket', 'clay_tool', 'fire_starter'):
         item = common.item_model(item_name)
@@ -164,7 +153,60 @@ def do_advancements(common: ResourceManager):
     story.advancement('mattock', 'notreepunching:iron_mattock', 'Getting a Better Upgrade', 'Craft a mattock, a hoe-axe-shovel-all-in-one multitool!', 'flint_pickaxe', {'has_mattock': advancements.inventory_changed('#notreepunching:mattocks')})
 
 
-def do_tags(forge: ResourceManager, common: ResourceManager):
+def do_tags(forge: ResourceManager, fabric: ResourceManager, common: ResourceManager):
+    # Tags use the following structure
+    # ntp:tag ⊃ {
+    #   forge:tag?,
+    #   c:tag?,
+    #   minecraft:tag?,
+    #   minecraft:item...,
+    #   ntp:h/tag ⊃ {
+    #     ntp:item...
+    #   }
+    # }
+    # Referencing tags in recipes always uses ntp:tag
+    # Referencing tags in loader specific tags always uses ntp:h/tag
+
+    # /h/tags/
+    common.item_tag('h/string', 'notreepunching:plant_string')
+    block_item_tag(common, 'h/cobblestone', 'notreepunching:andesite_cobblestone', 'notreepunching:granite_cobblestone', 'notreepunching:diorite_cobblestone')
+
+    for tool in ('iron', 'gold', 'diamond', 'netherite'):
+        common.item_tag('h/mattocks', 'notreepunching:%s_mattock' % tool)
+        common.item_tag('h/knives', 'notreepunching:%s_knife' % tool)
+        common.item_tag('h/saws', 'notreepunching:%s_saw' % tool)
+
+    common.item_tag('h/weak_saws', 'notreepunching:flint_axe')
+    common.item_tag('h/knives', 'notreepunching:flint_knife')
+
+    # /tags/
+    common.item_tag('sticks', 'minecraft:stick', '#c:wood_sticks?', '#c:wooden_rods?', '#forge:rods/wooden?')
+    common.item_tag('string', 'minecraft:string', '#notreepunching:h/string', '#c:string?', '#forge:string?')
+
+    common.item_tag('mattocks', '#notreepunching:h/mattocks', '#c:mattocks?', '#forge:tools/mattocks?')
+    common.item_tag('knives', '#notreepunching:h/knives', '#c:knives?', '#forge:tools/knives?')
+    common.item_tag('saws', '#notreepunching:h/saws', '#c:saws?', '#forge:tools/saws?')
+    common.item_tag('weak_saws', '#notreepunching:h/weak_saws')
+
+    common.item_tag('iron_ingots', 'minecraft:iron_ingot', '#c:iron_ingots?', '#forge:ingots/iron?')
+    common.item_tag('gold_ingots', 'minecraft:gold_ingot', '#c:gold_ingots?', '#forge:ingots/gold?')
+    common.item_tag('diamond_ingots', 'minecraft:diamond', '#c:diamonds?', '#forge:ingots/diamond?')
+
+    common.item_tag('shears', 'minecraft:shears', '#c:shears?', '#forge:shears?')
+
+    # c:tags -> /h/tags/
+    fabric.item_tag('c:string', '#notreepunching:h/string')
+    block_item_tag(fabric, 'c:cobblestone', '#notreepunching:h/cobblestone')
+    block_item_tag(fabric, 'c:cobblestones', '#notreepunching:h/cobblestone')
+
+    # forge:tags -> /h/tags/
+    forge.item_tag('forge:string', '#notreepunching:h/string')
+    block_item_tag(forge, 'forge:cobblestone', '#notreepunching:h/cobblestone')
+
+    # minecraft:tags -> /h/tags/
+    common.item_tag('minecraft:stone_tool_materials', '#notreepunching:h/cobblestone')
+    common.item_tag('minecraft:stone_crafting_materials', '#notreepunching:h/cobblestone')
+
     # Misc Tags
     common.block_tag('needs_with_flint_tool')
     common.block_tag('mineable_with_mattock', '#minecraft:mineable/shovel', '#minecraft:mineable/hoe', '#minecraft:mineable/axe')
@@ -177,9 +219,6 @@ def do_tags(forge: ResourceManager, common: ResourceManager):
     common.block('minecraft:gravel').with_tag('always_breakable').with_tag('always_drops')
 
     common.item_tag('weak_saws', 'minecraft:iron_axe', 'minecraft:golden_axe', 'minecraft:diamond_axe', 'minecraft:netherite_axe')
-    common.item_tag('sticks', '#forge:rods/wooden?', 'minecraft:stick')
-    common.item_tag('string', '#forge:string?', 'minecraft:string', 'notreepunching:plant_string')
-    forge.item_tag('forge:string', 'notreepunching:plant_string')
 
     common.block_tag('always_breakable', '#minecraft:leaves', 'minecraft:gravel', '#minecraft:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand', '#notreepunching:loose_rocks')
     common.block_tag('always_drops', '#minecraft:leaves', 'minecraft:gravel', '#minecraft:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand', '#notreepunching:loose_rocks')
@@ -197,12 +236,6 @@ def do_tags(forge: ResourceManager, common: ResourceManager):
     common.block_tag('pottery', *pottery)
     common.block_tag('minecraft:mineable/shovel', *pottery)
 
-    # Add cobblestone to existing similar tags
-    common.item_tag('minecraft:stone_tool_materials', '#notreepunching:cobblestone')
-    common.item_tag('minecraft:stone_crafting_materials', '#notreepunching:cobblestone')
-    forge.block_tag('forge:cobblestone', '#notreepunching:cobblestone')
-    forge.item_tag('forge:cobblestone', '#notreepunching:cobblestone')
-
     common.item('ceramic_small_vessel').with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
     common.item('ceramic_large_vessel').with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
     common.item('minecraft:shulker_box').with_tag('large_vessel_blacklist').with_tag('small_vessel_blacklist')
@@ -213,6 +246,10 @@ def do_tags(forge: ResourceManager, common: ResourceManager):
     common.item('minecraft:flint').with_tag('notreepunching:flint_knappable')
     for block in ('grass_block', 'dirt', 'coarse_dirt', 'gravel', 'sand', 'red_sand', 'terracotta', 'stone', 'andesite', 'diorite', 'granite', 'sandstone', 'red_sandstone', 'podzol'):
         common.block('minecraft:%s' % block).with_tag('notreepunching:loose_rock_placeable_on')
+
+def block_item_tag(rm: ResourceManager, name_parts: ResourceIdentifier, *values: ResourceIdentifier):
+    rm.item_tag(name_parts, *values)
+    rm.block_tag(name_parts, *values)
 
 
 def do_recipes(forge: ResourceManager, common: ResourceManager):
@@ -289,7 +326,7 @@ def do_recipes(forge: ResourceManager, common: ResourceManager):
 
     # Tools
     for tool in ('iron', 'gold', 'diamond'):
-        ingot = '#forge:ingots/%s' % tool if tool != 'diamond' else '#forge:gems/diamond'
+        ingot = '#notreepunching:%s_ingots' % tool
         common.crafting_shaped('%s_knife' % tool, ('I', 'S'), {'S': '#notreepunching:sticks', 'I': ingot}, 'notreepunching:%s_knife' % tool).with_advancement(ingot)
         common.crafting_shaped('%s_mattock' % tool, ('III', ' SI', ' S '), {'S': '#notreepunching:sticks', 'I': ingot}, 'notreepunching:%s_mattock' % tool).with_advancement(ingot)
         common.crafting_shaped('%s_saw' % tool, ('  S', ' SI', 'SI '), {'S': '#notreepunching:sticks', 'I': ingot}, 'notreepunching:%s_saw' % tool).with_advancement(ingot)
@@ -395,7 +432,7 @@ def do_loot_tables(common: ResourceManager):
     # Add optional plant fiber to loot tables
     common.block_loot('minecraft:grass', ({
         'name': 'minecraft:grass',
-        'conditions': loot_tables.match_tag('minecraft:shears')
+        'conditions': loot_tables.match_tag('notreepunching:shears')
     }, {
         'name': 'notreepunching:plant_fiber',
         'conditions': [
@@ -412,7 +449,7 @@ def do_loot_tables(common: ResourceManager):
     }))
     common.block_loot('minecraft:tall_grass', ({
          'name': 'minecraft:grass',
-         'conditions': loot_tables.match_tag('forge:shears')
+         'conditions': loot_tables.match_tag('notreepunching:shears')
      }, {
          'name': 'notreepunching:plant_fiber',
          'conditions': [
@@ -444,9 +481,8 @@ def tool_damaging_shaped(rm: ResourceManager, name_parts: ResourceIdentifier, pa
             'pattern': pattern,
             'key': utils.item_stack_dict(ingredients, ''.join(pattern)[0]),
             'result': utils.item_stack(result),
-            'conditions': utils.recipe_condition(conditions)
         }
-    })
+    }, conditions=conditions)
 
 
 def tool_damaging_shapeless(rm: ResourceManager, name_parts: ResourceIdentifier, ingredients: Json, result: Json, group: str = None, conditions: Optional[Json] = None):
@@ -456,9 +492,8 @@ def tool_damaging_shapeless(rm: ResourceManager, name_parts: ResourceIdentifier,
             'group': group,
             'ingredients': utils.item_stack_list(ingredients),
             'result': utils.item_stack(result),
-            'conditions': utils.recipe_condition(conditions)
         }
-    })
+    }, conditions=conditions)
 
 
 def remove_recipe(rm: ResourceManager, name_parts: utils.ResourceIdentifier):

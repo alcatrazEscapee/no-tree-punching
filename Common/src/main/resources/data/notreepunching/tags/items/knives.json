@@ -2,10 +2,14 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "values": [
-    "notreepunching:iron_knife",
-    "notreepunching:gold_knife",
-    "notreepunching:diamond_knife",
-    "notreepunching:netherite_knife",
-    "notreepunching:flint_knife"
+    "#notreepunching:h/knives",
+    {
+      "id": "#c:knives",
+      "required": false
+    },
+    {
+      "id": "#forge:tools/knives",
+      "required": false
+    }
   ]
 }
