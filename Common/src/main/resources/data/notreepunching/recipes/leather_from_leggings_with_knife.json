@@ -1,16 +1,19 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:leather_leggings"
-    },
-    {
-      "tag": "notreepunching:knives"
+  "type": "notreepunching:tool_damaging_shapeless",
+  "recipe": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+      {
+        "item": "minecraft:leather_leggings"
+      },
+      {
+        "tag": "notreepunching:knives"
+      }
+    ],
+    "result": {
+      "item": "minecraft:leather",
+      "count": 6
     }
-  ],
-  "result": {
-    "item": "minecraft:leather",
-    "count": 6
   }
 }

@@ -1,16 +1,19 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:cobweb"
-    },
-    {
-      "tag": "notreepunching:knives"
+  "type": "notreepunching:tool_damaging_shapeless",
+  "recipe": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+      {
+        "item": "minecraft:cobweb"
+      },
+      {
+        "tag": "notreepunching:knives"
+      }
+    ],
+    "result": {
+      "item": "minecraft:string",
+      "count": 8
     }
-  ],
-  "result": {
-    "item": "minecraft:string",
-    "count": 8
   }
 }

@@ -1,16 +1,19 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:vine"
-    },
-    {
-      "tag": "notreepunching:knives"
+  "type": "notreepunching:tool_damaging_shapeless",
+  "recipe": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+      {
+        "item": "minecraft:vine"
+      },
+      {
+        "tag": "notreepunching:knives"
+      }
+    ],
+    "result": {
+      "item": "notreepunching:plant_fiber",
+      "count": 5
     }
-  ],
-  "result": {
-    "item": "notreepunching:plant_fiber",
-    "count": 5
   }
 }

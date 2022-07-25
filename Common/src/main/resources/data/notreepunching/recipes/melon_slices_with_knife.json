@@ -1,16 +1,19 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:melon"
-    },
-    {
-      "tag": "notreepunching:knives"
+  "type": "notreepunching:tool_damaging_shapeless",
+  "recipe": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+      {
+        "item": "minecraft:melon"
+      },
+      {
+        "tag": "notreepunching:knives"
+      }
+    ],
+    "result": {
+      "item": "minecraft:melon_slice",
+      "count": 9
     }
-  ],
-  "result": {
-    "item": "minecraft:melon_slice",
-    "count": 9
   }
 }

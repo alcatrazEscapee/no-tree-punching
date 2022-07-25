@@ -374,23 +374,23 @@ def do_recipes(forge: ResourceManager, common: ResourceManager):
 
     # Knife crafting
     knife = '#notreepunching:knives'
-    common.crafting_shapeless('string_from_wool_with_knife', ('#minecraft:wool', knife), (4, 'minecraft:string')).with_advancement('#minecraft:wool')
-    common.crafting_shapeless('string_from_web_with_knife', ('minecraft:cobweb', knife), (8, 'minecraft:string')).with_advancement('minecraft:cobweb')
-    common.crafting_shapeless('plant_fiber_from_sugarcane_with_knife', ('minecraft:sugar_cane', knife), (3, 'notreepunching:plant_fiber')).with_advancement('minecraft:sugar_cane')
-    common.crafting_shapeless('plant_fiber_from_wheat_with_knife', ('minecraft:wheat', knife), (2, 'notreepunching:plant_fiber')).with_advancement('minecraft:wheat')
-    common.crafting_shapeless('plant_fiber_from_vines_with_knife', ('minecraft:vine', knife), (5, 'notreepunching:plant_fiber')).with_advancement('minecraft:vine')
-    common.crafting_shapeless('plant_fiber_from_cactus_with_knife', ('minecraft:cactus', knife), (3, 'notreepunching:plant_fiber')).with_advancement('minecraft:cactus')
-    common.crafting_shapeless('plant_fiber_from_leaves_with_knife', ('#minecraft:leaves', knife), 'notreepunching:plant_fiber').with_advancement('#minecraft:leaves')
-    common.crafting_shapeless('plant_fiber_from_saplings_with_knife', ('#minecraft:saplings', knife), (2, 'notreepunching:plant_fiber')).with_advancement('#minecraft:saplings')
-    common.crafting_shapeless('plant_fiber_from_small_flowers_with_knife', ('#minecraft:small_flowers', knife), 'notreepunching:plant_fiber').with_advancement('#minecraft:small_flowers')
-    common.crafting_shapeless('plant_fiber_from_tall_flowers_with_knife', ('#minecraft:tall_flowers', knife), (2, 'notreepunching:plant_fiber')).with_advancement('#minecraft:tall_flowers')
+    tool_damaging_shapeless(common, 'string_from_wool_with_knife', ('#minecraft:wool', knife), (4, 'minecraft:string')).with_advancement('#minecraft:wool')
+    tool_damaging_shapeless(common, 'string_from_web_with_knife', ('minecraft:cobweb', knife), (8, 'minecraft:string')).with_advancement('minecraft:cobweb')
+    tool_damaging_shapeless(common, 'plant_fiber_from_sugarcane_with_knife', ('minecraft:sugar_cane', knife), (3, 'notreepunching:plant_fiber')).with_advancement('minecraft:sugar_cane')
+    tool_damaging_shapeless(common, 'plant_fiber_from_wheat_with_knife', ('minecraft:wheat', knife), (2, 'notreepunching:plant_fiber')).with_advancement('minecraft:wheat')
+    tool_damaging_shapeless(common, 'plant_fiber_from_vines_with_knife', ('minecraft:vine', knife), (5, 'notreepunching:plant_fiber')).with_advancement('minecraft:vine')
+    tool_damaging_shapeless(common, 'plant_fiber_from_cactus_with_knife', ('minecraft:cactus', knife), (3, 'notreepunching:plant_fiber')).with_advancement('minecraft:cactus')
+    tool_damaging_shapeless(common, 'plant_fiber_from_leaves_with_knife', ('#minecraft:leaves', knife), 'notreepunching:plant_fiber').with_advancement('#minecraft:leaves')
+    tool_damaging_shapeless(common, 'plant_fiber_from_saplings_with_knife', ('#minecraft:saplings', knife), (2, 'notreepunching:plant_fiber')).with_advancement('#minecraft:saplings')
+    tool_damaging_shapeless(common, 'plant_fiber_from_small_flowers_with_knife', ('#minecraft:small_flowers', knife), 'notreepunching:plant_fiber').with_advancement('#minecraft:small_flowers')
+    tool_damaging_shapeless(common, 'plant_fiber_from_tall_flowers_with_knife', ('#minecraft:tall_flowers', knife), (2, 'notreepunching:plant_fiber')).with_advancement('#minecraft:tall_flowers')
 
-    common.crafting_shapeless('leather_from_boots_with_knife', ('minecraft:leather_boots', knife), (3, 'minecraft:leather')).with_advancement('minecraft:leather_boots')
-    common.crafting_shapeless('leather_from_leggings_with_knife', ('minecraft:leather_leggings', knife), (6, 'minecraft:leather')).with_advancement('minecraft:leather_leggings')
-    common.crafting_shapeless('leather_from_chestplate_with_knife', ('minecraft:leather_chestplate', knife), (7, 'minecraft:leather')).with_advancement('minecraft:leather_chestplate')
-    common.crafting_shapeless('leather_from_helmet_with_knife', ('minecraft:leather_helmet', knife), (4, 'minecraft:leather')).with_advancement('minecraft:leather_helmet')
+    tool_damaging_shapeless(common, 'leather_from_boots_with_knife', ('minecraft:leather_boots', knife), (3, 'minecraft:leather')).with_advancement('minecraft:leather_boots')
+    tool_damaging_shapeless(common, 'leather_from_leggings_with_knife', ('minecraft:leather_leggings', knife), (6, 'minecraft:leather')).with_advancement('minecraft:leather_leggings')
+    tool_damaging_shapeless(common, 'leather_from_chestplate_with_knife', ('minecraft:leather_chestplate', knife), (7, 'minecraft:leather')).with_advancement('minecraft:leather_chestplate')
+    tool_damaging_shapeless(common, 'leather_from_helmet_with_knife', ('minecraft:leather_helmet', knife), (4, 'minecraft:leather')).with_advancement('minecraft:leather_helmet')
 
-    common.crafting_shapeless('melon_slices_with_knife', ('minecraft:melon', knife), (9, 'minecraft:melon_slice')).with_advancement('minecraft:melon')
+    tool_damaging_shapeless(common, 'melon_slices_with_knife', ('minecraft:melon', knife), (9, 'minecraft:melon_slice')).with_advancement('minecraft:melon')
 
     # Remove wood crafting recipes
     for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce', 'crimson', 'warped'):

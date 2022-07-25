@@ -1,15 +1,18 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "tag": "minecraft:small_flowers"
-    },
-    {
-      "tag": "notreepunching:knives"
+  "type": "notreepunching:tool_damaging_shapeless",
+  "recipe": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+      {
+        "tag": "minecraft:small_flowers"
+      },
+      {
+        "tag": "notreepunching:knives"
+      }
+    ],
+    "result": {
+      "item": "notreepunching:plant_fiber"
     }
-  ],
-  "result": {
-    "item": "notreepunching:plant_fiber"
   }
 }
