@@ -17,7 +17,7 @@ public abstract class PlayerMixin
     private void checkUsingCorrectToolForHarvestCheck(BlockState state, CallbackInfoReturnable<Boolean> cir)
     {
         final boolean oldValue = cir.getReturnValue();
-        final boolean newValue = EventHandler.modifyHarvestCheck(Helpers.cast(this), state, oldValue);
+        final boolean newValue = EventHandler.modifyHarvestCheck(Helpers.cast(this), state, null, oldValue);
         if (oldValue != newValue)
         {
             cir.setReturnValue(newValue);
@@ -28,7 +28,7 @@ public abstract class PlayerMixin
     private void modifyBreakSpeed(BlockState state, CallbackInfoReturnable<Float> cir)
     {
         final float oldSpeed = cir.getReturnValue();
-        final float newSpeed = EventHandler.modifyBreakSpeed(Helpers.cast(this), state, oldSpeed);
+        final float newSpeed = EventHandler.modifyBreakSpeed(Helpers.cast(this), state, null, oldSpeed);
         if (oldSpeed != newSpeed)
         {
             cir.setReturnValue(newSpeed);

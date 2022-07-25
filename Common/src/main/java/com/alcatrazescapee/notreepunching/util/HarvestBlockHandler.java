@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.ModTags;
@@ -139,24 +141,24 @@ public final class HarvestBlockHandler
         return ToolType.NONE;
     }
 
-    public static boolean isUsingCorrectToolToMine(BlockState state, Player player)
+    public static boolean isUsingCorrectToolToMine(BlockState state, BlockPos pos, Player player)
     {
-        return isUsingCorrectTool(state, player, ModTags.Blocks.ALWAYS_BREAKABLE, Config.INSTANCE.doBlocksMineWithoutCorrectTool, Config.INSTANCE.doInstantBreakBlocksMineWithoutCorrectTool);
+        return isUsingCorrectTool(state, pos, player, ModTags.Blocks.ALWAYS_BREAKABLE, Config.INSTANCE.doBlocksMineWithoutCorrectTool, Config.INSTANCE.doInstantBreakBlocksMineWithoutCorrectTool);
     }
 
-    public static boolean isUsingCorrectToolForDrops(BlockState state, Player player)
+    public static boolean isUsingCorrectToolForDrops(BlockState state, @Nullable BlockPos pos, Player player)
     {
-        return isUsingCorrectTool(state, player, ModTags.Blocks.ALWAYS_DROPS, Config.INSTANCE.doBlocksMineWithoutCorrectTool, Config.INSTANCE.doInstantBreakBlocksDropWithoutCorrectTool);
+        return isUsingCorrectTool(state, pos, player, ModTags.Blocks.ALWAYS_DROPS, Config.INSTANCE.doBlocksMineWithoutCorrectTool, Config.INSTANCE.doInstantBreakBlocksDropWithoutCorrectTool);
     }
 
-    private static boolean isUsingCorrectTool(BlockState state, Player player, TagKey<Block> alwaysAllowTag, Supplier<Boolean> withoutCorrectTool, Supplier<Boolean> instantBreakBlocksWithoutCorrectTool)
+    private static boolean isUsingCorrectTool(BlockState state, @Nullable BlockPos pos, Player player, TagKey<Block> alwaysAllowTag, Supplier<Boolean> withoutCorrectTool, Supplier<Boolean> instantBreakBlocksWithoutCorrectTool)
     {
         if (withoutCorrectTool.get())
         {
             return true; // Feature is disabled, always allow
         }
 
-        if (((AbstractBlockStateAccessor) state).getDestroySpeed() == 0 && instantBreakBlocksWithoutCorrectTool.get())
+        if (getDestroySpeed(state, pos, player) == 0 && instantBreakBlocksWithoutCorrectTool.get())
         {
             return true; // Feature is conditionally disabled for instant break blocks, always allow
         }
@@ -187,5 +189,10 @@ public final class HarvestBlockHandler
 
         // Otherwise, we check if the expected tool type can identify this item as it's tool
         return expectedToolType.is(stack.getItem());
+    }
+
+    private static float getDestroySpeed(BlockState state, @Nullable BlockPos pos, Player player)
+    {
+        return pos != null ? state.getDestroySpeed(player.level, pos) : ((AbstractBlockStateAccessor) state).getDestroySpeed();
     }
 }
