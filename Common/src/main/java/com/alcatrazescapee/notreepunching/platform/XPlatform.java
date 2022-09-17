@@ -8,6 +8,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -102,6 +103,27 @@ public interface XPlatform
             return new ItemStack(remainder);
         }
         return ItemStack.EMPTY;
+    }
+
+    /**
+     * Copy of the logic in {@link net.minecraft.world.item.DiggerItem#isCorrectToolForDrops(BlockState)}
+     */
+    default boolean isUsingCorrectTier(BlockState state, Tier tier)
+    {
+        final int level = tier.getLevel();
+        if (level < 3 && state.is(BlockTags.NEEDS_DIAMOND_TOOL))
+        {
+            return false;
+        }
+        else if (level < 2 && state.is(BlockTags.NEEDS_IRON_TOOL))
+        {
+            return false;
+        }
+        else if (level < 1 && state.is(BlockTags.NEEDS_STONE_TOOL))
+        {
+            return false;
+        }
+        return true;
     }
 
     // Platform Properties

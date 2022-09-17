@@ -20,6 +20,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -34,6 +37,7 @@ import com.alcatrazescapee.notreepunching.common.blocks.PotteryBlock;
 import com.alcatrazescapee.notreepunching.mixin.AbstractBlockAccessor;
 import com.alcatrazescapee.notreepunching.mixin.AbstractBlockStateAccessor;
 import com.alcatrazescapee.notreepunching.mixin.DiggerItemAccessor;
+import com.alcatrazescapee.notreepunching.platform.XPlatform;
 
 
 public final class HarvestBlockHandler
@@ -141,7 +145,7 @@ public final class HarvestBlockHandler
         return ToolType.NONE;
     }
 
-    public static boolean isUsingCorrectToolToMine(BlockState state, BlockPos pos, Player player)
+    public static boolean isUsingCorrectToolToMine(BlockState state, @Nullable BlockPos pos, Player player)
     {
         return isUsingCorrectTool(state, pos, player, ModTags.Blocks.ALWAYS_BREAKABLE, Config.INSTANCE.doBlocksMineWithoutCorrectTool, Config.INSTANCE.doInstantBreakBlocksMineWithoutCorrectTool);
     }
@@ -171,7 +175,7 @@ public final class HarvestBlockHandler
         final ItemStack stack = player.getMainHandItem();
         if (stack.isCorrectToolForDrops(state))
         {
-            return true; // Tool has already reported itself as the correct tool
+            return true; // Tool has already reported itself as the correct tool. This includes a tier check in vanilla.
         }
 
         final ToolType expectedToolType = BLOCK_TOOL_TYPES.getOrDefault(state.getBlock(), ToolType.NONE);
@@ -184,11 +188,21 @@ public final class HarvestBlockHandler
         final ToolType inferredToolType = ITEM_TOOL_TYPES.getOrDefault(stack.getItem(), ToolType.NONE);
         if (inferredToolType == expectedToolType)
         {
-            return true; // Correct tool type found!
+            return isUsingCorrectTier(state, stack); // Correct tool type found!
         }
 
         // Otherwise, we check if the expected tool type can identify this item as it's tool
-        return expectedToolType.is(stack.getItem());
+        return expectedToolType.is(stack.getItem()) && isUsingCorrectTier(state, stack);
+    }
+
+    private static boolean isUsingCorrectTier(BlockState state, ItemStack stack)
+    {
+        Tier tier = Tiers.WOOD; // Assume this is the lowest tier
+        if (stack.getItem() instanceof TieredItem item)
+        {
+            tier = item.getTier();
+        }
+        return XPlatform.INSTANCE.isUsingCorrectTier(state, tier);
     }
 
     private static float getDestroySpeed(BlockState state, @Nullable BlockPos pos, Player player)

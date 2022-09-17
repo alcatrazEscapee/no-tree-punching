@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeTier;
+import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.network.NetworkHooks;
@@ -132,6 +133,12 @@ public final class ForgePlatform implements XPlatform
             return stack.getContainerItem();
         }
         return ItemStack.EMPTY;
+    }
+
+    @Override
+    public boolean isUsingCorrectTier(BlockState state, Tier tier)
+    {
+        return TierSortingRegistry.isCorrectTierForDrops(tier, state);
     }
 
     @Override
