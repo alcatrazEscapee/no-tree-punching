@@ -19,6 +19,7 @@ public enum ToolType
     SHOVEL(ModTags.Items.SHOVEL_TOOLS), // Earth, Dirt
     HOE(ModTags.Items.HOE_TOOLS), // Plants, Misc.
     SHARP(ModTags.Items.SHARP_TOOLS), // (Of Swords and Axes) Plants
+    UNIQUE(null),
     NONE(null);
 
     @Nullable private final TagKey<Item> tag;

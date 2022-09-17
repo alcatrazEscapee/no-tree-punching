@@ -3,9 +3,13 @@ package com.alcatrazescapee.notreepunching.util;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,10 +19,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.DiggerItem;
+import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
@@ -46,7 +54,9 @@ public final class HarvestBlockHandler
 
     private static final Map<Material, ToolType> PRIMARY_TOOL_TYPES = new HashMap<>();
     private static final Map<Block, ToolType> BLOCK_TOOL_TYPES = new HashMap<>();
-    private static final Map<Item, ToolType> ITEM_TOOL_TYPES = new HashMap<>();
+    private static final Map<Item, Set<ToolType>> ITEM_TOOL_TYPES = new HashMap<>();
+    private static final Map<TagKey<Block>, ToolType> DEFAULT_TOOL_TYPES = new IdentityHashMap<>();
+    private static final Map<TagKey<Block>, Set<ToolType>> UNIQUE_TOOL_TYPES = new IdentityHashMap<>();
 
     static
     {
@@ -56,11 +66,21 @@ public final class HarvestBlockHandler
         add(ToolType.HOE, Material.PLANT, Material.WATER_PLANT, Material.REPLACEABLE_PLANT, Material.REPLACEABLE_WATER_PLANT, Material.REPLACEABLE_FIREPROOF_PLANT, Material.SCULK, Material.SPONGE, Material.BAMBOO_SAPLING, Material.LEAVES);
         add(ToolType.SHARP, Material.CLOTH_DECORATION, Material.WEB, Material.WOOL, Material.CAKE);
         add(ToolType.NONE, Material.AIR, Material.STRUCTURAL_AIR, Material.PORTAL, Material.WATER, Material.BUBBLE_COLUMN, Material.LAVA, Material.FIRE, Material.EXPLOSIVE, Material.BARRIER, Material.EGG);
+
+        DEFAULT_TOOL_TYPES.put(BlockTags.MINEABLE_WITH_PICKAXE, ToolType.PICKAXE);
+        DEFAULT_TOOL_TYPES.put(BlockTags.MINEABLE_WITH_AXE, ToolType.AXE);
+        DEFAULT_TOOL_TYPES.put(BlockTags.MINEABLE_WITH_SHOVEL, ToolType.SHOVEL);
+        DEFAULT_TOOL_TYPES.put(BlockTags.MINEABLE_WITH_HOE, ToolType.HOE);
     }
 
     private static void add(ToolType value, Material... keys)
     {
         Stream.of(keys).forEach(key -> PRIMARY_TOOL_TYPES.put(key, value));
+    }
+
+    private static void add(Item item, ToolType tool)
+    {
+        ITEM_TOOL_TYPES.computeIfAbsent(item, key -> new HashSet<>()).add(tool);
     }
 
     public static void setup()
@@ -98,15 +118,40 @@ public final class HarvestBlockHandler
         {
             if (item instanceof DiggerItem digger)
             {
-                final ToolType toolType = toolTypeForMineableTag(((DiggerItemAccessor) digger).getBlocks());
+                // Infer known tags
+                final TagKey<Block> toolTag = ((DiggerItemAccessor) digger).getBlocks();
+                final ToolType toolType = toolTypeForMineableTag(toolTag);
                 if (toolType != ToolType.NONE)
                 {
-                    ITEM_TOOL_TYPES.put(item, toolType);
+                    add(item, toolType);
                 }
+                else
+                {
+                    // For unknown tags, mark this as a special tool, to be handled later
+                    add(item, ToolType.UNIQUE);
+                }
+            }
+
+            // Infer subclasses of vanilla items
+            if (item instanceof AxeItem)
+            {
+                add(item, ToolType.AXE);
+            }
+            else if (item instanceof HoeItem)
+            {
+                add(item, ToolType.HOE);
+            }
+            else if (item instanceof PickaxeItem)
+            {
+                add(item, ToolType.PICKAXE);
+            }
+            else if (item instanceof ShovelItem)
+            {
+                add(item, ToolType.SHOVEL);
             }
             else if (item instanceof SwordItem || item instanceof ShearsItem)
             {
-                ITEM_TOOL_TYPES.put(item, ToolType.SHARP);
+                add(item, ToolType.SHARP);
             }
         });
 
@@ -124,25 +169,36 @@ public final class HarvestBlockHandler
         }
     }
 
+    public static void inferUniqueToolTags()
+    {
+        // Must be called once tags are loaded
+        UNIQUE_TOOL_TYPES.clear();
+        ITEM_TOOL_TYPES.forEach((item, toolTypes) -> {
+            if (toolTypes.contains(ToolType.UNIQUE) && item instanceof DiggerItem digger)
+            {
+                final TagKey<Block> toolTag = ((DiggerItemAccessor) digger).getBlocks();
+
+                // Infer if this is a superset of known tags, and if so, record it as of that tool type.
+                DEFAULT_TOOL_TYPES.forEach((knownToolTag, toolType) -> {
+                    if (isTagSupersetOfTag(toolTag, knownToolTag))
+                    {
+                        UNIQUE_TOOL_TYPES.computeIfAbsent(toolTag, key -> new HashSet<>()).add(toolType);
+                    }
+                });
+            }
+        });
+    }
+
+    private static boolean isTagSupersetOfTag(TagKey<Block> superset, TagKey<Block> set)
+    {
+        return Registry.BLOCK.getOrCreateTag(set)
+            .stream()
+            .allMatch(holder -> holder.is(superset));
+    }
+
     private static ToolType toolTypeForMineableTag(TagKey<Block> tag)
     {
-        if (tag == BlockTags.MINEABLE_WITH_PICKAXE)
-        {
-            return ToolType.PICKAXE;
-        }
-        if (tag == BlockTags.MINEABLE_WITH_AXE)
-        {
-            return ToolType.AXE;
-        }
-        if (tag == BlockTags.MINEABLE_WITH_SHOVEL)
-        {
-            return ToolType.SHOVEL;
-        }
-        if (tag == BlockTags.MINEABLE_WITH_HOE)
-        {
-            return ToolType.HOE;
-        }
-        return ToolType.NONE;
+        return DEFAULT_TOOL_TYPES.getOrDefault(tag, ToolType.NONE);
     }
 
     public static boolean isUsingCorrectToolToMine(BlockState state, @Nullable BlockPos pos, Player player)
@@ -184,15 +240,50 @@ public final class HarvestBlockHandler
             return true; // No expected tool type, so we have to return true because we don't know otherwise
         }
 
-        // Now, we need to infer if the current item is of a given tool type. Try two things:
-        final ToolType inferredToolType = ITEM_TOOL_TYPES.getOrDefault(stack.getItem(), ToolType.NONE);
-        if (inferredToolType == expectedToolType)
+        if (!isUsingCorrectTier(state, stack))
         {
-            return isUsingCorrectTier(state, stack); // Correct tool type found!
+            return false; // Not using the correct tier, and the block is tiered. This will only exclude tiered blocks, not those without a tier
         }
 
-        // Otherwise, we check if the expected tool type can identify this item as it's tool
-        return expectedToolType.is(stack.getItem()) && isUsingCorrectTier(state, stack);
+        // Now, we need to infer if the current item is of a given tool type.
+        final Set<ToolType> toolTypes = ITEM_TOOL_TYPES.getOrDefault(stack.getItem(), Collections.emptySet());
+
+        // If this contains a unique tool type, then we also need to check unique tool types, which are based on tag supersets
+        if (toolTypes.contains(ToolType.UNIQUE) && stack.getItem() instanceof DiggerItem digger)
+        {
+            final TagKey<Block> toolTag = ((DiggerItemAccessor) digger).getBlocks();
+            final Set<ToolType> uniqueToolTypes = UNIQUE_TOOL_TYPES.getOrDefault(toolTag, Collections.emptySet());
+
+            if (isUsingAnyOfCorrectTools(expectedToolType, stack, uniqueToolTypes))
+            {
+                return true; // Found a matching unique tool type
+            }
+        }
+
+        return isUsingAnyOfCorrectTools(expectedToolType, stack, toolTypes);
+    }
+
+    private static boolean isUsingAnyOfCorrectTools(ToolType expectedToolType, ItemStack stack, Set<ToolType> toolTypes)
+    {
+        for (ToolType inferredToolType : toolTypes)
+        {
+            if (inferredToolType == ToolType.UNIQUE)
+            {
+                continue; // Just a marker to check the unique based tool types
+            }
+
+            if (inferredToolType == expectedToolType)
+            {
+                return true; // Correct tool type found!
+            }
+
+            // Otherwise, we check if the expected tool type can identify this item as it's tool
+            if (expectedToolType.is(stack.getItem()))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean isUsingCorrectTier(BlockState state, ItemStack stack)

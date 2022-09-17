@@ -5,9 +5,11 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "PlayerMixin",
+    "ReloadableServerResourcesMixin",
     "ServerPlayerGameModeMixin"
   ],
   "client": [
+    "client.ClientPacketListenerMixin",
     "client.MultiPlayerGameModeMixin"
   ],
   "injectors": {
