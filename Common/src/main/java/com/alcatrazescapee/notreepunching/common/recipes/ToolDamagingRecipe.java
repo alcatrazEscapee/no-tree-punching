@@ -1,7 +1,8 @@
 package com.alcatrazescapee.notreepunching.common.recipes;
 
-import java.util.function.BiFunction;
+import java.util.Optional;
 import com.google.gson.JsonObject;
+import com.mojang.datafixers.util.Function3;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundUpdateRecipesPacket;
@@ -10,9 +11,10 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.platform.XPlatform;
 import com.alcatrazescapee.notreepunching.util.Helpers;
@@ -21,11 +23,13 @@ public abstract class ToolDamagingRecipe implements DelegateRecipe<CraftingConta
 {
     private final ResourceLocation id;
     private final Recipe<?> recipe;
+    private @Nullable final Ingredient tool;
 
-    protected ToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
+    protected ToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe, @Nullable Ingredient tool)
     {
         this.id = id;
         this.recipe = recipe;
+        this.tool = tool;
     }
 
     @Override
@@ -40,7 +44,7 @@ public abstract class ToolDamagingRecipe implements DelegateRecipe<CraftingConta
             {
                 items.set(i, remainder);
             }
-            else if (stack.isDamageableItem())
+            else if (stack.isDamageableItem() && (tool == null || tool.test(stack)))
             {
                 items.set(i, Helpers.hurtAndBreak(stack, 1).copy());
             }
@@ -63,9 +67,9 @@ public abstract class ToolDamagingRecipe implements DelegateRecipe<CraftingConta
 
     public static class Shaped extends ToolDamagingRecipe
     {
-        public Shaped(ResourceLocation id, Recipe<?> recipe)
+        public Shaped(ResourceLocation id, Recipe<?> recipe, @Nullable Ingredient tool)
         {
-            super(id, recipe);
+            super(id, recipe, tool);
         }
 
         @Override
@@ -77,9 +81,9 @@ public abstract class ToolDamagingRecipe implements DelegateRecipe<CraftingConta
 
     public static class Shapeless extends ToolDamagingRecipe
     {
-        public Shapeless(ResourceLocation id, Recipe<?> recipe)
+        public Shapeless(ResourceLocation id, Recipe<?> recipe, @Nullable Ingredient tool)
         {
-            super(id, recipe);
+            super(id, recipe, tool);
         }
 
         @Override
@@ -89,24 +93,29 @@ public abstract class ToolDamagingRecipe implements DelegateRecipe<CraftingConta
         }
     }
 
-    public record Serializer<T extends ToolDamagingRecipe>(BiFunction<ResourceLocation, Recipe<?>, T> factory) implements RecipeSerializerImpl<T>
+    public record Serializer<T extends ToolDamagingRecipe>(Function3<ResourceLocation, Recipe<?>, Ingredient, T> factory) implements RecipeSerializerImpl<T>
     {
         @Override
         public T fromJson(ResourceLocation recipeId, JsonObject json, RecipeSerializerImpl.Context context)
         {
-            return factory.apply(recipeId, context.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe")));
+            final Recipe<?> recipe = context.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe"));
+            final Ingredient tool = json.has("tool") ? Ingredient.fromJson(json.get("tool")) : null;
+            return factory.apply(recipeId, recipe, tool);
         }
 
         @Override
         public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
         {
-            return factory.apply(recipeId, ClientboundUpdateRecipesPacket.fromNetwork(buffer));
+            final Recipe<?> recipe = ClientboundUpdateRecipesPacket.fromNetwork(buffer);
+            final Ingredient tool = buffer.readOptional(Ingredient::fromNetwork).orElse(null);
+            return factory.apply(recipeId, recipe, tool);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer, ToolDamagingRecipe recipe)
         {
             ClientboundUpdateRecipesPacket.toNetwork(buffer, recipe.delegate());
+            buffer.writeOptional(Optional.ofNullable(recipe.tool), (b, i) -> i.toNetwork(b));
         }
     }
 }

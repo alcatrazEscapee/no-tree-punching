@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.items.CeramicBucketItem;
@@ -74,14 +75,14 @@ public interface XPlatform
 
     <T extends AbstractContainerMenu> MenuType<T> containerType(ContainerFactory<T> factory);
 
-    default ToolDamagingRecipe shapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
+    default ToolDamagingRecipe shapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe, @Nullable Ingredient tool)
     {
-        return new ToolDamagingRecipe.Shaped(id, recipe);
+        return new ToolDamagingRecipe.Shaped(id, recipe, tool);
     }
 
-    default ToolDamagingRecipe shapelessToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
+    default ToolDamagingRecipe shapelessToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe, @Nullable Ingredient tool)
     {
-        return new ToolDamagingRecipe.Shapeless(id, recipe);
+        return new ToolDamagingRecipe.Shapeless(id, recipe, tool);
     }
 
     // APIs

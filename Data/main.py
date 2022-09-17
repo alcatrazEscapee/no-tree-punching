@@ -385,10 +385,10 @@ def do_recipes(forge: ResourceManager, common: ResourceManager):
     tool_damaging_shapeless(common, 'plant_fiber_from_small_flowers_with_knife', ('#minecraft:small_flowers', knife), 'notreepunching:plant_fiber').with_advancement('#minecraft:small_flowers')
     tool_damaging_shapeless(common, 'plant_fiber_from_tall_flowers_with_knife', ('#minecraft:tall_flowers', knife), (2, 'notreepunching:plant_fiber')).with_advancement('#minecraft:tall_flowers')
 
-    tool_damaging_shapeless(common, 'leather_from_boots_with_knife', ('minecraft:leather_boots', knife), (3, 'minecraft:leather')).with_advancement('minecraft:leather_boots')
-    tool_damaging_shapeless(common, 'leather_from_leggings_with_knife', ('minecraft:leather_leggings', knife), (6, 'minecraft:leather')).with_advancement('minecraft:leather_leggings')
-    tool_damaging_shapeless(common, 'leather_from_chestplate_with_knife', ('minecraft:leather_chestplate', knife), (7, 'minecraft:leather')).with_advancement('minecraft:leather_chestplate')
-    tool_damaging_shapeless(common, 'leather_from_helmet_with_knife', ('minecraft:leather_helmet', knife), (4, 'minecraft:leather')).with_advancement('minecraft:leather_helmet')
+    tool_damaging_shapeless(common, 'leather_from_boots_with_knife', ('minecraft:leather_boots', knife), (3, 'minecraft:leather'), tool='#notreepunching:knives').with_advancement('minecraft:leather_boots')
+    tool_damaging_shapeless(common, 'leather_from_leggings_with_knife', ('minecraft:leather_leggings', knife), (6, 'minecraft:leather'), tool='#notreepunching:knives').with_advancement('minecraft:leather_leggings')
+    tool_damaging_shapeless(common, 'leather_from_chestplate_with_knife', ('minecraft:leather_chestplate', knife), (7, 'minecraft:leather'), tool='#notreepunching:knives').with_advancement('minecraft:leather_chestplate')
+    tool_damaging_shapeless(common, 'leather_from_helmet_with_knife', ('minecraft:leather_helmet', knife), (4, 'minecraft:leather'), tool='#notreepunching:knives').with_advancement('minecraft:leather_helmet')
 
     tool_damaging_shapeless(common, 'melon_slices_with_knife', ('minecraft:melon', knife), (9, 'minecraft:melon_slice')).with_advancement('minecraft:melon')
 
@@ -473,7 +473,7 @@ def forge_mod_loaded(mod_id: str):
     }
 
 
-def tool_damaging_shaped(rm: ResourceManager, name_parts: ResourceIdentifier, pattern: Sequence[str], ingredients: Json, result: utils.Json, group: str = None, conditions: Optional[Json] = None):
+def tool_damaging_shaped(rm: ResourceManager, name_parts: ResourceIdentifier, pattern: Sequence[str], ingredients: Json, result: utils.Json, group: str = None, conditions: Optional[Json] = None, tool: Optional[Json] = None):
     return rm.recipe(name_parts, 'notreepunching:tool_damaging_shaped', {
         'recipe': {
             'type': 'minecraft:crafting_shaped',
@@ -481,18 +481,20 @@ def tool_damaging_shaped(rm: ResourceManager, name_parts: ResourceIdentifier, pa
             'pattern': pattern,
             'key': utils.item_stack_dict(ingredients, ''.join(pattern)[0]),
             'result': utils.item_stack(result),
-        }
+        },
+        'tool': tool if tool is None else utils.ingredient(tool)
     }, conditions=conditions)
 
 
-def tool_damaging_shapeless(rm: ResourceManager, name_parts: ResourceIdentifier, ingredients: Json, result: Json, group: str = None, conditions: Optional[Json] = None):
+def tool_damaging_shapeless(rm: ResourceManager, name_parts: ResourceIdentifier, ingredients: Json, result: Json, group: str = None, conditions: Optional[Json] = None, tool: Optional[Json] = None):
     return rm.recipe(name_parts, 'notreepunching:tool_damaging_shapeless', {
         'recipe': {
             'type': 'minecraft:crafting_shapeless',
             'group': group,
             'ingredients': utils.item_stack_list(ingredients),
             'result': utils.item_stack(result),
-        }
+        },
+        'tool': tool if tool is None else utils.ingredient(tool)
     }, conditions=conditions)
 
 

@@ -29,6 +29,7 @@ import net.minecraftforge.common.ForgeTier;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.items.CeramicBucketItem;
@@ -112,9 +113,9 @@ public final class ForgePlatform implements XPlatform
     }
 
     @Override
-    public ToolDamagingRecipe shapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe)
+    public ToolDamagingRecipe shapedToolDamagingRecipe(ResourceLocation id, Recipe<?> recipe, @Nullable Ingredient tool)
     {
-        return new ForgeShapedToolDamagingRecipe(id, recipe);
+        return new ForgeShapedToolDamagingRecipe(id, recipe, tool);
     }
 
     @Override

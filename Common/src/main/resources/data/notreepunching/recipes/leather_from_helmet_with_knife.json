@@ -15,5 +15,8 @@
       "item": "minecraft:leather",
       "count": 4
     }
+  },
+  "tool": {
+    "tag": "notreepunching:knives"
   }
 }
