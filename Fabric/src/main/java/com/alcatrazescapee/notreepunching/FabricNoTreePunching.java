@@ -17,7 +17,7 @@ public final class FabricNoTreePunching implements ModInitializer
         NoTreePunching.earlySetup();
         NoTreePunching.lateSetup();
 
-        if (Config.INSTANCE.enableLooseRocksWorldGen.get())
+        if (Config.INSTANCE.enableLooseRocksWorldGen.getAsBoolean())
         {
             BiomeModifications.addFeature(
                 BiomeSelectors.categories(Arrays.stream(Biome.BiomeCategory.values()).filter(EventHandler::hasLooseRocks).toArray(Biome.BiomeCategory[]::new)),

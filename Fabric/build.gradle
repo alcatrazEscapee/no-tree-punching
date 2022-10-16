@@ -2,11 +2,21 @@ plugins {
     id 'fabric-loom' version '0.12-SNAPSHOT'
     id 'io.github.juuxel.loom-quiltflower' version '1.7.2'
     id 'idea'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 def envVersion = System.getenv('VERSION')
 version = envVersion == null ? '0.0.0-indev' : envVersion
 archivesBaseName = "${mod_id}-fabric-${minecraft_version}"
+
+configurations {
+    shadowLibrary
+    implementation.extendsFrom(shadowLibrary)
+}
+
+repositories {
+    mavenLocal()
+}
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
@@ -18,8 +28,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 
-    modImplementation "me.zeroeightsix:fiber:0.23.0-2"
-    include "me.zeroeightsix:fiber:0.23.0-2"
+    shadowLibrary "com.alcatrazescapee:epsilon:${epsilon_version}"
 
     implementation project(":Common")
     implementation 'org.jetbrains:annotations:23.0.0'
@@ -57,8 +66,25 @@ tasks.withType(JavaCompile) {
 }
 
 jar {
+    classifier 'slim'
     from("LICENSE") {
         rename { "${it}_${mod_name}" }
     }
 }
+
+shadowJar {
+    from sourceSets.main.output
+    configurations = [project.configurations.shadowLibrary]
+    dependencies {
+        exclude(dependency { it.moduleGroup != 'com.alcatrazescapee' })
+    }
+    relocate 'com.alcatrazescapee.epsilon', 'com.alcatrazescapee.notreepunching.epsilon'
+}
+
+remapJar {
+    dependsOn shadowJar
+    inputFile.set(shadowJar.archiveFile)
+}
+
+
 

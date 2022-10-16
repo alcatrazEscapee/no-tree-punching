@@ -1,6 +1,11 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
     id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT'
+}
+
+repositories {
+    mavenLocal()
 }
 
 minecraft {
@@ -10,4 +15,5 @@ minecraft {
 
 dependencies {
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
+    compileOnly group: 'com.alcatrazescapee', name: 'epsilon', version: epsilon_version
 }

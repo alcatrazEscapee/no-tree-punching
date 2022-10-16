@@ -1,5 +1,6 @@
 package com.alcatrazescapee.notreepunching.platform;
 
+import java.nio.file.Path;
 import java.util.ServiceLoader;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -49,8 +50,6 @@ public interface XPlatform
     }
 
     <T> RegistryInterface<T> registryInterface(Registry<T> registry);
-
-    Config createConfig();
 
     // Constructors / Misc. Objects
 
@@ -129,4 +128,6 @@ public interface XPlatform
     // Platform Properties
 
     boolean isDedicatedClient();
+
+    Path configPath();
 }

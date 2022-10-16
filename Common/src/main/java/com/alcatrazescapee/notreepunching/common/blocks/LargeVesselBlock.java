@@ -43,7 +43,7 @@ public class LargeVesselBlock extends Block implements EntityBlock
         if (!newState.is(state.getBlock()))
         {
             level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get()).ifPresent(vessel -> {
-                if (!Config.INSTANCE.largeVesselKeepsContentsWhenBroken.get())
+                if (!Config.INSTANCE.largeVesselKeepsContentsWhenBroken.getAsBoolean())
                 {
                     for (int i = 0; i < vessel.size(); i++)
                     {

@@ -35,7 +35,7 @@ public class KnifeItem extends SwordItem
     @Override
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity entity)
     {
-        if (!level.isClientSide && (state.getDestroySpeed(level, pos) != 0.0F || Config.INSTANCE.doInstantBreakBlocksDamageKnives.get()))
+        if (!level.isClientSide && (state.getDestroySpeed(level, pos) != 0.0F || Config.INSTANCE.doInstantBreakBlocksDamageKnives.getAsBoolean()))
         {
             stack.hurtAndBreak(1, entity, entityIn -> entityIn.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         }

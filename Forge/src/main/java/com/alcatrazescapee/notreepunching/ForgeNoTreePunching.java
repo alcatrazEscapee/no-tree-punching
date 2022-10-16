@@ -54,7 +54,7 @@ public final class ForgeNoTreePunching
 
     private void onBiomeLoad(BiomeLoadingEvent event)
     {
-        if (Config.INSTANCE.enableLooseRocksWorldGen.get() && EventHandler.hasLooseRocks(event.getCategory()))
+        if (Config.INSTANCE.enableLooseRocksWorldGen.getAsBoolean() && EventHandler.hasLooseRocks(event.getCategory()))
         {
             event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.PLACED_LOOSE_ROCKS.holder());
         }

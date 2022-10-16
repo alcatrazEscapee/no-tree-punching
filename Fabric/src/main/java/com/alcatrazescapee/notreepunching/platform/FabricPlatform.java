@@ -1,5 +1,6 @@
 package com.alcatrazescapee.notreepunching.platform;
 
+import java.nio.file.Path;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.fabricmc.api.EnvType;
@@ -47,12 +48,6 @@ public final class FabricPlatform implements XPlatform
     public <T> RegistryInterface<T> registryInterface(Registry<T> registry)
     {
         return new FabricRegistryInterface<>(registry);
-    }
-
-    @Override
-    public Config createConfig()
-    {
-        return FabricConfig.create();
     }
 
     @Override
@@ -120,5 +115,11 @@ public final class FabricPlatform implements XPlatform
     public boolean isDedicatedClient()
     {
         return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
+    }
+
+    @Override
+    public Path configPath()
+    {
+        return FabricLoader.getInstance().getConfigDir();
     }
 }

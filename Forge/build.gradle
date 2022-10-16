@@ -16,6 +16,7 @@ buildscript {
 plugins {
     id 'java'
     id 'idea'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -59,7 +60,13 @@ minecraft {
     }
 }
 
+configurations {
+    shadowLibrary
+    minecraftLibrary.extendsFrom(shadowLibrary)
+}
+
 repositories {
+    mavenLocal()
     flatDir {
         dirs 'libs'
     }
@@ -76,6 +83,8 @@ dependencies {
 
     // runtimeOnly fg.deobf("libs:DynamicTrees-1.18.2:0.11.0-Alpha2")
     // runtimeOnly fg.deobf("libs:ProjectE-1.18.2:PE1.0.1")
+
+    shadowLibrary "com.alcatrazescapee:epsilon:${epsilon_version}"
 }
 
 mixin {
@@ -94,3 +103,23 @@ processResources {
 }
 
 jar.finalizedBy('reobfJar')
+
+jar {
+    classifier 'slim'
+}
+
+shadowJar {
+    classifier ''
+    configurations = [project.configurations.shadowLibrary]
+    dependencies {
+        exclude(dependency { it.moduleGroup != 'com.alcatrazescapee' })
+    }
+    relocate 'com.alcatrazescapee.epsilon', 'com.alcatrazescapee.notreepunching.epsilon'
+    finalizedBy 'reobfShadowJar'
+}
+
+assemble.dependsOn(shadowJar)
+
+reobf {
+    shadowJar {}
+}

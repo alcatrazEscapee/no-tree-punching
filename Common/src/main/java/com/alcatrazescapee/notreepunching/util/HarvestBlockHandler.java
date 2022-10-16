@@ -10,6 +10,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -208,17 +209,17 @@ public final class HarvestBlockHandler
 
     public static boolean isUsingCorrectToolForDrops(BlockState state, @Nullable BlockPos pos, Player player)
     {
-        return isUsingCorrectTool(state, pos, player, ModTags.Blocks.ALWAYS_DROPS, Config.INSTANCE.doBlocksMineWithoutCorrectTool, Config.INSTANCE.doInstantBreakBlocksDropWithoutCorrectTool);
+        return isUsingCorrectTool(state, pos, player, ModTags.Blocks.ALWAYS_DROPS, Config.INSTANCE.doBlocksDropWithoutCorrectTool, Config.INSTANCE.doInstantBreakBlocksDropWithoutCorrectTool);
     }
 
-    private static boolean isUsingCorrectTool(BlockState state, @Nullable BlockPos pos, Player player, TagKey<Block> alwaysAllowTag, Supplier<Boolean> withoutCorrectTool, Supplier<Boolean> instantBreakBlocksWithoutCorrectTool)
+    private static boolean isUsingCorrectTool(BlockState state, @Nullable BlockPos pos, Player player, TagKey<Block> alwaysAllowTag, Supplier<Boolean> withoutCorrectTool, BooleanSupplier instantBreakBlocksWithoutCorrectTool)
     {
         if (withoutCorrectTool.get())
         {
             return true; // Feature is disabled, always allow
         }
 
-        if (getDestroySpeed(state, pos, player) == 0 && instantBreakBlocksWithoutCorrectTool.get())
+        if (getDestroySpeed(state, pos, player) == 0 && instantBreakBlocksWithoutCorrectTool.getAsBoolean())
         {
             return true; // Feature is conditionally disabled for instant break blocks, always allow
         }

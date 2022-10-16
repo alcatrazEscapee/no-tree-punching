@@ -48,9 +48,9 @@ public final class EventHandler
         {
             if (!level.isClientSide)
             {
-                if (level.random.nextFloat() < Config.INSTANCE.flintKnappingConsumeChance.get())
+                if (level.random.nextFloat() < Config.INSTANCE.flintKnappingConsumeChance.getAsFloat())
                 {
-                    if (level.random.nextFloat() < Config.INSTANCE.flintKnappingSuccessChance.get())
+                    if (level.random.nextFloat() < Config.INSTANCE.flintKnappingSuccessChance.getAsFloat())
                     {
                         Direction face = targetedFace == null ? Direction.UP : targetedFace;
                         Containers.dropItemStack(level, pos.getX() + 0.5 + face.getStepX() * 0.5, pos.getY() + 0.5 + face.getStepY() * 0.5, pos.getZ() + 0.5 + face.getStepZ() * 0.5, new ItemStack(ModItems.FLINT_SHARD.get(), 2));

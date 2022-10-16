@@ -1,101 +1,123 @@
 package com.alcatrazescapee.notreepunching;
 
-import java.util.ArrayList;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import com.mojang.logging.LogUtils;
-import net.minecraft.ResourceLocationException;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import org.slf4j.Logger;
 
+import com.alcatrazescapee.epsilon.EpsilonUtil;
+import com.alcatrazescapee.epsilon.ParseError;
+import com.alcatrazescapee.epsilon.Spec;
+import com.alcatrazescapee.epsilon.SpecBuilder;
+import com.alcatrazescapee.epsilon.Type;
+import com.alcatrazescapee.epsilon.value.BoolValue;
+import com.alcatrazescapee.epsilon.value.FloatValue;
+import com.alcatrazescapee.epsilon.value.TypeValue;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.blocks.PotteryBlock;
-import com.alcatrazescapee.notreepunching.platform.AbstractConfig;
-import com.alcatrazescapee.notreepunching.platform.XPlatform;
 
-public abstract class Config extends AbstractConfig
+public enum Config
 {
-    public static final Config INSTANCE = XPlatform.INSTANCE.createConfig();
+    INSTANCE;
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    // Common
-    public final BooleanValue enableLooseRocksWorldGen;
+    public final BoolValue enableLooseRocksWorldGen;
+    public final BoolValue doBlocksMineWithoutCorrectTool;
+    public final BoolValue doInstantBreakBlocksMineWithoutCorrectTool;
+    public final BoolValue doBlocksDropWithoutCorrectTool;
+    public final BoolValue doInstantBreakBlocksDropWithoutCorrectTool;
+    public final BoolValue doInstantBreakBlocksDamageKnives;
 
-    // Server
-    public final BooleanValue doBlocksMineWithoutCorrectTool;
-    public final BooleanValue doInstantBreakBlocksMineWithoutCorrectTool;
+    public final FloatValue flintKnappingConsumeChance;
+    public final FloatValue flintKnappingSuccessChance;
+    public final FloatValue fireStarterFireStartChance;
+    public final BoolValue fireStarterCanMakeCampfire;
+    public final BoolValue fireStarterCanMakeSoulCampfire;
+    public final BoolValue largeVesselKeepsContentsWhenBroken;
+    public final TypeValue<List<Block>> potteryBlockSequences;
 
-    public final BooleanValue doBlocksDropWithoutCorrectTool;
-    public final BooleanValue doInstantBreakBlocksDropWithoutCorrectTool;
+    private final Spec spec;
 
-    public final BooleanValue doInstantBreakBlocksDamageKnives;
-    public final DoubleValue flintKnappingConsumeChance;
-    public final DoubleValue flintKnappingSuccessChance;
-    public final DoubleValue fireStarterFireStartChance;
-    public final BooleanValue fireStarterCanMakeCampfire;
-    public final BooleanValue fireStarterCanMakeSoulCampfire;
-    public final BooleanValue largeVesselKeepsContentsWhenBroken;
-
-    private final ListValue<String> potteryBlockSequences;
-
-    protected Config()
+    Config()
     {
-        // Common
-        enableLooseRocksWorldGen = build(Type.COMMON, "enableLooseRocksWorldGen", true, "Enables loose rock world gen added automatically to biomes.");
+        final SpecBuilder builder = Spec.builder();
 
-        doBlocksMineWithoutCorrectTool = build(Type.SERVER, "doBlocksMineWithoutCorrectTool", false, "If blocks are mineable without the correct tool.");
-        doBlocksDropWithoutCorrectTool = build(Type.SERVER, "doBlocksDropWithoutCorrectTool", false, "If blocks drop their items without the correct tool.");
+        enableLooseRocksWorldGen = builder
+            .comment("Enables loose rock world gen added automatically to biomes.")
+            .define("enableLooseRocksWorldGen", true);
 
-        doInstantBreakBlocksDropWithoutCorrectTool = build(Type.SERVER, "doInstantBreakBlocksDropWithoutCorrectTool", false, "If blocks that break instantly are mineable without the correct tool.");
-        doInstantBreakBlocksMineWithoutCorrectTool = build(Type.SERVER, "doInstantBreakBlocksMineWithoutCorrectTool", true, "If blocks that break instantly drop their items without the correct tool.");
+        doBlocksMineWithoutCorrectTool = builder
+            .comment("If blocks are mineable without the correct tool.")
+            .define("doBlocksMineWithoutCorrectTool", false);
+        doBlocksDropWithoutCorrectTool = builder
+            .comment("If blocks drop their items without the correct tool.")
+            .define("doBlocksDropWithoutCorrectTool", false);
 
-        doInstantBreakBlocksDamageKnives = build(Type.SERVER, "doInstantBreakBlocksDamageKnives", true, "If blocks such as tall grass which break instantly consume durability when broken with a knife (only affects No Tree Punching knives)");
+        doInstantBreakBlocksDropWithoutCorrectTool = builder
+            .comment("If blocks that break instantly are mineable without the correct tool.")
+            .define("doInstantBreakBlocksDropWithoutCorrectTool", false);
+        doInstantBreakBlocksMineWithoutCorrectTool = builder
+            .comment("If blocks that break instantly drop their items without the correct tool.")
+            .define("doInstantBreakBlocksMineWithoutCorrectTool", true);
 
-        flintKnappingConsumeChance = build(Type.SERVER, "flintKnappingConsumeChance", 0.4, 0, 1, "The chance to consume a piece of flint when knapping");
-        flintKnappingSuccessChance = build(Type.SERVER, "flintKnappingSuccessChance", 0.7, 0, 1, "The chance to produce flint shards if a piece of flint has been consumed while knapping");
+        doInstantBreakBlocksDamageKnives = builder
+            .comment("If blocks such as tall grass which break instantly consume durability when broken with a knife (only affects No Tree Punching knives)")
+            .define("doInstantBreakBlocksDamageKnives", true);
 
-        fireStarterFireStartChance = build(Type.SERVER, "fireStarterFireStartChance", 0.3, 0, 1, "The chance for a fire starter to start fires");
-        fireStarterCanMakeCampfire = build(Type.SERVER, "fireStarterCanMakeCampfire", true, "If the fire starter can be used to make a campfire (with one '#notreepunching:fire_starter_logs' and three '#notreepunching:fire_starter_kindling'");
-        fireStarterCanMakeSoulCampfire = build(Type.SERVER, "fireStarterCanMakeSoulCampfire", true, "If the fire starter can be used to make a soul campfire (with one '#notreepunching:fire_starter_logs', three '#notreepunching:fire_starter_kindling', and one '#notreepunching:fire_starter_soul_fire_catalyst'");
+        flintKnappingConsumeChance = builder
+            .comment("The chance to consume a piece of flint when knapping")
+            .define("flintKnappingConsumeChance", 0.4f, 0f, 1f);
+        flintKnappingSuccessChance = builder
+            .comment("The chance to produce flint shards if a piece of flint has been consumed while knapping")
+            .define("flintKnappingSuccessChance", 0.7f, 0f, 1f);
 
-        largeVesselKeepsContentsWhenBroken = build(Type.SERVER, "largeVesselKeepsContentsWhenBroken", true, "If the large ceramic vessel block keeps it's contents when broken (as opposed to dropping them on the ground");
+        fireStarterFireStartChance = builder
+            .comment("The chance for a fire starter to start fires")
+            .define("fireStarterFireStartChance", 0.3f, 0f, 1f);
+        fireStarterCanMakeCampfire = builder
+            .comment("If the fire starter can be used to make a campfire (with one '#notreepunching:fire_starter_logs' and three '#notreepunching:fire_starter_kindling'")
+            .define("fireStarterCanMakeCampfire", true);
+        fireStarterCanMakeSoulCampfire = builder
+            .comment("If the fire starter can be used to make a soul campfire (with one '#notreepunching:fire_starter_logs', three '#notreepunching:fire_starter_kindling', and one '#notreepunching:fire_starter_soul_fire_catalyst'")
+            .define("fireStarterCanMakeSoulCampfire", true);
 
-        potteryBlockSequences = build(Type.SERVER, "potteryBlockSequences", defaultPotteryBlockSequence(),
-            "The sequence of blocks that can be created with the clay tool. When the clay tool is used, if the block is present in this list, it may be converted to the next block in the list. If the next block is minecraft:air, the block will be destroyed (the clay tool will never try and convert air into something)");
+        largeVesselKeepsContentsWhenBroken = builder
+            .comment("If the large ceramic vessel block keeps it's contents when broken (as opposed to dropping them on the ground")
+            .define("largeVesselKeepsContentsWhenBroken", true);
+
+        potteryBlockSequences = builder
+            .comment(
+                "The sequence of blocks that can be created with the clay tool.",
+                "When the clay tool is used, if the block is present in this list, it may be converted to the next block in the list.",
+                "If the next block is minecraft:air, the block will be destroyed (the clay tool will never try and convert air into something)"
+            )
+            .define("potteryBlockSequences", List.of(
+                Blocks.CLAY,
+                ModBlocks.POTTERY.get(PotteryBlock.Variant.WORKED).get(),
+                ModBlocks.POTTERY.get(PotteryBlock.Variant.LARGE_VESSEL).get(),
+                ModBlocks.POTTERY.get(PotteryBlock.Variant.SMALL_VESSEL).get(),
+                ModBlocks.POTTERY.get(PotteryBlock.Variant.BUCKET).get(),
+                ModBlocks.POTTERY.get(PotteryBlock.Variant.FLOWER_POT).get(),
+                Blocks.AIR
+            ), Type.STRING_LIST.map(
+                list -> list.stream().map(name -> ParseError.requireNotNull(() -> Registry.BLOCK.get(new ResourceLocation(name)), "Invalid block: '%s'".formatted(name))).toList(),
+                list -> list.stream().map(block -> Objects.requireNonNull(Registry.BLOCK.getKey(block)).toString()).toList(),
+                TypeValue::new
+            ));
+
+        spec = builder.build();
     }
 
-    public List<Block> getPotteryBlockSequences()
+    public void load(Path path)
     {
-        return potteryBlockSequences.get()
-            .stream()
-            .map(id -> {
-                try
-                {
-                    return Registry.BLOCK.get(new ResourceLocation(id));
-                }
-                catch (ResourceLocationException e)
-                {
-                    LOGGER.warn("Illegal entry: {} in No Tree Punching config at potteryBlockSequences: {}", id, e.getMessage());
-                    return null;
-                }
-            })
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
-    }
-
-    private List<String> defaultPotteryBlockSequence()
-    {
-        final List<String> values = new ArrayList<>();
-        values.add("minecraft:clay");
-        for (PotteryBlock.Variant pottery : PotteryBlock.Variant.values())
-        {
-            values.add(ModBlocks.POTTERY.get(pottery).id().toString());
-        }
-        values.add("minecraft:air");
-        return values;
+        LOGGER.info("Loading NoTreePunching Config");
+        EpsilonUtil.parse(INSTANCE.spec, Path.of(path.toString(), NoTreePunching.MOD_ID + ".toml"), LOGGER::warn);
+        LOGGER.info("Loaded NoTreePunching Config");
     }
 }

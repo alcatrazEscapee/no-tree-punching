@@ -1,5 +1,6 @@
 package com.alcatrazescapee.notreepunching.platform;
 
+import java.nio.file.Path;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.minecraft.core.Registry;
@@ -29,6 +30,7 @@ import net.minecraftforge.common.ForgeTier;
 import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,12 +51,6 @@ public final class ForgePlatform implements XPlatform
     public <T> RegistryInterface<T> registryInterface(Registry<T> registry)
     {
         return new ForgeRegistryInterface<>(registry);
-    }
-
-    @Override
-    public Config createConfig()
-    {
-        return ForgeConfig.create();
     }
 
     @Override
@@ -145,5 +141,11 @@ public final class ForgePlatform implements XPlatform
     public boolean isDedicatedClient()
     {
         return FMLLoader.getDist() == Dist.CLIENT;
+    }
+
+    @Override
+    public Path configPath()
+    {
+        return FMLPaths.CONFIGDIR.get();
     }
 }

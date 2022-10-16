@@ -22,6 +22,7 @@ import com.alcatrazescapee.notreepunching.common.container.ModContainers;
 import com.alcatrazescapee.notreepunching.common.items.ClayToolItem;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.common.recipes.ModRecipes;
+import com.alcatrazescapee.notreepunching.platform.XPlatform;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import com.alcatrazescapee.notreepunching.world.ModFeatures;
 
@@ -47,7 +48,7 @@ public final class NoTreePunching
         ModFeatures.CONFIGURED_FEATURES.earlySetup();
         ModFeatures.PLACED_FEATURES.earlySetup();
 
-        Config.INSTANCE.earlySetup();
+        Config.INSTANCE.load(XPlatform.INSTANCE.configPath());
     }
 
     public static void lateSetup()
