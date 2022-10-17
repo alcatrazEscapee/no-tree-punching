@@ -6,6 +6,9 @@ plugins {
 
 repositories {
     mavenLocal()
+    maven {
+        url = 'https://alcatrazescapee.jfrog.io/artifactory/mods'
+    }
 }
 
 minecraft {

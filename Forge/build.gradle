@@ -67,6 +67,9 @@ configurations {
 
 repositories {
     mavenLocal()
+    maven {
+        url = 'https://alcatrazescapee.jfrog.io/artifactory/mods'
+    }
     flatDir {
         dirs 'libs'
     }
