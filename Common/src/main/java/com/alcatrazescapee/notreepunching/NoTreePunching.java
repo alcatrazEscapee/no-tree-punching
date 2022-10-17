@@ -47,8 +47,6 @@ public final class NoTreePunching
         ModFeatures.FEATURES.earlySetup();
         ModFeatures.CONFIGURED_FEATURES.earlySetup();
         ModFeatures.PLACED_FEATURES.earlySetup();
-
-        Config.INSTANCE.load(XPlatform.INSTANCE.configPath());
     }
 
     public static void lateSetup()
@@ -101,5 +99,7 @@ public final class NoTreePunching
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         });
+
+        Config.INSTANCE.load();
     }
 }

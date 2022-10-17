@@ -1,5 +1,9 @@
 package com.alcatrazescapee.notreepunching;
 
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
@@ -63,5 +67,13 @@ public final class EventHandler
             return InteractionResult.SUCCESS;
         }
         return null;
+    }
+
+    public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher)
+    {
+        dispatcher.register(Commands.literal("notreepunchingReloadConfig").requires(c -> c.hasPermission(2)).executes(source -> {
+            Config.INSTANCE.load();
+            return Command.SINGLE_SUCCESS;
+        }));
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -42,6 +43,7 @@ public final class ForgeNoTreePunching
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOW, (PlayerEvent.BreakSpeed event) -> event.setNewSpeed(EventHandler.modifyBreakSpeed(event.getPlayer(), event.getState(), event.getPos(), event.getNewSpeed())));
         MinecraftForge.EVENT_BUS.addListener((PlayerEvent.HarvestCheck event) -> event.setCanHarvest(EventHandler.modifyHarvestCheck(event.getPlayer(), event.getTargetBlock(), null, event.canHarvest())));
         MinecraftForge.EVENT_BUS.addListener((TagsUpdatedEvent event) -> HarvestBlockHandler.inferUniqueToolTags());
+        MinecraftForge.EVENT_BUS.addListener((RegisterCommandsEvent event) -> EventHandler.registerCommands(event.getDispatcher()));
 
         MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, ForgeInventoryCapabilities::attachItemStackCapabilities);
         MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, ForgeInventoryCapabilities::attachBlockEntityCapabilities);

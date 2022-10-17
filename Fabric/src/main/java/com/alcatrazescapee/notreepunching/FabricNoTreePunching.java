@@ -4,6 +4,7 @@ import java.util.Arrays;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 
@@ -25,5 +26,7 @@ public final class FabricNoTreePunching implements ModInitializer
                 ModFeatures.PLACED_LOOSE_ROCKS.key()
             );
         }
+
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> EventHandler.registerCommands(dispatcher));
     }
 }

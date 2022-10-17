@@ -2,7 +2,6 @@ package com.alcatrazescapee.notreepunching;
 
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -20,6 +19,7 @@ import com.alcatrazescapee.epsilon.value.FloatValue;
 import com.alcatrazescapee.epsilon.value.TypeValue;
 import com.alcatrazescapee.notreepunching.common.blocks.ModBlocks;
 import com.alcatrazescapee.notreepunching.common.blocks.PotteryBlock;
+import com.alcatrazescapee.notreepunching.platform.XPlatform;
 
 public enum Config
 {
@@ -49,10 +49,12 @@ public enum Config
         final SpecBuilder builder = Spec.builder();
 
         enableLooseRocksWorldGen = builder
+            .push("worldgen")
             .comment("Enables loose rock world gen added automatically to biomes.")
             .define("enableLooseRocksWorldGen", true);
 
         doBlocksMineWithoutCorrectTool = builder
+            .swap("blockHarvesting")
             .comment("If blocks are mineable without the correct tool.")
             .define("doBlocksMineWithoutCorrectTool", false);
         doBlocksDropWithoutCorrectTool = builder
@@ -71,6 +73,7 @@ public enum Config
             .define("doInstantBreakBlocksDamageKnives", true);
 
         flintKnappingConsumeChance = builder
+            .swap("balance")
             .comment("The chance to consume a piece of flint when knapping")
             .define("flintKnappingConsumeChance", 0.4f, 0f, 1f);
         flintKnappingSuccessChance = builder
@@ -106,17 +109,20 @@ public enum Config
                 ModBlocks.POTTERY.get(PotteryBlock.Variant.FLOWER_POT).get(),
                 Blocks.AIR
             ), Type.STRING_LIST.map(
-                list -> list.stream().map(name -> ParseError.requireNotNull(() -> Registry.BLOCK.get(new ResourceLocation(name)), "Invalid block: '%s'".formatted(name))).toList(),
-                list -> list.stream().map(block -> Objects.requireNonNull(Registry.BLOCK.getKey(block)).toString()).toList(),
+                list -> list.stream().map(name -> ParseError.requireNotNull(() -> Registry.BLOCK.getOptional(new ResourceLocation(name)).orElse(null), "Invalid block: '%s'".formatted(name))).toList(),
+                list -> list.stream().map(block -> Registry.BLOCK.getKey(block).toString()).toList(),
                 TypeValue::new
             ));
 
-        spec = builder.build();
+        spec = builder
+            .pop()
+            .build();
     }
 
-    public void load(Path path)
+    public void load()
     {
         LOGGER.info("Loading NoTreePunching Config");
+        final Path path = XPlatform.INSTANCE.configPath();
         EpsilonUtil.parse(INSTANCE.spec, Path.of(path.toString(), NoTreePunching.MOD_ID + ".toml"), LOGGER::warn);
         LOGGER.info("Loaded NoTreePunching Config");
     }
