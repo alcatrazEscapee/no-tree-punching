@@ -220,7 +220,7 @@ def do_tags(forge: ResourceManager, fabric: ResourceManager, common: ResourceMan
 
     common.item_tag('weak_saws', 'minecraft:iron_axe', 'minecraft:golden_axe', 'minecraft:diamond_axe', 'minecraft:netherite_axe')
 
-    common.block_tag('always_breakable', '#minecraft:leaves', 'minecraft:gravel', '#minecraft:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand', '#notreepunching:loose_rocks')
+    common.block_tag('always_breakable', '#minecraft:leaves', 'minecraft:gravel', '#minecraft:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand', '#notreepunching:loose_rocks', '#minecraft:snow')
     common.block_tag('always_drops', '#minecraft:leaves', 'minecraft:gravel', '#minecraft:dirt', 'minecraft:grass', 'minecraft:podzol', 'minecraft:coarse_dirt', '#minecraft:sand', '#notreepunching:loose_rocks')
 
     common.item_tag('fire_starter_logs', '#minecraft:logs', '#minecraft:planks')

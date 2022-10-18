@@ -9,6 +9,7 @@
     "minecraft:podzol",
     "minecraft:coarse_dirt",
     "#minecraft:sand",
-    "#notreepunching:loose_rocks"
+    "#notreepunching:loose_rocks",
+    "#minecraft:snow"
   ]
 }
