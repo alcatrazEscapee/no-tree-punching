@@ -1,11 +1,9 @@
 package com.alcatrazescapee.notreepunching;
 
-import java.util.Arrays;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
-import net.minecraft.world.level.biome.Biome;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.world.level.levelgen.GenerationStep;
 
 import com.alcatrazescapee.notreepunching.world.ModFeatures;
@@ -21,12 +19,12 @@ public final class FabricNoTreePunching implements ModInitializer
         if (Config.INSTANCE.enableLooseRocksWorldGen.getAsBoolean())
         {
             BiomeModifications.addFeature(
-                BiomeSelectors.categories(Arrays.stream(Biome.BiomeCategory.values()).filter(EventHandler::hasLooseRocks).toArray(Biome.BiomeCategory[]::new)),
+                BiomeSelectors.foundInOverworld(),
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModFeatures.PLACED_LOOSE_ROCKS.key()
             );
         }
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> EventHandler.registerCommands(dispatcher));
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) -> EventHandler.registerCommands(dispatcher));
     }
 }

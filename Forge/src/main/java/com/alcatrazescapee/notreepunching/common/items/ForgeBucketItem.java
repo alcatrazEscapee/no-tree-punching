@@ -10,8 +10,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.Nullable;
@@ -66,7 +66,7 @@ public class ForgeBucketItem extends CeramicBucketItem
         @Override
         public int getTankCapacity(int tank)
         {
-            return FluidAttributes.BUCKET_VOLUME;
+            return FluidType.BUCKET_VOLUME;
         }
 
         @Override
@@ -78,7 +78,7 @@ public class ForgeBucketItem extends CeramicBucketItem
         @Override
         public int fill(FluidStack resource, FluidAction action)
         {
-            if (container.getCount() != 1 || resource.getAmount() < FluidAttributes.BUCKET_VOLUME || container.getItem() instanceof MilkBucketItem || !getFluid().isEmpty() || resource.getFluid() != Fluids.WATER)
+            if (container.getCount() != 1 || resource.getAmount() < FluidType.BUCKET_VOLUME || container.getItem() instanceof MilkBucketItem || !getFluid().isEmpty() || resource.getFluid() != Fluids.WATER)
             {
                 return 0;
             }
@@ -88,14 +88,14 @@ public class ForgeBucketItem extends CeramicBucketItem
                 setFluid(resource.getFluid());
             }
 
-            return FluidAttributes.BUCKET_VOLUME;
+            return FluidType.BUCKET_VOLUME;
         }
 
         @Nonnull
         @Override
         public FluidStack drain(FluidStack resource, FluidAction action)
         {
-            if (container.getCount() != 1 || resource.getAmount() < FluidAttributes.BUCKET_VOLUME)
+            if (container.getCount() != 1 || resource.getAmount() < FluidType.BUCKET_VOLUME)
             {
                 return FluidStack.EMPTY;
             }
@@ -117,7 +117,7 @@ public class ForgeBucketItem extends CeramicBucketItem
         @Override
         public FluidStack drain(int maxDrain, FluidAction action)
         {
-            if (container.getCount() != 1 || maxDrain < FluidAttributes.BUCKET_VOLUME)
+            if (container.getCount() != 1 || maxDrain < FluidType.BUCKET_VOLUME)
             {
                 return FluidStack.EMPTY;
             }
@@ -144,7 +144,7 @@ public class ForgeBucketItem extends CeramicBucketItem
 
         private FluidStack getFluid()
         {
-            return container.getItem() == ModItems.CERAMIC_BUCKET.get() ? FluidStack.EMPTY : new FluidStack(Fluids.WATER, FluidAttributes.BUCKET_VOLUME);
+            return container.getItem() == ModItems.CERAMIC_BUCKET.get() ? FluidStack.EMPTY : new FluidStack(Fluids.WATER, FluidType.BUCKET_VOLUME);
         }
 
         private void setFluid(Fluid fluid)

@@ -1,0 +1,7 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "notreepunching:loose_rocks",
+  "step": "top_layer_modification"
+}

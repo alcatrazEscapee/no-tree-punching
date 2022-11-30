@@ -7,20 +7,11 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.common.recipes.RecipeSerializerImpl;
 
-public final class ForgeRecipeSerializer<T extends Recipe<?>> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+public record ForgeRecipeSerializer<T extends Recipe<?>>(RecipeSerializerImpl<T> impl) implements RecipeSerializer<T>
 {
-    private final RecipeSerializerImpl<T> impl;
-
-    public ForgeRecipeSerializer(RecipeSerializerImpl<T> impl)
-    {
-        this.impl = impl;
-    }
-
     @Override
     public T fromJson(ResourceLocation recipeId, JsonObject json)
     {
@@ -33,7 +24,6 @@ public final class ForgeRecipeSerializer<T extends Recipe<?>> extends ForgeRegis
         return impl.fromJson(recipeId, json, new Context(context));
     }
 
-    @Nullable
     @Override
     public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
     {

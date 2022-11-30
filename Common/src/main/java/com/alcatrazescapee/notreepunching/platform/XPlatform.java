@@ -69,7 +69,10 @@ public interface XPlatform
         return new MattockItem(tier, attackDamage, attackSpeed, properties);
     }
 
-    <T extends Recipe<?>> RecipeSerializer<T> recipeSerializer(RecipeSerializerImpl<T> impl);
+    default <T extends Recipe<?>> RecipeSerializer<T> recipeSerializer(RecipeSerializerImpl<T> impl)
+    {
+        return impl;
+    }
 
     <T extends BlockEntity> BlockEntityType<T> blockEntityType(BlockEntityFactory<T> factory, Supplier<? extends Block> block);
 

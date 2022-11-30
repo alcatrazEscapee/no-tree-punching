@@ -118,15 +118,15 @@ public final class ForgePlatform implements XPlatform
     @Override
     public void openScreen(ServerPlayer serverPlayer, MenuProvider provider, Consumer<FriendlyByteBuf> buffer)
     {
-        NetworkHooks.openGui(serverPlayer, provider, buffer);
+        NetworkHooks.openScreen(serverPlayer, provider, buffer);
     }
 
     @Override
     public ItemStack getCraftingRemainder(ItemStack stack)
     {
-        if (stack.hasContainerItem())
+        if (stack.hasCraftingRemainingItem())
         {
-            return stack.getContainerItem();
+            return stack.getCraftingRemainingItem();
         }
         return ItemStack.EMPTY;
     }

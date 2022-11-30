@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -19,6 +18,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.XoroshiroRandomSource;
 import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.NoTreePunching;
@@ -49,7 +49,7 @@ public final class Helpers
     {
         if (stack.isDamageableItem())
         {
-            if (stack.hurt(amount, new Random(), null))
+            if (stack.hurt(amount, new XoroshiroRandomSource(System.currentTimeMillis()), null))
             {
                 stack.shrink(1);
                 stack.setDamageValue(0);
@@ -120,7 +120,7 @@ public final class Helpers
 
         if (totalCount > displayCount)
         {
-            TranslatableComponent textComponent = new TranslatableComponent(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
+            MutableComponent textComponent = Component.translatable(MOD_ID + ".tooltip.small_vessel_more", totalCount - displayCount);
             textComponent.setStyle(textComponent.getStyle().applyFormat(ChatFormatting.ITALIC));
             tooltip.add(textComponent);
         }

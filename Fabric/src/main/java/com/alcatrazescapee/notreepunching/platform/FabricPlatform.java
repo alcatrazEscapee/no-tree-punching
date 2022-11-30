@@ -69,12 +69,6 @@ public final class FabricPlatform implements XPlatform
     }
 
     @Override
-    public <T extends Recipe<?>> RecipeSerializer<T> recipeSerializer(RecipeSerializerImpl<T> impl)
-    {
-        return new FabricRecipeSerializer<>(impl);
-    }
-
-    @Override
     public <T extends BlockEntity> BlockEntityType<T> blockEntityType(BlockEntityFactory<T> factory, Supplier<? extends Block> block)
     {
         return FabricBlockEntityTypeBuilder.create(factory::create, block.get()).build();

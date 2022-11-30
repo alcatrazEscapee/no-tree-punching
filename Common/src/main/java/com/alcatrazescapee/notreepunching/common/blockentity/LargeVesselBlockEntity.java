@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,7 +25,7 @@ public class LargeVesselBlockEntity extends ModBlockEntity implements MenuProvid
     public static final int SLOT_ROWS = 3;
     public static final int SLOTS = SLOT_COLUMNS * SLOT_ROWS;
 
-    public static final Component NAME = new TranslatableComponent(MOD_ID + ".block_entity.large_vessel");
+    public static final Component NAME = Component.translatable(MOD_ID + ".block_entity.large_vessel");
 
     private final NonNullList<ItemStack> slots;
     private @Nullable Component name;

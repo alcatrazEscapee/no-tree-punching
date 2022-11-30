@@ -27,7 +27,13 @@ def main():
     do_recipes(forge, common)
     do_loot_tables(common)
 
-    # Only flush common
+    forge.data(('forge', 'biome_modifier', 'add_loose_rocks'), {
+        'type': 'forge:add_features',
+        'biomes': '#minecraft:is_overworld',
+        'features': 'notreepunching:loose_rocks',
+        'step': 'top_layer_modification'
+    })
+
     common.flush()
     forge.flush()
     fabric.flush()

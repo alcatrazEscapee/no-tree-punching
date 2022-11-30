@@ -26,11 +26,6 @@ import com.alcatrazescapee.notreepunching.util.Helpers;
 
 public final class EventHandler
 {
-    public static boolean hasLooseRocks(Biome.BiomeCategory category)
-    {
-        return category != Biome.BiomeCategory.NONE && category != Biome.BiomeCategory.THEEND && category != Biome.BiomeCategory.NETHER && category != Biome.BiomeCategory.OCEAN;
-    }
-
     public static boolean modifyHarvestCheck(Player player, BlockState state, @Nullable BlockPos pos, boolean canHarvest)
     {
         return canHarvest || HarvestBlockHandler.isUsingCorrectToolForDrops(state, pos, player);
