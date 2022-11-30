@@ -39,6 +39,24 @@ public class InventorySlot extends Slot
     }
 
     @Override
+    public void initialize(ItemStack stack)
+    {
+        inventory.set(slot, stack);
+    }
+
+    @Override
+    public void setChanged()
+    {
+        inventory.modified();
+    }
+
+    @Override
+    public int getMaxStackSize()
+    {
+        return 64;
+    }
+
+    @Override
     public ItemStack remove(int amount)
     {
         return inventory.remove(slot, amount);

@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Inventory;
 import com.alcatrazescapee.notreepunching.common.items.SmallVesselItem;
 import com.alcatrazescapee.notreepunching.util.inventory.InventorySlot;
 import com.alcatrazescapee.notreepunching.util.inventory.ItemStackAttachedInventory;
+import net.minecraft.world.item.ItemStack;
 
 public final class SmallVesselContainer extends ItemStackContainer
 {
@@ -13,6 +14,16 @@ public final class SmallVesselContainer extends ItemStackContainer
     {
         super(ModContainers.SMALL_VESSEL.get(), windowId, playerInventory, hand);
         init(playerInventory);
+    }
+
+    @Override
+    protected boolean moveStack(ItemStack stack, int slotIndex)
+    {
+        return switch (typeOf(slotIndex))
+            {
+                case MAIN_INVENTORY, HOTBAR -> !moveItemStackTo(stack, 0, SmallVesselItem.SLOTS, false);
+                case CONTAINER -> !moveItemStackTo(stack, containerSlots, slots.size(), false);
+            };
     }
 
     @Override
