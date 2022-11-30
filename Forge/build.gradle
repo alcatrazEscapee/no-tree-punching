@@ -1,41 +1,26 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven {
-            url "https://repo.spongepowered.org/repository/maven-public/"
-            content { includeGroup "org.spongepowered" }
-        }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-    }
-}
-
 plugins {
-    id 'java'
-    id 'idea'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id "java"
+    id "idea"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "net.minecraftforge.gradle" version "5.1.+"
+    id "org.spongepowered.mixin" version "0.7-SNAPSHOT"
+    id "org.parchmentmc.librarian.forgegradle" version "1.+"
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.mixin'
-
-def envVersion = System.getenv('VERSION')
-version = envVersion == null ? '0.0.0-indev' : envVersion
+def envVersion = System.getenv("VERSION")
+version = envVersion == null ? "0.0.0-indev" : envVersion
 archivesBaseName = "${mod_id}-forge-${minecraft_version}"
 
 minecraft {
-    mappings channel: 'official', version: minecraft_version
+    mappings channel: "parchment", version: "${parchment_version}-${minecraft_version}"
 
     runs {
         client {
-            workingDirectory project.file('run')
-            ideaModule "${rootProject.name}.${project.name}.main"
-            taskName 'Client'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            workingDirectory project.file("run")
+            ideaModule("${rootProject.name}.${project.name}.main")
+            taskName("Client")
+            property("mixin.env.remapRefMap", "true")
+            property("mixin.env.refMapRemappingFile", "${projectDir}/build/createSrgToMcp/output.srg")
             mods {
                 modClientRun {
                     source sourceSets.main
@@ -46,10 +31,10 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-            ideaModule "${rootProject.name}.${project.name}.main"
-            taskName 'Server'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            ideaModule("${rootProject.name}.${project.name}.main")
+            taskName("Server")
+            property("mixin.env.remapRefMap", "true")
+            property("mixin.env.refMapRemappingFile", "${projectDir}/build/createSrgToMcp/output.srg")
             mods {
                 modServerRun {
                     source sourceSets.main
@@ -68,10 +53,10 @@ configurations {
 repositories {
     mavenLocal()
     maven {
-        url = 'https://alcatrazescapee.jfrog.io/artifactory/mods'
+        url = "https://alcatrazescapee.jfrog.io/artifactory/mods"
     }
     flatDir {
-        dirs 'libs'
+        dirs "libs"
     }
 }
 
@@ -82,12 +67,9 @@ dependencies {
         annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
     }
 
-    compileOnly project(":Common")
+    compileOnly(project(":Common"))
 
-    // runtimeOnly fg.deobf("libs:DynamicTrees-1.18.2:0.11.0-Alpha2")
-    // runtimeOnly fg.deobf("libs:ProjectE-1.18.2:PE1.0.1")
-
-    shadowLibrary "com.alcatrazescapee:epsilon:${epsilon_version}"
+    shadowLibrary("com.alcatrazescapee:epsilon:${epsilon_version}")
 }
 
 mixin {
@@ -97,8 +79,21 @@ mixin {
     config "${mod_id}.common.mixins.json"
 }
 
+// Workaround for a bug in Forge / Mixin gradle where the refmap won't be added to the jar unless Forge java compile is done
+// From https://github.com/gamma-delta/HexMod/blob/main/Forge/build.gradle#L161
+task invalidateJavaForRefmap {
+    doFirst {
+        compileJava {
+            if (!didWork) {
+                outputs.upToDateWhen { false }
+            }
+        }
+    }
+}
+
 tasks.withType(JavaCompile) {
     source(project(":Common").sourceSets.main.allSource)
+    shouldRunAfter(invalidateJavaForRefmap)
 }
 
 processResources {
@@ -108,17 +103,17 @@ processResources {
 jar.finalizedBy('reobfJar')
 
 jar {
-    classifier 'slim'
+    classifier "slim"
 }
 
 shadowJar {
-    classifier ''
+    classifier ""
     configurations = [project.configurations.shadowLibrary]
     dependencies {
-        exclude(dependency { it.moduleGroup != 'com.alcatrazescapee' })
+        exclude(dependency { it.moduleGroup != "com.alcatrazescapee" })
     }
-    relocate 'com.alcatrazescapee.epsilon', 'com.alcatrazescapee.notreepunching.epsilon'
-    finalizedBy 'reobfShadowJar'
+    relocate "com.alcatrazescapee.epsilon", "com.alcatrazescapee.notreepunching.epsilon"
+    finalizedBy "reobfShadowJar"
 }
 
 assemble.dependsOn(shadowJar)

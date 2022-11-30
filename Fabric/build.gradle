@@ -1,12 +1,12 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
-    id 'io.github.juuxel.loom-quiltflower' version '1.7.2'
-    id 'idea'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id "idea"
+    id "fabric-loom" version "0.12-SNAPSHOT"
+    id "io.github.juuxel.loom-quiltflower" version "1.7.2"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
-def envVersion = System.getenv('VERSION')
-version = envVersion == null ? '0.0.0-indev' : envVersion
+def envVersion = System.getenv("VERSION")
+version = envVersion == null ? "0.0.0-indev" : envVersion
 archivesBaseName = "${mod_id}-fabric-${minecraft_version}"
 
 configurations {
@@ -17,7 +17,7 @@ configurations {
 repositories {
     mavenLocal()
     maven {
-        url = 'https://alcatrazescapee.jfrog.io/artifactory/mods'
+        url = "https://alcatrazescapee.jfrog.io/artifactory/mods"
     }
 }
 
@@ -25,16 +25,16 @@ dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings loom.layered() {
         officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-1.18.2:2022.06.05@zip")
+        parchment("org.parchmentmc.data:parchment-${minecraft_version}:${parchment_version}@zip")
     }
 
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
 
-    shadowLibrary "com.alcatrazescapee:epsilon:${epsilon_version}"
+    shadowLibrary("com.alcatrazescapee:epsilon:${epsilon_version}")
 
-    implementation project(":Common")
-    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation(project(":Common"))
+    implementation("org.jetbrains:annotations:23.0.0")
 }
 
 loom {
@@ -69,7 +69,7 @@ tasks.withType(JavaCompile) {
 }
 
 jar {
-    classifier 'slim'
+    classifier "slim"
     from("LICENSE") {
         rename { "${it}_${mod_name}" }
     }
@@ -79,15 +79,12 @@ shadowJar {
     from sourceSets.main.output
     configurations = [project.configurations.shadowLibrary]
     dependencies {
-        exclude(dependency { it.moduleGroup != 'com.alcatrazescapee' })
+        exclude(dependency { it.moduleGroup != "com.alcatrazescapee" })
     }
-    relocate 'com.alcatrazescapee.epsilon', 'com.alcatrazescapee.notreepunching.epsilon'
+    relocate "com.alcatrazescapee.epsilon", "com.alcatrazescapee.notreepunching.epsilon"
 }
 
 remapJar {
     dependsOn shadowJar
     inputFile.set(shadowJar.archiveFile)
 }
-
-
-
