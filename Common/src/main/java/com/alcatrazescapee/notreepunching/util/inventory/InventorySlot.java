@@ -39,7 +39,7 @@ public class InventorySlot extends Slot
     }
 
     @Override
-    public void initialize(ItemStack stack)
+    public void setByPlayer(ItemStack stack)
     {
         inventory.set(slot, stack);
     }

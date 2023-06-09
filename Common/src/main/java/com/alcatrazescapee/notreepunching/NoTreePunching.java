@@ -22,7 +22,6 @@ import com.alcatrazescapee.notreepunching.common.container.ModContainers;
 import com.alcatrazescapee.notreepunching.common.items.ClayToolItem;
 import com.alcatrazescapee.notreepunching.common.items.ModItems;
 import com.alcatrazescapee.notreepunching.common.recipes.ModRecipes;
-import com.alcatrazescapee.notreepunching.platform.XPlatform;
 import com.alcatrazescapee.notreepunching.util.HarvestBlockHandler;
 import com.alcatrazescapee.notreepunching.world.ModFeatures;
 

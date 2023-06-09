@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -63,6 +64,12 @@ public abstract class ToolDamagingRecipe implements DelegateRecipe<CraftingConta
     public Recipe<CraftingContainer> delegate()
     {
         return (Recipe<CraftingContainer>) recipe;
+    }
+
+    @Override
+    public CraftingBookCategory category()
+    {
+        return CraftingBookCategory.MISC;
     }
 
     public static class Shaped extends ToolDamagingRecipe

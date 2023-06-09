@@ -12,7 +12,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -25,7 +24,7 @@ public class LooseRockBlock extends Block
 
     public LooseRockBlock()
     {
-        super(Properties.of(Material.DIRT).sound(SoundType.STONE).strength(0.15f).noCollission().noOcclusion());
+        super(Properties.of().sound(SoundType.STONE).strength(0.15f).noCollission().noOcclusion());
     }
 
     @Override
@@ -64,7 +63,7 @@ public class LooseRockBlock extends Block
     }
 
     @Override
-    public boolean isPossibleToRespawnInThis()
+    public boolean isPossibleToRespawnInThis(BlockState state)
     {
         return true;
     }

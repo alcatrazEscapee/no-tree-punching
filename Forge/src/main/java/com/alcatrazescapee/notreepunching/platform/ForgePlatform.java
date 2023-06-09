@@ -34,7 +34,6 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.items.CeramicBucketItem;
 import com.alcatrazescapee.notreepunching.common.items.ForgeBucketItem;
 import com.alcatrazescapee.notreepunching.common.items.ForgeMattockItem;
@@ -54,16 +53,9 @@ public final class ForgePlatform implements XPlatform
     }
 
     @Override
-    public CreativeModeTab creativeTab(ResourceLocation id, Supplier<ItemStack> icon)
+    public CreativeModeTab.Builder creativeTab()
     {
-        return new CreativeModeTab(id.getNamespace() + "." + id.getPath())
-        {
-            @Override
-            public ItemStack makeIcon()
-            {
-                return icon.get();
-            }
-        };
+        return CreativeModeTab.builder();
     }
 
     @Override

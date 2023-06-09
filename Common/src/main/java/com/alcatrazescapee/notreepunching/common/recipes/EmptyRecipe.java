@@ -1,6 +1,7 @@
 package com.alcatrazescapee.notreepunching.common.recipes;
 
 import com.google.gson.JsonObject;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -22,7 +23,7 @@ public record EmptyRecipe(ResourceLocation id) implements Recipe<Container>
     }
 
     @Override
-    public ItemStack assemble(Container container)
+    public ItemStack assemble(Container container, RegistryAccess registryAccess)
     {
         return ItemStack.EMPTY;
     }
@@ -34,7 +35,7 @@ public record EmptyRecipe(ResourceLocation id) implements Recipe<Container>
     }
 
     @Override
-    public ItemStack getResultItem()
+    public ItemStack getResultItem(RegistryAccess registryAccess)
     {
         return ItemStack.EMPTY;
     }

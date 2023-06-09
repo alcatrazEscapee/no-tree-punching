@@ -15,6 +15,6 @@ public abstract class ClientPacketListenerMixin
     @Inject(method = "handleUpdateTags", at = @At("RETURN"))
     private void onUpdateTagsOnClient(ClientboundUpdateTagsPacket packet, CallbackInfo ci)
     {
-        HarvestBlockHandler.inferUniqueToolTags();
+        HarvestBlockHandler.inferToolTypesFromTags();
     }
 }

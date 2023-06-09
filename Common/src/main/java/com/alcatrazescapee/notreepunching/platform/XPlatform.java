@@ -53,7 +53,7 @@ public interface XPlatform
 
     // Constructors / Misc. Objects
 
-    CreativeModeTab creativeTab(ResourceLocation id, Supplier<ItemStack> icon);
+    CreativeModeTab.Builder creativeTab();
 
     Tier toolTier(int uses, float speed, float attackDamageBonus, int level, int enchantmentValue, TagKey<Block> tag, Supplier<Ingredient> repairIngredient);
 

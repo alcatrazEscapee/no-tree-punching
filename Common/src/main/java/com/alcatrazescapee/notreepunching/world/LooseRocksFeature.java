@@ -1,6 +1,5 @@
 package com.alcatrazescapee.notreepunching.world;
 
-
 import java.util.Map;
 import java.util.function.Supplier;
 import com.google.common.base.Suppliers;

@@ -40,7 +40,7 @@ public class FireStarterItem extends TieredItem
 {
     public FireStarterItem()
     {
-        super(Tiers.WOOD, new Properties().tab(ModItems.Tab.ITEMS).durability(10));
+        super(Tiers.WOOD, new Properties().durability(10));
     }
 
     @Override
@@ -147,10 +147,10 @@ public class FireStarterItem extends TieredItem
     {
         if (level.isClientSide && entity instanceof Player player)
         {
-            BlockHitResult result = getPlayerPOVHitResult(player.level, player, ClipContext.Fluid.NONE);
-            if (player.level.getRandom().nextInt(5) == 0)
+            BlockHitResult result = getPlayerPOVHitResult(player.level(), player, ClipContext.Fluid.NONE);
+            if (player.level().getRandom().nextInt(5) == 0)
             {
-                player.level.addParticle(ParticleTypes.SMOKE, result.getLocation().x, result.getLocation().y, result.getLocation().z, 0.0F, 0.1F, 0.0F);
+                player.level().addParticle(ParticleTypes.SMOKE, result.getLocation().x, result.getLocation().y, result.getLocation().z, 0.0F, 0.1F, 0.0F);
             }
         }
     }

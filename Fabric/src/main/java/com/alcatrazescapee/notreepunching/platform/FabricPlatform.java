@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.fabricmc.api.EnvType;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
@@ -12,7 +12,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.MenuProvider;
@@ -20,25 +19,17 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
-import com.alcatrazescapee.notreepunching.Config;
-import com.alcatrazescapee.notreepunching.common.recipes.RecipeSerializerImpl;
 import com.alcatrazescapee.notreepunching.platform.event.BlockEntityFactory;
 import com.alcatrazescapee.notreepunching.platform.event.ContainerFactory;
 
@@ -51,9 +42,9 @@ public final class FabricPlatform implements XPlatform
     }
 
     @Override
-    public CreativeModeTab creativeTab(ResourceLocation id, Supplier<ItemStack> icon)
+    public CreativeModeTab.Builder creativeTab()
     {
-        return FabricItemGroupBuilder.build(id, icon);
+        return FabricItemGroup.builder();
     }
 
     @Override

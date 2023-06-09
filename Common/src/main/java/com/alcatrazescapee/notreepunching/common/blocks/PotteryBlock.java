@@ -5,8 +5,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -15,8 +13,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PotteryBlock extends Block
 {
-    public static final Material BREAKABLE_CLAY = new Material(MaterialColor.CLAY, false, false, true, true, false, false, PushReaction.DESTROY);
-
     private static final VoxelShape[] SHAPES = new VoxelShape[] {
         // Worked - the only simple one here
         box(1, 0, 1, 15, 15, 15),
@@ -69,7 +65,7 @@ public class PotteryBlock extends Block
 
     public PotteryBlock(Variant variant)
     {
-        super(Properties.of(BREAKABLE_CLAY).strength(0.8f - 0.1f * variant.ordinal()).sound(SoundType.GRAVEL));
+        super(Properties.of().pushReaction(PushReaction.DESTROY).strength(0.8f - 0.1f * variant.ordinal()).sound(SoundType.GRAVEL));
 
         this.shape = SHAPES[variant.ordinal()];
     }

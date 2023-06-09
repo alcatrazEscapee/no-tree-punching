@@ -18,7 +18,7 @@ public abstract class MultiPlayerGameModeMixin
     @Inject(method = "performUseItemOn", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getItemInHand(Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/item/ItemStack;"), cancellable = true)
     private void triggerFlintKnapping(LocalPlayer player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir)
     {
-        final InteractionResult result = EventHandler.onRightClickBlock(player.level, hit.getBlockPos(), player, hand, player.getItemInHand(hand), hit.getDirection());
+        final InteractionResult result = EventHandler.onRightClickBlock(player.level(), hit.getBlockPos(), player, hand, player.getItemInHand(hand), hit.getDirection());
         if (result != null)
         {
             cir.setReturnValue(result);

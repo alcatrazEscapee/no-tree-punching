@@ -13,9 +13,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.client.ModSounds;
@@ -42,8 +41,9 @@ public final class EventHandler
     @Nullable
     public static InteractionResult onRightClickBlock(Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack, @Nullable Direction targetedFace)
     {
+        // todo: is there a beter way to detect stone type blocks? This seems like a hack
         final BlockState state = level.getBlockState(pos);
-        if (Helpers.isItem(stack.getItem(), ModTags.Items.FLINT_KNAPPABLE) && state.getMaterial() == Material.STONE)
+        if (Helpers.isItem(stack.getItem(), ModTags.Items.FLINT_KNAPPABLE) && state.getSoundType() == SoundType.STONE)
         {
             if (!level.isClientSide)
             {

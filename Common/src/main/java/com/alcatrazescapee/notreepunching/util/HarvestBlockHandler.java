@@ -1,22 +1,14 @@
 package com.alcatrazescapee.notreepunching.util;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
@@ -35,14 +27,12 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import com.alcatrazescapee.notreepunching.Config;
 import com.alcatrazescapee.notreepunching.common.ModTags;
-import com.alcatrazescapee.notreepunching.common.blocks.PotteryBlock;
 import com.alcatrazescapee.notreepunching.mixin.AbstractBlockAccessor;
 import com.alcatrazescapee.notreepunching.mixin.AbstractBlockStateAccessor;
 import com.alcatrazescapee.notreepunching.mixin.DiggerItemAccessor;
@@ -51,32 +41,18 @@ import com.alcatrazescapee.notreepunching.platform.XPlatform;
 
 public final class HarvestBlockHandler
 {
-    private static final Logger LOGGER = LogManager.getLogger();
-
-    private static final Map<Material, ToolType> PRIMARY_TOOL_TYPES = new HashMap<>();
-    private static final Map<Block, ToolType> BLOCK_TOOL_TYPES = new HashMap<>();
-    private static final Map<Item, Set<ToolType>> ITEM_TOOL_TYPES = new HashMap<>();
+    private static final Map<Block, ToolType> BLOCK_TOOL_TYPES = new IdentityHashMap<>();
+    private static final Map<Item, Set<ToolType>> ITEM_TOOL_TYPES = new IdentityHashMap<>();
     private static final Map<TagKey<Block>, ToolType> DEFAULT_TOOL_TYPES = new IdentityHashMap<>();
     private static final Map<TagKey<Block>, Set<ToolType>> UNIQUE_TOOL_TYPES = new IdentityHashMap<>();
 
     static
     {
-        add(ToolType.PICKAXE, Material.DECORATION, Material.BUILDABLE_GLASS, Material.ICE_SOLID, Material.SHULKER_SHELL, Material.GLASS, Material.ICE, Material.STONE, Material.METAL, Material.HEAVY_METAL, Material.PISTON, Material.AMETHYST);
-        add(ToolType.AXE, Material.WOOD, Material.NETHER_WOOD, Material.BAMBOO, Material.CACTUS, Material.MOSS, Material.VEGETABLE);
-        add(ToolType.SHOVEL, Material.TOP_SNOW, Material.CLAY, Material.DIRT, Material.GRASS, Material.SAND, Material.SNOW, Material.POWDER_SNOW, PotteryBlock.BREAKABLE_CLAY);
-        add(ToolType.HOE, Material.PLANT, Material.WATER_PLANT, Material.REPLACEABLE_PLANT, Material.REPLACEABLE_WATER_PLANT, Material.REPLACEABLE_FIREPROOF_PLANT, Material.SCULK, Material.SPONGE, Material.BAMBOO_SAPLING, Material.LEAVES);
-        add(ToolType.SHARP, Material.CLOTH_DECORATION, Material.WEB, Material.WOOL, Material.CAKE);
-        add(ToolType.NONE, Material.AIR, Material.STRUCTURAL_AIR, Material.PORTAL, Material.WATER, Material.BUBBLE_COLUMN, Material.LAVA, Material.FIRE, Material.EXPLOSIVE, Material.BARRIER, Material.EGG);
-
         DEFAULT_TOOL_TYPES.put(BlockTags.MINEABLE_WITH_PICKAXE, ToolType.PICKAXE);
         DEFAULT_TOOL_TYPES.put(BlockTags.MINEABLE_WITH_AXE, ToolType.AXE);
         DEFAULT_TOOL_TYPES.put(BlockTags.MINEABLE_WITH_SHOVEL, ToolType.SHOVEL);
         DEFAULT_TOOL_TYPES.put(BlockTags.MINEABLE_WITH_HOE, ToolType.HOE);
-    }
-
-    private static void add(ToolType value, Material... keys)
-    {
-        Stream.of(keys).forEach(key -> PRIMARY_TOOL_TYPES.put(key, value));
+        DEFAULT_TOOL_TYPES.put(BlockTags.SWORD_EFFICIENT, ToolType.SHARP);
     }
 
     private static void add(Item item, ToolType tool)
@@ -86,10 +62,7 @@ public final class HarvestBlockHandler
 
     public static void setup()
     {
-        BLOCK_TOOL_TYPES.clear();
-
-        final Map<Material, List<Block>> unknownMaterialBlocks = new HashMap<>();
-        Registry.BLOCK.stream().forEach(block ->
+        for (Block block : BuiltInRegistries.BLOCK)
         {
             final AbstractBlockAccessor blockAccess = (AbstractBlockAccessor) block;
             final BlockBehaviour.Properties settings = blockAccess.getProperties();
@@ -101,21 +74,9 @@ public final class HarvestBlockHandler
             {
                 ((AbstractBlockStateAccessor) state).setRequiresCorrectToolForDrops(true);
             }
+        }
 
-            // Infer a primary tool type for the block.
-            final ToolType primary = PRIMARY_TOOL_TYPES.get(blockAccess.getMaterial());
-            if (primary != null && primary != ToolType.NONE)
-            {
-                BLOCK_TOOL_TYPES.put(block, primary);
-            }
-            if (primary == null)
-            {
-                // Unknown tool type. Collect and log it later
-                unknownMaterialBlocks.computeIfAbsent(blockAccess.getMaterial(), k -> new ArrayList<>()).add(block);
-            }
-        });
-
-        Registry.ITEM.stream().forEach(item ->
+        for (Item item : BuiltInRegistries.ITEM)
         {
             if (item instanceof DiggerItem digger)
             {
@@ -154,23 +115,10 @@ public final class HarvestBlockHandler
             {
                 add(item, ToolType.SHARP);
             }
-        });
-
-        if (!unknownMaterialBlocks.isEmpty())
-        {
-            LOGGER.error("Unable to infer primary tools for {} blocks with unknown materials. These blocks will not be affected by NTP's modifications!", unknownMaterialBlocks.values().stream().mapToInt(Collection::size).sum());
-        }
-        for (Map.Entry<Material, List<Block>> entry : unknownMaterialBlocks.entrySet())
-        {
-            final Material material = entry.getKey();
-            final List<Block> blocks = entry.getValue();
-            LOGGER.warn("Material: [isLiquid={}, isSolid={}, blocksMotion={}, isFlammable={}, isReplaceable={}, isSolidBlocking={}, getPushReaction={}, getColor=[id={}, col={}]] | Blocks: {}",
-                material.isLiquid(), material.isSolid(), material.blocksMotion(), material.isFlammable(), material.isReplaceable(), material.isSolidBlocking(), material.getPushReaction(), material.getColor().id, new Color(material.getColor().col),
-                blocks.stream().map(Registry.BLOCK::getKey).map(ResourceLocation::toString).collect(Collectors.joining(", ")));
         }
     }
 
-    public static void inferUniqueToolTags()
+    public static void inferToolTypesFromTags()
     {
         // Must be called once tags are loaded
         UNIQUE_TOOL_TYPES.clear();
@@ -188,11 +136,23 @@ public final class HarvestBlockHandler
                 });
             }
         });
+
+        BLOCK_TOOL_TYPES.clear();
+        for (Map.Entry<TagKey<Block>, ToolType> entry : DEFAULT_TOOL_TYPES.entrySet())
+        {
+            BuiltInRegistries.BLOCK.getOrCreateTag(entry.getKey())
+                .forEach(holder -> BLOCK_TOOL_TYPES.put(holder.value(), entry.getValue()));
+        }
+        for (Map.Entry<TagKey<Block>, Set<ToolType>> entry : UNIQUE_TOOL_TYPES.entrySet())
+        {
+            BuiltInRegistries.BLOCK.getOrCreateTag(entry.getKey())
+                .forEach(holder -> entry.getValue().forEach(tool -> BLOCK_TOOL_TYPES.put(holder.value(), tool)));
+        }
     }
 
     private static boolean isTagSupersetOfTag(TagKey<Block> superset, TagKey<Block> set)
     {
-        return Registry.BLOCK.getOrCreateTag(set)
+        return BuiltInRegistries.BLOCK.getOrCreateTag(set)
             .stream()
             .allMatch(holder -> holder.is(superset));
     }
@@ -299,6 +259,6 @@ public final class HarvestBlockHandler
 
     private static float getDestroySpeed(BlockState state, @Nullable BlockPos pos, Player player)
     {
-        return pos != null ? state.getDestroySpeed(player.level, pos) : ((AbstractBlockStateAccessor) state).getDestroySpeed();
+        return pos != null ? state.getDestroySpeed(player.level(), pos) : ((AbstractBlockStateAccessor) state).getDestroySpeed();
     }
 }

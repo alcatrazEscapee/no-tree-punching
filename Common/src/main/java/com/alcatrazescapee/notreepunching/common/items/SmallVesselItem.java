@@ -12,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,8 +21,6 @@ import com.alcatrazescapee.notreepunching.platform.XPlatform;
 import com.alcatrazescapee.notreepunching.util.Helpers;
 import com.alcatrazescapee.notreepunching.util.inventory.ItemStackAttachedInventory;
 
-import static com.alcatrazescapee.notreepunching.NoTreePunching.MOD_ID;
-
 public class SmallVesselItem extends Item
 {
     public static final int SLOT_ROWS = 3, SLOT_COLUMNS = 3, SLOTS = SLOT_ROWS * SLOT_COLUMNS;
@@ -31,7 +28,7 @@ public class SmallVesselItem extends Item
 
     public SmallVesselItem()
     {
-        super(new Properties().tab(ModItems.Tab.ITEMS).stacksTo(1));
+        super(new Properties().stacksTo(1));
     }
 
     @Override

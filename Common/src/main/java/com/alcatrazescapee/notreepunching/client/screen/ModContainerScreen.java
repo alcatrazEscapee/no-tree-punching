@@ -1,7 +1,7 @@
 package com.alcatrazescapee.notreepunching.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -23,25 +23,25 @@ public class ModContainerScreen<C extends AbstractContainerMenu> extends Abstrac
     }
 
     @Override
-    public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks)
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
     {
-        renderBackground(stack);
-        super.render(stack, mouseX, mouseY, partialTicks);
-        renderTooltip(stack, mouseX, mouseY);
+        renderBackground(graphics);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        renderTooltip(graphics, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(PoseStack stack, float partialTicks, int mouseX, int mouseY)
+    protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY)
     {
-        renderDefaultBackground(stack);
+        renderDefaultBackground(graphics);
     }
 
-    protected void renderDefaultBackground(PoseStack stack)
+    protected void renderDefaultBackground(GuiGraphics graphics)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         RenderSystem.setShaderTexture(0, this.texture);
 
-        blit(stack, leftPos, topPos, 0, 0, 0, imageWidth, imageHeight, 256, 256);
+        graphics.blit(texture, leftPos, topPos, 0, 0, imageWidth, imageHeight, 256, 256);
     }
 }

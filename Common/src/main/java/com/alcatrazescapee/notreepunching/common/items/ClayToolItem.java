@@ -46,7 +46,7 @@ public class ClayToolItem extends TieredItem
 
     public ClayToolItem()
     {
-        super(Tiers.WOOD, new Properties().tab(ModItems.Tab.ITEMS));
+        super(Tiers.WOOD, new Properties());
     }
 
     @Override

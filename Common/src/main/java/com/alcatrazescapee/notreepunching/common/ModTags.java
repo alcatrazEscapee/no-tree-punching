@@ -1,6 +1,6 @@
 package com.alcatrazescapee.notreepunching.common;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -28,7 +28,7 @@ public final class ModTags
 
         private static TagKey<Item> create(String id)
         {
-            return TagKey.create(Registry.ITEM_REGISTRY, Helpers.identifier(id));
+            return TagKey.create(BuiltInRegistries.ITEM.key(), Helpers.identifier(id));
         }
     }
 
@@ -44,7 +44,7 @@ public final class ModTags
 
         private static TagKey<Block> create(String id)
         {
-            return TagKey.create(Registry.BLOCK_REGISTRY, Helpers.identifier(id));
+            return TagKey.create(BuiltInRegistries.BLOCK.key(), Helpers.identifier(id));
         }
     }
 }

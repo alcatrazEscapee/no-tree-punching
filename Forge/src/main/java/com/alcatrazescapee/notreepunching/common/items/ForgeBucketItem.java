@@ -8,11 +8,11 @@ import net.minecraft.world.item.MilkBucketItem;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.Nullable;
 
@@ -139,7 +139,7 @@ public class ForgeBucketItem extends CeramicBucketItem
         @Override
         public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
         {
-            return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.orEmpty(capability, this.capability);
+            return ForgeCapabilities.FLUID_HANDLER_ITEM.orEmpty(capability, this.capability);
         }
 
         private FluidStack getFluid()

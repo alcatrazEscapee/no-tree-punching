@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.util.List;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -109,8 +110,8 @@ public enum Config
                 ModBlocks.POTTERY.get(PotteryBlock.Variant.FLOWER_POT).get(),
                 Blocks.AIR
             ), Type.STRING_LIST.map(
-                list -> list.stream().map(name -> ParseError.requireNotNull(() -> Registry.BLOCK.getOptional(new ResourceLocation(name)).orElse(null), "Invalid block: '%s'".formatted(name))).toList(),
-                list -> list.stream().map(block -> Registry.BLOCK.getKey(block).toString()).toList(),
+                list -> list.stream().map(name -> ParseError.requireNotNull(() -> BuiltInRegistries.BLOCK.getOptional(new ResourceLocation(name)).orElse(null), "Invalid block: '%s'".formatted(name))).toList(),
+                list -> list.stream().map(block -> BuiltInRegistries.BLOCK.getKey(block).toString()).toList(),
                 TypeValue::new
             ));
 

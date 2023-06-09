@@ -1,6 +1,6 @@
 package com.alcatrazescapee.notreepunching.common.recipes;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
@@ -10,8 +10,8 @@ import com.alcatrazescapee.notreepunching.platform.XPlatform;
 
 public class ModRecipes
 {
-    public static final RegistryInterface<RecipeSerializer<?>> RECIPE_SERIALIZERS = XPlatform.INSTANCE.registryInterface(Registry.RECIPE_SERIALIZER);
-    public static final RegistryInterface<RecipeType<?>> RECIPE_TYPES = XPlatform.INSTANCE.registryInterface(Registry.RECIPE_TYPE);
+    public static final RegistryInterface<RecipeSerializer<?>> RECIPE_SERIALIZERS = XPlatform.INSTANCE.registryInterface(BuiltInRegistries.RECIPE_SERIALIZER);
+    public static final RegistryInterface<RecipeType<?>> RECIPE_TYPES = XPlatform.INSTANCE.registryInterface(BuiltInRegistries.RECIPE_TYPE);
 
     // Forge requires us to implement IShapedRecipe<> on one of these
     // Otherwise we could get away with only one delegate

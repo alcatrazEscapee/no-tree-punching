@@ -1,7 +1,7 @@
 package com.alcatrazescapee.notreepunching.common.container;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -15,10 +15,10 @@ import com.alcatrazescapee.notreepunching.platform.event.ContainerFactory;
 
 public class ModContainers
 {
-    public static final RegistryInterface<MenuType<?>> CONTAINERS = XPlatform.INSTANCE.registryInterface(Registry.MENU);
+    public static final RegistryInterface<MenuType<?>> CONTAINERS = XPlatform.INSTANCE.registryInterface(BuiltInRegistries.MENU);
 
     public static final RegistryHolder<MenuType<LargeVesselContainer>> LARGE_VESSEL = register("large_vessel", (windowId, playerInventory, packetBuffer) -> {
-        final Level level = playerInventory.player.level;
+        final Level level = playerInventory.player.level();
         final BlockPos pos = packetBuffer.readBlockPos();
         return level.getBlockEntity(pos, ModBlockEntities.LARGE_VESSEL.get())
             .map(vessel -> vessel.createMenu(windowId, playerInventory, playerInventory.player))
