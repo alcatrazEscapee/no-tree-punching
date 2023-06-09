@@ -1,46 +1,29 @@
 # Loader Metadata
 modLoader = "javafml"
-loaderVersion = "[40,)"
-issueTrackerURL = "https://github.com/alcatrazEscapee/no-tree-punching/issues"
+loaderVersion = "${forgeVersionRange}"
 license = "MIT"
+issueTrackerURL = "${modIssueUrl}"
 
-# Mods
 [[mods]]
-    modId = "notreepunching"
-    version = "${file.jarVersion}"
-    displayName = "No Tree Punching"
-    authors = "AlcatrazEscapee"
-    description = '''
-        This is a minecraft mod meant to add a little more believability to your first few minutes of minecraft play. It was initially inspired by features from TerraFirmaCraft, but has since been refocused around the titular idea: Blocks don't drop anything if broken with the incorrect tool.
-        '''
+    modId = "${modId}"
+    version = "${modVersion}"
+    displayName = "${modName}"
+    displayURL = "${modHomeUrl}"
+    logoFile = "logo.png"
+    authors = "${modAuthor}"
+    description = "${modDescription}"
 
-# Dependencies
-[[dependencies.notreepunching]]
+[[dependencies.${modId}]]
     modId = "forge"
     mandatory = true
-    versionRange = "[40.0.0,)"
-    ordering = "AFTER"
+    versionRange = "${forgeVersionRange}"
+    ordering = "NONE"
+    side = "BOTH"
 
-[[dependencies.notreepunching]]
+[[dependencies.${modId}]]
     modId = "minecraft"
     mandatory = true
-    versionRange = "[1.18.2,)"
+    versionRange = "${minecraftVersionRange}"
     ordering = "NONE"
+    side = "BOTH"
 
-[[dependencies.notreepunching]]
-    modId = "farmersdelight"
-    mandatory = false
-    ordering = "AFTER"
-    versionRange = "NONE"
-
-[[dependencies.notreepunching]]
-    modId = "byg"
-    mandatory = false
-    ordering = "AFTER"
-    versionRange = "NONE"
-
-[[dependencies.notreepunching]]
-    modId = "quark"
-    mandatory = false
-    ordering = "AFTER"
-    versionRange = "NONE"

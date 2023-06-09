@@ -7,7 +7,7 @@
 !/gradle/wrapper/gradle-wrapper.jar
 !/gradle/wrapper/gradle-wrapper.properties
 
-!/**/build.gradle
+!/**/build.gradle.kts
 !/**/src/**/*.*
 !/Data/main.py
 
@@ -15,7 +15,7 @@
 
 !/.gitignore
 !/gradle.properties
-!/settings.gradle
+!/settings.gradle.kts
 !/gradlew
 !/gradlew.bat
 !/LICENSE
