@@ -1,0 +1,23 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "notreepunching:tool_damaging_shaped",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      "S",
+      "W"
+    ],
+    "key": {
+      "S": {
+        "tag": "notreepunching:saws"
+      },
+      "W": {
+        "tag": "minecraft:mangrove_logs"
+      }
+    },
+    "result": {
+      "item": "minecraft:mangrove_planks",
+      "count": 4
+    }
+  }
+}

@@ -1,24 +1,21 @@
 package com.alcatrazescapee.notreepunching.world;
 
-import java.util.List;
+import com.alcatrazescapee.notreepunching.util.Helpers;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.placement.CountPlacement;
-import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import com.alcatrazescapee.notreepunching.platform.RegistryHolder;
 import com.alcatrazescapee.notreepunching.platform.RegistryInterface;
 import com.alcatrazescapee.notreepunching.platform.XPlatform;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
+@SuppressWarnings("unused")
 public final class ModFeatures
 {
     public static final RegistryInterface<Feature<?>> FEATURES = XPlatform.INSTANCE.registryInterface(BuiltInRegistries.FEATURE);
 
     public static final RegistryHolder<LooseRocksFeature> LOOSE_ROCKS = FEATURES.register("loose_rocks", LooseRocksFeature::new);
-    public static final RegistryHolder<ConfiguredFeature<?, ?>> CONFIGURED_LOOSE_ROCKS = CONFIGURED_FEATURES.register("loose_rocks", () -> new ConfiguredFeature<>(LOOSE_ROCKS.get(), NoneFeatureConfiguration.INSTANCE));
-    public static final RegistryHolder<PlacedFeature> PLACED_LOOSE_ROCKS = PLACED_FEATURES.register("loose_rocks", () -> new PlacedFeature(CONFIGURED_LOOSE_ROCKS.holder(), List.of(CountPlacement.of(5), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE)));
+    public static final ResourceKey<PlacedFeature> LOOSE_ROCKS_KEY = ResourceKey.create(Registries.PLACED_FEATURE, LOOSE_ROCKS.id());
 }

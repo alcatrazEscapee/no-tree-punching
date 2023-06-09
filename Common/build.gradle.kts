@@ -4,6 +4,7 @@ plugins {
 }
 
 // From gradle.properties
+val modId: String by extra;
 val minecraftVersion: String by extra
 val epsilonVersion: String by extra
 
@@ -19,6 +20,7 @@ repositories {
 
 minecraft {
     version(minecraftVersion)
+    accessWideners(project.file("src/main/resources/${modId}.common.accesswidener"))
 }
 
 dependencies {

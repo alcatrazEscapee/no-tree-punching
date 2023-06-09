@@ -15,7 +15,7 @@ def main():
     common = ResourceManager(mod_id, root_dir % 'Common')
     each = (fabric, forge, common)
 
-    # Link tags and lang, generate them to common
+    # Link lang, generate them to common
     fabric.lang_buffer = forge.lang_buffer = common.lang_buffer
 
     for rm in each:
@@ -26,13 +26,7 @@ def main():
     do_tags(forge, fabric, common)
     do_recipes(forge, common)
     do_loot_tables(common)
-
-    forge.data(('forge', 'biome_modifier', 'add_loose_rocks'), {
-        'type': 'forge:add_features',
-        'biomes': '#minecraft:is_overworld',
-        'features': 'notreepunching:loose_rocks',
-        'step': 'top_layer_modification'
-    })
+    do_world_gen(forge, common)
 
     common.flush()
     forge.flush()
@@ -316,7 +310,7 @@ def do_recipes(forge: ResourceManager, common: ResourceManager):
     common.crafting_shapeless('flint_from_gravel', ['minecraft:gravel'] * 3, (2, 'minecraft:flint')).with_advancement('minecraft:gravel')
 
     # Wood Planks
-    for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce', 'crimson', 'warped'):
+    for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce', 'crimson', 'warped', 'cherry', 'mangrove'):
         if wood == 'crimson' or wood == 'warped':
             name = '%s_stem' % wood
         else:
@@ -471,6 +465,18 @@ def do_loot_tables(common: ResourceManager):
              loot_tables.random_chance(0.125)
          ]
      }))
+
+
+def do_world_gen(forge: ResourceManager, common: ResourceManager):
+    common.configured_feature('loose_rocks', 'notreepunching:loose_rocks')
+    common.placed_feature('loose_rocks', 'notreepunching:loose_rocks', ('count', {'count': 5}), 'minecraft:in_square', ('minecraft:heightmap', {'heightmap': 'WORLD_SURFACE'}), 'minecraft:biome')
+
+    forge.data(('forge', 'biome_modifier', 'add_loose_rocks'), {
+        'type': 'forge:add_features',
+        'biomes': '#minecraft:is_overworld',
+        'features': 'notreepunching:loose_rocks',
+        'step': 'top_layer_modification'
+    })
 
 
 def forge_mod_loaded(mod_id: str):

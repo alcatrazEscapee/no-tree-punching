@@ -1,5 +1,6 @@
 package com.alcatrazescapee.notreepunching;
 
+import com.alcatrazescapee.notreepunching.common.items.ModItemGroups;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.sounds.SoundEvents;
@@ -37,6 +38,7 @@ public final class NoTreePunching
 
         ModBlocks.BLOCKS.earlySetup();
         ModItems.ITEMS.earlySetup();
+        ModItemGroups.TABS.earlySetup();
         ModSounds.SOUNDS.earlySetup();
         ModBlockEntities.BLOCK_ENTITIES.earlySetup();
         ModContainers.CONTAINERS.earlySetup();
@@ -44,14 +46,13 @@ public final class NoTreePunching
         ModRecipes.RECIPE_TYPES.earlySetup();
 
         ModFeatures.FEATURES.earlySetup();
-        ModFeatures.CONFIGURED_FEATURES.earlySetup();
-        ModFeatures.PLACED_FEATURES.earlySetup();
     }
 
     public static void lateSetup()
     {
         ModBlocks.BLOCKS.lateSetup();
         ModItems.ITEMS.lateSetup();
+        ModItemGroups.TABS.lateSetup();
         ModSounds.SOUNDS.lateSetup();
         ModBlockEntities.BLOCK_ENTITIES.lateSetup();
         ModContainers.CONTAINERS.lateSetup();
@@ -59,8 +60,6 @@ public final class NoTreePunching
         ModRecipes.RECIPE_TYPES.lateSetup();
 
         ModFeatures.FEATURES.lateSetup();
-        ModFeatures.CONFIGURED_FEATURES.lateSetup();
-        ModFeatures.PLACED_FEATURES.lateSetup();
 
         HarvestBlockHandler.setup();
 

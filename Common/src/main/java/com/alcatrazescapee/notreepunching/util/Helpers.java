@@ -74,14 +74,10 @@ public final class Helpers
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static boolean isItem(Item item, TagKey<Item> tag)
     {
         return item.builtInRegistryHolder().is(tag);
-    }
-
-    public static boolean isBlock(Block block, TagKey<Block> tag)
-    {
-        return block.builtInRegistryHolder().is(tag);
     }
 
     public static void giveItemToPlayer(Level level, Player player, ItemStack stack)

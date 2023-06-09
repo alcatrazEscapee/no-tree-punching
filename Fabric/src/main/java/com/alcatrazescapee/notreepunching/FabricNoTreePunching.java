@@ -21,7 +21,7 @@ public final class FabricNoTreePunching implements ModInitializer
             BiomeModifications.addFeature(
                 BiomeSelectors.foundInOverworld(),
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
-                ModFeatures.PLACED_LOOSE_ROCKS.key()
+                ModFeatures.LOOSE_ROCKS_KEY
             );
         }
 
