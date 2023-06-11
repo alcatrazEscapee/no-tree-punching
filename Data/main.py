@@ -410,25 +410,6 @@ def do_recipes(forge: ResourceManager, common: ResourceManager):
     remove_recipe(common, 'minecraft:flower_pot')
     remove_recipe(common, 'minecraft:brick')
 
-    # Forge Compat - Ported from 1.16 directly
-
-    # Compat: BYG
-    # Replace log -> plank recipes, and add weak saw variants
-    condition = forge_mod_loaded('byg')
-    for wood in ('aspen', 'baobab', 'blue_enchanted', 'cherry', 'cika', 'cypress', 'ebony', 'ether', 'fir', 'green_enchanted', 'holly', 'jacaranda', 'lament', 'mahogany', 'mangrove', 'maple', 'nightshade', 'palm', 'pine', 'rainbow_eucalyptus', 'redwood', 'skyris', 'willow', 'witch_hazel', 'zelkova'):
-        tool_damaging_shaped(forge, 'byg:%s_planks' % wood, ('S', 'W'), {'S': '#notreepunching:saws', 'W': '#byg:%s_logs' % wood}, (4, 'byg:%s_planks' % wood), conditions=condition)
-        tool_damaging_shaped(forge, 'compat/byg_%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': '#notreepunching:weak_saws', 'W': '#byg:%s_logs' % wood}, (2, 'byg:%s_planks' % wood), conditions=condition)
-
-    # Compat: Quark
-    # Remove recipes that add alternate stone tool recipes
-    for tool in ('sword', 'shovel', 'pickaxe', 'axe', 'hoe'):
-        remove_recipe(forge, 'quark:tweaks/crafting/utility/tools/stone_%s' % tool)
-
-    # Compat: Farmers Delight
-    # Replace a recipe which uses the wooden shovel with one using a stick instead
-    condition = forge_mod_loaded('farmersdelight')
-    forge.crafting_shaped('farmersdelight:cooking_pot', ('bSb', 'iWi', 'iii'), {'b': 'minecraft:brick', 'i': 'minecraft:iron_ingot', 'S': 'minecraft:stick', 'W': 'minecraft:water_bucket'}, 'farmersdelight:cooking_pot', conditions=condition)
-
 
 def do_loot_tables(common: ResourceManager):
     # Add optional plant fiber to loot tables
