@@ -42,6 +42,7 @@ repositories {
 dependencies {
     "minecraft"(group = "net.minecraftforge", name = "forge", version = "${minecraftVersion}-${forgeVersion}")
 
+    minecraftLibrary(group = "com.alcatrazescapee", name = "epsilon", version = epsilonVersion) { isTransitive = false }
     shadowLibrary(group = "com.alcatrazescapee", name = "epsilon", version = epsilonVersion)
 
     implementation(project(":Common"))

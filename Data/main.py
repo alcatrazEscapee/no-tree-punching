@@ -333,10 +333,11 @@ def do_recipes(forge: ResourceManager, common: ResourceManager):
         common.crafting_shaped('%s_saw' % tool, ('  S', ' SI', 'SI '), {'S': '#notreepunching:sticks', 'I': ingot}, 'notreepunching:%s_saw' % tool).with_advancement(ingot)
 
     for tool in ('knife', 'mattock', 'saw'):
-        common.recipe('netherite_%s' % tool, 'minecraft:smithing', {
+        common.recipe('netherite_%s' % tool, 'minecraft:smithing_transform', {
             'base': utils.item_stack('notreepunching:diamond_%s' % tool),
             'addition': utils.item_stack('minecraft:netherite_ingot'),
-            'result': utils.item_stack('notreepunching:netherite_%s' % tool)
+            'result': utils.item_stack('notreepunching:netherite_%s' % tool),
+            'template': {'item': 'minecraft:netherite_upgrade_smithing_template'}
         }).with_advancement('minecraft:netherite_ingot')
 
     # Flint Tools
@@ -515,16 +516,24 @@ def remove_recipe(rm: ResourceManager, name_parts: utils.ResourceIdentifier):
     rm.recipe(name_parts, 'notreepunching:empty', {})
 
 
-def use_item_on_block(item, block):
+def use_item_on_block(item: str, block: str):
     return {
         'trigger': 'minecraft:item_used_on_block',
         'conditions': {
-            'location': {
-                'block': {
-                    'tag': block
+            'location': [
+                {
+                    'condition': 'minecraft:location_check',
+                    'predicate': {
+                        'block': {'tag': block}
+                    }
+                },
+                {
+                    'condition': 'minecraft:match_tool',
+                    'predicate': {
+                        'items': [item]
+                    }
                 }
-            },
-            'item': utils.item_stack(item)
+            ],
         }
     }
 

@@ -36,7 +36,7 @@ public final class ForgeNoTreePunching
             }
         });
 
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOW, (PlayerEvent.BreakSpeed event) -> event.setNewSpeed(EventHandler.modifyBreakSpeed(event.getEntity(), event.getState(), event.getPos(), event.getNewSpeed())));
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOW, (PlayerEvent.BreakSpeed event) -> event.setNewSpeed(EventHandler.modifyBreakSpeed(event.getEntity(), event.getState(), event.getPosition().orElse(null), event.getNewSpeed())));
         MinecraftForge.EVENT_BUS.addListener((PlayerEvent.HarvestCheck event) -> event.setCanHarvest(EventHandler.modifyHarvestCheck(event.getEntity(), event.getTargetBlock(), null, event.canHarvest())));
         MinecraftForge.EVENT_BUS.addListener((TagsUpdatedEvent event) -> HarvestBlockHandler.inferToolTypesFromTags());
         MinecraftForge.EVENT_BUS.addListener((RegisterCommandsEvent event) -> EventHandler.registerCommands(event.getDispatcher()));

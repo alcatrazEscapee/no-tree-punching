@@ -5,14 +5,24 @@
     "damage_clay_tool": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
-        "location": {
-          "block": {
-            "tag": "notreepunching:pottery"
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "notreepunching:pottery"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "notreepunching:clay_tool"
+              ]
+            }
           }
-        },
-        "item": {
-          "item": "notreepunching:clay_tool"
-        }
+        ]
       }
     }
   },

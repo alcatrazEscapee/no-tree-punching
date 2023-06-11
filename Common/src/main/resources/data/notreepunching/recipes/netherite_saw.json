@@ -1,6 +1,6 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:smithing",
+  "type": "minecraft:smithing_transform",
   "base": {
     "item": "notreepunching:diamond_saw"
   },
@@ -9,5 +9,8 @@
   },
   "result": {
     "item": "notreepunching:netherite_saw"
+  },
+  "template": {
+    "item": "minecraft:netherite_upgrade_smithing_template"
   }
 }
