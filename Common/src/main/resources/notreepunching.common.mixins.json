@@ -6,9 +6,12 @@
   "mixins": [
     "AbstractBlockAccessor",
     "AbstractBlockStateAccessor",
-    "DiggerItemAccessor"
+    "DiggerItemAccessor",
+    "RecipeManagerAccessor",
+    "ReloadableServerResourcesMixin"
   ],
   "client": [
+    "client.ClientPacketListenerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

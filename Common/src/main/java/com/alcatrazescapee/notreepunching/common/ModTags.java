@@ -26,6 +26,9 @@ public final class ModTags
         public static final TagKey<Item> HOE_TOOLS = create("hoe_tools");
         public static final TagKey<Item> SHARP_TOOLS = create("sharp_tools");
 
+        public static final TagKey<Item> SAWS = create("saws");
+        public static final TagKey<Item> WEAK_SAWS = create("weak_saws");
+
         private static TagKey<Item> create(String id)
         {
             return TagKey.create(BuiltInRegistries.ITEM.key(), Helpers.identifier(id));

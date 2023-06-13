@@ -28,6 +28,7 @@ public enum Config
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    public final BoolValue enableDynamicRecipeReplacement;
     public final BoolValue enableLooseRocksWorldGen;
     public final BoolValue doBlocksMineWithoutCorrectTool;
     public final BoolValue doInstantBreakBlocksMineWithoutCorrectTool;
@@ -49,8 +50,15 @@ public enum Config
     {
         final SpecBuilder builder = Spec.builder();
 
+        enableDynamicRecipeReplacement = builder
+            .push("recipes")
+            .comment(
+                "Enables dynamic replacement of log -> plank recipes with variants that use a axe or saw.",
+                "These recipes are added dynamically and are not editable via datapacks. If this is disabled, no log -> plank recipes will be replaced!")
+            .define("enableDynamicRecipeReplacement", true);
+
         enableLooseRocksWorldGen = builder
-            .push("worldgen")
+            .swap("worldgen")
             .comment("Enables loose rock world gen added automatically to biomes.")
             .define("enableLooseRocksWorldGen", true);
 

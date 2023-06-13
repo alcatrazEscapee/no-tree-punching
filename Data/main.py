@@ -24,7 +24,7 @@ def main():
     do_assets(common)
     do_advancements(common)
     do_tags(forge, fabric, common)
-    do_recipes(forge, common)
+    do_recipes(common)
     do_loot_tables(common)
     do_world_gen(forge, common)
 
@@ -248,12 +248,13 @@ def do_tags(forge: ResourceManager, fabric: ResourceManager, common: ResourceMan
     for block in ('grass_block', 'dirt', 'coarse_dirt', 'gravel', 'sand', 'red_sand', 'terracotta', 'stone', 'andesite', 'diorite', 'granite', 'sandstone', 'red_sandstone', 'podzol'):
         common.block('minecraft:%s' % block).with_tag('notreepunching:loose_rock_placeable_on')
 
+
 def block_item_tag(rm: ResourceManager, name_parts: ResourceIdentifier, *values: ResourceIdentifier):
     rm.item_tag(name_parts, *values)
     rm.block_tag(name_parts, *values)
 
 
-def do_recipes(forge: ResourceManager, common: ResourceManager):
+def do_recipes(common: ResourceManager):
     # Loose rocks
     common.crafting_shaped('cobblestone_from_rocks', ('XX', 'XX'), {'X': 'notreepunching:stone_loose_rock'}, 'minecraft:cobblestone').with_advancement('notreepunching:stone_loose_rock')
     for stone in ('andesite', 'diorite', 'granite'):
@@ -308,15 +309,6 @@ def do_recipes(forge: ResourceManager, common: ResourceManager):
         'cookingtime': 200
     })
     common.crafting_shapeless('flint_from_gravel', ['minecraft:gravel'] * 3, (2, 'minecraft:flint')).with_advancement('minecraft:gravel')
-
-    # Wood Planks
-    for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce', 'crimson', 'warped', 'cherry', 'mangrove'):
-        if wood == 'crimson' or wood == 'warped':
-            name = '%s_stem' % wood
-        else:
-            name = '%s_log' % wood
-        tool_damaging_shaped(common, '%s_planks_with_saw' % wood, ('S', 'W'), {'S': '#notreepunching:saws', 'W': '#minecraft:%ss' % name}, (4, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s' % name)
-        tool_damaging_shaped(common, '%s_planks_with_flint_axe' % wood, ('S', 'W'), {'S': '#notreepunching:weak_saws', 'W': '#minecraft:%ss' % name}, (2, 'minecraft:%s_planks' % wood)).with_advancement('minecraft:%s' % name)
 
     # Sticks
     tool_damaging_shaped(common, 'sticks_from_logs_with_saw', ('SW',), {'S': '#notreepunching:saws', 'W': '#minecraft:logs'}, (8, 'minecraft:stick')).with_advancement('#minecraft:logs')
@@ -393,10 +385,6 @@ def do_recipes(forge: ResourceManager, common: ResourceManager):
     tool_damaging_shapeless(common, 'leather_from_helmet_with_knife', ('minecraft:leather_helmet', knife), (4, 'minecraft:leather'), tool='#notreepunching:knives').with_advancement('minecraft:leather_helmet')
 
     tool_damaging_shapeless(common, 'melon_slices_with_knife', ('minecraft:melon', knife), (9, 'minecraft:melon_slice')).with_advancement('minecraft:melon')
-
-    # Remove wood crafting recipes
-    for wood in ('acacia', 'oak', 'dark_oak', 'jungle', 'birch', 'spruce', 'crimson', 'warped'):
-        remove_recipe(common, 'minecraft:%s_planks' % wood)
 
     remove_recipe(common, 'minecraft:stick')
 
