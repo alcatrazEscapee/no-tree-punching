@@ -41,7 +41,7 @@ public final class EventHandler
     @Nullable
     public static InteractionResult onRightClickBlock(Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack, @Nullable Direction targetedFace)
     {
-        // todo: is there a beter way to detect stone type blocks? This seems like a hack
+        // todo: is there a better way to detect stone type blocks? This seems like a hack
         final BlockState state = level.getBlockState(pos);
         if (Helpers.isItem(stack.getItem(), ModTags.Items.FLINT_KNAPPABLE) && state.getSoundType() == SoundType.STONE)
         {

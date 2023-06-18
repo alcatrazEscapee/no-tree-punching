@@ -17,13 +17,13 @@ issueTrackerURL = "${modIssueUrl}"
     modId = "forge"
     mandatory = true
     versionRange = "${forgeVersionRange}"
-    ordering = "NONE"
+    ordering = "AFTER"
     side = "BOTH"
 
 [[dependencies.${modId}]]
     modId = "minecraft"
     mandatory = true
     versionRange = "${minecraftVersionRange}"
-    ordering = "NONE"
+    ordering = "AFTER"
     side = "BOTH"
 

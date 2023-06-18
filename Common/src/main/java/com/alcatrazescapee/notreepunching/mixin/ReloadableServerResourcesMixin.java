@@ -17,7 +17,6 @@ public abstract class ReloadableServerResourcesMixin
     @Inject(method = "updateRegistryTags(Lnet/minecraft/core/RegistryAccess;)V", at = @At("RETURN"))
     private void afterLoadTagsOnServer(RegistryAccess registryAccess, CallbackInfo ci)
     {
-        HarvestBlockHandler.inferToolTypesFromTags();
         ModRecipes.injectRecipes((ReloadableServerResources) (Object) this, registryAccess);
     }
 }

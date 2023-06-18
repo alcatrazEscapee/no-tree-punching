@@ -42,6 +42,7 @@ public final class ModTags
 
         public static final TagKey<Block> LOOSE_ROCK_PLACEABLE_ON = create("loose_rock_placeable_on");
 
+        public static final TagKey<Block> MINEABLE = create("mineable");
         public static final TagKey<Block> MINEABLE_WITH_MATTOCK = create("mineable_with_mattock");
         public static final TagKey<Block> NEEDS_FLINT_TOOL = create("needs_flint_tool");
 

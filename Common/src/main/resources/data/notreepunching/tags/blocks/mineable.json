@@ -1,0 +1,12 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "replace": false,
+  "values": [
+    "#notreepunching:mineable_with_mattock",
+    "#minecraft:mineable/pickaxe",
+    "#minecraft:mineable/shovel",
+    "#minecraft:mineable/hoe",
+    "#minecraft:mineable/axe",
+    "#minecraft:sword_efficient"
+  ]
+}

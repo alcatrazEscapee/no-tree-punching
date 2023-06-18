@@ -211,6 +211,7 @@ def do_tags(forge: ResourceManager, fabric: ResourceManager, common: ResourceMan
     # Misc Tags
     common.block_tag('needs_with_flint_tool')
     common.block_tag('mineable_with_mattock', '#minecraft:mineable/shovel', '#minecraft:mineable/hoe', '#minecraft:mineable/axe')
+    common.block_tag('mineable', '#notreepunching:mineable_with_mattock', '#minecraft:mineable/pickaxe', '#minecraft:mineable/shovel', '#minecraft:mineable/hoe', '#minecraft:mineable/axe', '#minecraft:sword_efficient')
     common.item_tag('pickaxe_tools')
     common.item_tag('axe_tools', '#notreepunching:mattocks')
     common.item_tag('shovel_tools', '#notreepunching:mattocks')

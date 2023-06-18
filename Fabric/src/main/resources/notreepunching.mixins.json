@@ -9,7 +9,6 @@
     "ServerPlayerGameModeMixin"
   ],
   "client": [
-    "client.ClientPacketListenerMixin",
     "client.MultiPlayerGameModeMixin"
   ],
   "injectors": {
